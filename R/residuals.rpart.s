@@ -17,7 +17,7 @@ residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"), ..
 
         if(type == "usual") {
                 yhat <- frame$yval[object$where]
-		loss <- frame$parms$loss
+		loss <- object$parms$loss
 		}
         else {
 	    yprob <- frame$yval2[object$where, 1 + nclass + 1:nclass]

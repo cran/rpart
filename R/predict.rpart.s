@@ -4,6 +4,7 @@ function(object, newdata = list(),
 	 type = c("vector", "prob", "class", "matrix"), ...) {
     if(!inherits(object, "rpart"))
 	stop("Not legitimate tree")
+    mtype <- missing(type)
     type <- match.arg(type)
     if(missing(newdata))
 	where <- object$where
@@ -21,7 +22,7 @@ function(object, newdata = list(),
     method <- object$method
     ylevels <- attr(object, "ylevels")
     nclass <- length(ylevels)
-    if(missing(type) && nclass > 0) type <- "prob"
+    if(mtype && nclass > 0) type <- "prob"
     if(type == "vector" || (type=="matrix" && is.null(frame$yval2))) {
 	pred <- frame$yval[where]
 	names(pred) <- names(where)
