@@ -120,8 +120,7 @@ rpart.exp <- function(y, offset, parms, wt) {
         parmsNames <- c("method", "shrink")
         indx <- pmatch(names(parms), parmsNames, nomatch= 0)
         if (any(indx==0))
-            stop(paste("parms component not matched: ",
-		       names(parms)[indx==0]))
+            stop("'parms' component not matched: ", names(parms)[indx==0])
 	else names(parms) <- parmsNames[indx]
 
 	if (is.null(parms$method)) method <- 1

@@ -1,3 +1,5 @@
+2005 Feb 01	3.1.22	Improve error messages for possible translation.
+
 2004 Nov 17     3.1-21  Change logic for setting params on a device 
 	                in plot.rpart.
 			text.rpart.Rd: Mention use of xpd=TRUE.
@@ -7,7 +9,7 @@
 2004 Aug 03     3.1-18  Conversion for R 2.0.0 & LazyData
 
 2004 Jun 22     3.1-17  Fix possible use of uninitialized `split' in bsplit.c
-                        Add drop=FALSE for probs prediction for a single case.
+			Add drop=FALSE for probs prediction for a single case.
 
 2004 Jun 06     3.1-16  Replace long* by int* in rpartexp2.c
 
@@ -58,7 +60,7 @@
 			intepreting fit$parms correctly.
 
 2001 Aug 08	3.1-0	Further updates from TMT.
-                        More documentation updates and corrections.
+			More documentation updates and corrections.
 
 2001 Jul 25	3.0-2	Correct documentation for predict.rpart.
 			Remove left-over frame$yprob in residuals.rpart.

@@ -7,6 +7,14 @@
 #define FLOAT double
 /* don't include rpart.h: it conflicts */
 
+#ifdef ENABLE_NLS
+#include <libintl.h>
+#define _(String) dgettext ("rpart", String)
+#else
+#define _(String) (String)
+#endif
+
+
 static int ysave;       /* number of columns of y  */
 static int rsave;       /* the length of the returned "mean" from the
 			      user's eval routine */
@@ -36,16 +44,16 @@ SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr,
     expr2  = expr2x;
 
     stemp = findVarInFrame(rho, install("yback"));
-    if(!stemp) error("yback not found");
+    if(!stemp) error(_("'yback' not found"));
     ydata = REAL(stemp);
     stemp = findVarInFrame(rho, install("wback"));
-    if(!stemp) error("wback not found");
+    if(!stemp) error(_("'wback' not found"));
     wdata = REAL(stemp);
     stemp = findVarInFrame(rho, install("xback"));
-    if(!stemp) error("xback not found");
+    if(!stemp) error(_("'xback' not found"));
     xdata = REAL(stemp);
     stemp = findVarInFrame(rho, install("nback"));
-    if(!stemp) error("nback not found");
+    if(!stemp) error(_("'nback' not found"));
     ndata = INTEGER(stemp);
 
     return(R_NilValue);
@@ -91,10 +99,10 @@ void rpart_callback1(int n, double *y[], double *wt, double *z) {
     /* no need to protect as no memory allocation (or error) below */
     value = eval(expr2, rho);
     if (!isReal(value)) {
-	error("return value not a vector");
+	error(_("return value not a vector"));
     }
     if (LENGTH(value) != (1 + rsave))
-	error("returned value is the wrong length");
+	error(_("returned value is the wrong length"));
     dptr = REAL(value);
     for (i=0; i<=rsave; i++) z[i] = dptr[i];
     }
@@ -129,7 +137,7 @@ void rpart_callback2(int n, int ncat, double *y[], double *wt,
     /* no need to protect as no memory allocation (or error) below */
     goodness = eval(expr1, rho);
     if (!isReal(goodness))
-	error("The expression expr1 did not return a vector!");
+	error(_("the expression expr1 did not return a vector!"));
     j = LENGTH(goodness);
 
     /* yes, the lengths have already been checked in the C code  ---
@@ -137,7 +145,7 @@ void rpart_callback2(int n, int ncat, double *y[], double *wt,
     if (ncat==0) {
 	if (j != 2*(n-1)) 
 	    error(
-		"The expression expr1 returned a list of %d elements, %d required",
+		_("the expression expr1 returned a list of %d elements, %d required"),
 		j, 2*(n-1));
 
 	dptr = REAL(goodness);

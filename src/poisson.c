@@ -38,11 +38,11 @@ int poissoninit(int n,         double *y[], int maxcat, char **error,
     if (who==1) {
 	for (i=0; i<n; i++) {
 	    if (y[i][0] <=0) {
-		*error =  "Invalid time point";
+		*error =  _("Invalid time point");
 		return(1);
 		}
 	    if (y[i][1] < 0) {
-		*error = "Invalid event count";
+		*error = _("Invalid event count");
 		return(1);
 		}
 	    }

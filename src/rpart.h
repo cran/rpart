@@ -4,6 +4,14 @@
 */
 #include <R.h>
 #undef error
+
+#ifdef ENABLE_NLS
+#include <libintl.h>
+#define _(String) dgettext ("rpart", String)
+#else
+#define _(String) (String)
+#endif
+
 #ifndef FLOAT
 #define FLOAT double    /*so I can easily change 'x' to double at some later
 			 date, with all the consequences thereof.  Also see

@@ -14,8 +14,7 @@ rpart.class <- function(y, offset, parms, wt) {
 	if (is.null(names(parms))) stop("The parms list must have names")
 	temp <- pmatch(names(parms), c("prior", "loss", "split"), nomatch=0)
 	if (any(temp==0))
-	    stop(paste("parms component not matched:",
-			  (names(parms))[temp==0]))
+	    stop("'parms' component not matched: ", names(parms)[temp==0])
 	names(parms) <- c("prior", "loss", "split")[temp]
 
 	if (is.null(parms$prior)) temp <- c(counts/sum(counts))

@@ -35,7 +35,7 @@ void s_xpred(Sint *sn, 	   Sint *nvarx,   Sint *ncat,    Sint *method,
 	rp.num_y  = *ny;
 	}
     else {
-	*error = "Invalid value for 'method'";
+	*error = _("invalid value for 'method'");
 	*sn = -1; 
 	return;
 	}

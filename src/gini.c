@@ -54,16 +54,16 @@ int giniinit(int n,        double **y, int maxcat, char **error,
 	if (maxcat>0) {
 	    graycode_init0(maxcat);
 	    ccnt    = (double **) ALLOC(numclass, sizeof(double *));
-	    if (ccnt==0) {*error="Out of memory"; return(1);}
+	    if (ccnt==0) {*error=_("Out of memory"); return(1);}
 	    ccnt[0] = (double *) ALLOC(numclass*maxcat, sizeof(double));
-	    if (ccnt[0]==0) {*error="Out of memory"; return(1);}
+	    if (ccnt[0]==0) {*error=_("Out of memory"); return(1);}
 	    for (i=1; i<numclass; i++)
 		ccnt[i] = ccnt[i-1] + maxcat;
 	    }
 
 	i = 3*numclass + numclass*numclass;
 	prior = (double *) ALLOC(i, sizeof (double));
-	if (prior==0) {*error="Out of memory"; return(1);}
+	if (prior==0) {*error=_("Out of memory"); return(1);}
 	aprior = prior + numclass;
 	freq   = aprior+ numclass;
 	loss   = freq  + numclass;

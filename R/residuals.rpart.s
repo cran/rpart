@@ -9,7 +9,7 @@ residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"), ..
     frame <- object$frame
     type <- match.arg(type)
     if(is.na(match(type, c("usual", "pearson", "deviance"))))
-                stop("Don't know about this type of residual")
+        stop("Do not know about this type of residual")
 
     if (object$method=='class') {
 	ylevels <- attr(object, "ylevels")

@@ -81,8 +81,7 @@ rpart <- function(formula, data, weights, subset,
 	controlargs <- names(formals(rpart.control))  #legal arg names
 	indx <- match(names(extraArgs), controlargs, nomatch=0)
 	if (any(indx==0))
-		stop(paste("Argument", names(extraArgs)[indx==0],
-			    "not matched"))
+            stop("Argument ", names(extraArgs)[indx==0], "not matched")
 	}
 
     controls <- rpart.control(...)

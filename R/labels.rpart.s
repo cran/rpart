@@ -65,8 +65,7 @@ labels.rpart <- function(object, digits=4, minlength=1, pretty,
 	# Now, abbreviate the levels
 	if (minlength ==1) {
 	    if (any(ncat>52))
-		warning(paste("More than 52 levels in a predicting factor,",
-			      "truncated for printout"))
+		warning("more than 52 levels in a predicting factor, truncated for printout")
 	    xlevels <- lapply(xlevels,
 			       function(z) {
 				   k <- length(z)
