@@ -46,28 +46,6 @@ rpart.exp <- function(y, offset, parms, wt) {
     # The last interval goes to the max time in the data set
     itable <- c(0, dtimes[-length(dtimes)], max(time)) # set of intervals
 
-    drate1 <- function(n, ny, y, wt, itable) {
-	# Compute the death rate within each of the intervals
-	#  The pyears2 routine is part of the survival library
-	ngrp <- length(itable) -1
-	temp <- .C('pyears2',
-		   as.integer(n),
-		   as.integer(ny),
-		   as.integer(1),
-		   as.double (y),
-		   as.double(wt),
-		   as.integer(1),
-		   as.integer(0),
-		   as.integer(ngrp),
-		   as.double(itable),
-		   as.double(rep(0., n)),
-		   pyears = double(ngrp),
-		   pn     = double(ngrp),
-		   pcount = double(ngrp),
-		   offtable= double(1), PACKAGE="survival")[11:14]
-	rates <- temp$pcount / temp$pyears
-	rates
-	}
 
     drate2 <- function(n, ny, y, wt, itable) {
 	# An alternative to the drate1 function

@@ -10,6 +10,8 @@ node divided by the number of observations at the node.  Also returns
 the node number. 
 }
 \usage{
+meanvar(tree, \dots)
+
 \method{meanvar}{rpart}(tree, xlab="ave(y)", ylab="ave(deviance)", \dots)
 }
 \arguments{

@@ -6,7 +6,6 @@ rpart.class <- function(y, offset, parms, wt) {
     numclass <- max(y[!is.na(y)])
     counts <- tapply(wt, factor(y, levels=1:numclass), sum)
     counts <- ifelse(is.na(counts), 0, counts)   #in case of an empty class
-    numresp <- 1+numclass
     if (missing(parms) || is.null(parms))
 	parms <- list(prior=counts/sum(counts),
 		      loss=matrix(rep(1,numclass^2)-diag(numclass),numclass),

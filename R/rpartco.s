@@ -4,7 +4,6 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     {
 
     frame <- tree$frame
-    method <- tree$method
     node <- as.numeric(row.names(frame))
     depth <- tree.depth(node)
     is.leaf <- (frame$var == '<leaf>')

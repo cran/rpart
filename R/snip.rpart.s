@@ -10,10 +10,8 @@ snip.rpart <- function(x, toss) {
 	if (length(toss)==0) return(x)
 	}
 
-    where <- x$where
     ff   <- x$frame
     id    <- as.numeric(row.names(ff))
-    index <- ff$index
     ff.n  <- length(id)
 
     toss <- unique(toss)

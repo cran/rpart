@@ -8,6 +8,8 @@
 Generates a PostScript presentation plot of an \code{rpart} object. 
 }
 \usage{
+post(tree, \dots)
+
 \method{post}{rpart}(tree, title., 
      filename = paste(deparse(substitute(tree)), ".ps", sep = ""), 
      digits = getOption("digits") - 3, pretty = TRUE,

@@ -19,7 +19,6 @@ function(object, newdata = list(),
 	where <- pred.rpart(object, rpart.matrix(newdata))
     }
     frame <- object$frame
-    method <- object$method
     ylevels <- attr(object, "ylevels")
     nclass <- length(ylevels)
     if(mtype && nclass > 0) type <- "prob"

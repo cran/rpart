@@ -10,7 +10,9 @@ by recursively \code{snipping} off the least important splits, based on the
 complexity parameter (\code{cp}). 
 }
 \usage{
-\method{prune}{rpart}(tree, cp, ...)
+prune(tree, \dots)
+
+\method{prune}{rpart}(tree, cp, \dots)
 }
 \arguments{
 \item{tree}{

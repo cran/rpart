@@ -17,7 +17,6 @@ post.rpart <- function(tree, title.,
 
     plot(tree, uniform=TRUE, branch=.2, compress=TRUE, margin=.1)
     text(tree, all=TRUE, use.n=use.n, fancy=TRUE, digits=digits, pretty=pretty)
-    method <- tree$method
 
     if(missing(title.)) {
         temp  <- attr(tree$terms,'variables')[2]

@@ -66,7 +66,6 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
     for (ii in 1:length(rows)) {
 	i <- rows[ii]
 	nn <- ff$n[i]
-	twt <- ff$wt[i]
 	cat("\nNode number ", id[i], ": ", nn, " observations", sep='')
 	if (ff$complexity[i] < cp || is.leaf[i]) cat("\n")
 	else cat(",    complexity param=",

@@ -1,3 +1,5 @@
+2003 Jul 20     3.1-13  Remove unused vars
+
 2003 Mar 15	3.1-12	Update NAMESPACE file
 			Use post not post.rpart
 
@@ -14,7 +16,7 @@
 
 2002 Jun 05	3.1-7	T -> TRUE in tests
 
-2002 Mar 26	3.1-6	based on rpart3 `release'.
+2002 Mar 26	3.1-6	based on rpart3 'release'.
 			Bug fix from TMT for empty classes in training set.
 			Bug fix for prediction from root-only tree.
 			Register .C/.Call entry points.

@@ -9,9 +9,9 @@ export(meanvar, na.rpart, path.rpart, plotcp, post,
 #        predict.rpart, print.rpart, residuals.rpart, summary.rpart,
 #        text.rpart)
 
-## for use by ipred.
-export(pred.rpart, rpart.anova, rpart.class, rpart.exp,
-       rpart.poisson, rpart.matrix)
+## formerly exported for use by ipred.
+# export(pred.rpart, rpart.anova, rpart.class, rpart.exp,
+#       rpart.poisson, rpart.matrix)
 
 S3method(labels, rpart)
 S3method(meanvar, rpart)

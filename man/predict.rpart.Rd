@@ -1,6 +1,5 @@
 \name{predict.rpart}
 \alias{predict.rpart}
-\alias{pred.rpart}
 \title{
   Predictions from a Fitted Rpart Object 
 }
@@ -8,8 +7,8 @@
   Returns a vector of predicted responses from a fitted \code{rpart} object. 
 }
 \usage{
-\method{predict}{rpart}(object, newdata=list(),
-       type=c("vector", "prob", "class", "matrix"), ...)
+\method{predict}{rpart}(object, newdata = list(),
+       type = c("vector", "prob", "class", "matrix"), ...)
 }
 \arguments{
   \item{object}{

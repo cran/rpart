@@ -26,7 +26,7 @@ a column name of \code{x$frame};  values of this
 will label the nodes.  For the \code{"class"} method,
 \code{label="yval"} results in the factor levels
 being used, \code{"yprob"} results in the probability of the winning factor
-level being used, and 'specific yval level' results in the probability
+level being used, and \sQuote{specific yval level} results in the probability
 of that factor level.   
 }
 \item{FUN}{

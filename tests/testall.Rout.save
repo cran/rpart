@@ -1,17 +1,17 @@
 
 R : Copyright 2003, The R Development Core Team
-Version 1.7.0 Under development (unstable) (2003-03-01)
+Version 1.8.0 Under development (unstable) (2003-08-02)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
-Type `license()' or `licence()' for distribution details.
+Type 'license()' or 'licence()' for distribution details.
 
 R is a collaborative project with many contributors.
-Type `contributors()' for more information.
+Type 'contributors()' for more information.
 
-Type `demo()' for some demos, `help()' for on-line help, or
-`help.start()' for a HTML browser interface to help.
-Type `q()' to quit R.
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
 
 > # Any necessary setup
 > library(rpart)
@@ -22,6 +22,8 @@ Type `q()' to quit R.
 > options(na.action="na.omit")
 > options(digits=4) # to match earlier output
 > RNGversion("1.6.2")
+Warning message: 
+Buggy version of Kinderman-Ramage generator used. in: RNGkind("Marsaglia-Multicarry", "Buggy Kinderman-Ramage") 
 > set.seed(1234)
 > #
 > # Read the data
@@ -54,7 +56,7 @@ eet               0.0704     1.073   0.3730  0.189 8.5e-01
 g2               -0.0527     0.949   0.0267 -1.973 4.9e-02
 grade             1.7289     5.634   0.3369  5.132 2.9e-07
 ploidytetraploid  1.0444     2.842   0.4225  2.472 1.3e-02
-ploidyaneuploid   1.1497     3.157   0.6610  1.739 8.2e-02
+ploidyaneuploid   1.1490     3.155   0.6611  1.738 8.2e-02
 
 Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted due to missing)
 > 

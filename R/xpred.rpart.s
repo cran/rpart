@@ -26,24 +26,21 @@ xpred.rpart <- function(fit, xval=10, cp)
 	if (is.null(X)) X <- rpart.matrix(m)
 	if (is.null(wt)) wt <- model.extract(m, "weights")
 	if (is.null(Y)) {
-	    yflag <- TRUE
 	    Y <- model.extract(m, "response")
             offset <- attr(Terms, "offset")
-	    if (method != user) {
+	    if (method != "user") {
 		init <- (get(paste("rpart", method, sep='.')))(Y,offset, NULL)
 		Y <- as.matrix(init$y)
 		numy <- ncol(Y)
             }
         }
 	else {
-	    yflag <- FALSE
 	    Y <- as.matrix(Y)
 	    numy <- ncol(Y)
 	    offset <- 0
         }
     }
     else {
-	yflag <- FALSE
 	Y <- as.matrix(Y)
 	numy <- ncol(Y)
 	offset <- 0
@@ -95,7 +92,7 @@ xpred.rpart <- function(fit, xval=10, cp)
     if (is.null(costs)) costs <- rep(1.0, nvar)
 
     parms <- fit$parms
-    if (method=='user') {
+    if (method=="user") {
 	mlist <- fit$functions
 	if (length(parms)==0) init <- mlist$init(Y, offset, wt=wt)
 	else                  init <- mlist$init(Y, offset, parms, wt)
