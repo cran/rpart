@@ -123,7 +123,7 @@ xpred.rpart <- function(fit, xval=10, cp)
                 wt = as.double(wt),
                 as.integer(numy),
                 as.double(costs),
-                NAOK=TRUE)
+                NAOK=TRUE, PACKAGE = "rpart")
     if (rpfit$n == -1)  stop(rpfit$error)
 
     matrix(rpfit$pred, ncol=ncp, byrow=TRUE,

@@ -35,7 +35,7 @@ rpart.exp <- function(y, offset, parms, wt) {
 	       as.integer(length(dtimes)),
 	       as.double(dtimes),
 	       as.double(.Machine$double.eps),
-	       keep=integer(length(dtimes)))$keep
+	       keep=integer(length(dtimes)), PACKAGE="rpart")$keep
     dtimes <- dtimes[temp==1]
 
     # For the sake of speed, restrict the number of intervals to be <1000.
@@ -64,7 +64,7 @@ rpart.exp <- function(y, offset, parms, wt) {
 		   pyears = double(ngrp),
 		   pn     = double(ngrp),
 		   pcount = double(ngrp),
-		   offtable= double(1))[11:14]
+		   offtable= double(1), PACKAGE="survival")[11:14]
 	rates <- temp$pcount / temp$pyears
 	rates
 	}

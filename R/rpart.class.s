@@ -37,7 +37,7 @@ rpart.class <- function(y, offset, parms, wt) {
 			stop("Loss matrix must have zero on diagonals")
 	    if (any(temp2<0))
 			stop("Loss matrix cannot have negative elements")
-	    if (any(apply(temp2,1,sum)==0))
+	    if (any(rowSums(temp2)==0))
 			stop("Loss matrix has a row of zeros")
 	    }
 

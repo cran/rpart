@@ -89,11 +89,13 @@ int giniinit(int n,        double **y, int maxcat, char **error,
 		}
 	    }
 	for (i=0; i<numclass; i++) {
-	    prior[i] /= freq[i];            
-	    aprior[i] /= (temp * freq[i]);  /* pi_i / n_i */
+	    if (freq[i]>0) {  /* watch out for a missing class */
+		prior[i] /= freq[i];            
+		aprior[i] /= (temp * freq[i]);  /* pi_i / n_i */
 	    }
 	}
-
+    }
+    
     *size = 1 + numclass;
     return(0);
     }

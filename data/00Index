@@ -1,6 +1,4 @@
-Datasets needed to run rpart's tests/help examples:
-
-car.test.frame	Automobile Data from `Consumer Reports' 1990
-cu.summary		ditto
-kyphosis	Data on a spinal disease in young children
-solder		Soldering experiment on printed circuit boards
+car.test.frame           Automobile Data from `Consumer Reports' 1990
+cu.summary                 another version
+kyphosis                 Data on Children who have had Corrective Spinal Surgery
+solder                   Soldering of Components on Printed-Circuit Boards

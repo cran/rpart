@@ -34,7 +34,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 
     if (missing(method)) {
 	if (is.factor(Y) || is.character(Y))      method <- 'class'
-        else if (is.Surv(Y))   method <- 'exp'
+        else if (inherits(Y, "Surv"))   method <- 'exp'
 	else if (is.matrix(Y)) method<- 'poisson'
 	else                   method<- 'anova'
 	}
@@ -152,7 +152,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 		    wt = as.double(wt),
 		    as.integer(init$numy),
 		    as.double(cost),
-		    NAOK=TRUE )
+		    NAOK=TRUE, PACKAGE = "rpart")
     if (rpfit$n == -1)  stop(rpfit$error)
 
     # rpfit$newX[1:n] contains the final sorted order of the observations
@@ -181,7 +181,8 @@ rpart <- function(formula, data=NULL, weights, subset,
 		       isplit =  matrix(integer(1), nsplit,3),
 		       csplit =  catmat,
 		       dnode  =  matrix(double(1),  nodes, 3+numresp),
-		       inode  =  matrix(integer(1), nodes, 6))
+		       inode  =  matrix(integer(1), nodes, 6),
+                       PACKAGE = "rpart")
     tname <- c("<leaf>", dimnames(X)[[2]])
 
     if (cpcol==3) temp <- c("CP", "nsplit", "rel error")
@@ -244,9 +245,14 @@ rpart <- function(formula, data=NULL, weights, subset,
 	}
     if (method.int ==3 ) {
         numclass <- init$numresp -1
+        # Create the class probability vector from the class counts, and
+        #   add it to the results
+        # The "pmax" one line down is for the case of a factor y which has
+        #   no one at all in one of its classes.  Both the prior and the
+        #   count will be zero, which led to a 0/0.
         temp <- rp$dnode[,-(1:4)] %*% diag(init$parms$prior*
-					   sum(init$counts)/init$counts)
-        yprob <- temp /apply(temp,1,sum)   #necessary with altered priors
+                                           sum(init$counts)/pmax(1,init$counts))
+        yprob <- temp /rowSums(temp)   #necessary with altered priors
         yval2 <- matrix(rp$dnode[, -(1:3)], ncol=numclass+1)
 	frame$yval2 <- cbind(yval2, yprob)
 	}

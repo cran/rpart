@@ -20,7 +20,7 @@ formatg <- function(x, digits= unlist(options('digits')),
     temp <- .C("formatg", as.integer(n),
 	                  as.double(x),
                           rep(format,n),
-                          out= rep(dummy, n), NAOK=TRUE)$out
+                          out= rep(dummy, n), NAOK=TRUE, PACKAGE="rpart")$out
     if (is.matrix(x)) matrix(temp, nrow=nrow(x))
     else temp
     }

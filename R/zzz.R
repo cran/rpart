@@ -1,7 +1,5 @@
 .First.lib <- function(lib, pkg) library.dynam("rpart", pkg, lib)
 
-is.Surv <- function(x) inherits(x, "Surv")
-
 tree.depth <- function (nodes)
 {
     depth <- floor(log(nodes, base = 2) + 1e-7)

@@ -8,10 +8,11 @@ text.rpart <-
              pretty = NULL, digits = getOption("digits") - 3,
              use.n=FALSE, fancy=FALSE, fwidth=.8, fheight =.8, ...)
 {
-    FUN1 <- function(x, y, lab,...){
-        ind <- lab != "NA"
-        FUN(x[ind], y[ind], lab[ind], ...)
-    }
+# prior to 1.5.0, text.default plotted NA strings
+#     FUN1 <- function(x, y, lab,...){
+#         ind <- lab != "NA"
+#         FUN(x[ind], y[ind], lab[ind], ...)
+#     }
     if(!inherits(x, "rpart")) stop("Not legitimate rpart")
     if(!is.null(x$frame$splits)) x <- rpconvert(x)#Backwards compatability
 
@@ -50,13 +51,13 @@ text.rpart <-
             rightptx <- (xytmp$x[3,]+xytmp$x[4,])/2
             rightpty <- (xytmp$y[3,]+xytmp$y[4,])/2
 
-            FUN1(leftptx,leftpty+.52*cxy[2],
-                 rows[left.child[!is.na(left.child)]],...)
-            FUN1(rightptx,rightpty-.52*cxy[2],
-                 rows[right.child[!is.na(right.child)]],...)
+            FUN(leftptx,leftpty+.52*cxy[2],
+                rows[left.child[!is.na(left.child)]],...)
+            FUN(rightptx,rightpty-.52*cxy[2],
+                rows[right.child[!is.na(right.child)]],...)
         }
 
-        else FUN1(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
+        else FUN(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
     }
     leaves <- if(all) rep(TRUE, nrow(frame)) else frame$var == "<leaf>"
 
