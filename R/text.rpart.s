@@ -7,6 +7,10 @@ text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
 		        pretty = NULL, digits = getOption("digits") - 3,
                         use.n=FALSE, fancy=FALSE, fwidth=.8, fheight =.8, ...)
 {
+    FUN1 <- function(x, y, lab,...){
+        ind <- lab != "NA"
+        FUN(x[ind], y[ind], lab[ind], ...)
+    }
 	if(!inherits(x, "rpart")) stop("Not legitimate rpart")
 	frame <- x$frame
 	col <- names(frame)
@@ -45,13 +49,13 @@ text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
 		  rightptx <- (xytmp$x[3,]+xytmp$x[4,])/2
 		  rightpty <- (xytmp$y[3,]+xytmp$y[4,])/2
 
-		  FUN(leftptx,leftpty+.52*cxy[2],
+		  FUN1(leftptx,leftpty+.52*cxy[2],
 		      rows[left.child[!is.na(left.child)]],...)
-		  FUN(rightptx,rightpty-.52*cxy[2],
+		  FUN1(rightptx,rightpty-.52*cxy[2],
 		      rows[right.child[!is.na(right.child)]],...)
 		}
 
-		else FUN(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
+		else FUN1(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
 	}
 	leaves <- if(all) rep(T, nrow(frame)) else frame$var == "<leaf>"
         if(method=='class') {
