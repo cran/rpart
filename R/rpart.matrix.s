@@ -10,30 +10,27 @@ rpart.matrix <- function(frame)
     frame$"(weights)" <- NULL
     terms <- attr(frame, "terms")
     if(is.null(terms)) predictors <- names(frame)
-    else predictors <- as.character(attr(terms, "term.labels"))
-    frame <- frame[predictors]
-#     else {
-#       a <- attributes(terms)
-#       predictors <- as.character(a$variables)[-1]
-#       removals <- NULL
-#       if ((TT <- a$response) > 0) {
-#         removals <- TT
-#       }
-#       if (!is.null(TT <- a$offset)) {
-#         removals <- c(removals, TT)
-#       }
-#       if (!is.null(removals)) {
-#         predictors <- predictors[-removals]
-#         frame <- frame[, -removals]
-#       }
-#     }
+    else {
+	a <- attributes(terms)
+	predictors <- as.character(a$variables)[-1] # R change
+	removals <- NULL
+	if((TT <- a$response) > 0) {
+	    removals <- TT
+	    frame[[predictors[TT]]] <- NULL
+	    }
+	if(!is.null(TT <- a$offset)) {
+	    removals <- c(removals, TT)
+	    frame[[predictors[TT]]] <- NULL
+	    }
+	if(!is.null(removals)) predictors <- predictors[ - removals]
+	}
 
     factors <- sapply(frame, function(x) !is.null(levels(x)))
     characters <- sapply(frame, is.character)
     if(any(factors | characters)) {
 	# change characters to factors
 	for (preds in predictors[characters])
-		frame[preds] <- as.factor(frame[preds])
+		frame[[preds]] <- as.factor(frame[[preds]])
         factors <- factors | characters
         column.levels <- lapply(frame[factors], levels)
 	names(column.levels) <- (1:ncol(frame))[factors]
@@ -45,8 +42,6 @@ rpart.matrix <- function(frame)
 	attr(x, "column.levels") <- column.levels
 	}
     else x <- as.matrix(frame)
-    class(x) <- "matrix"
+    class(x) <- "rpart.matrix"
     x
-    }
-
-
+}

@@ -1,5 +1,3 @@
-
-
 \name{rpart}
 \alias{rpart}
 \title{
@@ -21,7 +19,7 @@ an optional data frame in which to interpret the variables named in the
 formula
 }
 \item{weights}{
-optional weights (currently ignored).
+optional case weights.
 }
 \item{subset}{
 optional expression saying that only a subset of the rows of the data
@@ -78,7 +76,7 @@ an object of class \code{rpart}, a superset of class \code{tree}.
 }
 \details{
 This differs from the \code{tree} function mainly in its handling of surrogate
-variables.
+variables.  In most details it follows Breiman et. al. quite closely.
 }
 \references{
 Breiman, Friedman, Olshen, and Stone. (1984) 
@@ -86,7 +84,8 @@ Breiman, Friedman, Olshen, and Stone. (1984)
 Wadsworth.
 }
 \seealso{
-\code{\link{rpart.control}}, \code{\link{rpart.object}}, \code{\link{tree}}, \code{\link{summary.rpart}}, \code{\link{print.rpart}}
+  \code{\link{rpart.control}}, \code{\link{rpart.object}},
+  \code{\link{summary.rpart}}, \code{\link{print.rpart}}
 }
 \examples{
 data(kyphosis)
@@ -97,9 +96,8 @@ fit3 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
               control=rpart.control(cp=.05))
 par(mfrow=c(1,2))
 plot(fit)
-text(fit,use.n=T)
+text(fit, use.n=T)
 plot(fit2)
-text(fit2,use.n=T)
+text(fit2, use.n=T)
 }
-\keyword{rpart,}
-% Converted by Sd2Rd version 0.3-1.
+\keyword{rpart}

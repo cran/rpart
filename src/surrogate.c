@@ -1,4 +1,4 @@
-/* SCCS @(#)surrogate.c	1.5 02/08/98 
+/* SCCS @(#)surrogate.c	1.6 12/13/99 */
 /*
 ** Calculate the surrogate splits for a node and its primary
 **    (This routine is an awful lot like bsplit)
@@ -21,19 +21,18 @@ void surrogate(struct node *me, int nodenum)
     {
     int i, j, k;
     int var;   /* the primary split variable */
-    int agreement;         /*number of agreements in the split */
-    double split;
+    FLOAT split;
     double improve;
-    int lcount, rcount;    /* number sent left and right by primary */
-    int count;
+    double lcount, rcount;    /* weight sent left and right by primary */
     unsigned int extra;
     struct split *ss;
     int  *index;
     int  *which,
 	 *tempy;
-    long **sorts;
-    double **xdata;
+    int **sorts;
+    FLOAT **xdata;
     int ncat;
+    double adj_agree;
 
     which = rp.which;
     tempy = rp.tempvec;
@@ -74,16 +73,14 @@ void surrogate(struct node *me, int nodenum)
     for (i=0; i<rp.n; i++) {
 	if (which[i] != nodenum) continue;
 	switch(tempy[i]) {
-	    case LEFT : lcount++;  break;
-	    case RIGHT: rcount++;  break;
+	    case LEFT : lcount += rp.wt[i];  break;
+	    case RIGHT: rcount += rp.wt[i];  break;
 	    default: break;
 	    }
 	}
 
-    me->lastsurrogate = lcount;
-    if (lcount < rcount) count = rcount;
-      else               count = lcount;
-    /* surrogates that don't get a least "count" correct aren't kept */
+    if (lcount < rcount) me->lastsurrogate = RIGHT;
+    else                 me->lastsurrogate = LEFT;
 
     /*
     ** Now walk through the variables
@@ -94,16 +91,17 @@ void surrogate(struct node *me, int nodenum)
 	ncat = rp.numcat[i];
 
 	choose_surg(nodenum, tempy, xdata[i], sorts[i], ncat,
-		       &agreement, &split, rp.csplit);
-	if (agreement <= count) continue;  /*no better than default */
+		       &improve, &split, rp.csplit,   lcount, rcount,
+		       &adj_agree);
+	if (adj_agree <=0) continue;  /*no better than default */
 
 	/*  sort it onto the list of surrogates */
-	improve = (double)agreement / (me->primary)->count;  /* % agreement */
 	ss = insert_split( &(me->surrogate), ncat, improve, rp.maxsur);
 	if (ss !=0) {
 	    ss->improve  = improve;
 	    ss->var_num   = i;
 	    ss->count     = 0;       /*corrected by nodesplit() */
+	    ss->adj       = adj_agree;
 	    if (rp.numcat[i]==0) {
 		ss->spoint    = split;
 		ss->csplit[0] = rp.csplit[0];

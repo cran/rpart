@@ -1,10 +1,11 @@
-#SCCS @(#)rpart.class.s	1.2 02/19/97
-rpart.class <- function(y, offset, parms) {
+#SCCS @(#)rpart.class.s	1.3 12/13/99
+rpart.class <- function(y, offset, parms, wt) {
     if (!is.null(offset)) stop("No offset allowed in classification models")
     fy <- as.factor(y)
     y <- as.integer(fy)
     numclass <- max(y[!is.na(y)])
-    counts <- table(factor(y, levels=1:numclass))  #in case of zeros
+    counts <- tapply(wt, factor(y, levels=1:numclass), sum)
+    counts <- ifelse(is.na(counts), 0, counts)   #in case of an empty class
     numresp <- 1+numclass
     if (missing(parms) || is.null(parms))
 	parms <- c(counts/sum(counts), rep(1,numclass^2)-diag(numclass),1)
@@ -23,7 +24,7 @@ rpart.class <- function(y, offset, parms) {
 	    if (length(temp2) != numclass^2)
 			    stop("Wrong length for loss matrix")
 	    temp2 <- matrix(temp2, ncol=numclass)
-	    if (any(diag(temp2)!=0)) 
+	    if (any(diag(temp2)!=0))
 			stop("Loss matrix must have zero on diagonals")
 	    if (any(temp2<0))
 			stop("Loss matrix cannot have negative elements")

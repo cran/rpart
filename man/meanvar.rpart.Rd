@@ -1,5 +1,6 @@
 \name{meanvar.rpart}
 \alias{meanvar.rpart}
+\alias{meanvar}
 \title{
 Mean-Variance Plot for an Rpart Object
 }
@@ -43,11 +44,8 @@ node number.
 \section{Side Effects}{
 a plot is put on the current graphics device.
 }
-\references{
-This page was shamelessly modified from \code{meanvar.tree}.
-}
 \seealso{
-\code{\link{meanvar.tree}}, \code{\link{plot.rpart}}.
+ \code{\link{plot.rpart}}.
 }
 \examples{
 data(car.test.frame)

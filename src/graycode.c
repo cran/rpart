@@ -1,13 +1,11 @@
-/* SCCS @(#)graycode.c	1.3 02/08/98 */
+/* SCCS @(#)graycode.c	1.5 12/13/99 */
 /*
 ** Walk through subsets in an ordered way.
 **   For all subsets, this is the classic gray code.
 **
 ** Graycode_init0 is called once at the very beginning with
-**   the maximum number of categories.  It allocates a scratch vector,
-**   and returns a pointer to said vector so that the parent routine can
-**   someday free the memory.
-
+**   the maximum number of categories.  It allocates a scratch vector.
+**
 ** Graycode_init1 is called once for each unordered variable.
 ** Graycode_init2 is called once for each orderable variable,
 **   the second argument is a vector that will be used to rank the variables

@@ -1,4 +1,4 @@
-/* SCCS @(#)insert_split.c	1.3 02/08/98
+/* SCCS @(#)insert_split.c	1.4 12/13/99  */
 /*
 ** sort a new split into a linked list, based on its "improvement"
 **
@@ -6,9 +6,10 @@
 **   returns 0 if the new element isn't good enough,
 **   the address of the new element otherwise
 */
-#include "node.h"
 #include "rpart.h"
+#include "node.h"
 #include "rpartproto.h"
+#include "rpartS.h"
 
 struct split *insert_split(struct split **listhead, int ncat, 
 			   double improve,          int max)
@@ -16,12 +17,11 @@ struct split *insert_split(struct split **listhead, int ncat,
     int nlist;
     struct split *s1, *s2, *s3, *s4;
 
-    if (ncat==0) ncat++;     /*number of ints needed in the structure */
+    if (ncat==0) ncat=1;     /* ensure "ncat-1" below never gives a negative */
     if (*listhead ==0) {
 	/* first call to a new list */
-	s3 = (struct split *)calloc(1, sizeof(struct split)+
+	s3 = (struct split *)CALLOC(1, sizeof(struct split)+
 						(ncat-1)*sizeof(int));
-	if (s3==0) longjmp(errjump, 2);   /*no memory */
 	s3->nextsplit =0;
 	*listhead = s3;
 	return(s3);
@@ -33,9 +33,8 @@ struct split *insert_split(struct split **listhead, int ncat,
 	if (improve <= s3->improve) return(0);
 	if (ncat >1) {
 	    free(s3);
-	    s3 = (struct split *)calloc(1, sizeof(struct split)+
+	    s3 = (struct split *)CALLOC(1, sizeof(struct split)+
 						(ncat-1)*sizeof(int));
-	    if (s3==0) longjmp(errjump, 2);   /*no memory */
 	    s3->nextsplit =0;
 	    *listhead = s3;
 	    }
@@ -60,17 +59,15 @@ struct split *insert_split(struct split **listhead, int ncat,
 	if (s2==0)  return(0);        /* not good enough */
 	if (ncat >1) {
 	    free(s4);              /*get new memory-- this chunk may be too small */
-	    s4 = (struct split *)calloc(1, sizeof(struct split) +
+	    s4 = (struct split *)CALLOC(1, sizeof(struct split) +
 						     (ncat-2)*sizeof(int));
-	    if (s4==0) longjmp(errjump,2);
 	    }
 	if (s1==s3)   s4->nextsplit =0;
 	else         {s3->nextsplit =0;  s4->nextsplit =s2;}
 	}
     else {
-	s4 = (struct split *)calloc(1, sizeof(struct split) +
+	s4 = (struct split *)CALLOC(1, sizeof(struct split) +
 							(ncat-2)*sizeof(int));
-	if (s4==0) longjmp(errjump, 2);   /*no memory */
 	s4->nextsplit = s2;
 	}
     if (s2== *listhead) *listhead     = s4;

@@ -1,0 +1,7 @@
+
+ Comparing version 3.4 to 5.1, one difference on the printout is a change
+of 3989 to 3990:  signif(3989.5) rounds down in 5.1, up in 3.4 (at least
+on my home Linux machine it rounds thus).
+
+
+

@@ -1,4 +1,4 @@
-/* SCCS @(#)make_cp_list.c	1.2 02/08/98 */
+/* SCCS @(#)make_cp_list.c	1.3 12/13/99 */
 /*
 ** This routine creates the list of unique complexity parameters.
 ** The list is maintained in sorted order.  If two parameters are within
@@ -26,8 +26,9 @@
 **   When it comes time to cross-validate, we fill in xrisk and xstd
 */
 #include <math.h>
-#include "node.h"
 #include "rpart.h"
+#include "node.h"
+#include "rpartS.h"
 #include "rpartproto.h"
 
 void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
@@ -59,8 +60,7 @@ void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
 	    }
 
 	/* insert new stuff after cptemp */
-	cplist = (struct cptable *) calloc(1, sizeof(struct cptable));
-	if (cplist==0) longjmp(errjump, 3);  /*out of memory */
+	cplist = (struct cptable *) CALLOC(1, sizeof(struct cptable));
 	cplist->cp = me_cp;
 	cplist->xrisk = 0;
 	cplist->xstd  =0;

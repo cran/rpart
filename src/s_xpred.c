@@ -1,20 +1,18 @@
 /*
-**  SCCS  @(#)s_xpred.c	1.8 02/08/98
+**  SCCS  @(#)s_xpred.c	1.9 12/13/99   
 ** An S interface to "cross validated predictions"
 **    99% of this routine is a copy of s_to_rp and rpart.c
 */
-#include <setjmp.h>
-#include <stdio.h>
 #include "rpart.h"
 #include "node.h"
 #include "func_table.h"
 #include "rpartS.h"
 #include "rpartproto.h"
 
-void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method, 
-	     double *opt,  double *parms, long *xvals,   long *x_grp,
-	     double *ymat, double *xmat,   long *missmat, double *predict,
-	     long *ncp,    double *cp,    char **error)
+void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method, 
+	     double *opt,  double *parms, int *xvals,   int *x_grp,
+	     double *ymat, FLOAT *xmat,   int *missmat, double *predict,
+	     int *ncp,    double *cp,    char **error,  double *wt)
     {
     int i,j,k;
     int maxcat;
@@ -22,7 +20,7 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
     int n, nvar;
     int maxpri;
     struct node *xtree;
-    int old_n;
+    double old_wt, total_wt;
 
     /*
     **  The opt string is in the order of control.rpart()
@@ -30,15 +28,6 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
     **    and xval
     */
     maxpri = opt[3] +1;
-
-    /*
-    ** Memory allocation errors from subroutines come back here
-    */
-    if (j=setjmp(errjump)) {
-	*error = "Out of memory, cannot allocate needed structure";
-	*sn = -1; 
-	return;
-	}
 
     /*
     ** initialize the splitting functions from the function table
@@ -73,19 +62,18 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
     rp.usesurrogate = opt[5];
     rp.n = n;
     rp.num_unique_cp = *ncp;
+    rp.wt = wt;
 
     /*
     ** create the "ragged array" pointers to the matrix
     **   x and missmat are in column major order
     **   y is in row major order
     */
-    rp.xdata = (double **) ALLOC(nvar, sizeof(double *));
-    if (rp.xdata==0) longjmp(errjump, 1);
+    rp.xdata = (FLOAT **) ALLOC(nvar, sizeof(FLOAT *));
     for (i=0; i<nvar; i++) {
 	rp.xdata[i] = &(xmat[i*n]);
 	}
     rp.ydata = (double **) ALLOC(n, sizeof(double *));
-    if (rp.ydata==0) longjmp(errjump, 1);
     for (i=0; i<n; i++)  rp.ydata[i] = &(ymat[i*rp.num_y]);
 
     /*
@@ -93,9 +81,9 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
     */
     rp.tempvec = (int *)ALLOC(2*n, sizeof(int));
     rp.which   = rp.tempvec +n;
-    rp.xtemp = (double *)ALLOC(n, sizeof(double));
+    rp.xtemp = (FLOAT *)ALLOC(n, sizeof(FLOAT));
     rp.ytemp = (double **)ALLOC(n, sizeof(double *));
-    if (rp.tempvec==0 || rp.xtemp==0 || rp.ytemp==0) longjmp(errjump, 1);
+    rp.wtemp = (double *)ALLOC(n, sizeof(double));
 
     /*
     ** create a matrix of sort indices, one for each continuous variable
@@ -103,7 +91,7 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
     **   of the 'missmat' array.
     ** I don't have to sort the categoricals.
     */
-    rp.sorts  = (long**) ALLOC(nvar, sizeof(long *));
+    rp.sorts  = (int**) ALLOC(nvar, sizeof(int *));
     maxcat=0;
     for (i=0; i<nvar; i++) {
 	rp.sorts[i] = &(missmat[i*n]); 
@@ -124,24 +112,29 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
     */
     if (maxcat >0) {
 	rp.csplit = (int *) ALLOC(3*maxcat, sizeof(int));
-	if (rp.csplit==0) longjmp(errjump, 1);
 	rp.left = rp.csplit + maxcat;
 	rp.right= rp.left   + maxcat;
+        rp.lwt    = (double *) ALLOC(2*maxcat, sizeof(double));
+        rp.rwt  = rp.lwt    + maxcat;
 	}
     else rp.csplit = (int *)ALLOC(1, sizeof(int));
 
-    (*rp_init)(n, rp.ydata, maxcat, error, parms, &rp.num_resp, 1);
+    (*rp_init)(n, rp.ydata, maxcat, error, parms, &rp.num_resp, 1, rp.wt);
     nodesize = sizeof(struct node) + (rp.num_resp-2)*sizeof(double);
 
     /*
     ** do the validations
     */
-    old_n =n;
+    total_wt =0;
+    for (i=0; i<rp.n; i++) total_wt += rp.wt[i];
+    old_wt = total_wt;
+
     for (i=0; i< *xvals; i++) {
 	/*
 	** mark the "leave out" data as ficticious node 0
 	*/
 	k=0;
+	temp =0;
 	for (j=0; j<rp.n; j++) {
 	    if (x_grp[j]==(i+1)) {
 		rp.which[j] =0;
@@ -149,22 +142,25 @@ void s_xpred(long *sn, 	   long *nvarx,   long *ncat,    long *method,
 	    else {
 		rp.which[j] =1;
 		rp.ytemp[k] = rp.ydata[j];
+		rp.wtemp[k] = rp.wt[j];
 		k++;
+		temp += rp.wt[j];
 		}
 	    }
 
 	/* rescale the cp */
-	for (j=0; j<rp.num_unique_cp; j++) cp[j] *= (double)(k)/old_n;
-	rp.alpha *= (double)k /old_n;
-	old_n = k;
+	for (j=0; j<rp.num_unique_cp; j++) cp[j] *= temp/old_wt;
+	rp.alpha *= temp/old_wt;
+	old_wt = temp;
 
 	/*
 	** partition the new tree
 	*/
 	xtree = (struct node *) calloc(1, nodesize);
 	xtree->num_obs = k;
-	(*rp_init)(k,rp.ytemp, maxcat, error, parms, &temp, 2);
-	(*rp_eval)(k, rp.ytemp, xtree->response_est, &(xtree->risk));
+	(*rp_init)(k,rp.ytemp, maxcat, error, parms, &temp, 2, rp.wtemp);
+	(*rp_eval)(k, rp.ytemp, xtree->response_est, &(xtree->risk),
+		     rp.wtemp);
 	xtree->complexity = xtree->risk;
 	partition(1, xtree, &temp);
 	fix_cp(xtree, xtree->complexity);

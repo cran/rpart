@@ -1,4 +1,4 @@
-#SCCS  @(#)summary.rpart.s	1.9 02/12/98
+#SCCS  @(#)summary.rpart.s	1.11 12/14/99
 summary.rpart <- function(x, cp=0, digits=.Options$digits-3,
 			file,  ...) {
     if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
@@ -45,6 +45,7 @@ summary.rpart <- function(x, cp=0, digits=.Options$digits-3,
 			 sep = '')
      for (i in rows) {
 	nn <- ff$n[i]
+	twt <- ff$wt[i]
 	cat("\nNode number ", id[i], ": ", nn, " observations", sep='')
 	if (ff$complexity[i] < cp || is.leaf[i]) cat("\n")
 	else cat(",    complexity param=",
@@ -52,22 +53,22 @@ summary.rpart <- function(x, cp=0, digits=.Options$digits-3,
 
 	if (x$method=='anova')
 	    cat("  mean=", format(signif(ff$yval[i], digits)),
-		" , SS/n=" , format(signif(ff$dev[i]/nn, digits)),"\n",
+		", MSE=" , format(signif(ff$dev[i]/twt, digits)),"\n",
 		sep = "")
 	else if (x$method=='class') {
-            if(!is.null(ylevel)) 
+            if(!is.null(ylevel))
 	       yval <- ylevel[ff$yval]
 	    else
 	       yval <- ff$yval
 	    cat("  predicted class=", format(yval[i]),
-		" expected loss=", format(signif(ff$dev[i]/nn, digits)),"\n",
+		" expected loss=", format(signif(ff$dev[i]/twt, digits)),"\n",
 		"    class counts: ", format(ff$yval2[i,]),"\n",
 		"   probabilities: ", format(round(ff$yprob[i,], digits)),"\n")
 	  }
 	else if (x$method=='poisson'|x$method=='exp')
 	    cat("  events=", format(ff$yval2[i]),
 		",  estimated rate=" , format(signif(ff$yval[i], digits)),
-		" , deviance/n=" , format(signif(ff$dev[i]/nn, digits)),"\n",
+		" , mean deviance=",format(signif(ff$dev[i]/twt, digits)),"\n",
 		sep = "")
 	if (ff$complexity[i] > cp && !is.leaf[i] ){
 	    sons <- 2*id[i] + c(0,1)
@@ -75,11 +76,15 @@ summary.rpart <- function(x, cp=0, digits=.Options$digits-3,
 	    cat("  left son=", sons[1], " (", sons.n[1], " obs)",
 		" right son=", sons[2], " (", sons.n[2], " obs)", sep='')
 	    j <- nn - (sons.n[1] + sons.n[2])
-	    if (j>0) cat(", ", j, " observations remain\n", sep='')
+	    if (j>1) cat(", ", j, " observations remain\n", sep='')
+	    else if (j==1) cat(", 1 observation remains\n")
 	    else     cat("\n")
 	    cat("  Primary splits:\n")
 	    j <- seq(index[i], length=1+ff$ncompete[i])
-	    cat(paste("      ", format(sname[j]), " ", cuts[j],
+	    if (all(nchar(cuts[j]) < 25))
+		  temp <- format(cuts[j])
+	    else  temp <- cuts[j]
+	    cat(paste("      ", format(sname[j]), " ", temp,
 		      " improve=", format(signif(x$splits[j,3], digits)),
 		      ", (", nn - x$splits[j,1], " missing)", sep=''),
 		      sep="\n")
@@ -87,12 +92,14 @@ summary.rpart <- function(x, cp=0, digits=.Options$digits-3,
 		cat("  Surrogate splits:\n")
 		j <- seq(1 +index[i] + ff$ncompete[i], length=ff$nsurrogate[i])
 		agree <- x$splits[j,3]
-# I had to remove the "adjusted": to be correct the temp variable must be
-#   based on "node->lastsurrogate", which is not retained in the S object
-		temp  <- max(sons.n)/ nn
-		cat(paste("      ", format(sname[j]), " ", cuts[j],
-		      " agree=", format(signif(agree, digits)),
-#                     ", adj=" , format(signif((agree-temp)/(1-temp), digits)),
+		adj   <- x$splits[j,5]
+		if (all(nchar(cuts[j]) < 25))
+		      temp <- format(cuts[j])
+		else  temp <- cuts[j]
+		cat(paste("      ", format(sname[j]), " ",
+		      temp,
+		      " agree=", format(round(agree, 3)),
+                      ", adj=" , format(round(adj, 3)),
 		      ", (", x$splits[j,1], " split)", sep=''),
 		      sep="\n")
 		}

@@ -1,4 +1,4 @@
-/* SCCS @(#)bsplit.c	1.4 02/08/98 */
+/* SCCS @(#)bsplit.c	1.5 12/13/99 */
 /*
 ** The routine which will find the best split for a node
 **
@@ -19,16 +19,18 @@ void bsplit(struct node *me, int nodenum)
     int i, j, k;
     int nc;
     double improve;
-    double split;
+    FLOAT split;
     struct split *tsplit;
-    long *index;
+    int *index;
     int  *which;
-    double *xtemp;
+    FLOAT *xtemp;  /*these 3 because I got tired of typeing "rp.xtemp", etc*/
     double **ytemp;
+    double *wtemp;  
 
     which = rp.which;
     xtemp = rp.xtemp;
     ytemp = rp.ytemp;
+    wtemp = rp.wtemp;
 
     /*
     ** test out the variables 1 at at time
@@ -43,13 +45,14 @@ void bsplit(struct node *me, int nodenum)
 	    if (index[j] >=0 && which[index[j]]== nodenum) {
 		xtemp[k] = rp.xdata[i][j];
 		ytemp[k] = rp.ydata[index[j]];
+		wtemp[k] = rp.wt[index[j]];
 		k++;
 		}
 	if (k==0 ||
 	  (nc==0 &&  xtemp[0]==xtemp[k-1])) continue;  /*no place to split */
 
 	(*rp_choose)(k, ytemp, xtemp, nc, rp.min_node, &improve,
-			     &split, rp.csplit, me->risk);
+			     &split, rp.csplit, me->risk, wtemp);
 	if (improve >0) {
 	    tsplit = insert_split(&(me->primary), nc, improve, rp.maxpri);
 	    if (tsplit !=0) {

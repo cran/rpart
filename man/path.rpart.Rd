@@ -37,7 +37,7 @@ A named (by node) list, each element of which contains all
 the  splits  on the path from the root to the specified or
 selected nodes.
 }
-\section{GRAPHICAL INTERACTION}{
+\section{Graphical Interaction}{
 A dendrogram of the \code{rpart} object is expected to be visible 
 on the graphics  device, and a graphics input device (eg a mouse)
 is required.  Clicking (the selection button)  on  a  node
@@ -59,7 +59,7 @@ paths are printed out as nodes are selected.
 This function was modified from \code{path.tree}. 
 }
 \seealso{
-\code{\link{rpart}}, \code{\link{path.tree}}
+\code{\link{rpart}}
 }
 % Converted by Sd2Rd version 0.3-1.
 

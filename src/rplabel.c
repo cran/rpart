@@ -11,8 +11,8 @@
 #include "rpartproto.h"
 static char *strdup();
 
-void rplabel(long *nsplit,   long *index,   double *splits, 
-             long *ncat,     long *csplit,  char   **cutleft, char **cutright)
+void rplabel(int *nsplit,   int *index,   double *splits, 
+             int *ncat,     int *csplit,  char   **cutleft, char **cutright)
     {
     int i,j, k;
     int  ii, jj;
@@ -65,5 +65,6 @@ static char *strdup(s)
 char *s;
 {
 	char *strcpy(), *malloc();
+	int strlen();
 	return(strcpy(malloc(strlen(s)+1), s));
 }

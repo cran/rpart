@@ -6,9 +6,8 @@
 ### directory, the first line of the program will need to be modified.
 ###
 
-library(src, lib.loc=".")
-#library(rpart)
-
+library(rpart)
+dyn.load("../loadmod.o")
 # Read in test data stagec
 #
 #   Time to progression in years
@@ -21,10 +20,10 @@ library(src, lib.loc=".")
 #   ploidy
 
 stagec <- read.table("data.stagec",  col.names=c("pgtime", "pgstat", "age",
-                     "eet", "g2", "grade", "gleason", "ploidy"))
+			"eet", "g2", "grade", "gleason", "ploidy"))
 
 stagec$ploidy <- factor(stagec$ploidy, levels=1:3,
-                        labels=c("diploid", "tetraploid", "aneuploid"))
+				labels=c("diploid", "tetraploid", "aneuploid"))
 
 ######################################################################
 
@@ -35,8 +34,8 @@ stagec$ploidy <- factor(stagec$ploidy, levels=1:3,
 # method = "class"
  
 c.fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
-               control=rpart.control(minsplit=10,cp=0.001,xval=5),
-               parms=list(prior=c(.7,.3), 
+	       control=rpart.control(minsplit=10,cp=0.001,xval=5),
+	       parms=list(prior=c(.7,.3), 
                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
   
 printcp(c.fit)
@@ -54,7 +53,7 @@ apply(xpred.rpart(c.fit),2,table)
 # method = "class"
 
 c.fit2 <- rpart(factor(pgstat) ~  age + eet + g2+grade+gleason +ploidy,
-                data=stagec)
+	        data=stagec)
 
 printcp(c.fit2)
 print(c.fit2)
@@ -62,7 +61,7 @@ summary(c.fit2)
 summary(xpred.rpart(c.fit2))
 
 c.fit3 <- rpart(factor(pgstat) ~  age + eet + g2+grade+gleason +ploidy,
-                stagec, parm=list(prior=c(.5,.5)))
+		stagec, parm=list(prior=c(.5,.5)))
 
 printcp(c.fit3)
 print(c.fit3)
@@ -81,7 +80,7 @@ summary(c.fit3,cp=.05)
 ##       splits off will speed things up.
 
 c.fit4 <- rpart(Reliability ~ Price + Country + Mileage + Type, 
-                data=cu.summary, control=rpart.control(xval=0,maxsurrogate=0))
+		data=cu.summary, control=rpart.control(xval=0,maxsurrogate=0))
   
 printcp(c.fit4)
 print(c.fit4)
@@ -98,8 +97,8 @@ table(xpred.rpart(c.fit4))
 
 .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
 a.fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel, 
-               data=solder.balance, 
-               control=rpart.control(xval=10))  
+	       data=solder.balance, 
+	       control=rpart.control(xval=10))  
 
 printcp(a.fit)
 print(a.fit)
@@ -113,16 +112,6 @@ xerr <- (xmat - solder.balance$skips)^2
 xsum <- apply(xerr,2,sum)/var(solder.balance$skips)  
 xsum/xsum[1]  ## compare to rel error from printcp(a.fit)
 
-
-## Does pruning work?
-prune(a.fit, cp=.25)
-
-## Check predict function
-summary(predict(a.fit))
-summary(solder.balance$skips)
-
-summary(predict(a.fit,newdata=solder.balance[1,]))
-
 ######################################################################
 
 
@@ -131,7 +120,7 @@ summary(predict(a.fit,newdata=solder.balance[1,]))
 
 .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
 p.fit <- rpart(cbind(time,status) ~ inst + age + sex + ph.ecog + ph.karno +
-               pat.karno + meal.cal + wt.loss, method="poisson", data=lung)
+	       pat.karno + meal.cal + wt.loss, method="poisson", data=lung)
 
   
 printcp(p.fit)
@@ -151,7 +140,7 @@ apply(xpred.rpart(p.fit),2,summary)
 .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
 
 e.fit <- rpart(Surv(time,status) ~ inst + age + sex + ph.ecog + ph.karno +
-               pat.karno + meal.cal + wt.loss, method="exp", data=lung)
+	       pat.karno + meal.cal + wt.loss, method="exp", data=lung)
   
 printcp(e.fit)
 print(e.fit)
@@ -169,8 +158,8 @@ apply(xpred.rpart(e.fit),2,mean)
 
 
 fit1 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
-                data=stagec, control=rpart.control(usesurrogate=0, cp=0),
-                method="poisson")
+		data=stagec, control=rpart.control(usesurrogate=0, cp=0),
+		method="poisson")
 
 printcp(fit1)
 print(fit1)
@@ -178,13 +167,12 @@ summary(fit1,cp=.05)
 
 
 fit2 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
-                data=stagec, control=rpart.control(usesurrogate=1, cp=.001))
+		data=stagec, control=rpart.control(usesurrogate=1, cp=.001))
 
 printcp(fit2)
 print(fit2)
 print(fit2,cp=.01)
 summary(fit2,cp=.025)
- 
 
 
 ###########################################################################

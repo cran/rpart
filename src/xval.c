@@ -1,4 +1,4 @@
-/* SCCS  @(#)xval.c	1.7 02/08/98 
+/* SCCS  @(#)xval.c	1.8 12/13/99 */
 /*
 ** Cross validate a model.  This routine is responsible for filling in
 **  two vectors -- xrisk = cross-validated risk estimate
@@ -9,11 +9,22 @@
 **  the partitioning by setting 'which' to 0.  After partitioning, the risk
 **  of each left out subject is determined, under each of the unique
 **  complexity parameters.
+** The x-groups are set by the calling S-routine, so they can actually be
+**  random, non-random, or whatever, as far as this routine is concerned.
+**
+**  n_xval: number of cross-validation subsets
+**  cptable: head of the complexity parameter table, were results will be
+**              stored
+**  x_grp(n): defines the groups.  Integers from 1 to n_xval
+**  maxcat  : max # categories, in any given categorical variable
+**  error   : possible error message
+**  parms   : vector of input parameters, initializers for the splitting rule
 */
 #include <math.h>
 #include <stdio.h>
 #include "rpart.h"
 #include "node.h"
+#include "rpartS.h"
 #include "rpartproto.h"
 
 static int debug =0;    /*if it is odd, print out every tree */
@@ -23,7 +34,7 @@ static int debug =0;    /*if it is odd, print out every tree */
 extern char *xname[];
 #endif
 
-void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp, 
+void xval(int n_xval,  struct cptable *cptable_head,  int *x_grp, 
 	  int maxcat,  char **error,                  double * parms)
     {
     int i,j,k, jj;
@@ -34,7 +45,7 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
     struct node *xtree;
     struct cptable *cplist;
     double temp;
-    double old_n;
+    double old_n, old_wt, total_wt;
     int *which;
 
     alphasave = rp.alpha;
@@ -42,10 +53,10 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
     /*
     ** Allocate a set of temporary arrays
     */
-    xtemp = (double *)calloc(3*rp.num_unique_cp, sizeof(double));
+    xtemp = (double *) CALLOC(3*rp.num_unique_cp, sizeof(double));
     xpred = xtemp + rp.num_unique_cp;
     cp    = xpred + rp.num_unique_cp;
-    savew = (int *)   calloc(rp.n, sizeof(int));
+    savew = (int *)   CALLOC(rp.n, sizeof(int));
     for (i=0; i<rp.n; i++) savew[i] = rp.which[i];
 
     /*
@@ -58,6 +69,10 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
 	i++;
 	}
     old_n =rp.n;
+    total_wt =0;
+    for (i=0; i<rp.n; i++) total_wt += rp.wt[i];
+    old_wt = total_wt;
+
     /*
     ** do the validations
     */
@@ -66,6 +81,7 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
 	** mark the "leave out" data as fictional node 0, the rest as node 1
 	*/
 	k=0;
+	temp =0;
 	for (j=0; j<rp.n; j++) {
 	    if (x_grp[j]==(i+1)) {
 		which[j] =0;
@@ -73,22 +89,25 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
 	    else {
 		which[j] =1;
 		rp.ytemp[k] = rp.ydata[j];
+		rp.wtemp[k] = rp.wt[j];
 		k++;
+		temp += rp.wt[j];
 		}
 	    }
 
 	/* rescale the cp */
-	for (j=0; j<rp.num_unique_cp; j++) cp[j] *= (double)(k)/old_n;
-	rp.alpha *= (double)k /old_n;
-	old_n = k;
+	for (j=0; j<rp.num_unique_cp; j++) cp[j] *= temp/old_wt;
+	rp.alpha *= temp/old_wt;
+	old_wt = temp;
 
 	/*
 	** partition the new tree
 	*/
-	xtree = (struct node *) calloc(1, nodesize);
+	xtree = (struct node *) CALLOC(1, nodesize);
 	xtree->num_obs = k;
-	(*rp_init)(k,rp.ytemp, maxcat, error, parms, &temp, 2);
-	(*rp_eval)(k, rp.ytemp, xtree->response_est, &(xtree->risk));
+	(*rp_init)(k,rp.ytemp, maxcat, error, parms, &temp, 2, rp.wtemp);
+	(*rp_eval)(k, rp.ytemp, xtree->response_est, &(xtree->risk),
+		   rp.wtemp);
 	xtree->complexity = xtree->risk;
 	partition(1, xtree, &temp);
 	fix_cp(xtree, xtree->complexity);
@@ -108,10 +127,10 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
 		/* add it in to the risk */
 		cplist = cptable_head;
 		for (jj = 0; jj<rp.num_unique_cp; jj++) {
-		    cplist->xrisk += xtemp[jj];
-		    cplist->xstd  += xtemp[jj]*xtemp[jj];
+		    cplist->xrisk += xtemp[jj] * rp.wt[j];
+		    cplist->xstd  += xtemp[jj]*xtemp[jj] * rp.wt[j];
 		    if (debug>1) printf("  cp=%f, pred=%f, xtemp=%f\n",
-					  cp[jj]/old_n, xpred[jj], xtemp[jj]);
+					  cp[jj]/old_wt, xpred[jj], xtemp[jj]);
 		    cplist = cplist->forward;
 		    }
 		}
@@ -121,10 +140,10 @@ void xval(int n_xval,  struct cptable *cptable_head,  long *x_grp,
 
     for (cplist = cptable_head; cplist!=0; cplist=cplist->forward) {
 	cplist->xstd = sqrt( cplist->xstd -
-				      cplist->xrisk* cplist->xrisk/rp.n);
+				      cplist->xrisk* cplist->xrisk/total_wt);
 	}
     rp.alpha=alphasave;
     for (i=0; i<rp.n; i++) rp.which[i] = savew[i];
-    free(savew);
-    free(xtemp);
+    Free(savew);
+    Free(xtemp);
     }

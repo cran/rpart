@@ -3,6 +3,7 @@
 ** free up all of the memory associated with a tree
 */
 #include "node.h"
+#include "rpartS.h"
 #include "rpartproto.h"
 
 void free_tree(struct node *node,  int freenode)
@@ -15,12 +16,12 @@ void free_tree(struct node *node,  int freenode)
     for (s1=node->surrogate; s1!=0; ){
 	s2 = s1;
 	s1 = s1->nextsplit;
-	free(s2);
+	Free(s2);
 	}
     for (s1=node->primary; s1!=0; ){
 	s2 = s1;
 	s1 = s1->nextsplit;
-	free(s2);
+	Free(s2);
 	}
-    if (freenode==1) free(node);
+    if (freenode==1) Free(node);
     }

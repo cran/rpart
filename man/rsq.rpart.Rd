@@ -22,7 +22,7 @@ components as that returned by the \code{rpart} function.
 \section{Side Effects}{
 Two plots are produced.
 }
-\section{NOTE}{
+\note{
 The labels are only appropriate for the \code{"anova"} method.
 }
 \examples{

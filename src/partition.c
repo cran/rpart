@@ -1,4 +1,4 @@
-/* SCCS @(#)partition.c	1.3 02/08/98 */
+/* SCCS  @(#)partition.c	1.4 12/13/99 */
 /*
 ** The main workhorse of the recursive partitioning module.  When called
 **   with a node, it partitions it and then calls itself to partition the
@@ -9,9 +9,10 @@
 **   so it needs to check this at the end.
 */
 #include <stdio.h>
-#include "node.h"
 #include "rpart.h"
+#include "node.h"
 #include "rpartproto.h"
+#include "rpartS.h"
 
 int partition(int nodenum, struct node *splitnode, double *sumrisk)
     {
@@ -21,14 +22,21 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
     double tempcp2;
     double left_risk, right_risk;
     int left_split, right_split;
+    double twt;
 
     me = splitnode;
     if (nodenum >1) {
 	j=0;
+	twt =0;
 	for (i=0; i<rp.n; i++)
-	    if (rp.which[i] == nodenum) rp.ytemp[j++] = rp.ydata[i];
-	(*rp_eval)(j, rp.ytemp, me->response_est, &(me->risk));
-	me -> num_obs =j;
+	    if (rp.which[i] == nodenum) {
+		rp.wtemp[j]   = rp.wt[i];
+		rp.ytemp[j++] = rp.ydata[i];
+		twt += rp.wt[i];
+		}
+	(*rp_eval)(j, rp.ytemp, me->response_est, &(me->risk), rp.wtemp);
+	me -> num_obs = j;
+	me -> sum_wt  = twt;
 	tempcp = me->risk;
 	if (tempcp > me->complexity)  tempcp = me->complexity;
 	}
@@ -69,8 +77,7 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
     /*
     ** split the leftson
     */
-    me->leftson = (struct node *)calloc(1, nodesize);
-    if (me->leftson ==0) longjmp(errjump, 4);
+    me->leftson = (struct node *)CALLOC(1, nodesize);
     (me->leftson)->complexity = tempcp - rp.alpha;
     left_split = partition(2*nodenum, me->leftson, &left_risk);
 
@@ -82,8 +89,7 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
     if (tempcp < tempcp2) tempcp = tempcp2;
     if (tempcp > me->complexity)  tempcp = me->complexity;
 
-    me->rightson = (struct node *) calloc(1, nodesize);
-    if (me->rightson ==0) longjmp(errjump, 4);
+    me->rightson = (struct node *) CALLOC(1, nodesize);
     (me->rightson)->complexity = tempcp - rp.alpha;
     right_split = partition(1+2*nodenum, me->rightson, &right_risk);
 
@@ -131,7 +137,7 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
     me->complexity= (me->risk - (left_risk + right_risk))/
 			(left_split + right_split +1);
 
-    if (me->complexity <= rp.alpha) {
+    if (me->complexity <= rp.alpha ) {
 	/*
 	** All was in vain!  This node doesn't split after all.
 	*/

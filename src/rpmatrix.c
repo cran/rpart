@@ -1,4 +1,4 @@
-/* SCCS @(#)rpmatrix.c	1.5 02/08/98 */
+/* SCCS @(#)rpmatrix.c	1.6 12/13/99 */
 /*
 **  For S's usage, convert the linked list data into matrix form
 */
@@ -6,14 +6,15 @@
 #include "node.h"
 #include "rpartproto.h"
 
-void rpmatrix(struct node *me,  long *nodecount,   long *splitcount, 
-	      long *catcount,   long *numcat,      double **dsplit,
-	      long **isplit,    long **csplit,     double **dnode, 
-	      long **inode,     int id)
+void rpmatrix(struct node *me,  int *nodecount,   int *splitcount, 
+	      int *catcount,   int *numcat,      double **dsplit,
+	      int **isplit,    int **csplit,     double **dnode, 
+	      int **inode,     int id)
     {
     /*
     ** dsplit  0: improvement
     **         1: split point if continuous; index into csplit if not
+    **         2: surrogate: adjusted agreement,  primary: nothing
     ** isplit  0: variable #
     **         1: count
     **         2: if continuous: direction -1=left, 1=right
@@ -21,7 +22,8 @@ void rpmatrix(struct node *me,  long *nodecount,   long *splitcount,
     ** csplit[i]: -1=left, 0=missing category, 1=right
     ** dnode   0: risk
     **         1: complexity threshold
-    **         2-?: response estimate
+    **         2: sum of weights
+    **         3, ...: response estimate
     ** inode   0: node number
     **         1: index of the first primary, in the split list
     **         2: #primary    ==0 if this is a terminal node
@@ -43,7 +45,8 @@ void rpmatrix(struct node *me,  long *nodecount,   long *splitcount,
     ccnt = *catcount;
     dnode[0][ncnt] = me->risk;
     dnode[1][ncnt] = me->complexity * cp_scale;
-    for (i=0; i<rp.num_resp; i++) dnode[2+i][ncnt] = me->response_est[i];
+    dnode[2][ncnt] = me->sum_wt;
+    for (i=0; i<rp.num_resp; i++) dnode[3+i][ncnt] = me->response_est[i];
     inode[0][ncnt] = id;
     inode[4][ncnt] = me->num_obs;
 
@@ -83,6 +86,7 @@ void rpmatrix(struct node *me,  long *nodecount,   long *splitcount,
 	    i++;
 	    j = spl->var_num;
 	    dsplit[0][scnt] = spl->improve;
+	    dsplit[2][scnt] = spl->adj;
 	    if (numcat[j] ==0) {
 		dsplit[1][scnt] = spl->spoint;
 		isplit[2][scnt] = spl->csplit[0];

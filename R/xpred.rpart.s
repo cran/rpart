@@ -1,4 +1,4 @@
-# SCCS @(#)xpred.rpart.s	1.13 02/18/97
+# SCCS @(#)xpred.rpart.s	1.14 12/13/99
 #
 #  Get a set of cross-validated predictions
 #
@@ -13,6 +13,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
 
     Y <- fit$y
     X <- fit$x
+    wt<- fit$wt
     if (is.null(Y) || is.null(X)) {
 	m <- fit$model
 	if (is.null(m)) {
@@ -24,6 +25,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
 	    m <- eval(m, sys.frame(sys.parent()))
 	    }
 	if (is.null(X)) X <- rpart.matrix(m)
+	if (is.null(wt)) wt <- model.extract(m, "weights")
 	if (is.null(Y)) {
 	    Y <- model.extract(m, "response")
             offset <- attr(Terms, "offset")
@@ -34,6 +36,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
 
     Y <- as.matrix(Y)
     nobs <- nrow(Y)
+    if (length(wt)==0) wt <- rep(1.0, nobs)
 
     cats <- rep(0, ncol(X))
     xlevels <- attr(fit, "xlevels")
@@ -44,7 +47,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
     controls <- fit$control
     if (missing(cp)) {
 	cp<- fit$cptable[,1]
-	cp <- sqrt(cp * c(1, cp[-length(cp)]))
+	cp <- sqrt(cp * c(10, cp[-length(cp)]))
 	}
     ncp <- length(cp)
 
@@ -63,7 +66,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
 		    nvarx = as.integer(ncol(X)),
 		    ncat = as.integer(cats),
 		    method= as.integer(method.int),
-		    as.double(unlist(controls)),
+		    as.double(unlist(controls))[1:7],
 		    parms = as.double(fit$parms),
 		    as.integer(xval),
 		    as.integer(xgroups),
@@ -74,6 +77,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
 		    as.integer(ncp),
 		    as.double(cp * fit$frame[1,"dev"]),
 		    error = character(1),
+		    wt = as.double(wt),
 		    NAOK=T )
     if (rpfit$n == -1)  stop(rpfit$error)
 

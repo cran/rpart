@@ -1,4 +1,4 @@
-/* SCCS @(#)s_to_rp.c	1.12 02/08/98 */
+/* SCCS @(#)s_to_rp.c	1.13 12/13/99 */
 /*
 ** An S interface to the the recursive partitioning routines.
 */
@@ -12,14 +12,15 @@ static struct cptable cptab;
 static struct node *tree;
 static int *savewhich;
 
-void s_to_rp(long *n, 	  long *nvarx, 	 long *ncat, 	long *method, 
-	     double *opt, double *parms, long *xvals,   long *x_grp,
-	     double *y,   double *xmat,   long *missmat, char **error)
+void s_to_rp(int *n, 	  int *nvarx, 	 int *ncat, 	int *method, 
+	     double *opt, double *parms, int *xvals,   int *x_grp,
+	     double *y,   FLOAT *xmat,   int *missmat, char **error,
+	     double *wt)
     {
     int itemp;
     int maxpri;
     int rval;      /* return value */
-    savewhich = (int *) calloc((int)*n, sizeof(int));
+    savewhich = (int *) CALLOC((int)*n, sizeof(int));
     /*
     **  The opt string is in the order of control.rpart()
     **    minsplit, minbucket, cp, maxcomptete, maxsurrogate, usesurrogate,
@@ -30,7 +31,7 @@ void s_to_rp(long *n, 	  long *nvarx, 	 long *ncat, 	long *method,
 	          (int)opt[1], (int)opt[0],  maxpri,      (int)opt[4],
 	          (int)opt[5], parms,       y,            xmat,        missmat,
 	       opt[2],      &cptab,      &tree,      &(error[0]),    savewhich,
-	      (int)*xvals, x_grp);
+	      (int)*xvals,  x_grp,       wt,         (int)opt[6]);
     /*
     ** count up the number of nodes, splits, categorical splits, and cp's
     */
@@ -45,26 +46,26 @@ void s_to_rp(long *n, 	  long *nvarx, 	 long *ncat, 	long *method,
 **   (the list heads are static).  S then calls again with appropriately
 **   sized arrays to this routine. This stuffs the arrays and frees the memory
 */
-void s_to_rp2(long *n,         long *nsplit,    long *nnode,     long *ncat, 
-	      long *numcat,    long *maxcat,    long *xvals,     long *which, 
-	      double *cptable, double *dsplit,  long *isplit,    long *csplit,
-	      double *dnode,   long *inode)
+void s_to_rp2(int *n,         int *nsplit,    int *nnode,     int *ncat, 
+	      int *numcat,    int *maxcat,    int *xvals,     int *which, 
+	      double *cptable, double *dsplit,  int *isplit,    int *csplit,
+	      double *dnode,   int *inode)
     {
     int i;
     int  nodenum, j;
     struct cptable *cp, *cp2;
-    double **ddnode  , *ddsplit[2];
-    long   *iinode[6], *iisplit[3];
-    long   **ccsplit;
+    double **ddnode  , *ddsplit[3];
+    int   *iinode[6], *iisplit[3];
+    int   **ccsplit;
     double scale;
     /*
     ** create the "ragged array" pointers to the matrices
     */
-    ddnode = (double **) ALLOC(2+rp.num_resp, sizeof(double *));
-    for (i=0; i<(2+rp.num_resp); i++) {
+    ddnode = (double **) ALLOC(3+rp.num_resp, sizeof(double *));
+    for (i=0; i<(3+rp.num_resp); i++) {
 	ddnode[i] = dnode;  dnode  += *nnode;
 	}
-    for (i=0; i<2; i++) {
+    for (i=0; i<3; i++) {
 	ddsplit[i]= dsplit; dsplit += *nsplit;
 	}
     for (i=0; i<6; i++) {
@@ -73,8 +74,13 @@ void s_to_rp2(long *n,         long *nsplit,    long *nnode,     long *ncat,
     for (i=0; i<3; i++) {
 	iisplit[i]= isplit; isplit += *nsplit;
 	}
-    i = *maxcat;
-    ccsplit = (long **)calloc(i, sizeof(long *));
+
+    /* I don't understand this next line.  Even if I don't need ccsplit
+    ** (maxcat=0), not allocating it makes S memory fault.  Not that
+    **  4 extra bytes is any big deal....
+    */
+    if (*maxcat==0) i=1; else i = *maxcat;
+    ccsplit = (int **)CALLOC(i, sizeof(int *));
     for (i=0; i<*maxcat; i++) {
 	ccsplit[i] = csplit;   csplit += *ncat;
 	}
@@ -121,10 +127,10 @@ void s_to_rp2(long *n,         long *nsplit,    long *nnode,     long *ncat,
     free_tree(tree, 0);
     for (cp=cptab.forward; cp!=0; ) {
 	cp2 = cp->forward;
-	free(cp);
+	Free(cp);
 	cp = cp2;
 	}
-    free(ccsplit);
-    free(savewhich);
+    Free(ccsplit);
+    Free(savewhich);
     }
 

@@ -6,7 +6,7 @@ Recursive Partitioning and Regression Trees Object
 \description{
 These are objects representing fitted \code{rpart} trees.
 }
-\section{STRUCTURE}{
+\section{Structure}{
 The following components must be included in a legitimate \code{rpart} object.
 Of these, only the \code{where} component has the same length as 
 the data used to fit the \code{rpart} object.
@@ -17,6 +17,7 @@ follow a binary ordering indexed by node depth.
 Elements of \code{frame} include \code{var},
 the variable used in the split at each node
 (leaf nodes are denoted by the string \code{<leaf>}), \code{n}, the size of each node,
+\code{wt}, the sum of case weights for the node,
 \code{dev}, the deviance of each node,
 \code{yval}, the fitted value of the response at each node,
 and \code{splits}, a two column matrix of left and right split labels
@@ -45,8 +46,10 @@ splits it is the number missing the primary split variable which were decided
 using this surrogate), \code{ncat}, the number of categories or levels for the
 variable (+-1 for a continuous variable), \code{improve}, which is the improvement
 in deviance given by this split, or, for surrogates, the concordance of the
-surrogate with the primary, and \code{split}, the numeric split point.  For
-a factor, this column contains the row number of the csplit matrix.
+surrogate with the primary, and \code{split}, the numeric split point.  
+The last column \code{adj} gives the adjusted concordance for surrogate splits.
+For
+a factor, the \code{split} column contains the row number of the csplit matrix.
 For a continuous variable, the sign of \code{ncat} determines whether the
 subset x<cutpoint or x>cutpoint is sent to the left.
 }
@@ -78,7 +81,7 @@ Optional components include the matrix of predictors (\code{x}) and the
 response variable (\code{y}) used to construct the \code{rpart} object.
 }}
 \seealso{
-\code{\link{rpart}}, \code{\link{tree.object}}.
+\code{\link{rpart}}.
 }
 \keyword{rpart}
 \keyword{tree}

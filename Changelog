@@ -1,3 +1,5 @@
+1999 Dec 15	1.1-1	New version which uses weights.
+			Change all occurrences of longs.
 1999 May 11     1.0-7   Fix bug in graycode.c, from TMT.
 			All the examples now run correctly.
 1999 Apr	1.0-6	Add index of (test) datasets.

@@ -68,7 +68,8 @@ function (see \code{par}).
 the current plot of a tree dendrogram is labeled.
 }
 \seealso{
-\code{\link{text}}, \code{\link{plot.rpart}}, \code{\link{rpart}}, \code{\link{text.tree}}, \code{\link{post.rpart}}, \code{\link{abbreviate}} 
+  \code{\link{text}}, \code{\link{plot.rpart}}, \code{\link{rpart}},
+  \code{\link{post.rpart}}, \code{\link{abbreviate}} 
 }
 \examples{
 data(freeny)

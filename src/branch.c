@@ -1,12 +1,12 @@
-/* SCCS @(#)branch.c	1.3 02/08/98 */
+/* SCCS @(#)branch.c	1.4 12/13/99 */
 /*
 ** Walk an observation 'one more split' down the tree.  If there are no
 **   more splits, return 0, otherwise return the address of the new node.
 ** A return of zero also comes about if surrogates aren't being used, and I
 **   hit a missing value.
 */
-#include "node.h"
 #include "rpart.h"
+#include "node.h"
 #include "rpartproto.h"
 
 struct node *branch(struct node *tree, int obs)
@@ -14,8 +14,8 @@ struct node *branch(struct node *tree, int obs)
     int i, j, dir;
     struct node *me;
     struct split *tsplit;
-    double **xdata;
-    long   **sorts;
+    FLOAT **xdata;
+    int   **sorts;
     if (tree->leftson ==0) return(0);
 
     me = tree;
@@ -69,10 +69,7 @@ struct node *branch(struct node *tree, int obs)
     /*
     ** split it by default
     */
-    if (((double)me->lastsurrogate/ (me->primary)->count) > .5)
-	 dir= LEFT;
-    else dir= RIGHT;
-
+    dir = me->lastsurrogate;
 
 down:if (dir==LEFT) return(me->leftson);
      else           return(me->rightson);

@@ -29,7 +29,7 @@ appropriate class, or directly by calling \code{summary.rpart} regardless of
 the class of the object.
 }
 \seealso{
-\code{\link{summary}}, \code{\link{rpart.object}}, \code{\link{summary.tree}}, \code{\link{print.tree}}, \code{\link{printcp}}.
+\code{\link{summary}}, \code{\link{rpart.object}}, \code{\link{printcp}}.
 }
 \examples{
 data(car.test.frame)

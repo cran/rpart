@@ -1,5 +1,6 @@
 \name{prune.rpart}
 \alias{prune.rpart}
+\alias{prune}
 \title{
 Cost-complexity Pruning of an Rpart Object
 }

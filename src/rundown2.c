@@ -1,7 +1,8 @@
-/* SCCS @(#)rundown2.c	1.4 02/08/98 */
+/* SCCS @(#)rundown2.c	@(#)rundown2.c	1.5 12/13/99 */
 /*
 ** Run an observation down the tree, and return the predicted value,
 **    for several CP values at once.
+** (A subset of rundown.c, which also returns the prediction error).
 */
 #include <stdio.h>
 #include "node.h"

@@ -1,19 +1,25 @@
-/* SCCS @(#)node.h	1.2  09/17/93 */
+/* SCCS @(#)node.h	1.3 12/13/99 */
 /*
 ** definition of a node in the tree
 */
+#ifndef FLOAT
+#define FLOAT double   /*see comments in rpart.h */
+#endif
+
 struct split {
     double improve;
-    double spoint;    /*only used if it is continuous */
+    double adj;           /* for surrogates only, adjusted agreement */
+    FLOAT spoint;    /*only used if it is continuous */
     struct split *nextsplit;
     int var_num;
     int count;
     int csplit[2];     /*the actual length will be longer for a categorical */
-    };                 /*   and will be 1 for continuous */
+    };                 /*   predictor with >2 levels */
 
 struct node {
-    double  risk;
-    double complexity;
+    double  risk;       /*risk for the node */
+    double complexity;  /* complexity at which it will collapse */
+    double sum_wt;      /* sum of the weights for the node  */
     struct split *primary;
     struct split *surrogate;
     struct node *rightson;
@@ -49,9 +55,15 @@ struct cptable {
 **
 **      count: The number of observations split using this variable.  For the
 **             first primary, this will = the number of non-missing values.
-**             For surrogates, it will be the number missing in the primaryt
+**             For surrogates, it will be the number missing in the primary
 **             and all earlier surrogates but not missing on this one.  (For
 **             all primaries but the first, the number is theoretical).
+**
+**	adj:  Let "maj" be the %agreement for going with the majority,
+**                and "agree" the %agreement for this surrogate.  The
+**                adjusted value is (agree - maj)/(1-maj); the amount of
+**                the potential improvement actually realized.  The denominator
+**                for both percents depends on the sur_agree option.
 **
 **      csplit[0]:   For a continuous variable, we also need to know the
 **                    direction of the split.  We use this "extra" variable
@@ -78,8 +90,7 @@ struct cptable {
 **              of all nodes above it.  One more pass downward can establish
 **              the proper C.P.).
 **
-**      lastsurrogate: The number of observations sent to the left by the
-**              primary split.  Since "go with the majority" is always the
-**              last rule applied when the primary variable is missing, this
-**              count in some sense defines the "last" surrogate.
+**      lastsurrogate: Which direction to send obs for which the primary and
+**              all the surrogates are missing.  (The child with the greatest
+**		sum of weights).
 */

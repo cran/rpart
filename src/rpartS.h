@@ -1,16 +1,30 @@
+/* SCCS @(#)rpartS.h	1.3 05/12/99 */
 /*
-** SCCS @(#)rpartS.h	1.2 02/08/98
-** some macros that are needed for those routines that call "S_alloc"
-**  they aren't included "straigtht" into the routines because they differ
-**  between Splus and S4 (Bell Labs 4, which will be Splus 5)
+**   The S.h file defines a few things that I need, and hundreds that I don't.
+** In particular, on some architectures, it defines a variable "time"
+** which of course conflicts with lots of my C-code, 'time' being a natural
+** variable name for survival models and thus used in the poisson routines.
+**   Thanks to Brian Ripley for suggesting a machine independent way of
+** fixing this.
+**
+** The S_alloc function changed it's argument list from version 4 to 5, and
+**   the ALLOC macro allows me to have common C code for the two versions,
+**   with only this file "survS.h" changed.
+*/
+#define time timexxx
+#include "S.h"
+#undef time
+
+/*
+** Memory defined with S_alloc is removed automatically
+**  That with "CALLOC" I have to remove myself.  Use the
+**  latter for objects that need to to persist between the 
+**  s_to_rp1 and s_to_rp2 calls
 */
 
-/* S4 version */
-/* #include "S.h"
-** #define ALLOC(a,b) S_alloc(a,b,S_evaluator)
-*/
+#define ALLOC(a,b)  S_alloc(a,b)
+#define CALLOC(a,b) R_chk_calloc((size_t)(a), b)
 
-/* Splus version */
-#define ALLOC(a,b) S_alloc(a,b)
-
-extern char *S_alloc();  
+#ifndef FLOAT
+#define FLOAT double    /* see rpart.h */
+#endif

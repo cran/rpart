@@ -1,4 +1,4 @@
-/* SCCS @(#)rpart.c	1.6 02/08/98 */
+/* SCCS @(#)rpart.c	1.7 12/13/99 */
 /*
 ** The main entry point for recursive partitioning routines.
 **
@@ -25,6 +25,7 @@
 **      error    = a pointer to an error message buffer
 **      xvals    = number of cross-validations to do
 **      xgrp     = indices for the cross-validations
+**      wt       = vector of case weights
 **
 ** Returned variables
 **      error    = text of the error message
@@ -33,7 +34,6 @@
 ** Return value: 0 if all was well, 1 for error
 **
 */
-#include  <setjmp.h>
 #include <stdio.h>
 #include "rpart.h"
 #include "node.h"
@@ -41,24 +41,16 @@
 #include "rpartS.h"
 #include "rpartproto.h"
 
-int rpart(int n,         int nvarx,      long *ncat,     int method, 
+int rpart(int n,         int nvarx,      int *ncat,     int method, 
           int mnode,     int msplit,     int  maxpri,    int maxsur,
-	  int usesur,    double *parms,  double *ymat,   double *xmat,  
-          long *missmat, double complex, struct cptable *cptable,
+	  int usesur,    double *parms,  double *ymat,   FLOAT *xmat,  
+          int *missmat, double complex, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
-	  int xvals,     long *x_grp)
+	  int xvals,     int *x_grp,    double *wt,     int surragree)
     {
     int i,j,k;
     int maxcat;
     double temp;
-
-    /*
-    ** Memory allocation errors from subroutines come back here
-    */
-    if (j=setjmp(errjump)) {
-	*error = "Out of memory, cannot allocate needed structure";
-	return(j);
-	}
 
     /*
     ** initialize the splitting functions from the function table
@@ -88,30 +80,30 @@ int rpart(int n,         int nvarx,      long *ncat,     int method,
     if (maxpri <1) rp.maxpri =1;
     rp.maxsur = maxsur;
     rp.usesurrogate = usesur;
+    rp.sur_agree = surragree;
     rp.n = n;
     rp.which = which;
+    rp.wt    = wt;
 
     /*
     ** create the "ragged array" pointers to the matrix
     **   x and missmat are in column major order
     **   y is in row major order
     */
-    rp.xdata = (double **) ALLOC(nvarx, sizeof(double *));
-    if (rp.xdata==0) longjmp(errjump, 1);
+    rp.xdata = (FLOAT **) ALLOC(nvarx, sizeof(FLOAT *));
     for (i=0; i<nvarx; i++) {
 	rp.xdata[i] = &(xmat[i*n]);
 	}
     rp.ydata = (double **) ALLOC(n, sizeof(double *));
-    if (rp.ydata==0) longjmp(errjump, 1);
     for (i=0; i<n; i++)  rp.ydata[i] = &(ymat[i*rp.num_y]);
 
     /*
     ** allocate some scratch
     */
     rp.tempvec = (int *)ALLOC(n, sizeof(int));
-    rp.xtemp = (double *)ALLOC(n, sizeof(double));
+    rp.xtemp = (FLOAT *)ALLOC(n, sizeof(FLOAT));
     rp.ytemp = (double **)ALLOC(n, sizeof(double *));
-    if (rp.tempvec==0 || rp.xtemp==0 || rp.ytemp==0) longjmp(errjump, 1);
+    rp.wtemp = (double *)ALLOC(n, sizeof(double));
 
     /*
     ** create a matrix of sort indices, one for each continuous variable
@@ -119,7 +111,7 @@ int rpart(int n,         int nvarx,      long *ncat,     int method,
     **   of the 'missmat' array.
     ** I don't have to sort the categoricals.
     */
-    rp.sorts  = (long**) ALLOC(nvarx, sizeof(long *));
+    rp.sorts  = (int**) ALLOC(nvarx, sizeof(int *));
     maxcat=0;
     for (i=0; i<nvarx; i++) {
 	rp.sorts[i] = &(missmat[i*n]);
@@ -140,23 +132,29 @@ int rpart(int n,         int nvarx,      long *ncat,     int method,
     */
     if (maxcat >0) {
 	rp.csplit = (int *) ALLOC(3*maxcat, sizeof(int));
-	if (rp.csplit==0) longjmp(errjump, 1);
+	rp.lwt    = (double *) ALLOC(2*maxcat, sizeof(double));
 	rp.left = rp.csplit + maxcat;
 	rp.right= rp.left   + maxcat;
+	rp.rwt  = rp.lwt    + maxcat;
 	}
     else rp.csplit = (int *)ALLOC(1, sizeof(int));
 
     /*
     ** initialize the top node of the tree
     */
-    for (i=0; i<n; i++) which[i] =1;
-    i = rp_init(n, rp.ydata, maxcat, error, parms, &rp.num_resp, 1);
+    temp =0;
+    for (i=0; i<n; i++) {
+	which[i] =1;
+	temp += wt[i];
+	}
+    i = rp_init(n, rp.ydata, maxcat, error, parms, &rp.num_resp, 1, wt);
     nodesize = sizeof(struct node) + (rp.num_resp-2)*sizeof(double);
-    *tree = (struct node *) calloc(1, nodesize);
+    *tree = (struct node *) CALLOC(1, nodesize);
     (*tree)->num_obs = n;
+    (*tree)->sum_wt  = temp;
     if (i>0) return(i);
 
-    (*rp_eval)(n, rp.ydata, (*tree)->response_est, &((*tree)->risk));
+    (*rp_eval)(n, rp.ydata, (*tree)->response_est, &((*tree)->risk), wt);
     (*tree)->complexity = (*tree)->risk;
     rp.alpha = rp.complex * (*tree)->risk;
 

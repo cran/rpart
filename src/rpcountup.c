@@ -9,9 +9,9 @@
 #include "node.h"
 #include "rpartproto.h"
 
-void rpcountup(struct node *me, long *nnode, long *nsplit, int *ncat)
+void rpcountup(struct node *me, int *nnode, int *nsplit, int *ncat)
     {
-    long  node2, split2;
+    int  node2, split2;
     int   cat2;
     int   i,j, k;
     struct split *ss;

@@ -1,5 +1,6 @@
 \name{post.rpart}
 \alias{post.rpart}
+\alias{post}
 \title{
 PostScript Presentation Plot of an Rpart Object
 }

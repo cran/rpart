@@ -1,4 +1,4 @@
-# SCCS @(#)rpart.s	1.23 02/12/98
+# SCCS @(#)rpart.s	1.26 12/14/99
 #
 #  The recursive partitioning function, for S
 #
@@ -36,20 +36,20 @@ rpart <- function(formula, data=NULL, weights, subset,
     method <- c("anova", "poisson", "class", "exp")[method.int]
     if (method.int==4) method.int <- 2
 
-    w <- model.extract(m, "weights")
-    if(length(w)) warning("Weights ignored")
+    wt <- model.extract(m, "weights")
+    if(length(wt)==0) wt <- rep(1.0, nrow(m))
     offset <- attr(Terms, "offset")
 
     if (missing(parms))
-	  init <- (get(paste("rpart", method, sep='.')))(Y,offset)
+	  init <- (get(paste("rpart", method, sep='.')))(Y,offset, ,wt)
     else
-	  init <- (get(paste("rpart", method, sep='.')))(Y,offset, parms)
+	  init <- (get(paste("rpart", method, sep='.')))(Y,offset, parms, wt)
     Y <- init$y
     X <- rpart.matrix(m)
     nobs <- nrow(X)
 
     xlevels <- attr(X, "column.levels")
-    cats <- rep(0,ncol(X))	
+    cats <- rep(0,ncol(X))
     if(!is.null(xlevels)) {
 	cats[as.numeric(names(xlevels))] <- unlist(lapply(xlevels, length))
 	}
@@ -72,16 +72,22 @@ rpart <- function(formula, data=NULL, weights, subset,
 	}
     else stop("Invalid value for xval")
 
-    # 
-    # Have s_to_rp consider ordered categories as continuous
     #
-    isord <- sapply(m, is.ordered)[-1]
+    # Have s_to_rp consider ordered categories as continuous
+    #  A right-hand side variable that is a matrix forms a special case
+    # for the code.
+    #
+    tfun <- function(x) {
+	if (is.matrix(x)) rep(is.ordered(x), ncol(x))
+	else is.ordered(x)
+	}
+    isord <- unlist(lapply(m[attr(Terms, 'term.labels')], tfun))
     rpfit <- .C("s_to_rp",
 		    n = as.integer(nobs),
 		    nvarx = as.integer(ncol(X)),
 		    ncat = as.integer(cats* !isord),
 		    method= as.integer(method.int),
-		    as.double(unlist(controls)),
+		    as.double(unlist(controls))[1:7],
 		    parms = as.double(init$parms),
 		    as.integer(xval),
 		    as.integer(xgroups),
@@ -89,6 +95,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 		    as.double(X),
 		    as.integer(is.na(X)),
 		    error = character(1),
+		    wt = as.double(wt),
 		    NAOK=T )
     if (rpfit$n == -1)  stop(rpfit$error)
 
@@ -103,6 +110,7 @@ rpart <- function(formula, data=NULL, weights, subset,
     cpcol <- if (xval>0) 5 else 3
     if (ncat==0) catmat <- 0
     else         catmat <- matrix(integer(1), ncat, max(cats))
+
     rp    <- .C("s_to_rp2",
 		       as.integer(nobs),
 		       as.integer(nsplit),
@@ -113,10 +121,10 @@ rpart <- function(formula, data=NULL, weights, subset,
 		       as.integer(xval),
 		       which = integer(nobs),
 		       cptable = matrix(double(numcp*cpcol), nrow=cpcol),
-		       dsplit =  matrix(double(1),  nsplit,2),
+		       dsplit =  matrix(double(1),  nsplit,3),
 		       isplit =  matrix(integer(1), nsplit,3),
 		       csplit =  catmat,
-		       dnode  =  matrix(double(1),  nodes, 2+numresp),
+		       dnode  =  matrix(double(1),  nodes, 3+numresp),
 		       inode  =  matrix(integer(1), nodes, 6))
     tname <- c("<leaf>", dimnames(X)[[2]])
 
@@ -124,9 +132,9 @@ rpart <- function(formula, data=NULL, weights, subset,
     else          temp <- c("CP", "nsplit", "rel error", "xerror", "xstd")
     dimnames(rp$cptable) <- list(temp, 1:numcp)
 
-    splits<- matrix(c(rp$isplit[,2:3], rp$dsplit), ncol=4,
+    splits<- matrix(c(rp$isplit[,2:3], rp$dsplit), ncol=5,
 		     dimnames=list(tname[rp$isplit[,1]+1],
-			      c("count", "ncat", "improve", "index")))
+			  c("count", "ncat", "improve", "index", "adj")))
     index <- rp$inode[,2]  #points to the first split for each node
 
     # Now, make ordered categories look like categories again (a printout
@@ -137,7 +145,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 	cvar <- rp$isplit[,1]
 	indx <- isord[cvar]		     # vector of T/F
 	cdir <- splits[indx,2]               # which direction splits went
-	ccut <- floor(splits[indx,4])        # cut point	
+	ccut <- floor(splits[indx,4])        # cut point
 	splits[indx,2] <- cats[cvar[indx]]   #Now, # of categories instead
 	splits[indx,4] <- ncat + 1:nadd      # rows to contain the splits
 
@@ -165,8 +173,9 @@ rpart <- function(formula, data=NULL, weights, subset,
     frame <- data.frame(row.names=rp$inode[,1],
 			   var=  factor(svar, 0:ncol(X), tname),
 			   n =   rp$inode[,5],
+			   wt=   rp$dnode[,3],
 			   dev=  rp$dnode[,1],
-			   yval= rp$dnode[,3],
+			   yval= rp$dnode[,4],
 			   complexity=rp$dnode[,2],
 			   ncompete  = pmax(0, rp$inode[,3]-1),
 			   nsurrogate=rp$inode[,4])
@@ -175,18 +184,18 @@ rpart <- function(formula, data=NULL, weights, subset,
 			   dimnames=list(NULL, c("cutleft", "cutright")))
     if (method=='class') {
         numclass <- init$numresp -1
-        temp <- rp$dnode[,-(1:3)] %*% diag(init$parms[1:numclass]*nobs /
-						 init$counts)
+        temp <- rp$dnode[,-(1:4)] %*% diag(init$parms[1:numclass]*
+					   sum(init$counts)/init$counts)
         frame$yprob <- matrix(temp /c(temp %*% rep(1,numclass)) ,
 			   ncol=numclass, dimnames=list(NULL, init$ylevels))
-        frame$yval2 <- matrix(rp$dnode[, -(1:3)], ncol=numclass,
+        frame$yval2 <- matrix(rp$dnode[, -(1:4)], ncol=numclass,
         		    dimnames=list(NULL, init$ylevels))
-	}	
-    else if (method=='poisson' | method=='exp') frame$yval2 <- rp$dnode[,4]
+	}
+    else if (method=='poisson' | method=='exp') frame$yval2 <- rp$dnode[,5]
 
-    ans <- list(frame = frame, 
+    ans <- list(frame = frame,
                 where = structure(rp$which, names = row.names(m)),
-                call=call, terms=Terms, 
+                call=call, terms=Terms,
     		cptable =  t(rp$cptable),
 		splits = splits,
 		method = method,
@@ -199,10 +208,13 @@ rpart <- function(formula, data=NULL, weights, subset,
 	if (missing(y)) y <- F
 	}
     if (y) ans$y <- Y
-    if (x) ans$x <- X
+    if (x) {
+	ans$x <- X
+	ans$wt<- wt
+	}
     ans$control <- controls
     if (!is.null(xlevels)) attr(ans, 'xlevels') <- xlevels
     if(method=='class') attr(ans, "ylevels") <- init$ylevels
-    class(ans) <- c("rpart")
+    class(ans) <- "rpart"
     ans
     }

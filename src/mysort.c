@@ -1,6 +1,6 @@
-/* SCCS @(#)mysort.c	1.5  02/08/98 */
+/* SCCS @(#)mysort.c	1.6 12/13/99 */
 /*
-** quick sort routine : sort a vector of doubles, and carry along an int
+** quick sort routine : sort a vector of floats, and carry along an int
 **
 **  x:     vector to sort on
 **  start: first element of x to sort
@@ -10,10 +10,10 @@
 #include "rpart.h"
 #include "rpartproto.h"
 
-void mysort(int start, int stop, double *x, int *cvec)
+void mysort(int start, int stop, FLOAT *x, int *cvec)
  {
  int i, j, k;
- double temp, median;
+ FLOAT temp, median;
  int tempd;
 
   while (start < stop) {

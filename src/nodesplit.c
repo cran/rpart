@@ -1,11 +1,10 @@
-/* SCCS  @(#)nodesplit.c	1.3 02/08/98 */
+/* SCCS  @(#)nodesplit.c	1.4 12/13/99 */
 /*
 ** nodesplit -- Split the node in two, and keep a count as we do of how
 **  many splits are determined by each surrogate variable.
 */
-#include "node.h"
 #include "rpart.h"
-#include "stdio.h"
+#include "node.h"
 #include "rpartproto.h"
 
 void nodesplit(struct node *me, int nodenum)
@@ -16,11 +15,11 @@ void nodesplit(struct node *me, int nodenum)
 	   extra,
 	   lastisleft,
 	   someleft;
-    double  psplit;
+    FLOAT  psplit;
     int    *index;
     int    *which;
-    long   **sorts;
-    double  **xdata;
+    int   **sorts;
+    FLOAT  **xdata;
 
     which = rp.which;
     sorts = rp.sorts;
@@ -113,9 +112,9 @@ void nodesplit(struct node *me, int nodenum)
 
     if (someleft>0 && rp.usesurrogate==2) {
 	/* all surrogates missing, use the default */
-	i = 2*me->lastsurrogate - (me->primary)->count;
+	i = me->lastsurrogate;
 	if (i !=0) {   /*50-50 splits are possible */
-	    if (i > 0) lastisleft = 2*nodenum;
+	    if (i < 0) lastisleft = 2*nodenum;
 	    else       lastisleft = 2*nodenum +1;
 
 	    for (i=0; i<rp.n; i++) {
