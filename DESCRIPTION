@@ -1,12 +1,13 @@
 Package: rpart
 Priority: recommended
-Version: 3.1-13
-Date: March 2002 version of rpart, R version 2003-08-03
+Version: 3.1-15
+Date: March 2002 version of rpart, R version 2003-12-08
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.
         R port by Brian Ripley <ripley@stats.ox.ac.uk>.
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Description: Recursive partitioning and regression trees
-Title: Recursive partitioning
-Depends: R (>= 1.8.0), survival
+Title: Recursive Partitioning
+Depends: R (>= 1.9.0), survival
 License: use under GPL2, or see file LICENCE
 URL: S-PLUS 6.x original at http://www.mayo.edu/hsr/Sfunc.html
+Packaged: Sun Mar 14 11:34:57 2004; ripley

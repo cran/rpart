@@ -1,3 +1,8 @@
+2004 Mar 14	3.1-15	Changes for R 1.9.0.
+
+2003 Nov 18     3.1-14  Test newdata types in predict.rpart
+	                Correct documentation for `y' in rpart.Rd
+
 2003 Jul 20     3.1-13  Remove unused vars
 
 2003 Mar 15	3.1-12	Update NAMESPACE file

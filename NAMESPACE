@@ -13,6 +13,12 @@ export(meanvar, na.rpart, path.rpart, plotcp, post,
 # export(pred.rpart, rpart.anova, rpart.class, rpart.exp,
 #       rpart.poisson, rpart.matrix)
 
+importFrom(stats, model.frame)
+importFrom(graphics, plot)
+importFrom(stats, predict)
+importFrom(stats, residuals)
+importFrom(graphics, text)
+
 S3method(labels, rpart)
 S3method(meanvar, rpart)
 S3method(model.frame, rpart)

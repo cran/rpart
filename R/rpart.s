@@ -2,7 +2,7 @@
 #
 #  The recursive partitioning function, for S
 #
-rpart <- function(formula, data=NULL, weights, subset,
+rpart <- function(formula, data, weights, subset,
 		   na.action=na.rpart, method, model=FALSE, x=FALSE, y=TRUE,
 		   parms, control, cost, ...)
 {
@@ -17,7 +17,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 	m$x <- m$y <- m$parms <- m$... <- NULL
 	m$cost <- NULL
 	m$na.action <- na.action
-	m[[1]] <- as.name("model.frame.default")
+	m[[1]] <- as.name("model.frame")
 	m <- eval(m, parent.frame())
 	}
     Terms <- attr(m, "terms")
