@@ -50,7 +50,6 @@ a plot is put on the current graphics device.
  \code{\link{plot.rpart}}.   
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 meanvar(z.auto, log='xy')
 }

@@ -101,7 +101,6 @@ Wadsworth.
   \code{\link{summary.rpart}}, \code{\link{print.rpart}}
 }
 \examples{
-data(kyphosis)
 fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
 fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
               parms=list(prior=c(.65,.35), split='information'))

@@ -79,7 +79,6 @@ of that factor level.
   \code{\link{post.rpart}}, \code{\link{abbreviate}} 
 }
 \examples{
-data(freeny)
 freen.tr <- rpart(y ~ ., freeny)
 plot(freen.tr)
 text(freen.tr, use.n=TRUE, all=TRUE)

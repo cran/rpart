@@ -32,7 +32,6 @@ A new \code{rpart} object that is trimmed to the value \code{cp}.
 \code{\link{rpart}} 
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 zp <- prune(z.auto, cp=0.1)
 plot(zp) #plot smaller rpart object

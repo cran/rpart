@@ -7,7 +7,7 @@
   representing data on children who have had corrective spinal surgery
 }
 \usage{
-data(kyphosis)
+kyphosis
 }
 \format{
 This data frame contains the following columns:
@@ -35,7 +35,6 @@ the number of the first (topmost) vertebra operated on.
   Pacific Grove, CA 1992.
 }
 \examples{
-data(kyphosis)
 fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
 fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
               parms=list(prior=c(.65,.35), split='information'))

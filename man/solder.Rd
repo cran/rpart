@@ -8,7 +8,7 @@
   soldering of components on printed-circuit boards.
 }
 \usage{
-data(solder)
+solder
 }
 \format{
 This data frame contains the following columns:
@@ -61,7 +61,6 @@ a numeric vector giving the number of visible solder skips.
   Pacific Grove, CA 1992.
 }
 \examples{
-data(solder)
 fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
        data=solder, method='anova')
 summary(residuals(fit))

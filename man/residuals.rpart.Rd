@@ -46,7 +46,6 @@ vector of residuals of type \code{type} from a fitted \code{rpart} object.
   London: Chapman and Hall.
 }
 \examples{
-data(solder)
 fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
        data=solder, method='anova')
 summary(residuals(fit))

@@ -50,7 +50,6 @@ the number of digits of numbers to print.
   \code{\link{summary.rpart}},  \code{\link{printcp}}   
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 z.auto
 \dontrun{node), split, n, deviance, yval

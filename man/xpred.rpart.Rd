@@ -39,7 +39,6 @@ a \code{rpart} object.
 \code{\link{rpart}} 
 }
 \examples{
-data(car.test.frame)
 fit <- rpart(Mileage ~ Weight, car.test.frame)
 xmat <- xpred.rpart(fit)
 xerr <- (xmat - car.test.frame$Mileage)^2

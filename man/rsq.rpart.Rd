@@ -25,7 +25,6 @@ rsq.rpart(x)
   The labels are only appropriate for the \code{"anova"} method.
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 rsq.rpart(z.auto)
 }

@@ -71,18 +71,15 @@
 \code{\link{predict}},  \code{\link{rpart.object}}   
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 predict(z.auto)
 
-data(kyphosis)
 fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
 predict(fit, type="prob")   # class probabilities (default)
 predict(fit, type="vector") # level numbers
 predict(fit, type="class")  # factor
 predict(fit, type="matrix") # level number, class frequencies, probabilities
 
-data(iris)
 sub <- c(sample(1:50, 25), sample(51:100, 25), sample(101:150, 25))
 fit <- rpart(Species ~ ., data=iris, subset=sub)
 fit

@@ -69,7 +69,6 @@ options.
 \code{\link{plot.rpart}},  \code{\link{rpart}},  \code{\link{text.rpart}},  \code{\link{abbreviate}}   
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 post(z.auto, file = "")   # display tree on active device
    # now construct postscript version on file "pretty.ps"

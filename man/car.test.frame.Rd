@@ -9,7 +9,7 @@
   columns of which are given in \code{\link{cu.summary}}.
 }
 \usage{
-data(car.test.frame)
+car.test.frame
 }
 \format{
 This data frame contains the following columns:
@@ -62,7 +62,6 @@ the net horsepower of the vehicle.
 }
 \seealso{\code{\link{cu.summary}}}
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 summary(z.auto)
 }

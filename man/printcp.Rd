@@ -25,7 +25,6 @@ Prints a table of optimal prunings based on a complexity parameter.
 \code{\link{summary.rpart}},  \code{\link{rpart.object}}   
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 printcp(z.auto)
 \dontrun{

@@ -38,7 +38,6 @@
   \code{\link{summary}}, \code{\link{rpart.object}}, \code{\link{printcp}}.
 }
 \examples{
-data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 summary(z.auto)
 }
