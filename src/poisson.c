@@ -3,11 +3,8 @@
 **  The functions for poisson based regression
 */
 #include <math.h>
+#include "rpart.h"
 #include "rpartS.h"
-
-#define LEFT  -1     /*used for the variable "extra" in nodes */
-#define RIGHT  1
-#define MISSING 0
 
 static double exp_alpha,
 	      exp_beta;
@@ -170,8 +167,8 @@ void poisson(int n,       double **y,      FLOAT *x,     int nclass,
     double dev;      /*dev of the parent node (me) */
     double lambda1, lambda2;
     double best, temp;
-    int direction;
-    int where;
+    int direction = LEFT;
+    int where = 0;
     int ncat;
 
     /*

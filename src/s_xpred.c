@@ -1,5 +1,5 @@
 /*
-**  SCCS  @(#)s_xpred.c	1.12 02/15/00   
+**  SCCS  %W% %G%
 ** An S interface to "cross validated predictions"
 **    99% of this routine is a copy of s_to_rp and rpart.c
 */
@@ -9,10 +9,11 @@
 #include "rpartS.h"
 #include "rpartproto.h"
 
-void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method, 
-	     double *opt,  double *parms, int *xvals,   int *x_grp,
-	     double *ymat, FLOAT *xmat,   int *missmat, double *predict,
-	     int *ncp,    double *cp,    char **error,  double *wt)
+void s_xpred(Sint *sn, 	   Sint *nvarx,   Sint *ncat,    Sint *method, 
+	     double *opt,  double *parms, Sint *xvals,   Sint *x_grp,
+	     double *ymat, FLOAT *xmat,   Sint *missmat, double *predict,
+	     Sint *ncp,    double *cp,    char **error,  double *wt,
+	     Sint *ny)
     {
     int i,j,k;
     int maxcat;
@@ -31,7 +32,7 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
 	rp_choose = func_table[i].choose_split;
 	rp_eval   = func_table[i].eval;
 	rp_error  = func_table[i].error;
-	rp.num_y  = func_table[i].num_y;
+	rp.num_y  = *ny;
 	}
     else {
 	*error = "Invalid value for 'method'";
@@ -56,14 +57,14 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
 
     rp.min_node =  opt[1];
     rp.min_split = opt[0];
-    rp.complex   = opt[2];
+    rp.complexity= opt[2];
     maxpri       = opt[3] +1;
     rp.maxpri = maxpri;
     if (maxpri <1) rp.maxpri =1;
     rp.maxsur = opt[4];
     rp.usesurrogate = opt[5];
     rp.sur_agree = opt[6];
-    rp.maxnode  = pow((double)2.0, opt[8]) -1;
+    rp.maxnode  = pow((double)2.0, opt[7]) -1;
 
     /*
     ** create the "ragged array" pointers to the matrix
@@ -92,7 +93,7 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
     **   of the 'missmat' array.
     ** I don't have to sort the categoricals.
     */
-    rp.sorts  = (int**) ALLOC(nvar, sizeof(int *));
+    rp.sorts  = (Sint**) ALLOC(nvar, sizeof(Sint *));
     maxcat=0;
     for (i=0; i<nvar; i++) {
 	rp.sorts[i] = &(missmat[i*n]); 
@@ -128,7 +129,7 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
     */
     xtree = (struct node *) ALLOC(1, nodesize);
     (*rp_eval)(n, rp.ydata, xtree->response_est, &(xtree->risk), rp.wt);
-    rp.alpha = rp.complex * (xtree)->risk;
+    rp.alpha = rp.complexity * (xtree)->risk;
 
     /*
     ** do the validations

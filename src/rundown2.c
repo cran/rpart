@@ -5,8 +5,8 @@
 ** (A subset of rundown.c, which also returns the prediction error).
 */
 #include <stdio.h>
-#include "node.h"
 #include "rpart.h"
+#include "node.h"
 #include "rpartproto.h"
 
 void rundown2(struct node *tree, int obs, double *cp, double *xpred)

@@ -21,7 +21,7 @@ void bsplit(struct node *me, int nodenum)
     double improve;
     FLOAT split;
     struct split *tsplit;
-    int *index;
+    Sint *index;
     int  *which;
     FLOAT *xtemp;  /*these 3 because I got tired of typeing "rp.xtemp", etc*/
     double **ytemp;
@@ -53,7 +53,7 @@ void bsplit(struct node *me, int nodenum)
 
 	(*rp_choose)(k, ytemp, xtemp, nc, rp.min_node, &improve,
 			     &split, rp.csplit, me->risk, wtemp);
-	if (improve >0) {
+	if (improve > 1e-10) {
 	    tsplit = insert_split(&(me->primary), nc, improve, rp.maxpri);
 	    if (tsplit !=0) {
 		tsplit->improve = improve;

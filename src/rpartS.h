@@ -1,4 +1,4 @@
-/* SCCS @(#)rpartS.h	1.3 05/12/99 */
+/* SCCS @(#)rpartS.h	1.6 02/24/00 */
 /*
 **   The S.h file defines a few things that I need, and hundreds that I don't.
 ** In particular, on some architectures, it defines a variable "time"
@@ -28,4 +28,8 @@
 
 #ifndef FLOAT
 #define FLOAT double    /* see rpart.h */
+#endif
+
+#ifndef Sint
+#define Sint int
 #endif

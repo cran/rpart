@@ -1,10 +1,11 @@
 # Any necessary setup
 library(rpart)
-library(survival5)
+library(survival)
 data(state)
 data(cu.summary)
 data(kyphosis)
 options(na.action="na.omit")
+options(digits=4) # to match earlier output
 set.seed(1234)
 #
 # Read the data
@@ -134,7 +135,7 @@ fit1b <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
                 method='poisson', weights=wts)
 fit1b$frame$wt   <- fit1b$frame$wt/3
 fit1b$frame$dev  <- fit1b$frame$dev/3
-fit1b$frame$yval2<- fit1b$frame$yval2/3
+fit1b$frame$yval2[,2] <- fit1b$frame$yval2[,2]/3
 fit1b$splits[,3] <- fit1b$splits[,3]/3
 all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 
@@ -241,8 +242,8 @@ carfit2 <- rpart(Reliability ~ Price + Country + Mileage + Type,
 
 all.equal(carfit$frame$wt,    carfit2$frame$wt/3)
 all.equal(carfit$frame$dev,   carfit2$frame$dev/3)
-all.equal(carfit$frame$yval2, carfit2$frame$yval2/3)
-all.equal(carfit$frame[,5:10], carfit2$frame[,5:10])
+all.equal(carfit$frame[,5:7], carfit2$frame[,5:7])
+all.equal(carfit$frame$yval2[,7:11], carfit2$frame$yval2[,7:11])
 all.equal(carfit[c('where', 'csplit')],
 	  carfit2[c('where', 'csplit')])
 xx <- carfit2$splits
@@ -268,7 +269,7 @@ fit1b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 fit1b$frame$wt   <- fit1b$frame$wt/3
 fit1b$frame$dev  <- fit1b$frame$dev/3
-fit1b$frame$yval2<- fit1b$frame$yval2/3
+fit1b$frame$yval2[,2:3] <- fit1b$frame$yval2[,2:3]/3
 fit1b$splits[,3] <- fit1b$splits[,3]/3
 all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 

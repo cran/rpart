@@ -1,7 +1,7 @@
 \name{text.rpart}
 \alias{text.rpart}
 \title{
-  Place Text on a Dendrogram
+  Place Text on a Dendrogram 
 }
 \description{
   Labels the current plot of the tree dendrogram with text.
@@ -22,7 +22,12 @@ text.rpart(x, splits=T, label="yval", FUN=text, all=FALSE,
   labeled with the criterion for the split.
 }
 \item{label}{
-  a column name of \code{x$frame};  values of this will label the nodes.
+a column name of \code{x$frame};  values of this
+will label the nodes.  For the \code{"class"} method,
+\code{label="yval"} results in the factor levels
+being used, \code{"yprob"} results in the probability of the winning factor
+level being used, and 'specific yval level' results in the probability
+of that factor level.   
 }
 \item{FUN}{
   the name of a labeling function, e.g. \code{text}.  
@@ -51,13 +56,13 @@ text.rpart(x, splits=T, label="yval", FUN=text, all=FALSE,
   nodes are labeled by left and right splits.
 }
 \item{fwidth}{
-  Relates to option fancy and the width of the ellipses and rectangles.
+  Relates to option \code{fancy} and the width of the ellipses and rectangles.
   If \code{fwidth < 1} then it is a scaling factor (default = .8).  If 
   \code{fwidth > 1} then it representes the number of character widths 
   (for current graphical device) to use.
 }
 \item{fheight}{
-  Relates to option fancy and the height of the ellipses and rectangles.
+  Relates to option \code{fancy} and the height of the ellipses and rectangles.
   If \code{fheight <1} then it is a scaling factor (default = .8).  If
   \code{fheight > 1} then it represents the number of character heights 
   (for current graphical device) to use.
@@ -79,5 +84,6 @@ freen.tr <- rpart(y ~ ., freeny)
 plot(freen.tr)
 text(freen.tr, use.n=TRUE, all=TRUE)
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

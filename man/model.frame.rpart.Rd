@@ -1,7 +1,7 @@
 \name{model.frame.rpart}
 \alias{model.frame.rpart}
 \title{
-Create a Model Frame for fitting an Rpart Object
+  Create a Model Frame for fitting an Rpart Object 
 }
 \usage{
 model.frame.rpart(formula, \dots)
@@ -28,9 +28,6 @@ model.frame.rpart(formula, \dots)
 \seealso{
   \code{\link{model.frame}}
 }
-\keyword{rpart}
-
-
-
-
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

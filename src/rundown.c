@@ -4,8 +4,8 @@
 **    for several CP values at once.
 */
 #include <stdio.h>
-#include "node.h"
 #include "rpart.h"
+#include "node.h"
 #include "rpartproto.h"
 
 void rundown(struct node *tree,  int obs,     double *cp, 

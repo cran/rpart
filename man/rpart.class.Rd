@@ -7,15 +7,15 @@
   Set up for the \code{class} method for an \code{rpart} model.
 }
 \usage{
-rpart.class(y, offset, parms)
+rpart.class(y, offset, parms, wt)
 }
 \value{
-  Returns a list consisting of \code{y}, \code{parms}, \code{numresp},
-  \code{counts}, and \code{ylevels}. \code{rpart.class} is used
-  only by the function \code{rpart}.
+Returns a list consisting of \code{y}, \code{parms}, \code{numresp}, \code{counts}, and \code{ylevels}. 
+\code{rpart.class} is used only by the function \code{rpart}. 
 }
 \seealso{
-  \code{\link{rpart}}
+\code{\link{rpart}} 
 }
-\keyword{rpart}
-% Converted by Sd2Rd version 0.3-1.
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

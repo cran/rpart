@@ -1,8 +1,8 @@
-#SCCS @(#)rpart.exp.s	1.4 12/13/99
+#SCCS %W% %G%
 # rescaled exponential splitting
 rpart.exp <- function(y, offset, parms, wt) {
 
-    if (!inherits(y, "Surv"))
+    if (!inherits(y, "Surv")) 
 	   stop("Response must be a survival object - use the Surv() function")
 
     if (ncol(y) !=2) stop("Can't use (start, stop] data")
@@ -14,7 +14,7 @@ rpart.exp <- function(y, offset, parms, wt) {
     #
     n  <- nrow(y)
     ord <- order(y[,1])
-    temp <- .C("rpartexp", as.integer(n),
+    temp <- .C("rpartexp", as.integer(n),	
 		              as.double(y[ord,]),
 		              as.double(wt[ord]),
 		              newy = double(n),
@@ -29,12 +29,18 @@ rpart.exp <- function(y, offset, parms, wt) {
 	if (is.null(parms$method)) method <- 1
 	else method <- pmatch(parms$method, c("deviance", "sqrt"))
 	if (is.na(method)) stop("Invalid error method for Poisson")
-
+	
 	if (is.null(parms$shrink)) shrink <- 2-method
 	else shrink <- parms$shrink
-	if (!is.numeric(shrink) || shrink < 0)
+	if (!is.numeric(shrink) || shrink < 0) 
 		stop("Invalid shrinkage value")
 	parms <- c(shrink=shrink, method=method)
 	}
-    list(y=cbind(newy, y[,2]), parms=parms, numresp=2)
+    list(y=cbind(newy, y[,2]), parms=parms, numresp=2, numy=2,
+	 summary= function(yval, dev, wt, ylevel, digits) {
+	     paste("  events=", formatg(yval[,2]),
+		",  estimated rate=" , formatg(yval[,1], digits),
+		" , mean deviance=",formatg(dev/wt, digits),
+		sep = "")
+	     })
     }

@@ -1,16 +1,12 @@
-#sccs @(#)text.rpart.s	1.8 02/07/00
+# SCCS %W% %G%
 # This is a modification of text.tree.
 # Fancy option has been added in (to mimic post.tree)
 #
 
 text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
-		        pretty = NULL, digits = .Options$digits - 3,
+		        pretty = NULL, digits = getOption("digits") - 3,
                         use.n=FALSE, fancy=FALSE, fwidth=.8, fheight =.8, ...)
 {
-  FUN1 <- function(x, y, lab,...){
-    ind <- lab != "NA"
-    FUN(x[ind], y[ind], lab[ind], ...)
-  }
 	if(!inherits(x, "rpart")) stop("Not legitimate rpart")
 	frame <- x$frame
 	col <- names(frame)
@@ -49,30 +45,34 @@ text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
 		  rightptx <- (xytmp$x[3,]+xytmp$x[4,])/2
 		  rightpty <- (xytmp$y[3,]+xytmp$y[4,])/2
 
-		  FUN1(leftptx,leftpty+.52*cxy[2],
-		      rows[left.child[!is.na(left.child)]])
-		  FUN1(rightptx,rightpty-.52*cxy[2],
-		      rows[right.child[!is.na(right.child)]])
+		  FUN(leftptx,leftpty+.52*cxy[2],
+		      rows[left.child[!is.na(left.child)]],...)
+		  FUN(rightptx,rightpty-.52*cxy[2],
+		      rows[right.child[!is.na(right.child)]],...)
 		}
 
-		else FUN1(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
+		else FUN(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
 	}
 	leaves <- if(all) rep(T, nrow(frame)) else frame$var == "<leaf>"
         if(method=='class') {
+	    nclass <- (ncol(frame$yval2)-1) /2
+	    ycount <- frame$yval2[, 1 + 1:nclass]
+	    yprob  <- frame$yval2[, 1+nclass + 1:nclass]
+
             if (label=='yval') stat <- ylevels[frame$yval[leaves]]
 	    else  if(!is.na(lev <- match(label, ylevels)))
-		stat <- format(signif(frame$yprob[leaves, lev],
+		stat <- format(signif(yprob[leaves, lev],
 				      digits = digits))
             else if(label=='yprob'){
                 sub <- matrix(c(1:length(frame$yval),frame$yval),
 		              nrow=length(frame$yval))
-	        stat <- format(signif(frame$yprob[sub][leaves],
+	        stat <- format(signif(yprob[sub][leaves],
 				      digits = digits))
 				      }
             else stat <- format(signif(frame[leaves,label],digits=digits))
             if(use.n)
 		  stat <- paste(stat,'\n','(',
-			   apply(frame$yval2[leaves,], 1, paste, collapse='/'),
+			   apply(ycount[leaves,], 1, paste, collapse='/'),
       			     ')', sep='')
 	      }
 	else if(method=='anova') {
@@ -85,7 +85,7 @@ text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
 	   stat <- format(signif(frame[leaves, label], digits = digits))
 	   if(use.n)
              { stat <-
-	     paste(stat,'\n', frame$yval2[leaves],'/',frame$n[leaves], sep="")
+	     paste(stat,'\n', frame$yval2[leaves,2],'/',frame$n[leaves], sep="")
 	       }
 
 	 }
@@ -141,6 +141,3 @@ text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
 
 	invisible()
 }
-
-
-

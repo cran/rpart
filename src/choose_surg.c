@@ -12,7 +12,7 @@
 #include "rpart.h"
 #include "rpartproto.h"
 
-void choose_surg(int nodenum,    int *y,         FLOAT *x,     int *order, 
+void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order, 
 		 int ncat,    double *agreement, FLOAT *split, int *csplit,
 		 double tleft,double tright,     double *adj)
     {
@@ -22,7 +22,7 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     int *order,
     int ll, lr, rr, rl;
     double llwt, lrwt, rrwt, rlwt;   /* sum of weights for each */
     int defdir;
-    FLOAT lastx;
+    FLOAT lastx = 0.0;
     int  *which, *left, *right;
     double *lwt, *rwt;
     double majority, total_wt;

@@ -1,4 +1,4 @@
-#SCCS @(#)rpart.poisson.s	1.3 12/13/99
+#SCCS %W% %G%
 rpart.poisson <- function(y, offset, parms, wt) {
     if (is.matrix(y)) {
 	if (ncol(y)!=2) stop("response must be a 2 column matrix or a vector")
@@ -17,14 +17,20 @@ rpart.poisson <- function(y, offset, parms, wt) {
 	if (is.null(parms$method)) method <- 1
 	else method <- pmatch(parms$method, c("deviance", "sqrt"))
 	if (is.na(method)) stop("Invalid error method for Poisson")
-
+	
 	if (is.null(parms$shrink)) shrink <- 2- method
 	else shrink <- parms$shrink
 
-	if (!is.numeric(shrink) || shrink <0)
+	if (!is.numeric(shrink) || shrink <0) 
 		stop("Invalid shrinkage value")
 	parms <- c(shrink=shrink, method=method)
 	}
 
-    list(y=y, parms=parms, numresp=2)
+    list(y=y, parms=parms, numresp=2, numy=2,
+	 summary= function(yval, dev, wt, ylevel, digits) {
+	     paste("  events=", formatg(yval[,2]),
+		",  estimated rate=" , formatg(yval[,1], digits),
+		" , mean deviance=",formatg(dev/wt, digits),
+		sep = "")
+	     })
     }

@@ -1,32 +1,29 @@
 \name{print.rpart}
 \alias{print.rpart}
 \title{
-Print an Rpart Object
+  Print an Rpart Object 
 }
 \description{
-This function prints an \code{rpart} object.  It is a method for the generic
-function \code{print} of class \code{rpart}.
+This function prints an \code{rpart} object.  It is a method for the generic 
+function \code{print} of class \code{rpart}. 
 }
 \usage{
-print.rpart(x, pretty=0, spaces=2, cp=0, digits= .Options$digits - 3, \dots)
+print.rpart(x, minlength=0, spaces=2, cp=0, digits= .Options$digits - 3, \dots)
 }
 \arguments{
 \item{x}{
-fitted model object of class \code{rpart}.  This is assumed to be the result
-of some function that produces an object with the same named
-components as that returned by the \code{rpart} function.
+fitted model object of class \code{rpart}.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the \code{rpart} function. 
 }
-\item{pretty}{
-a logical or \code{NULL} denoting the extent to which factor levels in split
-labels will be abbreviated.  A value of \code{FALSE} signifies no
-abbreviation.  A \code{NULL} signifies using elements of letters to represent
-the different factor levels.
+\item{minlength}{
+Controls the abbreviation of labels: see \code{\link{labels.rpart}}.
 }
 \item{spaces}{
-the number of spaces to indent nodes of increasing depth.
+the number of spaces to indent nodes of increasing depth. 
 }
 \item{digits}{
-the number of digits of numbers to print.
+the number of digits of numbers to print. 
 }
 \item{cp}{
 prune all nodes with a complexity less than \code{cp} from the printout.
@@ -39,13 +36,13 @@ deviance, and fitted value.  For the \code{"class"} method, \code{yprob} is also
 printed. 
 }
 \details{
-This function is a method for the generic function \code{print} for class
-\code{"rpart"}.  It can be invoked by calling print for an object of the
-appropriate class, or directly by calling \code{print.rpart} regardless of
-the class of the object.
+This function is a method for the generic function \code{print} for class 
+\code{"rpart"}.  It can be invoked by calling print for an object of the 
+appropriate class, or directly by calling \code{print.rpart} regardless of 
+the class of the object. 
 }
 \seealso{
-\code{\link{print}}, \code{\link{rpart.object}}, \code{\link{summary.rpart}}, \code{\link{printcp}}
+\code{\link{print}},  \code{\link{rpart.object}},  \code{\link{summary.rpart}},  \code{\link{printcp}}   
 }
 \examples{
 data(car.test.frame)
@@ -62,5 +59,6 @@ z.auto
   3) Weight<2567.5 15  186.90 30.93 *
 }
 }
-\keyword{rpart}
-% Converted by Sd2Rd version 0.3-1.
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

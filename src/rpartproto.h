@@ -1,5 +1,5 @@
 /*
-**  SCCS  @(#)rpartproto.h	1.3 01/06/00
+**  SCCS  @(#)rpartproto.h	1.4 04/30/01
 ** prototypes for all of the rpart functions
 **   This helps the ansi compiler do tight checking.
 **
@@ -9,7 +9,7 @@ struct node *branch(struct node *tree, int obs);
 
 void bsplit(struct node *me, int nodenum);
 
-void choose_surg(int nodenum,    int *y,            FLOAT *x,     int *order, 
+void choose_surg(int nodenum,    int *y,            FLOAT *x,     Sint *order, 
 		 int ncat,       double *agreement, FLOAT *split, int *csplit,
 		 double ltot,    double rtot,       double *adj);
 
@@ -36,48 +36,58 @@ void nodesplit(struct node *me, int nodenum);
 
 int partition(int nodenum, struct node *splitnode, double *sumrisk);
 
-void pred_rpart(int *dimx,	int *nnode, 	int *nsplit, 	int *dimc, 
-		int *nnum,  	int *nodes2,   int *vnum,     double *split2,
-		int *csplit2,  int *usesur,   double *xdata2, 
-		int *xmiss2,   int *where);
+void pred_rpart(Sint *dimx,	Sint *nnode, 	Sint *nsplit, 	Sint *dimc, 
+		Sint *nnum,  	Sint *nodes2,   Sint *vnum,     double *split2,
+		Sint *csplit2,  Sint *usesur,   double *xdata2, 
+		Sint *xmiss2,   Sint *where);
 
-int rpart(int n,         int nvarx,      int *ncat,     int method, 
+int rpart(int n,         int nvarx,      Sint *ncat,     int method, 
           int  maxpri,   double *parms,  double *ymat,   FLOAT *xmat,
-          int *missmat, struct cptable *cptable,
+          Sint *missmat, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
-	  int xvals,     int *x_grp,    double *wt,     double *opt) ;
+	  int xvals,     Sint *x_grp,    double *wt,     double *opt,
+	  int ny) ;
 
-void rpcountup(struct node *me, int *nnode, int *nsplit, int *ncat);
+void rpart_callback0(int *nr);
 
-void rplabel(int *nsplit,   int *index,   double *splits, 
-             int *ncat,     int *csplit,  char   **cutleft, char **cutright);
+void rpart_callback1(int n, double *y[], double *wt, double *z);
 
-void rpmatrix(struct node *me,  int *nodecount,   int *splitcount, 
-	      int *catcount,   int *numcat,      double **dsplit,
-	      int **isplit,    int **csplit,     double **dnode, 
-	      int **inode,     int id);
+void rpart_callback (int n, int ncat, double *y[], double *wt, 
+		     FLOAT *x, double *good);
+
+void rpcountup(struct node *me, Sint *nnode, Sint *nsplit, int *ncat);
+
+void rplabel(Sint *nsplit,   Sint *index,   double *splits, 
+             Sint *ncat,     Sint *csplit,  char   **cutleft, char **cutright);
+
+void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount, 
+	      Sint *catcount,   Sint *numcat,      double **dsplit,
+	      Sint **isplit,    Sint **csplit,     double **dnode, 
+	      Sint **inode,     int id);
 
 void rundown(struct node *tree,  int obs,     double *cp, 
 	     double *xpred,      double *xtemp);
 
 void rundown2(struct node *tree, int obs, double *cp, double *xpred);
 
-void s_to_rp(int *n, 	  int *nvarx, 	 int *ncat, 	int *method, 
-	     double *opt, double *parms, int *xvals,   int *x_grp,
-	     double *y,   FLOAT  *xmat,  int *missmat, char **error,
-	     double *wt);
+void s_to_rp(Sint *n, 	  Sint *nvarx, 	 Sint *ncat, 	Sint *method, 
+	     double *opt, double *parms, Sint *xvals,   Sint *x_grp,
+	     double *y,   FLOAT  *xmat,  Sint *missmat, char **error,
+	     double *wt,  Sint   *ny);
 
-void s_to_rp2(int *n,         int *nsplit,    int *nnode,     int *ncat, 
-	      int *numcat,    int *maxcat,    int *xvals,     int *which, 
-	      double *cptable, double *dsplit,  int *isplit,    int *csplit,
-	      double *dnode,   int *inode);
+void s_to_rp2(Sint *n,         Sint *nsplit,    Sint *nnode,     Sint *ncat, 
+	      Sint *numcat,    Sint *maxcat,    Sint *xvals,     Sint *which, 
+	      double *cptable, double *dsplit,  Sint *isplit,    Sint *csplit,
+	      double *dnode,   Sint *inode);
 
-void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method, 
-	     double *opt,  double *parms, int *xvals,   int *x_grp,
-	     double *ymat, FLOAT  *xmat,  int *missmat, double *predict,
-	     int *ncp,    double *cp,    char **error,  double *wt);
+void s_xpred(Sint *sn, 	   Sint *nvarx,   Sint *ncat,    Sint *method, 
+	     double *opt,  double *parms, Sint *xvals,   Sint *x_grp,
+	     double *ymat, FLOAT  *xmat,  Sint *missmat, double *predict,
+	     Sint *ncp,    double *cp,    char **error,  double *wt,
+	     Sint *ny);
 
 void surrogate(struct node *me, int nodenum);
 
-void xval(int n_xval,  struct cptable *cptable_head,  int *x_grp, 
+void xval(int n_xval,  struct cptable *cptable_head,  Sint *x_grp, 
 	  int maxcat,  char **error,                  double * parms);
+

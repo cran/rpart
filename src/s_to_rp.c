@@ -1,4 +1,4 @@
-/* SCCS @(#)s_to_rp.c	1.14 01/06/00 */
+/* SCCS %W% %G%  */
 /*
 ** An S interface to the the recursive partitioning routines.
 */
@@ -12,10 +12,10 @@ static struct cptable cptab;
 static struct node *tree;
 static int *savewhich;
 
-void s_to_rp(int *n, 	  int *nvarx, 	 int *ncat, 	int *method, 
-	     double *opt, double *parms, int *xvals,   int *x_grp,
-	     double *y,   FLOAT *xmat,   int *missmat, char **error,
-	     double *wt)
+void s_to_rp(Sint *n, 	  Sint *nvarx, 	 Sint *ncat, 	Sint *method, 
+	     double *opt, double *parms, Sint *xvals,   Sint *x_grp,
+	     double *y,   FLOAT *xmat,   Sint *missmat, char **error,
+	     double *wt,  Sint  *ny)
     {
     int itemp;
     int maxpri;
@@ -31,7 +31,7 @@ void s_to_rp(int *n, 	  int *nvarx, 	 int *ncat, 	int *method,
 	           maxpri,      parms,       y,            xmat,        
 		  missmat,     &cptab,      &tree,        &(error[0]), 
 		  savewhich,  (int)*xvals,  x_grp,         wt,         
-		  opt);
+		  opt,        (int)ny[0]);
     /*
     ** count up the number of nodes, splits, categorical splits, and cp's
     */
@@ -46,17 +46,17 @@ void s_to_rp(int *n, 	  int *nvarx, 	 int *ncat, 	int *method,
 **   (the list heads are static).  S then calls again with appropriately
 **   sized arrays to this routine. This stuffs the arrays and frees the memory
 */
-void s_to_rp2(int *n,         int *nsplit,    int *nnode,     int *ncat, 
-	      int *numcat,    int *maxcat,    int *xvals,     int *which, 
-	      double *cptable, double *dsplit,  int *isplit,    int *csplit,
-	      double *dnode,   int *inode)
+void s_to_rp2(Sint *n,         Sint *nsplit,    Sint *nnode,     Sint *ncat, 
+	      Sint *numcat,    Sint *maxcat,    Sint *xvals,     Sint *which, 
+	      double *cptable, double *dsplit,  Sint *isplit,    Sint *csplit,
+	      double *dnode,   Sint *inode)
     {
     int i;
     int  nodenum, j;
     struct cptable *cp, *cp2;
     double **ddnode  , *ddsplit[3];
-    int   *iinode[6], *iisplit[3];
-    int   **ccsplit;
+    Sint   *iinode[6], *iisplit[3];
+    Sint   **ccsplit;
     double scale;
     /*
     ** create the "ragged array" pointers to the matrices
@@ -80,7 +80,7 @@ void s_to_rp2(int *n,         int *nsplit,    int *nnode,     int *ncat,
     **  4 extra bytes is any big deal....
     */
     if (*maxcat==0) i=1; else i = *maxcat;
-    ccsplit = (int **)CALLOC(i, sizeof(int *));
+    ccsplit = (Sint **)CALLOC(i, sizeof(Sint *));
     for (i=0; i<*maxcat; i++) {
 	ccsplit[i] = csplit;   csplit += *ncat;
 	}

@@ -8,8 +8,8 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     node <- as.numeric(row.names(frame))
     depth <- tree.depth(node)
     is.leaf <- (frame$var == '<leaf>')
-    if (exists(parms)) {
-	parms <- get(parms)
+    if (exists(parms, envir=.GlobalEnv)) {
+	parms <- get(parms, envir=.GlobalEnv)
 	uniform <- parms$uniform
 	nspace <-parms$nspace
 	minbranch <- parms$minbranch
@@ -109,7 +109,8 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	if (slide >0) { # slide the right hand node to the left
 	    x[right$sons] <- x[right$sons] - slide;
 	    x[me] <- (x[right$sons[1]] + x[left$sons[1]])/2
-	    assign("x", x)
+#	    assign("x", x)
+            x <<- x
 	    }
 	else slide <- 0
 
@@ -129,13 +130,14 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	     right= c(x[me]- nspace*(x[me] -x[rson]), tempr),
 	     depth= maxd+ depth, sons=c(me, left$sons, right$sons))
 	}
-    assign('compress', compress)
-    assign('x', x)
-    assign('is.leaf', is.leaf)
-    assign('nspace', nspace)
+#    assign('compress', compress)
+#    assign('x', x)
+#    assign('is.leaf', is.leaf)
+#    assign('nspace', nspace)
 
-    temp <- compress(1, 1)
-    x <- get('x')
+#    temp <-
+    compress(1, 1)
+#    x <- get('x')
 #    remove(c('compress', 'x', 'is.leaf', 'nspace'))
     list(x = x, y = y)
 }

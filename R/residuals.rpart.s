@@ -1,5 +1,6 @@
 #SCCS  @(#)residuals.rpart.s	1.7 02/11/00
 
+
 residuals.rpart <- function(object, type)
     {
 
@@ -11,8 +12,15 @@ residuals.rpart <- function(object, type)
         if(is.null(y <- object$y))
                 y <- model.extract(model.frame(object), "response")
         frame <- object$frame
-        if(is.null(ylevels <- attr(object, "ylevels")))
-                return(y - frame$yval[object$where])    #       y <- unclass(y)
+
+        if(is.null(ylevels <- attr(object, "ylevels"))) {
+                tmpr <-y - frame$yval[object$where]    #       y <- unclass(y)
+		#Expand out the missing values in the result
+                if (!is.null(object$na.action)) 
+               	   tmpr <- naresid(object$na.action, tmpr)
+                return(tmpr)
+	      }
+
         if(missing(type))
                 type <- "usual"
         else if(is.na(match(type, c("usual", "pearson", "deviance"))))
@@ -39,4 +47,10 @@ residuals.rpart <- function(object, type)
 	r <- sign(events-lambdat) *
 		  sqrt(-2*((events - lambdat) + events*log(lambdat/temp)))
 	}
+
+    #Expand out the missing values in the result
+    if (!is.null(object$na.action)) 
+	r <- naresid(object$na.action, r)
+
+    r
     }

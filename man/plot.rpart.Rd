@@ -7,7 +7,7 @@ Plot an Rpart Object
 Plots an rpart object on the current graphics device.
 }
 \usage{
-plot.rpart(tree, uniform=F, branch=1, compress=F, nspace, margin=0,
+plot.rpart(tree, uniform=FALSE, branch=1, compress=FALSE, nspace, margin=0,
 		minbranch=.3, \dots)
 }
 \arguments{
@@ -29,10 +29,10 @@ with other values being intermediate.
 }
 \item{compress}{
 if \code{FALSE}, the leaf nodes will be at the horzontal plot coordinates of
-\code{1:nleaves} (like \code{plot.tree}).  
+\code{1:nleaves}.  
 If \code{TRUE}, the routine attempts a more compact arrangement of
 the tree.
-The compaction algorithm assumes \code{uniform=T}; surprisingly, the result
+The compaction algorithm assumes \code{uniform=TRUE}; surprisingly, the result
 is usually an improvement even when that is not the case.
 }
 \item{nspace}{
@@ -47,7 +47,7 @@ an extra percentage of white space to leave around the borders of the tree.
 }
 \item{minbranch}{
 set the minimum length for a branch to \code{minbranch} times the average
-branch length.  This parameter is ignored if \code{uniform=T}.
+branch length.  This parameter is ignored if \code{uniform=TRUE}.
 Sometimes a split will give very little improvement, or even (in
 the classification case) no improvement at all.  
 A tree with branch lengths strictly proportional to improvement
@@ -71,9 +71,9 @@ The y-coordinate of the top node of the tree will always be 1.
 \examples{
 data(cu.summary)
 fit <- rpart(Price ~ Mileage + Type + Country, cu.summary)
-plot(fit, compress=T)
-text(fit, use.n=T)
+plot(fit, compress=TRUE)
+text(fit, use.n=TRUE)
 }
-\keyword{rpart}
 \keyword{tree}
-% Converted by Sd2Rd version 0.3-1.
+% docclass is function
+% Converted by Sd2Rd version 1.20.

@@ -1,7 +1,7 @@
 \name{rsq.rpart}
 \alias{rsq.rpart}
 \title{
-  Plots the Approximate R-Square for the Different Splits
+  Plots the Approximate R-Square for the Different Splits 
 }
 \description{
   Produces 2 plots.  The first plots the r-square (apparent and
@@ -29,5 +29,6 @@ data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 rsq.rpart(z.auto)
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

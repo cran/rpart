@@ -18,7 +18,7 @@ snip.rpart.mouse(tree, parms=paste(".rpart.parms", dev.cur(), sep = "."))
 \item{parms}{
   Parameters carried over from the function \code{plot.rpart}
   (\code{uniform}, \code{branch}, \code{compress}, \code{nspace},
-  \code{margin}, \dots{}).  See help page for \code{plot.rpart}
+  \code{margin}, \dots{}).  See help page for \code{\link{plot.rpart}}
   for more details. 
 }}
 \value{
@@ -30,5 +30,6 @@ snip.rpart.mouse(tree, parms=paste(".rpart.parms", dev.cur(), sep = "."))
 \seealso{
   \code{\link{snip.rpart}}, \code{\link{plot.rpart}}
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

@@ -61,10 +61,6 @@ path.rpart(tree, nodes, pretty=0, print.it=TRUE)
 \seealso{
   \code{\link{rpart}}
 }
-\keyword{rpart}
-
-
-
-
-
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

@@ -1,4 +1,4 @@
-/* SCCS @(#)surrogate.c	1.6 12/13/99 */
+/* SCCS @(#)surrogate.c	1.7 04/19/01 */
 /*
 ** Calculate the surrogate splits for a node and its primary
 **    (This routine is an awful lot like bsplit)
@@ -24,12 +24,12 @@ void surrogate(struct node *me, int nodenum)
     FLOAT split;
     double improve;
     double lcount, rcount;    /* weight sent left and right by primary */
-    unsigned int extra;
+    int extra;
     struct split *ss;
     int  *index;
     int  *which,
 	 *tempy;
-    int **sorts;
+    Sint **sorts;
     FLOAT **xdata;
     int ncat;
     double adj_agree;

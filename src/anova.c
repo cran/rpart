@@ -3,10 +3,10 @@
 ** The four routines for anova splitting
 */
 #include <stdio.h>
+#include "rpart.h"
 #include "rpartS.h"
-#define LEFT  -1     /*used for the variable "extra" in nodes */
-#define RIGHT  1
-#define MISSING 0
+#include "node.h"
+#include "rpartproto.h"
 
 static double *mean, *sums;
 static double *wts;
@@ -70,9 +70,8 @@ void anova(int n,    double *y[],     FLOAT *x,     int nclass,
     double left_wt, right_wt;
     int    left_n,  right_n;
     double grandmean, best;
-    int direction;
-    int where;
-    int ncat;
+    int direction = LEFT;
+    int where = 0;
 
     /*
     ** The improvement of a node is SS - (SS_L + SS_R), where
@@ -137,7 +136,7 @@ void anova(int n,    double *y[],     FLOAT *x,     int nclass,
 
 	/* rank the classes by their mean y value */
 	for (i=0; i<n; i++) {
-	    j = x[i] -1;
+	    j = (int) x[i] -1;
 	    countn[j]++;
 	    wts[j] += wt[i];
 	    sums[j] += (*y[i] - grandmean) * wt[i];

@@ -1,6 +1,6 @@
-#SCCS  @(#)print.rpart.s	1.13 01/20/00
-print.rpart <- function(x, pretty=0, spaces=2, cp,
-               digits=.Options$digits-3, ...) {
+#SCCS  %W% %G%
+print.rpart <- function(x, minlength=0, spaces=2, cp,
+               digits=getOption("digits"), ...) {
     if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
 
     if (!missing(cp)) x <- prune.rpart(x, cp=cp)
@@ -15,27 +15,25 @@ print.rpart <- function(x, pretty=0, spaces=2, cp,
         indent <- paste(c("", indent[depth]), format(node), ")", sep = "")
         }
     else indent <- paste(format(node), ")", sep = "")
-    if (x$method=='class') {
-        if(!is.null(ylevel))
-           yval <- paste(as.character(ylevel[frame$yval]),
-                                  " (", sep = "")
-        else
-           yval <- paste(as.character(frame$yval),
-                                     " (", sep = "")
-        yprob <- format(frame$yprob,digits=digits)
-        for(i in 1:ncol(yprob))
-            yval <- paste(yval, yprob[, i])
-        yval <- paste(yval, ")")
-        }
+
+    tfun <- (x$functions)$print
+    if (!is.null(tfun)) {
+	if (is.null(frame$yval2))
+		yval <- tfun(frame$yval,  ylevel, digits)
+	else    yval <- tfun(frame$yval2,  ylevel, digits)
+	}
     else yval <- format(signif(frame$yval, digits = digits))
     term <- rep(" ", length(depth))
     term[frame$var == "<leaf>"] <- "*"
-    z <- labels(x, pretty = pretty)
+    z <- labels(x, digits=digits, minlength=minlength, ...)
     n <- frame$n
     z <- paste(indent, z, n, format(signif(frame$dev, digits = digits)),
             yval, term)
 
-    cat("n=", n[1], "\n\n")
+    omit <- x$na.action
+    if (length(omit))
+    cat("n=", n[1], " (", naprint(omit), ")\n\n", sep="")
+    else cat("n=", n[1], "\n\n")
 
     #This is stolen, unabashedly, from print.tree
     if (x$method=='class')

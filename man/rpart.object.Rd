@@ -1,15 +1,18 @@
 \name{rpart.object}
 \alias{rpart.object}
 \title{
-Recursive Partitioning and Regression Trees Object
+  Recursive Partitioning and Regression Trees Object 
 }
 \description{
-These are objects representing fitted \code{rpart} trees.
+These are objects representing fitted \code{rpart} trees. 
 }
 \section{Structure}{
-The following components must be included in a legitimate \code{rpart} object.
-Of these, only the \code{where} component has the same length as 
-the data used to fit the \code{rpart} object.
+The following components must be included in a legitimate \code{rpart} object. 
+Of these, only the \code{where} component has the same length as  
+the data used to fit the \code{rpart} object. 
+}
+\value{
+
 \item{frame}{
 data frame with one row for each node in the tree.
 The \code{row.names} of \code{frame} contain the (unique) node numbers that
@@ -30,12 +33,12 @@ events at the node (poisson), or a matrix containing the vector of
 class counts for each node (classification).
 Also included in the frame are \code{complexity}, the complexity parameter at
 which this split will collapse, \code{ncompete}, the number of competitor splits
-retained, and 'nsurrogate', the number of surrogate splits retained.
+retained, and \code{nsurrogate}, the number of surrogate splits retained.
 }
 \item{where}{
-vector, the same length as the number of observations in the root node,
-containing the row number of \code{frame} corresponding to the leaf node
-that each observation falls into.
+vector, the same length as the number of observations in the root node, 
+containing the row number of \code{frame} corresponding to the leaf node 
+that each observation falls into. 
 }
 \item{splits}{
 a matrix describing the splits.  The row label is the name of the split
@@ -44,14 +47,14 @@ or right by the split (for competitor splits this is the number that
 would have been sent left or right had this split been used, for surrogate
 splits it is the number missing the primary split variable which were decided
 using this surrogate), \code{ncat}, the number of categories or levels for the
-variable (+-1 for a continuous variable), \code{improve}, which is the improvement
+variable (+/-1 for a continuous variable), \code{improve}, which is the improvement
 in deviance given by this split, or, for surrogates, the concordance of the
 surrogate with the primary, and \code{split}, the numeric split point.  
 The last column \code{adj} gives the adjusted concordance for surrogate splits.
 For
 a factor, the \code{split} column contains the row number of the csplit matrix.
 For a continuous variable, the sign of \code{ncat} determines whether the
-subset x<cutpoint or x>cutpoint is sent to the left.
+subset \code{x < cutpoint} or \code{x > cutpoint} is sent to the left.
 }
 \item{csplit}{
 this will be present only if one of the split variables is a factor. There
@@ -62,28 +65,28 @@ For an ordered categorical variable all levels are marked as R/L,
 including levels that are not present.
 }
 \item{method}{
-the method used to grow the tree.
+the method used to grow the tree. 
 }
 \item{cptable}{
-the table of optimal prunings based on a complexity parameter.
+the table of optimal prunings based on a complexity parameter. 
 }
 \item{terms}{
-an object of mode \code{expression} and class \code{term} summarizing the formula.
-Used by various methods, but typically not of direct relevance to users.
+an object of mode \code{expression} and class \code{term} summarizing the formula. 
+Used by various methods, but typically not of direct relevance to users. 
 }
 \item{call}{
-an image of the call that produced the object, but with the arguments
-all named and with the actual formula included as the formula argument.
-To re-evaluate the call, say \code{update(tree)}.
+an image of the call that produced the object, but with the arguments 
+all named and with the actual formula included as the formula argument. 
+To re-evaluate the call, say \code{update(tree)}. 
 
-
-Optional components include the matrix of predictors (\code{x}) and the
-response variable (\code{y}) used to construct the \code{rpart} object.
-}}
+Optional components include the matrix of predictors (\code{x}) and the 
+response variable (\code{y}) used to construct the \code{rpart} object. 
+}
+}
 \seealso{
 \code{\link{rpart}}.
 }
-\keyword{rpart}
 \keyword{tree}
 \keyword{methods}
-% Converted by Sd2Rd version 0.3-1.
+% docclass is function
+% Converted by Sd2Rd version 1.20.

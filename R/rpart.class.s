@@ -1,4 +1,4 @@
-#SCCS @(#)rpart.class.s	1.3 12/13/99
+#SCCS %W% %G%
 rpart.class <- function(y, offset, parms, wt) {
     if (!is.null(offset)) stop("No offset allowed in classification models")
     fy <- as.factor(y)
@@ -42,6 +42,43 @@ rpart.class <- function(y, offset, parms, wt) {
     else stop("Parameter argument must be a list")
 
     list(y=y, parms=parms, numresp=numclass+1, counts=counts,
-		ylevels= levels(fy))
+	 ylevels= levels(fy), numy=1,
+	 print = function(yval, ylevel, digits) {
+	     if (is.null(ylevel))
+		     temp <- as.character(yval[,1])
+	     else    temp <- ylevel[yval[,1]]
+
+	     nclass <- (ncol(yval) -1)/2
+	     if (nclass <6) {
+		 yprob <- format(yval[, 1+nclass + 1:nclass],
+				 digits=digits, nsmall=digits)
+		 temp <- paste(temp, ' (', yprob[,1], sep='')
+		 for(i in 2:ncol(yprob))
+		     temp  <- paste(temp, yprob[, i], sep=' ')
+		 temp <- paste(temp, ")", sep="")
+		 }
+	     temp
+	     },
+	 summary= function(yval, dev, wt, ylevel, digits) {
+	     nclass <- (ncol(yval)-1) /2
+	     group <- yval[, 1]
+	     counts <- yval[, 1+ (1:nclass)]
+	     yprob  <- yval[, 1+nclass + 1:nclass]
+	     if(!is.null(ylevel)) group <- ylevel[group]
+
+	     temp1 <- formatg(counts, digits)
+	     temp2 <- formatg(yprob, digits)
+	     if (nclass >1) {
+		 temp1 <- apply(matrix(temp1, ncol=nclass), 1,
+				    paste, collapse=' ')
+		 temp2 <- apply(matrix(temp2, ncol=nclass), 1,
+				    paste, collapse=' ')
+		 }
+	     paste("  predicted class=", format(group, justify='left'),
+		   "  expected loss=", formatg(dev/wt, digits),"\n",
+		   "    class counts: ", temp1,"\n",
+		   "   probabilities: ", temp2,
+		   sep='')
+	     })
     }
 

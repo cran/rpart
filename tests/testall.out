@@ -1,27 +1,14 @@
-
-R : Copyright 2001, The R Development Core Team
-Version 1.3.0 Under development (unstable) (2001-05-25)
-
-R is free software and comes with ABSOLUTELY NO WARRANTY.
-You are welcome to redistribute it under certain conditions.
-Type `license()' or `licence()' for distribution details.
-
-R is a collaborative project with many contributors.
-Type `contributors()' for more information.
-
-Type `demo()' for some demos, `help()' for on-line help, or
-`help.start()' for a HTML browser interface to help.
-Type `q()' to quit R.
-
+S-PLUS : Copyright (c) 1988, 2000 MathSoft, Inc.
+S : Copyright Lucent Technologies, Inc.
+Version 6.0 Release 1 for Linux 2.2.12 : 2000 
+Working data will be in .Data 
 > # Any necessary setup
-> library(rpart)
-> library(survival)
-> data(state)
-> data(cu.summary)
-> data(kyphosis)
-> options(na.action="na.omit")
-> options(digits=4) # to match earlier output
-> set.seed(1234)
+> attach("..")
+> #library(rpart)
+> options(digits=4)
+> options(na.action=na.omit)
+> options(contrasts=c("contr.treatment", "contr.poly"))
+> .Random.seed <- as.integer(c(21,14,49,32,43,1,32,22,36,23,28,3))
 > #
 > # Read the data
 > #
@@ -43,19 +30,19 @@ Type `q()' to quit R.
 > cox1 <- coxph(Surv(pgtime, pgstat) ~ age + eet + g2 + grade + ploidy, stagec)
 > cox1
 Call:
-coxph(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + 
-    ploidy, data = stagec)
+coxph(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + ploidy, data = 
+	stagec)
 
 
-                    coef exp(coef) se(coef)      z       p
-age              -0.0173     0.983   0.0287 -0.604 5.5e-01
-eet               0.0704     1.073   0.3730  0.189 8.5e-01
-g2               -0.0527     0.949   0.0267 -1.973 4.9e-02
-grade             1.7289     5.634   0.3369  5.132 2.9e-07
+                    coef exp(coef) se(coef)      z       p 
+             age -0.0173     0.983   0.0287 -0.604 5.5e-01
+             eet  0.0704     1.073   0.3730  0.189 8.5e-01
+              g2 -0.0527     0.949   0.0267 -1.973 4.9e-02
+           grade  1.7289     5.634   0.3369  5.132 2.9e-07
 ploidytetraploid  1.0444     2.842   0.4225  2.472 1.3e-02
-ploidyaneuploid   1.1497     3.157   0.6610  1.739 8.2e-02
+ ploidyaneuploid  1.1497     3.157   0.6610  1.739 8.2e-02
 
-Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted due to missing)
+Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted due to missing values)
 > 
 > fit1 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
 + 		stagec, control=rpart.control(usesurrogate=0, cp=0),
@@ -76,32 +63,32 @@ node), split, n, deviance, yval
        11) g2<14.37 12  13.730 0.067920 *
     3) grade>2.5 85 122.600 0.094370  
       6) age>56.5 75 104.300 0.082810  
-       12) g2>22.77 12  14.840 0.039570 *
-       13) g2<22.77 57  75.780 0.100200  
+       12) g2>22.76 12  14.840 0.039570 *
+       13) g2<22.76 57  75.780 0.100200  
          26) gleason<7.5 41  55.530 0.076840  
-           52) g2<13.47 23  26.750 0.050850  
+           52) g2<13.48 23  26.750 0.050850  
             104) g2>11.52 7   5.309 0.030860 *
             105) g2<11.52 16  20.210 0.063860 *
-           53) g2>13.47 18  25.300 0.112100 *
+           53) g2>13.48 18  25.300 0.112100 *
          27) gleason>7.5 16  15.170 0.163900 *
       7) age<56.5 10  11.780 0.197100 *
 > summary(fit1)
 Call:
-rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + 
-    gleason + ploidy, data = stagec, method = "poisson", control = rpart.control(usesurrogate = 0, 
-    cp = 0))
+rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + 
+	ploidy, data = stagec, method = "poisson", control = rpart.control(
+	usesurrogate = 0, cp = 0))
   n= 146 
 
-        CP nsplit rel error xerror    xstd
-1 0.128138      0    1.0000 1.0187 0.06276
-2 0.052155      1    0.8719 0.9510 0.07306
-3 0.045615      3    0.7676 1.0155 0.08505
-4 0.026271      4    0.7219 1.0083 0.08603
-5 0.017966      5    0.6957 0.9905 0.09158
-6 0.009059      6    0.6777 1.0184 0.09407
-7 0.008132      7    0.6686 1.0107 0.09306
-8 0.006384      8    0.6605 1.0154 0.09288
-9 0.000000      9    0.6541 1.0033 0.09034
+        CP nsplit rel error xerror    xstd 
+1 0.128138      0    1.0000 1.0065 0.06284
+2 0.052155      1    0.8719 0.9531 0.07425
+3 0.045615      3    0.7676 0.9563 0.07818
+4 0.026271      4    0.7219 0.9411 0.08390
+5 0.017966      5    0.6957 0.9880 0.09199
+6 0.009059      6    0.6777 0.9596 0.08974
+7 0.008132      7    0.6686 0.9693 0.09146
+8 0.006384      8    0.6605 0.9759 0.08988
+9 0.000000      9    0.6541 0.9825 0.08902
 
 Node number 1: 146 observations,    complexity param=0.1281
   events=54,  estimated rate=0.0585 , mean deviance=1.325 
@@ -136,7 +123,7 @@ Node number 3: 85 observations,    complexity param=0.05215
   left son=6 (75 obs) right son=7 (10 obs)
   Primary splits:
       age     < 56.5  to the right, improve=7.3330, (0 missing)
-      g2      < 22.77 to the right, improve=6.8130, (6 missing)
+      g2      < 22.76 to the right, improve=6.8130, (6 missing)
       gleason < 8.5   to the left,  improve=4.8430, (0 missing)
       ploidy  splits as  LLR,       improve=1.7270, (0 missing)
       eet     < 1.5   to the right, improve=0.9572, (1 missing)
@@ -145,10 +132,11 @@ Node number 4: 33 observations,    complexity param=0.008132
   events=1,  estimated rate=0.00718 , mean deviance=0.2826 
   left son=8 (26 obs) right son=9 (7 obs)
   Primary splits:
-      g2      < 6.545 to the right, improve=3.1310, (0 missing)
-      age     < 62.5  to the right, improve=1.3530, (0 missing)
-      eet     < 1.5   to the left,  improve=0.6605, (0 missing)
-      gleason < 5.5   to the right, improve=0.4880, (2 missing)
+      g2      < 6.545 to the right, improve=3.131e+00, (0 missing)
+      age     < 62.5  to the right, improve=1.353e+00, (0 missing)
+      eet     < 1.5   to the left,  improve=6.605e-01, (0 missing)
+      gleason < 5.5   to the right, improve=4.880e-01, (2 missing)
+      grade   < 6.545 to the right, improve=2.325e-16, (0 missing)
   Surrogate splits:
       grade < 1.5   to the right, agree=0.848, adj=0.286, (0 split)
 
@@ -168,7 +156,7 @@ Node number 6: 75 observations,    complexity param=0.05215
   events=37,  estimated rate=0.08281 , mean deviance=1.391 
   left son=12 (12 obs) right son=13 (57 obs), 6 observations remain
   Primary splits:
-      g2      < 22.77 to the right, improve=4.8340, (6 missing)
+      g2      < 22.76 to the right, improve=4.8340, (6 missing)
       gleason < 7.5   to the left,  improve=4.0830, (0 missing)
       age     < 69.5  to the left,  improve=2.7450, (0 missing)
       ploidy  splits as  LRR,       improve=0.7867, (0 missing)
@@ -225,9 +213,10 @@ Node number 52: 23 observations,    complexity param=0.006384
   events=7,  estimated rate=0.05085 , mean deviance=1.163 
   left son=104 (7 obs) right son=105 (16 obs)
   Primary splits:
-      g2      < 11.52 to the right, improve=1.40500, (0 missing)
-      age     < 62.5  to the right, improve=1.24800, (0 missing)
-      gleason < 6.5   to the left,  improve=0.01894, (0 missing)
+      g2      < 11.52 to the right, improve=1.405e+00, (0 missing)
+      age     < 62.5  to the right, improve=1.248e+00, (0 missing)
+      gleason < 6.5   to the left,  improve=1.894e-02, (0 missing)
+      eet     < 62.5  to the right, improve=3.168e-15, (0 missing)
   Surrogate splits:
       age    < 71    to the right, agree=0.826, adj=0.429, (0 split)
       ploidy splits as  RLR,       agree=0.739, adj=0.143, (0 split)
@@ -254,34 +243,34 @@ node), split, n, deviance, yval
    2) grade<2.5 61 11.330 -2.892e-01  
      4) g2<13.19 40  3.270 -4.119e-01 *
      5) g2>13.19 21  6.314 -5.547e-02  
-      10) g2>14.62 14  3.098 -1.913e-01 *
-      11) g2<14.62 7  2.440  2.163e-01 *
+      10) g2>14.61 14  3.098 -1.913e-01 *
+      11) g2<14.61 7  2.440  2.163e-01 *
    3) grade>2.5 85 33.320  2.075e-01  
      6) age>56.5 75 29.090  1.526e-01  
       12) gleason<7.5 50 18.400  5.706e-02  
-        24) g2<13.47 25  7.725 -4.713e-02 *
-        25) g2>13.47 25 10.140  1.612e-01  
-          50) g2>17.91 14  4.903 -6.099e-02 *
-          51) g2<17.91 11  3.662  4.441e-01 *
+        24) g2<13.48 25  7.725 -4.713e-02 *
+        25) g2>13.48 25 10.140  1.612e-01  
+          50) g2>17.92 14  4.903 -6.099e-02 *
+          51) g2<17.92 11  3.662  4.441e-01 *
       13) gleason>7.5 25  9.318  3.436e-01  
-        26) g2>17 9  3.753  7.496e-02 *
-        27) g2<17 16  4.551  4.946e-01 *
+        26) g2>17.01 9  3.753  7.496e-02 *
+        27) g2<17.01 16  4.551  4.946e-01 *
      7) age<56.5 10  2.304  6.199e-01 *
 > summary(fit2)
 Call:
-rpart(formula = cox0$residual ~ age + eet + g2 + grade + gleason + 
-    ploidy, data = stagec)
+rpart(formula = cox0$residual ~ age + eet + g2 + grade + gleason + ploidy,
+	data = stagec)
   n= 146 
 
-       CP nsplit rel error xerror    xstd
-1 0.16404      0    1.0000 1.0192 0.05787
-2 0.03608      1    0.8360 0.8708 0.06720
-3 0.03275      2    0.7999 1.0292 0.08526
-4 0.02561      3    0.7671 1.0005 0.08657
-5 0.01979      4    0.7415 1.0497 0.09136
-6 0.01899      6    0.7019 1.0494 0.09154
-7 0.01452      7    0.6830 1.0499 0.09209
-8 0.01000      8    0.6684 1.0801 0.09695
+       CP nsplit rel error xerror    xstd 
+1 0.16404      0    1.0000 1.0262 0.05780
+2 0.03608      1    0.8360 0.8669 0.06731
+3 0.03275      2    0.7999 1.1071 0.09152
+4 0.02561      3    0.7671 1.0873 0.09321
+5 0.01979      4    0.7415 1.0928 0.09563
+6 0.01899      6    0.7019 1.1070 0.09626
+7 0.01452      7    0.6830 1.1256 0.09750
+8 0.01000      8    0.6684 1.1244 0.09673
 
 Node number 1: 146 observations,    complexity param=0.164
   mean=5.893e-18, MSE=0.3659 
@@ -327,7 +316,7 @@ Node number 5: 21 observations,    complexity param=0.01452
   mean=-0.05547, MSE=0.3007 
   left son=10 (14 obs) right son=11 (7 obs)
   Primary splits:
-      g2  < 14.62 to the right, improve=0.12280, (0 missing)
+      g2  < 14.61 to the right, improve=0.12280, (0 missing)
       age < 63.5  to the left,  improve=0.05198, (0 missing)
 
 Node number 6: 75 observations,    complexity param=0.02561
@@ -413,22 +402,22 @@ Node number 51: 11 observations
 > 
 > summary(fit3)
 Call:
-rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + 
-    gleason + ploidy, data = stagec, control = rpart.control(usesurrogate = 1, 
-    cp = 0.001))
+rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + 
+	ploidy, data = stagec, control = rpart.control(usesurrogate = 1, cp = 
+	0.001))
   n= 146 
 
-         CP nsplit rel error xerror    xstd
-1  0.129126      0    1.0000  1.008 0.07351
-2  0.041689      1    0.8709  0.918 0.07705
-3  0.028803      2    0.8292  1.015 0.09182
-4  0.017195      3    0.8004  1.059 0.10192
-5  0.015181      4    0.7832  1.086 0.10375
-6  0.013514      5    0.7680  1.081 0.10384
-7  0.012706      6    0.7545  1.080 0.10404
-8  0.009607      8    0.7291  1.082 0.10423
-9  0.008959      9    0.7195  1.090 0.10545
-10 0.001000     10    0.7105  1.080 0.10404
+         CP nsplit rel error xerror    xstd 
+ 1 0.129126      0    1.0000 1.0084 0.07333
+ 2 0.041689      1    0.8709 0.8994 0.07613
+ 3 0.028803      2    0.8292 0.9581 0.08501
+ 4 0.017195      3    0.8004 0.9821 0.09176
+ 5 0.015181      4    0.7832 1.0211 0.09277
+ 6 0.013514      5    0.7680 1.0201 0.09289
+ 7 0.012706      6    0.7545 1.0107 0.09313
+ 8 0.009607      8    0.7291 1.0002 0.09201
+ 9 0.008959      9    0.7195 1.0321 0.09368
+10 0.001000     10    0.7105 1.0364 0.09134
 
 Node number 1: 146 observations,    complexity param=0.1291
   events=54,  estimated rate=1 , mean deviance=1.338 
@@ -472,10 +461,11 @@ Node number 4: 33 observations,    complexity param=0.008959
   events=1,  estimated rate=0.122 , mean deviance=0.2767 
   left son=8 (26 obs) right son=9 (7 obs)
   Primary splits:
-      g2      < 6.545 to the right, improve=3.2920, (0 missing)
-      age     < 62.5  to the right, improve=1.4220, (0 missing)
-      eet     < 1.5   to the left,  improve=0.6913, (0 missing)
-      gleason < 5.5   to the right, improve=0.5440, (2 missing)
+      g2      < 6.545 to the right, improve=3.292e+00, (0 missing)
+      age     < 62.5  to the right, improve=1.422e+00, (0 missing)
+      eet     < 1.5   to the left,  improve=6.913e-01, (0 missing)
+      gleason < 5.5   to the right, improve=5.440e-01, (2 missing)
+      grade   < 6.545 to the right, improve=3.391e-16, (0 missing)
   Surrogate splits:
       grade < 1.5   to the right, agree=0.848, adj=0.286, (0 split)
 
@@ -547,9 +537,10 @@ Node number 24: 25 observations,    complexity param=0.009607
   events=8,  estimated rate=0.8817 , mean deviance=1.164 
   left son=48 (8 obs) right son=49 (17 obs)
   Primary splits:
-      g2      < 11.52 to the right, improve=1.19200, (2 missing)
-      age     < 65.5  to the right, improve=1.16600, (0 missing)
-      gleason < 6.5   to the left,  improve=0.06199, (0 missing)
+      g2      < 11.52 to the right, improve=1.192e+00, (2 missing)
+      age     < 65.5  to the right, improve=1.166e+00, (0 missing)
+      gleason < 6.5   to the left,  improve=6.199e-02, (0 missing)
+      eet     < 65.5  to the right, improve=1.073e-16, (0 missing)
   Surrogate splits:
       age    < 70    to the right, agree=0.826, adj=0.429, (2 split)
       ploidy splits as  RLR,       agree=0.739, adj=0.143, (0 split)
@@ -589,7 +580,7 @@ Node number 51: 11 observations
 > #
 > # In order to compare the x-vals estimates of the mainline and S versions,
 > #  it is necessary that we use stratified xval sets (like the mainline
-> #  does).
+> #  does).  
 > 
 > mystate <- data.frame(state.x77, region=factor(state.region))
 > names(mystate) <- c("population","income" , "illiteracy","life" ,
@@ -608,12 +599,12 @@ Node number 51: 11 observations
 > 
 > summary(fit4)
 Call:
-rpart(formula = income ~ population + region + illiteracy + life + 
-    murder + hs.grad + frost, data = mystate, control = rpart.control(minsplit = 10, 
-    xval = xvals))
+rpart(formula = income ~ population + region + illiteracy + life + murder +
+	hs.grad + frost, data = mystate, control = rpart.control(minsplit = 10,
+	xval = xvals))
   n= 50 
 
-       CP nsplit rel error xerror   xstd
+       CP nsplit rel error xerror   xstd 
 1 0.42831      0    1.0000 1.0157 0.2265
 2 0.13514      1    0.5717 0.5948 0.1747
 3 0.06458      2    0.4365 0.7005 0.1802
@@ -674,7 +665,7 @@ Node number 6: 34 observations,    complexity param=0.06458
   mean=4530, MSE=1.69e+05 
   left son=12 (12 obs) right son=13 (22 obs)
   Primary splits:
-      population < 1374  to the left,  improve=0.20790, (0 missing)
+      population < 1373  to the left,  improve=0.20790, (0 missing)
       life       < 70.41 to the left,  improve=0.19010, (0 missing)
       frost      < 33.5  to the right, improve=0.10930, (0 missing)
       illiteracy < 0.75  to the left,  improve=0.08942, (0 missing)
@@ -770,12 +761,12 @@ Node number 111: 3 observations
 > risk0 <- mean((mystate$income - meany)^2)
 > xpmean <- as.vector(apply(xpr2, 2, mean))   #kill the names
 > all.equal(xpmean/risk0, as.vector(fit4$cptable[,'xerror']))
-[1] TRUE
+[1] T
 > 
 > xpstd <- as.vector(apply((sweep(xpr2, 2, xpmean))^2, 2, sum))
 > xpstd <- sqrt(xpstd)/(50*risk0)
 > all.equal(xpstd, as.vector(fit4$cptable[,'xstd']))
-[1] TRUE
+[1] T
 > 
 > #
 > # recreate subset #3 of the xval
@@ -785,7 +776,7 @@ Node number 111: 3 observations
 + 		   control=rpart.control(minsplit=10, xval=0))
 > tpred <- predict(tfit4, mystate[xvals==3,])
 > all.equal(tpred, xpr[xvals==3,ncol(xpr)])
-[1] TRUE
+[1] T
 > 
 > # How much does this differ from the "real" formula, more complex,
 > #   found on page 309 of Breiman et al. ?
@@ -806,8 +797,8 @@ node), split, n, loss, yval, (yprob)
    3) grade>2.5 85 40 1 (0.4706 0.5294)  
      6) g2<13.2 40 17 0 (0.5750 0.4250)  
       12) ploidy=diploid,tetraploid 31 11 0 (0.6452 0.3548)  
-        24) g2>11.84 7  1 0 (0.8571 0.1429) *
-        25) g2<11.84 24 10 0 (0.5833 0.4167)  
+        24) g2>11.85 7  1 0 (0.8571 0.1429) *
+        25) g2<11.85 24 10 0 (0.5833 0.4167)  
           50) g2<11 17  5 0 (0.7059 0.2941) *
           51) g2>11 7  2 1 (0.2857 0.7143) *
       13) ploidy=aneuploid 9  3 1 (0.3333 0.6667) *
@@ -821,17 +812,17 @@ node), split, n, loss, yval, (yprob)
 + 		stagec, parm=list(prior=c(.5,.5)))
 > summary(fit6)
 Call:
-rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + 
-    ploidy, data = stagec, parms = list(prior = c(0.5, 0.5)))
+rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + ploidy,
+	data = stagec, parms = list(prior = c(0.5, 0.5)))
   n= 146 
 
-       CP nsplit rel error xerror    xstd
-1 0.39855      0    1.0000 1.1630 0.08486
-2 0.02335      1    0.6014 0.6341 0.07357
-3 0.02275      3    0.5548 0.7822 0.08197
-4 0.01892      5    0.5093 0.8007 0.08284
-5 0.01530      7    0.4714 0.8780 0.08508
-6 0.01000      9    0.4408 0.8422 0.08610
+       CP nsplit rel error xerror    xstd 
+1 0.39855      0    1.0000 1.2351 0.08907
+2 0.02335      1    0.6014 0.7081 0.07813
+3 0.02275      3    0.5548 0.9054 0.08893
+4 0.01892      5    0.5093 0.8869 0.08828
+5 0.01530      7    0.4714 0.9489 0.08849
+6 0.01000      9    0.4408 0.9380 0.08861
 
 Node number 1: 146 observations,    complexity param=0.3986
   predicted class=0  expected loss=0.5
@@ -947,7 +938,7 @@ Node number 13: 33 observations,    complexity param=0.01892
    probabilities: 0.4088 0.6554 
   left son=26 (25 obs) right son=27 (8 obs)
   Primary splits:
-      g2      < 11.01 to the left,  improve=1.06300, (5 missing)
+      g2      < 11    to the left,  improve=1.06300, (5 missing)
       ploidy  splits as  L-R,       improve=0.73950, (0 missing)
       gleason < 6.5   to the left,  improve=0.57220, (0 missing)
       age     < 62.5  to the right, improve=0.13320, (0 missing)
@@ -1024,16 +1015,16 @@ Node number 53: 8 observations
 > 
 > summary(carfit)
 Call:
-rpart(formula = Reliability ~ Price + Country + Mileage + Type, 
-    data = cu.summary, method = "class")
-  n=85 (32 observations deleted due to missing)
+rpart(formula = Reliability ~ Price + Country + Mileage + Type, data = 
+	cu.summary, method = "class")
+  n= 85 
 
-       CP nsplit rel error xerror    xstd
+       CP nsplit rel error xerror    xstd 
 1 0.30508      0    1.0000 1.0000 0.07200
 2 0.08475      1    0.6949 0.6949 0.07808
-3 0.05085      2    0.6102 0.7119 0.07813
-4 0.03390      3    0.5593 0.7119 0.07813
-5 0.01000      4    0.5254 0.7119 0.07813
+3 0.05085      2    0.6102 0.6780 0.07800
+4 0.03390      3    0.5593 0.6949 0.07808
+5 0.01000      4    0.5254 0.6610 0.07787
 
 Node number 1: 85 observations,    complexity param=0.3051
   predicted class=average      expected loss=0.6941
@@ -1130,7 +1121,9 @@ Node number 23: 8 observations
 > fit1b$frame$yval2[,2] <- fit1b$frame$yval2[,2]/3
 > fit1b$splits[,3] <- fit1b$splits[,3]/3
 > all.equal(fit1[-3], fit1b[-3])   #all but the "call"
-[1] TRUE
+[1] "Component frame: Component ncompete: Mean relative difference: 0.3333" 
+[2] "Component splits: Slot \".Data\": Mean relative difference: 0.2871"    
+[3] "Component splits: Slot \".Dimnames\": Component 1: 4 string mismatches"
 > 
 > #
 > # Compare a pair of multiply weighted fits
@@ -1142,7 +1135,7 @@ Node number 23: 8 observations
 > # For larger trees, the weighted split will sometimes have fewer
 > #  surrogates, because of the "at least two obs" rule.
 > #
-> set.seed(1234)
+> .Random.seed <- c(53, 33, 62, 6, 45, 2, 43, 33, 16, 10, 39, 3)
 > wts <- sample(1:5, nrow(stagec), replace=T)
 > temp <- rep(1:nrow(stagec), wts)             #row replicates
 > xgrp <- rep(1:10, length=146)[order(runif(146))]
@@ -1157,55 +1150,15 @@ Node number 23: 8 observations
 + 	      data=stagec, method='poisson', weight=wts)
 > 
 > all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
-[1] "Component 7: Mean relative  difference: 0.5"
+[1] T
 > all.equal(fit2$cptable,    fit2b$cptable)
-[1] TRUE
+[1] T
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[[1]]
-[1] "Lengths: 196, 192"
-
-[[2]]
-[1] "Attributes: < Component 1: Mean relative  difference: 0.02041 >"
-
-[[3]]
-[1] "Attributes: < Component 2: Component 1: Lengths: 49, 48 >"
-
-[[4]]
-[1] "Attributes: < Component 2: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
-
-[[5]]
-[1] "Attributes: < Component 2: Component 1: 24 string mismatches >"
-
-[[6]]
-[1] "Numeric : lengths ( 196 ,  192 ) differ"
-
-$sep
-[1] ""
-
+[1] "Slot \".Data\": Mean relative difference: 0.002638"
 > all.equal(fit2$splits[-24,-1],fit2b$splits[-24,-1]) #ok
-[[1]]
-[1] "Lengths: 192, 188"
-
-[[2]]
-[1] "Attributes: < Component 1: Mean relative  difference: 0.02083 >"
-
-[[3]]
-[1] "Attributes: < Component 2: Component 1: Lengths: 48, 47 >"
-
-[[4]]
-[1] "Attributes: < Component 2: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
-
-[[5]]
-[1] "Attributes: < Component 2: Component 1: 24 string mismatches >"
-
-[[6]]
-[1] "Numeric : lengths ( 192 ,  188 ) differ"
-
-$sep
-[1] ""
-
+[1] T
 > all.equal(fit2$csplit,    fit2b$csplit)
-[1] TRUE
+[1] T
 > # Line 24 is a surrogate split in a group whose 2 smallest ages are
 > #  47 and 48.  The weighted fit won't split there because it wants to
 > #  send at least 2 obs to the left; the replicate fit thinks that there
@@ -1231,8 +1184,8 @@ $sep
 > fit4b$frame$dev  <- fit4b$frame$dev/3
 > fit4b$cptable[,5] <- fit4b$cptable[,5] * sqrt(3)
 > temp <- c('frame', 'where', 'splits', 'csplit', 'cptable')
-> all.equal(fit4[temp], fit4b[temp])
-[1] TRUE
+> all.equal(fit4[temp], fit4b[temp])  
+[1] T
 > 
 > 
 > # Next is a very simple case, but worth keeping
@@ -1242,16 +1195,16 @@ $sep
 > xx2 <- rpart(y ~ x1 + x2, dummy, weights=rep(2,10), minsplit=4, xval=0)
 > 
 > all.equal(xx1$frame$dev, c(82.5, 10, 2, .5, 10, .5, 2))
-[1] TRUE
+[1] T
 > all.equal(xx2$frame$dev, c(82.5, 10, 2, .5, 10, .5, 2)*2)
-[1] TRUE
+[1] T
 > summary(xx2)
 Call:
-rpart(formula = y ~ x1 + x2, data = dummy, weights = rep(2, 10), 
-    minsplit = 4, xval = 0)
+rpart(formula = y ~ x1 + x2, data = dummy, weights = rep(2, 10), minsplit = 4,
+	xval = 0)
   n= 10 
 
-       CP nsplit rel error
+       CP nsplit rel error 
 1 0.75758      0   1.00000
 2 0.09091      1   0.24242
 3 0.01000      3   0.06061
@@ -1313,54 +1266,54 @@ Node number 7: 3 observations
 +                         hs.grad + frost , data=mystate, control=tempc,
 +                         weights=wts)
 > all.equal(fit5$frame[-2],  fit5b$frame[-2])  # the "n" component won't match
-[1] TRUE
+[1] T
 > all.equal(fit5$cptable,    fit5b$cptable)
-[1] TRUE
+[1] T
 > all.equal(fit5$splits[,-1],fit5b$splits[,-1]) #fails
-[1] TRUE
+[1] T
 > all.equal(fit5$csplit,    fit5b$csplit)
-[1] TRUE
+[1] T
 > #
 > # The treble test for classification trees
 > #
 > nn <- sum(!is.na(cu.summary$Reliability))
 > xgrp <- rep(1:10,length=nn)
 > carfit <- rpart(Reliability ~ Price + Country + Mileage + Type,
-+ 		 method='class', data=cu.summary,
++ 		 method='class', data=cu.summary, 
 + 		 control=rpart.control(xval=xgrp))
 > 
 > carfit2 <- rpart(Reliability ~ Price + Country + Mileage + Type,
-+ 		 method='class', data=cu.summary,
++ 		 method='class', data=cu.summary, 
 + 		 weight=rep(3,nrow(cu.summary)),
 + 		 control=rpart.control(xval=xgrp))
 > 
 > all.equal(carfit$frame$wt,    carfit2$frame$wt/3)
-[1] TRUE
+[1] T
 > all.equal(carfit$frame$dev,   carfit2$frame$dev/3)
-[1] TRUE
+[1] T
 > all.equal(carfit$frame[,5:7], carfit2$frame[,5:7])
-[1] TRUE
+[1] T
 > all.equal(carfit$frame$yval2[,7:11], carfit2$frame$yval2[,7:11])
-[1] TRUE
+[1] T
 > all.equal(carfit[c('where', 'csplit')],
 + 	  carfit2[c('where', 'csplit')])
-[1] TRUE
+[1] T
 > xx <- carfit2$splits
 > xx[,'improve'] <- xx[,'improve'] / ifelse(xx[,1]==0,1,3)
 > all.equal(xx, carfit$splits)
-[1] TRUE
-> all.equal(as.vector(carfit$cptable),
+[1] T
+> all.equal(as.vector(carfit$cptable), 
 + 	  as.vector(carfit2$cptable%*% diag(c(1,1,1,1,sqrt(3)))))
-[1] TRUE
+[1] T
 > 
 > summary(carfit2)
 Call:
-rpart(formula = Reliability ~ Price + Country + Mileage + Type, 
-    data = cu.summary, weights = rep(3, nrow(cu.summary)), method = "class", 
-    control = rpart.control(xval = xgrp))
-  n=85 (32 observations deleted due to missing)
+rpart(formula = Reliability ~ Price + Country + Mileage + Type, data = 
+	cu.summary, weights = rep(3, nrow(cu.summary)), method = "class", 
+	control = rpart.control(xval = xgrp))
+  n= 85 
 
-       CP nsplit rel error xerror    xstd
+       CP nsplit rel error xerror    xstd 
 1 0.30508      0    1.0000 1.0000 0.04157
 2 0.08475      1    0.6949 0.6949 0.04508
 3 0.05085      2    0.6102 0.7458 0.04508
@@ -1444,23 +1397,22 @@ Node number 23: 8 observations
 > #
 > # Treble test for class trees with 2 outcomes
 > #
-> fit1 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
+> fit1 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
 +                control=rpart.control(maxsurrogate=0, cp=0, xval=0),
-+                parms=list(prior=c(.7,.3),
++                parms=list(prior=c(.7,.3), 
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > wts <- rep(3, nrow(kyphosis))
-> fit1b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
+> fit1b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
 +                 control=rpart.control(maxsurrogate=0, cp=0, xval=0),
 + 	       weights=wts,
-+                parms=list(prior=c(.7,.3),
++                parms=list(prior=c(.7,.3), 
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > fit1b$frame$wt   <- fit1b$frame$wt/3
 > fit1b$frame$dev  <- fit1b$frame$dev/3
 > fit1b$frame$yval2[,2:3] <- fit1b$frame$yval2[,2:3]/3
 > fit1b$splits[,3] <- fit1b$splits[,3]/3
 > all.equal(fit1[-3], fit1b[-3])   #all but the "call"
-[1] TRUE
-> 
+[1] T
 > 
 > # Now for a set of non-equal weights
 > nn <- nrow(kyphosis)
@@ -1470,24 +1422,189 @@ Node number 23: 8 observations
 > xgrp2<- rep(xgrp, wts)
 > tempc <- rpart.control(minsplit=2, xval=xgrp2, maxsurrogate=0)
 > #  Direct: replicate rows in the data set, and use unweighted
-> fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis[temp,],
-+                control=tempc,
-+                parms=list(prior=c(.7,.3),
+> fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis[temp,], 
++                control=tempc, 
++                parms=list(prior=c(.7,.3), 
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > #  Weighted
 > tempc <- rpart.control(minsplit=2, xval=xgrp, maxsurrogate=0)
-> fit2b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
+> fit2b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
 +                control=tempc, weights=wts,
-+                parms=list(prior=c(.7,.3),
++                parms=list(prior=c(.7,.3), 
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > 
 > all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
-[1] TRUE
+[1] T
 > all.equal(fit2$cptable,    fit2b$cptable)
-[1] TRUE
+[1] T
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] "Attributes: < Component 2: Component 1: 2 string mismatches >"
-[2] "Mean relative  difference: 0.5171"                            
+[1] T
 > all.equal(fit2$csplit,    fit2b$csplit)
-[1] TRUE
+[1] T
+> #
+> # Test out the "user mode" functions, with an anova variant
+> #
+> 
+> # The 'evaluation' function.  Called once per node.
+> #  Produce a label (1 or more elements long) for labeling each node,
+> #  and a deviance.  The latter is
+> #	- of length 1
+> #       - equal to 0 if the node is "pure" in some sense (unsplittable)
+> #       - does not need to be a deviance: any measure that gets larger
+> #            as the node is less acceptable is fine.
+> #       - the measure underlies cost-complexity pruning, however
+> temp1 <- function(y, wt, parms) {
++     wmean <- sum(y*wt)/sum(wt)
++     rss <- sum(wt*(y-wmean)^2)
++     list(label= wmean, deviance=rss)
++     }
+> 
+> # The split function, where most of the work occurs.
+> #   Called once per split variable per node.
+> # If continuous=T
+> #   The actual x variable is ordered
+> #   y is supplied in the sort order of x, with no missings,
+> #   return two vectors of length (n-1):
+> #      goodness = goodness of the split, larger numbers are better.
+> #                 0 = couldn't find any worthwhile split
+> #        the ith value of goodness evaluates splitting obs 1:i vs (i+1):n
+> #      direction= -1 = send "y< cutpoint" to the left side of the tree
+> #                  1 = send "y< cutpoint" to the right
+> #         this is not a big deal, but making larger "mean y's" move towards
+> #         the right of the tree, as we do here, seems to make it easier to
+> #         read
+> # If continuos=F, x is a set of integers defining the groups for an
+> #   unordered predictor.  In this case:
+> #       direction = a vector of length m= "# groups".  It asserts that the
+> #           best split can be found by lining the groups up in this order
+> #           and going from left to right, so that only m-1 splits need to
+> #           be evaluated rather than 2^(m-1)
+> #       goodness = m-1 values, as before.
+> #
+> # The reason for returning a vector of goodness is that the C routine
+> #   enforces the "minbucket" constraint. It selects the best return value
+> #   that is not too close to an edge.
+> temp2 <- function(y, wt, x, parms, continuous) {
++     # Center y
++     n <- length(y)
++     y <- y- sum(y*wt)/sum(wt)
++ 
++     if (continuous) {
++ 	# continuous x variable
++ 	temp <- cumsum(y*wt)[-n]
++ 
++ 	left.wt  <- cumsum(wt)[-n]
++ 	right.wt <- sum(wt) - left.wt
++ 	lmean <- temp/left.wt
++ 	rmean <- -temp/right.wt
++ 	goodness <- (left.wt*lmean^2 + right.wt*rmean^2)/sum(wt*y^2)
++ 	list(goodness= goodness, direction=sign(lmean))
++ 	}
++     else {
++ 	# Categorical X variable
++ 	ux <- sort(unique(x))
++ 	wtsum <- tapply(wt, x, sum)
++ 	ysum  <- tapply(y*wt, x, sum)
++ 	means <- ysum/wtsum
++ 
++ 	# For anova splits, we can order the categories by their means
++ 	#  then use the same code as for a non-categorical
++ 	ord <- order(means)
++ 	n <- length(ord)
++ 	temp <- cumsum(ysum[ord])[-n]
++ 	left.wt  <- cumsum(wtsum[ord])[-n]
++ 	right.wt <- sum(wt) - left.wt
++ 	lmean <- temp/left.wt
++ 	rmean <- -temp/right.wt
++ 	list(goodness= (left.wt*lmean^2 + right.wt*rmean^2)/sum(wt*y^2),
++ 	     direction = ux[ord])
++ 	}
++     }
+> 	
+> # The init function:
+> #   fix up y to deal with offsets
+> #   return a dummy parms list
+> #   numresp is the number of values produced by the eval routine's "label"
+> #   numy is the number of columns for y
+> #   summary is a function used to print one line in summary.rpart
+> # In general, this function would also check for bad data, see rpart.poisson
+> #   for instace.
+> temp3 <- function(y, offset, parms, wt) {
++     if (!is.null(offset)) y <- y-offset
++     list(y=y, parms=0, numresp=1, numy=1,
++ 	      summary= function(yval, dev, wt, ylevel, digits ) {
++ 		  paste("  mean=", format(signif(yval, digits)),
++ 			", MSE=" , format(signif(dev/wt, digits)),
++ 			sep='')
++ 	     })	
++     }
+> 
+> 
+> alist <- list(eval=temp1, split=temp2, init=temp3)
+> 
+> fit0 <- rpart(income ~population +illiteracy  + murder + hs.grad,
++ 	     mystate, control=rpart.control(minsplit=10, xval=0),
++ 	     method=alist)
+> 	      
+> 
+> fit1 <- rpart(income ~population +illiteracy  + murder + hs.grad + region,
++ 	     mystate, control=rpart.control(minsplit=10, xval=0),
++ 	     method=alist)
+> 
+> fit2 <- rpart(income ~population +illiteracy + murder + hs.grad + region,
++ 	     mystate, control=rpart.control(minsplit=10, xval=0),
++ 	      method='anova')
+> 
+> # Other than their call statement, and a longer "functions" component in
+> #  fit1, fit1 and fit2 should be identical.
+> all.equal(fit1$frame, fit2$frame)
+[1] T
+> all.equal(fit1$splits, fit2$splits)
+[1] T
+> all.equal(fit1$csplit, fit2$csplit)
+[1] T
+> all.equal(fit1$where, fit2$where)
+[1] T
+> all.equal(fit1$cptable, fit2$cptable)
+[1] T
+> 
+> # Now try xpred on it
+> xvtemp <- rep(1:5, length=50)
+> xp1 <- xpred.rpart(fit1, xval=xvtemp)
+> xp2 <- xpred.rpart(fit2, xval=xvtemp)
+> aeq <- function(x,y) all.equal(as.vector(x), as.vector(y))
+> aeq(xp1, xp2)
+[1] T
+> 
+> fit3 <- rpart(income ~population +illiteracy + murder + hs.grad + region,
++ 	     mystate, control=rpart.control(minsplit=10, xval=xvtemp),
++ 	      method='anova')
+> zz <- apply((mystate$income - xp1)^2,2, sum) 
+> aeq(zz/fit1$frame$dev[1], fit3$cptable[,4])  #reproduce xerror
+[1] T
+> 
+> zz2 <- sweep((mystate$income-xp1)^2,2, zz/nrow(xp1))
+> zz2 <- sqrt(apply(zz2^2, 2, sum))/ fit1$frame$dev[1]
+> aeq(zz2, fit3$cptable[,5])          #reproduce se(xerror)
+[1] T
+> 
+> #
+> # Now try timing it on a multiplied data set (100 copies of mystate)
+> #
+> temp <- rbind(mystate, mystate, mystate, mystate)
+> temp <- rbind(temp, temp, temp, temp, temp)
+> temp <- rbind(temp, temp, temp, temp, temp)
+> t1 <-  unix.time(rpart(income ~population +illiteracy  + murder + 
++ 		       hs.grad + region +
++ 		life + area, temp,  control=rpart.control(minsplit=10, xval=0),
++ 	     method=alist))
+> t2 <- unix.time(rpart(income ~population +illiteracy  + murder + 
++ 		      hs.grad + region +
++ 		life + area, temp,  control=rpart.control(minsplit=10, xval=0),
++ 	     method='anova'))
+> cat("Timing ratio = ", round(t1[3]/t2[3], 1), "\n")
+Timing ratio =  6.5 
+> 
+> rm(temp)
+> 
 > q()

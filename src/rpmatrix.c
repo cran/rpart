@@ -6,10 +6,10 @@
 #include "node.h"
 #include "rpartproto.h"
 
-void rpmatrix(struct node *me,  int *nodecount,   int *splitcount, 
-	      int *catcount,   int *numcat,      double **dsplit,
-	      int **isplit,    int **csplit,     double **dnode, 
-	      int **inode,     int id)
+void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount, 
+	      Sint *catcount,   Sint *numcat,      double **dsplit,
+	      Sint **isplit,    Sint **csplit,     double **dnode, 
+	      Sint **inode,     int id)
     {
     /*
     ** dsplit  0: improvement

@@ -1,7 +1,7 @@
 \name{residuals.rpart}
 \alias{residuals.rpart}
 \title{
-Residuals From a Fitted Rpart Object
+  Residuals From a Fitted Rpart Object 
 }
 \usage{
 residuals.rpart(object, type)
@@ -11,9 +11,9 @@ residuals.rpart(object, type)
 }
 \arguments{
 \item{object}{
-  fitted model object of class \code{rpart}.  This is assumed to be the result
-  of some function that produces an object with the same named
-  components as that returned by the \code{rpart} function.
+fitted model object of class \code{rpart}.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the \code{rpart} function. 
 }
 \item{type}{
   Indicates method of residual for a classification tree (no distinction
@@ -24,7 +24,7 @@ residuals.rpart(object, type)
   \code{"deviance"} (minus twice logarithm of fitted).
 }}
 \value{
-  vector of residuals of type \code{type} from a fitted \code{rpart} object.
+vector of residuals of type \code{type} from a fitted \code{rpart} object. 
 }
 \examples{
 data(solder)
@@ -33,4 +33,6 @@ fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
 summary(residuals(fit))
 plot(predict(fit),residuals(fit))
 }
-\keyword{rpart}
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

@@ -2,6 +2,7 @@
 /*
 ** free up all of the memory associated with a tree
 */
+#include "rpart.h"
 #include "node.h"
 #include "rpartS.h"
 #include "rpartproto.h"

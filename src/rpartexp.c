@@ -11,9 +11,13 @@
 ** scratch
 **      wtemp(n)
 */
-void rpartexp(int *n2, double *y, double *wt, double *newy, double *wtemp) {
+
+#include "rpart.h"
+#include "rpartproto.h"
+
+void rpartexp(Sint *n2, double *y, double *wt, double *newy, double *wtemp) {
     int n;
-    double *start, *stop, *event;
+    double *stop, *event;
     int i, j;
     double tsum, dsum;     /*weighted sums of times and deaths */
     double time, ltime, rtime;
@@ -39,7 +43,7 @@ void rpartexp(int *n2, double *y, double *wt, double *newy, double *wtemp) {
 	** look ahead to find the next death
 	*/
 	psum =0;
-	for (i=last; i<n & event[i]==0; i++) {
+	for (i=last; (i<n) && (event[i]==0); i++) {
 	    psum += wt[i]*(stop[i]-ltime);    /*partial intervals */
 	    }
 

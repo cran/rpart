@@ -17,4 +17,6 @@ rpart.matrix(frame)
   Returns a matrix from the frame of class \code{matrix}.  Used internally by
   the function \code{rpart}.
 }
-\keyword{rpart}
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

@@ -1,4 +1,4 @@
-/* SCCS @(#)rpart.c	1.8 01/06/00 */
+/* SCCS %W% %G%    */
 /*
 ** The main entry point for recursive partitioning routines.
 **
@@ -8,6 +8,8 @@
 **      ncat    = # categories for each var, 0 for continuous variables.
 **      method  = 1 - anova
 **                2 - exponential survival
+**		  3 - classification
+**	          4 - user defined callback
 **      maxpri  = max number of primary variables to retain (must be >0)
 **      parms   = extra parameters for the split function, e.g. poissoninit
 **      ymat    = matrix or vector of response variables
@@ -20,6 +22,7 @@
 **      xgrp     = indices for the cross-validations
 **      wt       = vector of case weights
 **      opt      = options, in the order of rpart.control()
+**	ny       = number of columns in the input y matrix
 **
 ** Returned variables
 **      error    = text of the error message
@@ -36,11 +39,12 @@
 #include "rpartS.h"
 #include "rpartproto.h"
 
-int rpart(int n,         int nvarx,      int *ncat,     int method, 
+int rpart(int n,         int nvarx,      Sint *ncat,     int method, 
           int  maxpri,   double *parms,  double *ymat,   FLOAT *xmat,
-          int *missmat, struct cptable *cptable,
+          Sint *missmat, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
-	  int xvals,     int *x_grp,    double *wt,     double *opt) {
+	  int xvals,     Sint *x_grp,    double *wt,     double *opt,
+	  int ny) {
     int i,k;
     int maxcat;
     double temp;
@@ -54,7 +58,7 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
 	rp_choose = func_table[i].choose_split;
 	rp_eval   = func_table[i].eval;
 	rp_error  = func_table[i].error;
-	rp.num_y  = func_table[i].num_y;
+	rp.num_y  = ny;
 	}
     else {
 	*error = "Invalid value for 'method'";
@@ -64,13 +68,13 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
     /*
     ** set some other parameters
     */
-    rp.min_node =  opt[1];
-    rp.min_split = opt[0];
-    rp.complex   = opt[2];
-    rp.maxsur = opt[4];
-    rp.usesurrogate = opt[5];
-    rp.sur_agree = opt[6];
-    rp.maxnode  = pow((double)2.0, opt[8]) -1;
+    rp.min_node =  (int) opt[1];
+    rp.min_split = (int) opt[0];
+    rp.complexity= opt[2];
+    rp.maxsur = (int) opt[4];
+    rp.usesurrogate = (int) opt[5];
+    rp.sur_agree =(int) opt[6];
+    rp.maxnode  = (int) pow((double)2.0, opt[7]) -1;
     rp.nvar = nvarx;
     rp.numcat = ncat;
     rp.maxpri = maxpri;
@@ -90,7 +94,6 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
 	}
     rp.ydata = (double **) ALLOC(n, sizeof(double *));
     for (i=0; i<n; i++)  rp.ydata[i] = &(ymat[i*rp.num_y]);
-
     /*
     ** allocate some scratch
     */
@@ -105,7 +108,7 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
     **   of the 'missmat' array.
     ** I don't have to sort the categoricals.
     */
-    rp.sorts  = (int**) ALLOC(nvarx, sizeof(int *));
+    rp.sorts  = (Sint**) ALLOC(nvarx, sizeof(Sint *));
     maxcat=0;
     for (i=0; i<nvarx; i++) {
 	rp.sorts[i] = &(missmat[i*n]);
@@ -150,7 +153,7 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
 
     (*rp_eval)(n, rp.ydata, (*tree)->response_est, &((*tree)->risk), wt);
     (*tree)->complexity = (*tree)->risk;
-    rp.alpha = rp.complex * (*tree)->risk;
+    rp.alpha = rp.complexity * (*tree)->risk;
 
     /*
     ** Do the basic tree

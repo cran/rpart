@@ -1,7 +1,7 @@
 \name{xpred.rpart}
 \alias{xpred.rpart}
 \title{
-  Return Cross-Validated Predictions
+  Return Cross-Validated Predictions 
 }
 \description{
   Gives the predicted values for an \code{rpart} fit, under
@@ -12,7 +12,7 @@ xpred.rpart(fit, xval=10, cp)
 }
 \arguments{
 \item{fit}{
-a \code{rpart} object.
+a \code{rpart} object. 
 }
 \item{xval}{
   number of cross-validation groups.  This may also be an explicit list of
@@ -36,7 +36,7 @@ a \code{rpart} object.
   of each interval is used for cross validation.
 }
 \seealso{
-\code{\link{rpart}}
+\code{\link{rpart}} 
 }
 \examples{
 data(car.test.frame)
@@ -49,5 +49,6 @@ apply(xerr, 2, sum)   # cross-validated error estimate
 apply(xerr, 2, sum)/var(car.test.frame$Mileage) 
 printcp(fit)
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

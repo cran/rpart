@@ -34,7 +34,7 @@ static int debug =0;    /*if it is odd, print out every tree */
 extern char *xname[];
 #endif
 
-void xval(int n_xval,  struct cptable *cptable_head,  int *x_grp, 
+void xval(int n_xval,  struct cptable *cptable_head,  Sint *x_grp, 
 	  int maxcat,  char **error,                  double * parms)
     {
     int i,j,k, jj;

@@ -1,20 +1,20 @@
 \name{rpart.control}
 \alias{rpart.control}
 \title{
-Control for Rpart Models.
+  Control for Rpart Models. 
 }
 \description{
-  Various parameters that control aspects of the \code{rpart} fit.
+Various parameters that control aspects of the \code{rpart} fit. 
 }
 \usage{
-rpart.control(minsplit=20, minbucket=round(minsplit/3), cp=0.01,
+rpart.control(minsplit=20, minbucket=round(minsplit/3), cp=0.01, 
               maxcompete=4, maxsurrogate=5, usesurrogate=2, xval=10,
-	      surrogatestyle=0, maxdepth=30, \dots )
+	      surrogatestyle=0, maxdepth=30, \dots)
 }
 \arguments{
 \item{minsplit}{
-  the minimum number of observations that must exist in a node, in order for
-  a split to be attempted.
+the minimum number of observations that must exist in a node, in order for 
+a split to be attempted. 
 }
 \item{minbucket}{
   the minimum number of observations in any terminal \code{<leaf>} node.
@@ -54,7 +54,7 @@ rpart.control(minsplit=20, minbucket=round(minsplit/3), cp=0.01,
   \code{tree}, and 2 to the recommendations of Breiman, et.al.
 }
 \item{xval}{
-  number of cross-validations
+number of cross-validations 
 }
 \item{surrogatestyle}{
   controls the selection of a best surrogate.
@@ -67,7 +67,7 @@ rpart.control(minsplit=20, minbucket=round(minsplit/3), cp=0.01,
 }
 \item{maxdepth}{
   Set the maximum depth of any node of the final tree, with the root
-  node counted as depth 0 (past 30 rpart will give nonsense results on
+  node counted as depth 0 (past 30 \code{rpart} will give nonsense results on
   32-bit machines).
 }
 }
@@ -77,5 +77,6 @@ rpart.control(minsplit=20, minbucket=round(minsplit/3), cp=0.01,
 \seealso{
 \code{\link{rpart}}
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

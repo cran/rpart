@@ -1,7 +1,9 @@
-/* SCCS @(#)rpart.h	1.7 01/06/00 */
+/* SCCS %W% %G%   */
 /*
 ** commom variables for the rpart routine
 */
+#include <R.h>
+#undef error
 #ifndef FLOAT
 #define FLOAT double    /*so I can easily change 'x' to double at some later
 			 date, with all the consequences thereof.  Also see
@@ -10,15 +12,12 @@
 #define LEFT  (-1)     /*used for the variable "extra" in nodes */
 #define RIGHT  1
 #define MISSING 0
-#define CPLIST_EPS .05  /* Any complexity parameters within 10% of each other
-			**   are considered tied, i.e., (x-y)/(x+y) < .05 .
-			*/
 
 /* As a sop to S, I need to keep the total number of external symbols
 **  somewhat smaller.  So, pack most of them all into a structure.
 */
 struct {
-    double complex;
+    double complexity;
     double alpha;
     double **ydata;
     FLOAT  **xdata;
@@ -28,8 +27,8 @@ struct {
     double *wtemp;          /* temp vector of weights */
     double *lwt;
     double *rwt;            /*scratch double vectors, of length ncat */
-    int    *numcat;        /* variable type: 0=cont, 1+  =#categories */
-    int   **sorts;             /* allocated on the fly */
+    Sint    *numcat;        /* variable type: 0=cont, 1+  =#categories */
+    Sint   **sorts;             /* allocated on the fly */
     int    n;              /* total number of subjects  */
     int    num_y;          /* number of y variables */
     int    nvar;           /* number of predictors */
@@ -58,10 +57,10 @@ double (*rp_error)();     /*set to the prediction error routine */
 /*
 ** The user inputs his complexity parameter as a percentage. and the
 **   printout is also scaled in this way.  The book and the computations all
-**   have an easier time with absolute cp.  So complex_p = what the user
-**   typed and alpha = complex_p * (risk of top node) = what is used
+**   have an easier time with absolute cp.  So complex = what the user
+**   typed and alpha = complex * (risk of top node) = what is used
 **   internally.
-**
+** The variable 'complex' in node.h is also on the internal scale.
 **
 ** Categorical variables must be coded as 1,2,3, ..., and there may be
 **  missing categories.  The upper limit is determined on the fly.

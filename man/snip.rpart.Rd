@@ -1,7 +1,7 @@
 \name{snip.rpart}
 \alias{snip.rpart}
 \title{
-  Snip Subtrees of an Rpart Object
+  Snip Subtrees of an Rpart Object 
 }
 \description{
   Creates a "snipped" rpart object, containing the nodes that remain
@@ -52,13 +52,7 @@ plot(z.survey) #plot the tree
 z.survey2 <- snip.rpart(z.survey,toss=2) #trim subtree at node 2
 plot(z.survey2) #plot new tree
 
-
 # can also interactively select the node using the mouse in the
 # graphics window
-}
-
-}
-\keyword{rpart}
-
-
-
+}}
+\keyword{tree}

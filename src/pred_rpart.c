@@ -28,10 +28,10 @@
 #include "rpart.h"
 #include "rpartproto.h"
 
-void pred_rpart(int *dimx,	int *nnode, 	int *nsplit, 	int *dimc, 
-		int *nnum,  	int *nodes2,   int *vnum,     double *split2,
-		int *csplit2,  int *usesur,   double *xdata2, 
-		int *xmiss2,   int *where)
+void pred_rpart(Sint *dimx,	Sint *nnode, 	Sint *nsplit, 	Sint *dimc, 
+		Sint *nnum,  	Sint *nodes2,   Sint *vnum,     double *split2,
+		Sint *csplit2,  Sint *usesur,   double *xdata2, 
+		Sint *xmiss2,   Sint *where)
     {
     int i,j;
     int n;
@@ -40,9 +40,9 @@ void pred_rpart(int *dimx,	int *nnode, 	int *nsplit, 	int *dimc,
     int lcount, rcount;
     int npos;
     double temp;
-    int   *nodes[4];
+    Sint   *nodes[4];
     double *split[4];
-    int   **csplit,
+    Sint   **csplit,
 	   **xmiss;
     double **xdata;
 
@@ -53,10 +53,10 @@ void pred_rpart(int *dimx,	int *nnode, 	int *nsplit, 	int *dimc,
 	}
 
     if (dimc[1] > 0) {
-	csplit = (int **)  ALLOC((int)dimc[1], sizeof(int*));
+	csplit = (Sint **)  ALLOC((int)dimc[1], sizeof(int*));
 	for (i=0; i<dimc[1]; i++)  csplit[i] = &(csplit2[i * dimc[0]]);
 	}    
-    xmiss =  (int **)  ALLOC((int)dimx[1], sizeof(int*));
+    xmiss =  (Sint **)  ALLOC((int)dimx[1], sizeof(int*));
     xdata = (double **) ALLOC((int)dimx[1], sizeof(double*));
     for (i=0; i<dimx[1]; i++) {
 	xmiss[i] = &(xmiss2[i * dimx[0]]);

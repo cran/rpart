@@ -64,7 +64,7 @@ snip.rpart <- function(x, toss) {
     # Thin out unneeded rows in the frame component
     ff$ncompete[newleaf] <- ff$nsurrogate[newleaf] <- 0
     ff$var[newleaf]     <- "<leaf>"
-    ff$splits[newleaf,] <- ""
+##    ff$splits[newleaf,] <- ""
     x$frame <- ff[sort(c(keepit, newleaf)),]
 
     # Now do the 'parents' loop one more time, to fix up the "where"

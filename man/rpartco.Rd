@@ -1,7 +1,7 @@
 \name{rpartco}
 \alias{rpartco}
 \title{
-Calculate Plotting Coordinates for Nodes of an Rpart Object
+  Calculate Plotting Coordinates for Nodes of an Rpart Object 
 }
 \usage{
 rpartco(tree, parms=paste(".rpart.parms", dev.cur(), sep = "."))
@@ -25,10 +25,11 @@ rpartco(tree, parms=paste(".rpart.parms", dev.cur(), sep = "."))
   Called by \code{plot.rpart}.
 }
 \details{
-  This is not intended to be called directly by users.
+This is not intended to be called directly by users. 
 }
 \seealso{
   \code{\link{plot.rpart}}.
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

@@ -1,3 +1,10 @@
+2001 May 25	3.0-0	New sources from TMT with user-specified splits.
+			Use format(nsmall=) and naresid/naprint from
+			  R 1.3.0.
+			Change na.rpart to make use of passing down the
+			  terms attribute in R 1.3.0.
+			Explicitly get/set .rpart.parms* in user workspace.
+			
 2001 Mar 31	2.0-3	Add priority: recommended
 			Re-licence under GPL2
 

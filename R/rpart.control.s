@@ -1,7 +1,7 @@
-#SCCS @(#)rpart.control.s	1.6 01/06/00
+#SCCS %W% %G%
 rpart.control <-
   function(minsplit=20, minbucket= round(minsplit/3), cp=.01,
-	   maxcompete=4, maxsurrogate=5, usesurrogate=2, xval=10,
+	   maxcompete=4, maxsurrogate=5, usesurrogate=2, xval=10, 
 	   surrogatestyle =0, maxdepth=30, ... ) {
 
 	if (maxcompete<0) {
@@ -17,8 +17,11 @@ rpart.control <-
 
 	if (missing(minsplit) && !missing(minbucket)) minsplit <- minbucket*3
 
+	# Because xval can be of length either 1 or n, and the C code
+	#   refers to parameters by number, i.e., "opt[5]" in rpart.c, 
+	#   the xval parameter should always be last on the list.
 	list(minsplit=minsplit, minbucket=minbucket, cp=cp,
 	     maxcompete=maxcompete, maxsurrogate=maxsurrogate,
-	     usesurrogate=usesurrogate,
-	     surrogatestyle=surrogatestyle, xval=xval, maxdepth=maxdepth )
+	     usesurrogate=usesurrogate, 
+	     surrogatestyle=surrogatestyle, maxdepth=maxdepth, xval=xval )
 	}

@@ -1,4 +1,4 @@
-/* SCCS @(#)func_table.h	1.3  01/25/97 */
+/* SCCS %W% %G%  */
 /*
 ** The table of implimented splitting functions
 **
@@ -11,26 +11,52 @@
 **  num_y        - Number of columns needed to represent y (usually 1)
 */
 
-extern void anova(), anovass();
-extern int anovainit();
-extern double anovapred();
-extern int poissoninit();
-extern void poisson(), poissondev();
-extern double poissonpred();
-extern int giniinit();
-extern void gini(), ginidev();
-extern double ginipred();
+extern int anovainit( int n,	    double*y[],  int maxcat, char **error, 
+		      double *parm, int *size,   int who,    double *wt);
+extern int poissoninit(int n,	     double*y[],  int maxcat, char **error, 
+		       double *parm, int *size,   int who,    double *wt);
+extern int    giniinit(int n,	     double*y[],  int maxcat, char **error, 
+		       double *parm, int *size,   int who,    double *wt);
+extern int usersplit_init(int n,     double*y[],  int maxcat, char **error, 
+		       double *parm, int *size,   int who,    double *wt);
 
+extern void anovass   (int n,     double *y[], double *value, double *risk,
+                                  double *wt);
+extern void poissondev(int n,     double *y[], double *value, double *risk,
+                                  double *wt);
+extern void ginidev   (int n,     double *y[], double *value, double *risk,
+                                  double *wt);
+extern void usersplit_eval(int n,     double *y[], double *value, double *risk,
+                           double *wt);
+
+extern void anova(    int n,    double *y[],     FLOAT *x,     int nclass, 
+                      int edge, double *improve, FLOAT *split, int *csplit, 
+                      double myrisk,             double *wt);
+extern void poisson(  int n,    double *y[],     FLOAT *x,     int nclass, 
+                      int edge, double *improve, FLOAT *split, int *csplit, 
+                      double myrisk,             double *wt);
+extern void gini(     int n,    double *y[],     FLOAT *x,     int nclass, 
+                      int edge, double *improve, FLOAT *split, int *csplit, 
+                      double myrisk,             double *wt);
+extern void usersplit(int n,    double *y[],     FLOAT *x,     int nclass, 
+                      int edge, double *improve, FLOAT *split, int *csplit, 
+                      double myrisk,             double *wt);
+
+extern double anovapred  (double *y, double *yhat);
+extern double  ginipred  (double *y, double *yhat);
+extern double poissonpred(double *y, double *yhat);
+extern double usersplit_pred(double *y, double *yhat);
+    
 static struct {
 	int  (*init_split)();
 	void (*choose_split)();
 	void (*eval)();
 	double (*error)();
-	int num_y;
 	  } func_table [] =
-		 {{anovainit,   anova,   anovass,    anovapred, 1},
-		  {poissoninit, poisson, poissondev, poissonpred, 2},
-		  {giniinit, gini, ginidev, ginipred, 1},
+		 {{anovainit,   anova,   anovass,    anovapred},
+		  {poissoninit, poisson, poissondev, poissonpred},
+		  {giniinit, gini, ginidev, ginipred},
+		  {usersplit_init, usersplit, usersplit_eval, usersplit_pred}
 		 };
 
-#define NUM_METHODS 3  /*size of the above structure */
+#define NUM_METHODS 4  /*size of the above structure */

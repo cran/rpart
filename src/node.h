@@ -2,9 +2,6 @@
 /*
 ** definition of a node in the tree
 */
-#ifndef FLOAT
-#define FLOAT double   /*see comments in rpart.h */
-#endif
 
 struct split {
     double improve;

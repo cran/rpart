@@ -1,43 +1,68 @@
 \name{labels.rpart}
 \alias{labels.rpart}
 \title{
-  Create Split Labels For an Rpart Object
-}
-\usage{
-labels.rpart(object, pretty = TRUE, collapse = TRUE)
+  Create Split Labels For an Rpart Object 
 }
 \description{
-  Create split labels for an \code{rpart} object.
+This function provides labels for the branches of an
+ \code{rpart} tree.
+}
+\usage{
+labels.rpart(object, digits=4, minlength=1, pretty=TRUE, collapse=TRUE, ...)
 }
 \arguments{
 \item{object}{
-  fitted model object of class \code{rpart}.  This is assumed to be the result
-  of some function that produces an object with the same named
-  components as that returned by the \code{rpart} function.
+fitted model object of class \code{rpart}.  This is 
+assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the \code{rpart} function.
+}
+\item{digits}{
+the number of digits to be used for numeric values.  
+All of the \code{rpart} functions that call labels
+explicitly set this value, with \code{options('digits')}
+as the default.
+}
+\item{minlength}{
+the minimum length for abbreviation of character or factor variables.
+If 0 no abbreviation is done; if 1 then single letters are used with "a"
+for the first level, "b" for the second and so on.
+If the value is greater than 1, the 
+\code{abbreviate} function is used.
 }
 \item{pretty}{
-  an integer denoting the extent to which factor levels will be
-  abbreviated in the character strings defining the splits;
-  (0) signifies no abbreviation of levels.  A \code{NULL} signifies using
-  elements of letters to represent the different factor levels.  The
-  default (TRUE) indicates the maximum possible abbreviation.
+an argument included for backwards compatability:
+pretty=0 implies minlength=0, pretty=NULL implies minlength=1, and
+pretty=T implies minlength=4.
 }
 \item{collapse}{
-  logical.  If \code{TRUE} (default), the returned value is a vector of labels
-  for each node, otherwise a matrix of left and right split labels is
-  returned. 
-}}
+logical.
+The returned set of labels is always of the same length as the number
+of nodes in the tree.  
+If \code{collapse=TRUE} (default), 
+the returned value is a vector of labels for the branch leading into
+each node, with "root" as the label for the top node.
+If \code{FALSE}, the returned value is a two
+column matrix of labels for the left and right branches leading 
+out from each node, with "leaf" as the branch labels for terminal
+nodes.
+}
+\item{\dots}{
+optional arguments to \code{abbreviate}.
+}
+}
 \value{
-  Vector of split labels (\code{collapse=RUET}) or matrix of left and
-  right splits (\code{collapse=FALSE}) for the supplied \code{rpart}
-  object.  This function is called by printing methods for \code{rpart}
-  and is not intended to be called directly by the users.
+Vector of split labels (\code{collapse=T}) or matrix 
+of left and right splits 
+(\code{collapse=F}) for the supplied 
+\code{rpart} object.  This function is called 
+by printing methods for \code{rpart} and is not 
+intended to be called 
+directly by the users. 
 }
 \seealso{
-\code{\link{abbreviate}}
+\code{\link{abbreviate}} 
 }
-\keyword{rpart}
-
-
-
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.

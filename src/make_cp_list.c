@@ -1,9 +1,10 @@
-/* SCCS @(#)make_cp_list.c	1.3 12/13/99 */
+/* SCCS @(#)make_cp_list.c	1.4 07/26/00 */
 /*
 ** This routine creates the list of unique complexity parameters.
 ** The list is maintained in sorted order.  If two parameters are within
 ** "cplist_epsilon" of one another, then only the larger of them is
 ** retained.
+**       CHANGE: 7/2000, the "cplist-epsilon" logic moved to S code
 **   I want the list sorted with the largest cp at the top of the list, since
 ** that is the order that the CP table will be printed in.
 **
@@ -47,14 +48,8 @@ void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
     if (me_cp < parent) {  /*if not, then it can't be unique */
 	for (cplist= cptable_head; cplist !=0; cplist= cplist->forward) {
 	    /* am I tied? */
-	    if (me_cp==0 && cplist->cp==0) return;
-	    if ((fabs(cplist->cp -me_cp)/ (cplist->cp + me_cp)) < CPLIST_EPS){
-		if (me_cp > cplist->cp) cplist->cp = me_cp;
-		return;
-		}
+	    if (me_cp == cplist->cp) return;  /* exact ties */
 
-
-	    /* should I be inserted? */
 	    if (me_cp > cplist->cp) break;
 	    cptemp = cplist;
 	    }

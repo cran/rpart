@@ -1,4 +1,4 @@
-#SCCS  @(#)rpart.matrix.s	1.5 01/20/00
+#SCCS  %W% %G%
 #
 # This differs from tree.matrix in xlevels -- we don't keep NULLS in
 #   the list for all of the non-categoricals
@@ -36,7 +36,6 @@ rpart.matrix <- function(frame)
 		frame[[preds]] <- as.factor(frame[[preds]])
         factors <- factors | characters
         column.levels <- lapply(frame[factors], levels)
-	names(column.levels) <- (1:ncol(frame))[factors]
 
 	# Now make them numeric
 	for (preds in predictors[factors])
@@ -47,4 +46,6 @@ rpart.matrix <- function(frame)
     else x <- as.matrix(frame[predictors])
     class(x) <- "rpart.matrix"
     x
-}
+    }
+
+

@@ -104,7 +104,7 @@ int giniinit(int n,        double **y, int maxcat, char **error,
 */
 void ginidev(int n, double **y, double *value, double *risk, double *wt)
     {
-    int i, j, max;
+    int i, j, max = 0;
     double  temp, dev;
 
     dev =0;
@@ -163,7 +163,7 @@ void gini(int n,    double *y[],     FLOAT *x,     int numcat,
     int i,j,k;
     double lwt, rwt;
     int  rtot, ltot;
-    int    direction, where;
+    int    direction = LEFT, where = 0;
     double total_ss,
 	   best,
 	   temp, p;

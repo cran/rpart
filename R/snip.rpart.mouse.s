@@ -8,8 +8,8 @@ snip.rpart.mouse <- function(tree,
     xy <- rpartco(tree)
     toss <- NULL
     ff <- tree$frame
-    if (exists(parms)) {
-        parms <- get(parms)
+    if (exists(parms, envir=.GlobalEnv)) {
+        parms <- get(parms, envir=.GlobalEnv)
 	branch <- parms$branch
 	}
     else branch <- 1

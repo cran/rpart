@@ -1,7 +1,7 @@
 \name{na.rpart}
 \alias{na.rpart}
 \title{
-  Handles Missing Values in an Rpart Object
+  Handles Missing Values in an Rpart Object 
 }
 \usage{
 na.rpart(x)
@@ -18,5 +18,6 @@ na.rpart(x)
   Internal function that handles missing values when calling the
   function \code{rpart}.
 }
-\keyword{rpart}
-
+\keyword{tree}
+% docclass is function
+% Converted by Sd2Rd version 1.20.
