@@ -40,6 +40,11 @@ snip.rpart(x, toss)
   See the documentation for the specific graphics device for details on
   graphical input techniques.
 }
+\section{Warning}{
+  Visually erasing the plot is done by over-plotting with the background
+  colour.  This will do nothing if the background is transparent
+  (often true for screen devices).
+}
 \seealso{
   \code{\link{plot.rpart}}
 }
