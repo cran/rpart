@@ -1,3 +1,6 @@
+2001 Nov 11	3.1-3	Change to zero-split case in rpart.
+			Fixes from TMT re pruning single-node trees.
+
 2001 Sep 25	3.1-2	Fixes to predict.rpart, residuals.rpart.
 
 2001 Aug 23	3.1-1	Further fixes from TMT, xpred.rpart was not

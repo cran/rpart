@@ -188,9 +188,11 @@ rpart <- function(formula, data=NULL, weights, subset,
     else          temp <- c("CP", "nsplit", "rel error", "xerror", "xstd")
     dimnames(rp$cptable) <- list(temp, 1:numcp)
 
+    # R change for empty-vector calculations.
+    dn1 <- if(nsplit == 0) character(0) else tname[rp$isplit[,1]+1]
     splits<- matrix(c(rp$isplit[,2:3], rp$dsplit), ncol=5,
-		     dimnames=list(tname[rp$isplit[,1]+1],
-			  c("count", "ncat", "improve", "index", "adj")))
+                    dimnames = list(dn1,
+                    c("count", "ncat", "improve", "index", "adj")))
     index <- rp$inode[,2]  #points to the first split for each node
 
     # Now, make ordered categories look like categories again (a printout

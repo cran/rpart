@@ -1,4 +1,4 @@
-#SCCS  @(#)snip.rpart.s	1.9 05/11/01
+#SCCS  @(#)snip.rpart.s	1.10 10/30/01
 #
 #  This routine "throws away" branches
 #
@@ -24,11 +24,11 @@ snip.rpart <- function(x, toss) {
         toss.idx <- toss.idx[toss.idx>0]
         }
 
-    if (any(toss==1))  {
-	# a special case that causes grief later
-	warning("Can't prune away the root node and still have a tree!")
-        return(NULL)
-	}
+#    if (any(toss==1))  {
+#	# a special case that causes grief later
+#	warning("Can't prune away the root node and still have a tree!")
+#        return(NULL)
+#	}
 
     # Now add all of the descendants of the selected nodes
     #   We do this be finding all node's parents.

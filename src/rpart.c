@@ -1,4 +1,4 @@
-/* SCCS @(#)rpart.c	1.12 07/05/01    */
+/* SCCS @(#)rpart.c	1.13 08/13/01    */
 /*
 ** The main entry point for recursive partitioning routines.
 **

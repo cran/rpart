@@ -1,4 +1,4 @@
-/* SCCS @(#)graycode.c	1.5 12/13/99 */
+/* SCCS @(#)graycode.c	1.6 11/08/01 */
 /*
 ** Walk through subsets in an ordered way.
 **   For all subsets, this is the classic gray code.
@@ -88,14 +88,16 @@ int graycode() {
 	**  The initial subset has everyone in the right group.  Each
 	**  subset varies from the prior by only one member -- the
 	**  following item changes groups: 1,2,1,4,1,2,1,8,1,2,1,4,1,...
+	**  The outer loop only goes up to maxc-1: we know for rpart that
+	**    changing the allegiance of the last subject is never necessary
 	*/
-	for (i=0; i<maxc; i++) {
+	for (i=0; i< (maxc-1); i++) {
 	    if (gray[i] ==1 ) {
 		gray[i] =2;
-		break;
+		return(i);
 		}
 	    else if (gray[i]==2) gray[i] =1;
 	    }
-	return(i);
+	return(maxc);  /* signal "done" */
 	}
     }

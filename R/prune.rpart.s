@@ -1,4 +1,4 @@
-#SCCS @(#)prune.rpart.s	1.8 02/27/98
+#SCCS @(#)prune.rpart.s	1.9 10/30/01
 prune.rpart <- function(tree, cp, ...)
 {
     ff <- tree$frame
@@ -11,7 +11,7 @@ prune.rpart <- function(tree, cp, ...)
     ## Now cut down the CP table
     temp <- pmax(tree$cptable[,1], cp)
     keep <- match(unique(temp), temp)
-    newx$cptable <- tree$cptable[keep,]
+    newx$cptable <- tree$cptable[keep,,drop=FALSE]
     newx$cptable[max(keep),1] <- cp
 
     newx
