@@ -32,7 +32,7 @@ struct split *insert_split(struct split **listhead, int ncat,
 	s3 = *listhead;
 	if (improve <= s3->improve) return(0);
 	if (ncat >1) {
-	    free(s3);
+	    Free(s3);
 	    s3 = (struct split *)CALLOC(1, sizeof(struct split)+
 						(ncat-1)*sizeof(int));
 	    s3->nextsplit =0;
@@ -58,7 +58,7 @@ struct split *insert_split(struct split **listhead, int ncat,
     if (nlist==max) {
 	if (s2==0)  return(0);        /* not good enough */
 	if (ncat >1) {
-	    free(s4);              /*get new memory-- this chunk may be too small */
+	    Free(s4);              /*get new memory-- this chunk may be too small */
 	    s4 = (struct split *)CALLOC(1, sizeof(struct split) +
 						     (ncat-2)*sizeof(int));
 	    }

@@ -164,7 +164,7 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
 	/*
 	** partition the new tree
 	*/
-	xtree = (struct node *) calloc(1, nodesize);
+	xtree = (struct node *) CALLOC(1, nodesize);
 	xtree->num_obs = k;
 	(*rp_init)(k,rp.ytemp, maxcat, error, parms, &temp, 2, rp.wtemp);
 	(*rp_eval)(k, rp.ytemp, xtree->response_est, &(xtree->risk),

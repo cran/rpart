@@ -63,8 +63,9 @@ void rplabel(int *nsplit,   int *index,   double *splits,
 	}
     }
 
+#include "rpartS.h"
 static char *Rp_strdup(s)
 char *s;
 {
-	return(strcpy(malloc(strlen(s)+1), s));
+	return(strcpy(CALLOC(strlen(s)+1, 1), s));
 }

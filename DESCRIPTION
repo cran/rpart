@@ -1,5 +1,5 @@
 Package: rpart
-Version: 2.0-1
+Version: 2.0-2
 Date: 2000/02/25 version of rpart2, ported to R 2000/02/29 to 2000/08/12.
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.
         R port by Brian Ripley <ripley@stats.ox.ac.uk>.
