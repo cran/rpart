@@ -43,8 +43,8 @@ labels.rpart <- function(object, digits=4, minlength=1, pretty,
     if (any(ncat <2)) {  # any continuous vars ?
 	jrow <- irow[ncat <2]
 	cutpoint <- formatg(object$splits[jrow,4], digits)
-	temp1 <- (ifelse(ncat<0, "<", ">"))[ncat <2]
-	temp2 <- (ifelse(ncat<0, ">", "<"))[ncat <2]
+	temp1 <- (ifelse(ncat<0, "<", ">="))[ncat <2]
+	temp2 <- (ifelse(ncat<0, ">=", "<"))[ncat <2]
 	lsplit[ncat<2] <- paste(temp1, cutpoint, sep='')
 	rsplit[ncat<2] <- paste(temp2, cutpoint, sep='')
 	}

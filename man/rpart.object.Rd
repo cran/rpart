@@ -27,13 +27,13 @@ and \code{splits}, a two column matrix of left and right split labels
 for each node.
 All of these are the same as for an \code{rpart} object.
 
-
-Extra response information is in \code{yval2}, which contains the number of
-events at the node (poisson), or a matrix containing the vector of
-class counts for each node (classification).
-Also included in the frame are \code{complexity}, the complexity parameter at
-which this split will collapse, \code{ncompete}, the number of competitor splits
-retained, and \code{nsurrogate}, the number of surrogate splits retained.
+Extra response information is in \code{yval2}, which contains the number
+of events at the node (poisson), or a matrix containing the fitted
+class, the class counts for each node and the class probabilities
+(classification).  Also included in the frame are \code{complexity}, the
+complexity parameter at which this split will collapse, \code{ncompete},
+the number of competitor splits retained, and \code{nsurrogate}, the
+number of surrogate splits retained.
 }
 \item{where}{
 vector, the same length as the number of observations in the root node, 

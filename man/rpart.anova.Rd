@@ -5,6 +5,7 @@
 }
 \description{
   Set up for \code{anova} method for an \code{rpart} model.
+}
 \usage{
 rpart.anova(y, offset, parms, wt)
 }
@@ -15,4 +16,3 @@ rpart.anova(y, offset, parms, wt)
 }
 \keyword{tree}
 % docclass is function
-% Converted by Sd2Rd version 1.20.

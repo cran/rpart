@@ -66,4 +66,4 @@ data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 summary(z.auto)
 }
-\keyword(datasets)
+\keyword{datasets}

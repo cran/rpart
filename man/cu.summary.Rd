@@ -58,7 +58,7 @@ data(cu.summary)
 \examples{
 data(cu.summary)
 fit <- rpart(Price ~ Mileage + Type + Country, cu.summary)
-plot(fit, compress=T)
-text(fit, use.n=T)
+plot(fit, compress=TRUE)
+text(fit, use.n=TRUE)
 }
-\keyword(datasets)
+\keyword{datasets}

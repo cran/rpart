@@ -67,4 +67,4 @@ fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
 summary(residuals(fit))
 plot(predict(fit),residuals(fit))
 }
-\keyword(datasets)
+\keyword{datasets}

@@ -14,9 +14,9 @@ residuals.rpart <- function(object, type)
         frame <- object$frame
 
         if(is.null(ylevels <- attr(object, "ylevels"))) {
-                tmpr <-y - frame$yval[object$where]    #       y <- unclass(y)
+                tmpr <- y - frame$yval[object$where]    #       y <- unclass(y)
 		#Expand out the missing values in the result
-                if (!is.null(object$na.action)) 
+                if (!is.null(object$na.action))
                	   tmpr <- naresid(object$na.action, tmpr)
                 return(tmpr)
 	      }
@@ -27,7 +27,11 @@ residuals.rpart <- function(object, type)
                 stop("Don't know about this type of residual")
         if(type == "usual")
                 yhat <- frame$yval[object$where]
-        else yhat <- frame$yprob[object$where,  ][cbind(seq(y), unclass(y))]
+        else {
+            nclass <- length(ylevels)
+            yprob  <- frame$yval2[, 1+nclass + 1:nclass]
+            yhat <- yprob[object$where,  ][cbind(seq(y), unclass(y))]
+        }
         r <- switch(type,
                 usual = as.integer(y != yhat),
                 # misclassification
@@ -49,7 +53,7 @@ residuals.rpart <- function(object, type)
 	}
 
     #Expand out the missing values in the result
-    if (!is.null(object$na.action)) 
+    if (!is.null(object$na.action))
 	r <- naresid(object$na.action, r)
 
     r

@@ -1,3 +1,11 @@
+2001 Jul 25	3.0-2	Further updates from TMT.
+			Correct documentation for predict.rpart.
+			Remove left-over frame$yprob in residuals.rpart.
+			Use >= vs < in the labels for continuous splits.
+
+2001 Jul 03	3.0-1	Restore use of FUN1 in text.rpart, as NAs are
+			handled differently in R.
+
 2001 May 25	3.0-0	New sources from TMT with user-specified splits.
 			Use format(nsmall=) and naresid/naprint from
 			  R 1.3.0.
