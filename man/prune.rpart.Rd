@@ -10,7 +10,7 @@ by recursively \code{snipping} off the least important splits, based on the
 complexity parameter (\code{cp}). 
 }
 \usage{
-prune.rpart(tree, cp)
+prune.rpart(tree, cp, ...)
 }
 \arguments{
 \item{tree}{
@@ -19,8 +19,10 @@ of some function that produces an object with the same named
 components as that returned by the \code{rpart} function. 
 }
 \item{cp}{
-Complexity parameter to which the \code{rpart} object will be trimmed.
-}}
+  Complexity parameter to which the \code{rpart} object will be trimmed.
+}
+\item{\dots}{further arguments passed to or from other methods.}
+}
 \value{
 A new \code{rpart} object that is trimmed to the value \code{cp}. 
 }

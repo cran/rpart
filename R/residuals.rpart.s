@@ -1,5 +1,5 @@
 #SCCS  %W% %G%
-residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"))
+residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"), ...)
     {
     if(!inherits(object, "rpart"))
 	    stop("Not legitimate rpart object")

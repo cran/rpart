@@ -94,7 +94,7 @@ xpred.rpart <- function(fit, xval=10, cp)
     costs <- fit$call$costs
     if (is.null(costs)) costs <- rep(1.0, nvar)
 
-    parms <- as.double(fit$parms)
+    parms <- fit$parms
     if (method=='user') {
 	mlist <- fit$functions
 	if (length(parms)==0) init <- mlist$init(Y, offset, wt=wt)
@@ -110,7 +110,7 @@ xpred.rpart <- function(fit, xval=10, cp)
                 ncat = as.integer(cats * !fit$ordered),
                 method= as.integer(method.int),
                 as.double(unlist(controls)),
-                parms = as.double(parms),
+                parms = as.double(unlist(parms)),
                 as.integer(xval),
                 as.integer(xgroups),
                 as.double(t(Y)),

@@ -162,6 +162,7 @@ rpart <- function(formula, data=NULL, weights, subset,
     ncat  <- rpfit$ncat[1]    #total number of categorical splits
     numresp<- init$numresp    # length of the response vector
 
+    if (nsplit == 0) xval <- 0
     cpcol <- if (xval>0 && nsplit>0) 5 else 3
     if (ncat==0) catmat <- 0
     else         catmat <- matrix(integer(1), ncat, max(cats))

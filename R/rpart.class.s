@@ -63,6 +63,8 @@ rpart.class <- function(y, offset, parms, wt) {
 				 digits=digits,nsmall=digits)
 		 }
 	     else yprob <- formatg(yval[, 1+nclass + 1:nclass], digits=2)
+             if(is.null(dim(yprob))) # yprob is a vector
+                     yprob <- matrix(yprob, ncol=length(yprob))
 	     temp <- paste(temp, ' (', yprob[,1], sep='')
 	     for(i in 2:ncol(yprob))
 		     temp  <- paste(temp, yprob[, i], sep=' ')

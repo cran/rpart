@@ -1,3 +1,6 @@
+2001 Aug 23	3.1-1	Further fixes from TMT, xpred.rpart was not
+			intepreting fit$parms correctly.
+
 2001 Aug 08	3.1-0	Further updates from TMT.
                         More documentation updates and corrections.
 

@@ -1,5 +1,5 @@
 #SCCS @(#)prune.rpart.s	1.8 02/27/98
-prune.rpart <- function(tree, cp)
+prune.rpart <- function(tree, cp, ...)
 {
     ff <- tree$frame
     id <- as.integer(row.names(ff))

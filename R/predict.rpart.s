@@ -1,7 +1,7 @@
 ## SCCS @(#)predict.rpart.s	1.11 06/03/01
 predict.rpart <-
 function(object, newdata = list(),
-	 type = c("vector", "prob", "class", "matrix")) {
+	 type = c("vector", "prob", "class", "matrix"), ...) {
     if(!inherits(object, "rpart"))
 	stop("Not legitimate tree")
     type <- match.arg(type)

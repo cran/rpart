@@ -9,7 +9,7 @@
 }
 \usage{
 \method{predict}{rpart}(object, newdata=list(),
-       type=c("vector", "prob", "class", "matrix"))
+       type=c("vector", "prob", "class", "matrix"), ...)
 }
 \arguments{
   \item{object}{
@@ -31,6 +31,7 @@
     default behavior of \code{\link[tree]{tree}}).  Otherwise, a vector
     result is returned.
   }
+  \item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
   A new object is obtained by

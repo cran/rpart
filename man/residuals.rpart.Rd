@@ -4,7 +4,7 @@
   Residuals From a Fitted Rpart Object 
 }
 \usage{
-\method{residuals}{rpart}(object, type = c("usual", "pearson", "deviance"))
+\method{residuals}{rpart}(object, type = c("usual", "pearson", "deviance"), ...)
 }
 \description{
   Method for \code{residuals} for an \code{rpart} object.
@@ -33,7 +33,10 @@
   is the observed - expected number of events.
   The \code{pearson} and \code{deviance} residuals are as defined in
   McCullagh and Nelder.
-}}
+}
+\item{\dots}{further arguments passed to or from other methods.}
+
+}
 \value{
 vector of residuals of type \code{type} from a fitted \code{rpart} object. 
 }
