@@ -69,7 +69,8 @@ of that factor level.
 }
 \item{\dots}{
   Graphical parameters may also be supplied as arguments to this
-  function (see \code{par}).
+  function (see \code{par}).  As labels often extend outside the plot
+  region it can be helpful to specify \code{xpd = TRUE}.
 }}
 \section{Side Effects}{
   the current plot of a tree dendrogram is labeled.

@@ -1,4 +1,3 @@
-#SCCS @(#)plot.rpart.s	1.8 06/08/01
 plot.rpart <- function(x, uniform=FALSE, branch=1, compress=FALSE,
 			     nspace, margin=0, minbranch=.3, ...){
     if(!inherits(x, "rpart"))
@@ -9,9 +8,8 @@ plot.rpart <- function(x, uniform=FALSE, branch=1, compress=FALSE,
 
     if (compress & missing(nspace)) nspace <- branch
     if (!compress) nspace <- -1     #means no compression
-    dev <- dev.cur()
-    if (dev == 1) dev <- 2
-    assign(paste(".rpart.parms", dev, sep = "."),
+    if (dev.cur() == 1) get(getOption("device"))()
+    assign(paste(".rpart.parms", dev.cur(), sep = "."),
             list(uniform=uniform, branch=branch, nspace=nspace,
 		 minbranch=minbranch), envir=.GlobalEnv)
 
@@ -28,11 +26,10 @@ plot.rpart <- function(x, uniform=FALSE, branch=1, compress=FALSE,
     node <- as.numeric(row.names(x$frame))
     temp <- rpart.branch(xx, yy, node, branch)
 
-    if (branch>0) text(xx[1], yy[1], '|')
+    if (branch > 0) text(xx[1], yy[1], '|')
     lines(c(temp$x), c(temp$y))
     invisible(list(x=xx, y=yy))
 }
-
 
 
 

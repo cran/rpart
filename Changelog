@@ -1,3 +1,7 @@
+2004 Nov 17     3.1-21  Change logic for setting params on a device 
+	                in plot.rpart.
+			text.rpart.Rd: Mention use of xpd=TRUE.
+
 2004 Aug 25     3.1-20  Stop attempts to plot a degenerate tree
 
 2004 Aug 03     3.1-18  Conversion for R 2.0.0 & LazyData
