@@ -19,7 +19,7 @@ void bsplit(struct node *me, int nodenum)
     int i, j, k;
     int nc;
     double improve;
-    FLOAT split;
+    FLOAT split = 0.0; /* in case choose does not set it */
     struct split *tsplit;
     Sint *index;
     int  *which;

@@ -38,7 +38,7 @@ function(object, newdata = list(),
 	names(pred) <- names(where)
     }
     else if (type == "prob" && nclass > 0) {
-	pred <- frame$yval2[where, 1 + nclass + 1:nclass]
+	pred <- frame$yval2[where, 1 + nclass + 1:nclass, drop = FALSE]
 	dimnames(pred) <- list(names(where), ylevels)
     }
     else stop("Invalid prediction for rpart object")
