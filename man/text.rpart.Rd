@@ -46,7 +46,7 @@ of that factor level.
   number of significant digits to include in numerical labels.
 }
 \item{use.n}{
-  Logical.  If \code{TRUE} (default), adds to label 
+  Logical.  If \code{TRUE}, adds to label 
   (\#events level1/ \#events level2/etc. for \code{class},
   \code{n} for \code{anova}, and \#events/n for \code{poisson} and \code{exp}).
 }

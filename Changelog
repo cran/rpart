@@ -1,6 +1,6 @@
-2004 Aug 04     3.1-19  Version for R 2.0.0
+2004 Aug 25     3.1-20  Stop attempts to plot a degenerate tree
 
-2004 Aug 04	3.1-18  Version for R 2.0.0
+2004 Aug 03     3.1-18  Conversion for R 2.0.0 & LazyData
 
 2004 Jun 22     3.1-17  Fix possible use of uninitialized `split' in bsplit.c
                         Add drop=FALSE for probs prediction for a single case.

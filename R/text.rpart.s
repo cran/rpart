@@ -10,6 +10,8 @@ text.rpart <-
 {
     if(!inherits(x, "rpart")) stop("Not legitimate rpart")
     if(!is.null(x$frame$splits)) x <- rpconvert(x)#Backwards compatability
+    if (nrow(x$frame) <= 1)
+        stop("fit is not a tree, just a root")
 
     frame <- x$frame
     col <- names(frame)

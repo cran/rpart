@@ -4,6 +4,8 @@ plot.rpart <- function(x, uniform=FALSE, branch=1, compress=FALSE,
     if(!inherits(x, "rpart"))
 	    stop("Not an rpart object")
     if (!is.null(x$frame$splits)) x <- rpconvert(x)  #help for old objects
+    if (nrow(x$frame) <= 1)
+        stop("fit is not a tree, just a root")
 
     if (compress & missing(nspace)) nspace <- branch
     if (!compress) nspace <- -1     #means no compression
