@@ -1,5 +1,5 @@
 /*
-**  SCCS  %W% %G%
+**  SCCS  @(#)s_xpred.c	1.16 06/06/01
 ** An S interface to "cross validated predictions"
 **    99% of this routine is a copy of s_to_rp and rpart.c
 */
@@ -13,7 +13,7 @@ void s_xpred(Sint *sn, 	   Sint *nvarx,   Sint *ncat,    Sint *method,
 	     double *opt,  double *parms, Sint *xvals,   Sint *x_grp,
 	     double *ymat, FLOAT *xmat,   Sint *missmat, double *predict,
 	     Sint *ncp,    double *cp,    char **error,  double *wt,
-	     Sint *ny)
+	     Sint *ny,     double *cost)
     {
     int i,j,k;
     int maxcat;
@@ -65,6 +65,7 @@ void s_xpred(Sint *sn, 	   Sint *nvarx,   Sint *ncat,    Sint *method,
     rp.usesurrogate = opt[5];
     rp.sur_agree = opt[6];
     rp.maxnode  = pow((double)2.0, opt[7]) -1;
+    rp.vcost    = cost;
 
     /*
     ** create the "ragged array" pointers to the matrix

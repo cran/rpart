@@ -1,60 +1,56 @@
-#SCCS  @(#)residuals.rpart.s	1.7 02/11/00
-
-
-residuals.rpart <- function(object, type)
+#SCCS  %W% %G%
+residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"))
     {
-
     if(!inherits(object, "rpart"))
 	    stop("Not legitimate rpart object")
 
-    if (object$method=='anova' || object$method=='class')
-      { ## code taken directly from residuals.tree
-        if(is.null(y <- object$y))
-                y <- model.extract(model.frame(object), "response")
-        frame <- object$frame
-
-        if(is.null(ylevels <- attr(object, "ylevels"))) {
-                tmpr <- y - frame$yval[object$where]    #       y <- unclass(y)
-		#Expand out the missing values in the result
-                if (!is.null(object$na.action))
-               	   tmpr <- naresid(object$na.action, tmpr)
-                return(tmpr)
-	      }
-
-        if(missing(type))
-                type <- "usual"
-        else if(is.na(match(type, c("usual", "pearson", "deviance"))))
+    y <- object$y
+    if (is.null(y)) y <- model.extract(model.frame(object), "response")
+    frame <- object$frame
+    type <- match.arg(type)
+    if(is.na(match(type, c("usual", "pearson", "deviance"))))
                 stop("Don't know about this type of residual")
-        if(type == "usual")
+
+    if (object$method=='class') {
+	ylevels <- attr(object, "ylevels")
+	nclass <- length(ylevels)
+
+        if(type == "usual") {
                 yhat <- frame$yval[object$where]
+		loss <- frame$parms$loss
+		}
         else {
-            nclass <- length(ylevels)
-            yprob  <- frame$yval2[, 1+nclass + 1:nclass]
-            yhat <- yprob[object$where,  ][cbind(seq(y), unclass(y))]
-        }
-        r <- switch(type,
-                usual = as.integer(y != yhat),
-                # misclassification
+	    yprob <- frame$yval2[object$where, 1 + nclass + 1:nclass]
+	    yhat <- yprob[cbind(seq(y), unclass(y))]
+	    }
+        resid  <- switch(type,
+                usual = loss[cbind(y, yhat)],
                 pearson = (1 - yhat)/yhat,
-                # sum((obs-fitted)/fitted)
                 deviance = -2 * log(yhat))
-        names(r) <- names(y)
        }
 
-    else {
-	if(is.null(y <- object$y))
-		y <- model.extract(model.frame(object), "response")
-	lambdat  <- (object$frame$yval)[object$where] * y[,1]
+    else if (object$method=='poisson' || object$method=='exp') {
+	lambda <- (object$frame$yval)[object$where]
+	time   <- y[,1]  # observation time in new data
+	events <- y[,2]  # number of events, in new data
+	expect <- lambda * time #expected number of events
+	temp <- ifelse(expect==0, .0001, 0)  #failsafe for log(0)
 
-	events <- y[,2]
-	temp <- pmax(events, 1)
-	r <- sign(events-lambdat) *
-		  sqrt(-2*((events - lambdat) + events*log(lambdat/temp)))
+	resid <- switch(type,
+			usual = events - expect,
+			pearson = (events - expect)/sqrt(temp),
+			deviance= sign(events- expect) *
+			   sqrt(2*(events*log(events/temp) - (events-expect)))
+			)
 	}
 
+    else  resid <- y - frame$yval[object$where]
+
+
+    names(resid) <- names(y)
     #Expand out the missing values in the result
     if (!is.null(object$na.action))
-	r <- naresid(object$na.action, r)
+	resid <- naresid(object$na.action, resid)
 
-    r
+    resid
     }

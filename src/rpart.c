@@ -1,4 +1,4 @@
-/* SCCS %W% %G%    */
+/* SCCS @(#)rpart.c	1.12 07/05/01    */
 /*
 ** The main entry point for recursive partitioning routines.
 **
@@ -23,6 +23,7 @@
 **      wt       = vector of case weights
 **      opt      = options, in the order of rpart.control()
 **	ny       = number of columns in the input y matrix
+**      cost     = vector of variable costs
 **
 ** Returned variables
 **      error    = text of the error message
@@ -44,7 +45,7 @@ int rpart(int n,         int nvarx,      Sint *ncat,     int method,
           Sint *missmat, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
 	  int xvals,     Sint *x_grp,    double *wt,     double *opt,
-	  int ny) {
+	  int ny,        double *cost) {
     int i,k;
     int maxcat;
     double temp;
@@ -73,7 +74,7 @@ int rpart(int n,         int nvarx,      Sint *ncat,     int method,
     rp.complexity= opt[2];
     rp.maxsur = (int) opt[4];
     rp.usesurrogate = (int) opt[5];
-    rp.sur_agree =(int) opt[6];
+    rp.sur_agree = (int) opt[6];
     rp.maxnode  = (int) pow((double)2.0, opt[7]) -1;
     rp.nvar = nvarx;
     rp.numcat = ncat;
@@ -82,6 +83,8 @@ int rpart(int n,         int nvarx,      Sint *ncat,     int method,
     rp.n = n;
     rp.which = which;
     rp.wt    = wt;
+    rp.iscale = 0.0;
+    rp.vcost  = cost;
 
     /*
     ** create the "ragged array" pointers to the matrix
@@ -159,11 +162,6 @@ int rpart(int n,         int nvarx,      Sint *ncat,     int method,
     ** Do the basic tree
     */
     partition(1, (*tree), &temp);
-    if ((*tree)->rightson ==0) {
-	*error = "No splits could be created";
-	return(1);
-	}
-
     cptable->cp = (*tree)->complexity;
     cptable->risk = (*tree)->risk;
     cptable->nsplit = 0;
@@ -171,10 +169,13 @@ int rpart(int n,         int nvarx,      Sint *ncat,     int method,
     cptable->xrisk =0;
     cptable->xstd =0;
     rp.num_unique_cp =1;
+
+    if ((*tree)->rightson ==0) return(0); /* Nothing more needs to be done */
     make_cp_list((*tree), (*tree)->complexity, cptable);
     make_cp_table((*tree), (*tree)->complexity, 0);
 
-    if (xvals >1) xval(xvals, cptable, x_grp, maxcat, error, parms);
+    if (xvals >1 && (*tree)->rightson !=0) 
+	xval(xvals, cptable, x_grp, maxcat, error, parms);
     /*
     ** all done
     */

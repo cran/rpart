@@ -39,10 +39,16 @@ fit2 <- rpart(cox0$residual ~ age + eet + g2+grade+gleason +ploidy,
 fit2
 summary(fit2)
 
-
+#
+# In 6/2001 rpart.exp changed to fix a bug.  A side effect was reexamination
+#  of one definition: the old version didn't count person-years after the
+#  last death in computing the rescaling, the new one does.  One could argue
+#  about which is better.  To match the old output, we modify the data.
+tdata <- stagec
+tdata$pgtime <- pmin(tdata$pgtime, max(tdata$pgtime[tdata$pgstat==1]))
 
 fit3 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
-		stagec, control=rpart.control(usesurrogate=1, cp=.001))
+		tdata, control=rpart.control(usesurrogate=1, cp=.001))
 
 summary(fit3)
 
@@ -57,10 +63,6 @@ names(mystate) <- c("population","income" , "illiteracy","life" ,
 
 xvals <- 1:nrow(mystate)
 xvals[order(mystate$income)] <- rep(1:10, length=nrow(mystate))
-
-mystate <- data.frame(state.x77, region=factor(state.region))
-names(mystate) <- c("population","income" , "illiteracy","life" ,
-       "murder", "hs.grad", "frost",     "area",      "region")
 
 fit4 <- rpart(income ~ population + region + illiteracy +life + murder +
 			hs.grad + frost , mystate,
@@ -208,34 +210,41 @@ summary(xx2)
 
 
 # Now for a set of non-equal weights
+#  We need to set maxcompete=3 because there just happens to be, in one
+#  of the lower nodes, an exact tie between variables "life" and "murder".
+#  Round off error causes fit5 to choose one and fit5b the other.
+# Later -- cut it back to maxdepth=3 for the same reason (a tie).
+#
 nn <- nrow(mystate)
 wts <- sample(1:5, nn, replace=T)
 temp <- rep(1:nn, wts)             #row replicates
 xgrp <- rep(1:10, length=nn)[order(runif(nn))]
 xgrp2<- rep(xgrp, wts)
-tempc <- rpart.control(minsplit=2, xval=xgrp2, maxsurrogate=0)
+tempc <- rpart.control(minsplit=2, xval=xgrp2, maxsurrogate=0,
+		       maxcompete=3, maxdepth=3)
 #  Direct: replicate rows in the data set, and use unweighted
 fit5 <-  rpart(income ~ population + region + illiteracy +life + murder +
                         hs.grad + frost , data=mystate[temp,], control=tempc)
 #  Weighted
-tempc <- rpart.control(minsplit=2, xval=xgrp, maxsurrogate=0)
+tempc <- rpart.control(minsplit=2, xval=xgrp, maxsurrogate=0,
+		       maxcompete=3, maxdepth=3)
 fit5b <-  rpart(income ~ population + region + illiteracy +life + murder +
                         hs.grad + frost , data=mystate, control=tempc,
                         weights=wts)
 all.equal(fit5$frame[-2],  fit5b$frame[-2])  # the "n" component won't match
 all.equal(fit5$cptable,    fit5b$cptable)
-all.equal(fit5$splits[,-1],fit5b$splits[,-1]) #fails
+all.equal(fit5$splits[,-1],fit5b$splits[,-1])
 all.equal(fit5$csplit,    fit5b$csplit)
 #
 # The treble test for classification trees
 #
-nn <- sum(!is.na(cu.summary$Reliability))
-xgrp <- rep(1:10,length=nn)
-carfit <- rpart(Reliability ~ Price + Country + Mileage + Type,
+#
+xgrp <- rep(1:10,length=nrow(cu.summary))
+carfit <- rpart(Country ~ Reliability + Price + Mileage + Type,
 		 method='class', data=cu.summary,
 		 control=rpart.control(xval=xgrp))
 
-carfit2 <- rpart(Reliability ~ Price + Country + Mileage + Type,
+carfit2 <- rpart(Country ~ Reliability + Price + Mileage + Type,
 		 method='class', data=cu.summary,
 		 weight=rep(3,nrow(cu.summary)),
 		 control=rpart.control(xval=xgrp))
@@ -243,11 +252,11 @@ carfit2 <- rpart(Reliability ~ Price + Country + Mileage + Type,
 all.equal(carfit$frame$wt,    carfit2$frame$wt/3)
 all.equal(carfit$frame$dev,   carfit2$frame$dev/3)
 all.equal(carfit$frame[,5:7], carfit2$frame[,5:7])
-all.equal(carfit$frame$yval2[,7:11], carfit2$frame$yval2[,7:11])
+all.equal(carfit$frame$yval2[,12:21], carfit2$frame$yval2[,12:21])
 all.equal(carfit[c('where', 'csplit')],
 	  carfit2[c('where', 'csplit')])
 xx <- carfit2$splits
-xx[,'improve'] <- xx[,'improve'] / ifelse(xx[,1]==0,1,3)
+xx[,'improve'] <- xx[,'improve'] / ifelse(xx[,5]> 0,1,3) # surrogate?
 all.equal(xx, carfit$splits)
 all.equal(as.vector(carfit$cptable),
 	  as.vector(carfit2$cptable%*% diag(c(1,1,1,1,sqrt(3)))))
@@ -273,7 +282,6 @@ fit1b$frame$yval2[,2:3] <- fit1b$frame$yval2[,2:3]/3
 fit1b$splits[,3] <- fit1b$splits[,3]/3
 all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 
-
 # Now for a set of non-equal weights
 nn <- nrow(kyphosis)
 wts <- sample(1:5, nn, replace=T)
@@ -297,4 +305,28 @@ all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
 all.equal(fit2$cptable,    fit2b$cptable)
 all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
 all.equal(fit2$csplit,    fit2b$csplit)
+
+
+#
+# Check out using costs
+#
+data(lung)
+fit1 <- rpart(Surv(time, status) ~ age + sex + ph.ecog + ph.karno + pat.karno
+	      + meal.cal + wt.loss, data=lung,
+	      maxdepth=1, maxcompete=6, xval=0)
+
+fit2 <- rpart(Surv(time, status) ~ age + sex + ph.ecog + ph.karno + pat.karno
+	      + meal.cal + wt.loss, data=lung,
+	      maxdepth=1, maxcompete=6, xval=0, cost=(1+ 1:7/10))
+
+temp1 <- fit1$splits[1:7,]
+temp2 <- fit2$splits[1:7,]
+temp3 <- c('age', 'sex', 'ph.ecog', 'ph.karno', 'pat.karno', 'meal.cal',
+	   'wt.loss')
+indx1 <- match(temp3, dimnames(temp1)[[1]])
+indx2 <- match(temp3, dimnames(temp2)[[1]])
+all.equal(temp1[indx1,1], temp2[indx2,1])             #same n's ?
+all.equal(temp1[indx1,3], temp2[indx2,3]*(1+ 1:7/10)) #scaled importance
+
+
 q()

@@ -1,4 +1,4 @@
-/* SCCS @(#)poisson.c	1.5 12/13/99   */
+/* SCCS @(#)poisson.c	1.6 06/06/01 */
 /*
 **  The functions for poisson based regression
 */

@@ -11,8 +11,7 @@ na.rpart(x)
 }
 \arguments{
 \item{x}{
-  the formula or other object defining what terms should be included in
-  the model
+  a model frame.
 }}
 \details{
   Internal function that handles missing values when calling the

@@ -70,6 +70,9 @@ number of cross-validations
   node counted as depth 0 (past 30 \code{rpart} will give nonsense results on
   32-bit machines).
 }
+\item{\dots}{
+  mop up other arguments.
+}
 }
 \value{
   a list containing the options.

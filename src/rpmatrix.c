@@ -1,4 +1,4 @@
-/* SCCS @(#)rpmatrix.c	1.6 12/13/99 */
+/* SCCS @(#)rpmatrix.c	1.7 06/06/01 */
 /*
 **  For S's usage, convert the linked list data into matrix form
 */

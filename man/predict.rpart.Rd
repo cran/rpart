@@ -9,7 +9,7 @@
 }
 \usage{
 \method{predict}{rpart}(object, newdata=list(),
-       type=c("vector", "matrix", "class", "probs"))
+       type=c("vector", "prob", "class", "matrix"))
 }
 \arguments{
   \item{object}{
@@ -24,11 +24,12 @@
     If missing, the fitted values are returned. 
   }
   \item{type}{
-    character string denoting whether the predictions are returned as a 
-    vector (default except for classifcation trees) or as an
-    \code{rpart} object, or as a matrix or (for
-    classification trees) a factor of classes or a matrix of class
-    probabilities (default for classification trees).
+    character string denoting the type of predicted value returned.  If
+    the \code{rpart} object is a classification tree, then the default is to
+    return \code{prob} predictions, a matrix whose columns are the
+    probability of the first, second, etc. class.  (This agrees with the
+    default behavior of \code{\link[tree]{tree}}).  Otherwise, a vector
+    result is returned.
   }
 }
 \value{
@@ -40,24 +41,25 @@
 
   If \code{type="vector"}:\cr
   vector of predicted responses.
+  For regression trees this is the mean response at the node, for Poisson
+  trees it is the estimated response rate, and for classification trees
+  it is the predicted class.
   
-%    If \code{type="tree"}:\cr
-%    an object of class \code{rpart} is returned with new values for
-%    \code{frame$n} and \code{frame$yval} (and \code{frame$yval2} if it
-%    exists).
+  If \code{type="prob"}:\cr
+  (for a classification tree) a matrix of class probabilities.
 
   If \code{type="matrix"}:\cr
   a matrix of the full responses (\code{frame$yval2} if this exists,
-  otherwise \code{frame$yval}).   For a Poisson tree this is
-  (event rate, \#events), and for a classification tree it is
-  (predicted class, class counts, class probabilities).
+  otherwise \code{frame$yval}).
+  For regression trees, this is the mean response, for Poisson trees it
+  is the response rate and the number of events at that node in the fitted
+  tree, and for classification trees it is the concatonation of the
+  predicted class, the class counts at that node in the fitted tree, and
+  the class probabilities.
 
   If \code{type="class"}:\cr
   (for a classification tree) a factor of classifications based on the
   responses.
-
-  If \code{type="probs"}:\cr
-  (for a classification tree) a matrix of class probabilities.
 }
 \details{
   This function is a method for the generic function predict for class
@@ -75,9 +77,9 @@ predict(z.auto)
 
 data(kyphosis)
 fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
+predict(fit, type="prob")   # class probabilities (default)
 predict(fit, type="vector") # level numbers
 predict(fit, type="class")  # factor
-predict(fit, type="probs")  # class probabilities (default)
 predict(fit, type="matrix") # level number, class frequencies, probabilities
 
 data(iris)

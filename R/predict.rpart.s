@@ -1,8 +1,7 @@
-## SCCS %W% %G%
+## SCCS @(#)predict.rpart.s	1.11 06/03/01
 predict.rpart <-
 function(object, newdata = list(),
-	 type = c("vector", "matrix", "class", "probs"))
-{
+	 type = c("vector", "prob", "class", "matrix")) {
     if(!inherits(object, "rpart"))
 	stop("Not legitimate tree")
     type <- match.arg(type)
@@ -22,7 +21,7 @@ function(object, newdata = list(),
     method <- object$method
     ylevels <- attr(object, "ylevels")
     nclass <- length(ylevels)
-    if(missing(type) && nclass > 0) type <- "probs"
+    if(missing(type) && nclass > 0) type <- "prob"
     if(type == "vector" || (type=="matrix" && is.null(frame$yval2))) {
 	pred <- frame$yval[where]
 	names(pred) <- names(where)
@@ -35,7 +34,7 @@ function(object, newdata = list(),
 	pred <- factor(ylevels[frame$yval[where]], levels=ylevels)
 	names(pred) <- names(where)
     }
-    else if (type == "probs" && nclass > 0) {
+    else if (type == "prob" && nclass > 0) {
 	pred <- frame$yval2[where, 1 + nclass + 1:nclass]
 	dimnames(pred) <- list(names(where), ylevels)
     }

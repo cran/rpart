@@ -1,4 +1,4 @@
-/* SCCS @(#)choose_surg.c	1.5 02/25/00 */
+/* SCCS @(#)choose_surg.c	1.6 06/06/01  */
 /*
 ** A particular split routine, optimized for the surrogate variable
 **  search.  The "goodness" of a split is the total weights of concordant
@@ -50,7 +50,7 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 	llwt =0; rlwt =0;
 	for (i=rp.n-1; i>=0; i--) { /*start with me sending all to the left */
 	    j = order[i];
-	    if (j>=0 &&  which[j]==nodenum) {
+	    if (j>=0 &&  which[j]==nodenum) {  
 		lastx = x[i];        /*this is why I ran the loop backwards*/
 		switch( y[j]) {
 		    case LEFT : ll++;
@@ -73,6 +73,7 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 	/*
 	**  March across, moving things from the right to the left
 	**    the "lastx" code is caring for ties in the x var
+	**    (The loop above sets it to the first unique x value).
 	*/
 	for (i=0; (ll+rl)>=2; i++) {
 	    j = order[i];
@@ -117,11 +118,12 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 
 	/* First step:
 	**  left = table(x[y goes left]), right= table(x[y goes right])
-	**  lwt & rwt = weight sums
+	**  so left[2] will be the number of x==2's that went left,
+	**  and lwt[2] the sum of the weights for those observations.
 	*/
 	for (i=0; i<rp.n; i++) {
 	    if (which[i] == nodenum &&  order[i]>=0) {
-		j = x[i] -1;
+		j = (int)x[i] -1;
 		switch( y[i]) {
 		    case LEFT : left[j]++;
 			        lwt[j] += rp.wt[i];
@@ -133,14 +135,9 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 		    }
 		}
 	    }
-	if (llwt > rlwt) agree = llwt;
-	else             agree = rlwt;
-
-	majority   = agree;             /*worst possible agreement */
-	total_wt  = llwt + rlwt;
 
 	/*
-	**  Tied categories get sent to the majority, if possible
+	**  Compute which is better: everyone to the right, or all go left
 	*/
 	lcount=0; rcount=0;
 	llwt =0;  rrwt =0;
@@ -162,7 +159,7 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 
 	/* 
 	** We can calculate the best split category by category--- send each
-	**  individually to its better direction
+	**  x value individually to its better direction
 	*/
 	agree =0;
 	for (i=0; i<ncat; i++) {

@@ -4,15 +4,17 @@
   Create a Model Frame for fitting an Rpart Object 
 }
 \usage{
-model.frame.rpart(formula, \dots)
+\method{model.frame}{rpart}(formula, \dots)
 }
 \description{
   \code{model.frame} method for \code{rpart} objects.
 }
 \arguments{
 \item{formula}{
-  the formula or other object defining what terms should be included in
-  the model frame.
+  The result of an \code{rpart} fit.
+}
+\item{\dots}{
+  arguments to be passed to or from other methods.
 }}
 \value{
   An object of class \code{model.frame} suitable for fitting an

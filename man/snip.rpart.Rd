@@ -46,7 +46,6 @@ snip.rpart(x, toss)
 \examples{
 ## dataset not in R
 \dontrun{
-motif() #open a graphics device
 z.survey <- rpart(market.survey) #grow the rpart object
 plot(z.survey) #plot the tree
 z.survey2 <- snip.rpart(z.survey,toss=2) #trim subtree at node 2

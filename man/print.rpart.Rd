@@ -8,7 +8,7 @@ This function prints an \code{rpart} object.  It is a method for the generic
 function \code{print} of class \code{rpart}. 
 }
 \usage{
-print.rpart(x, minlength=0, spaces=2, cp=0, digits= .Options$digits - 3, \dots)
+\method{print}{rpart}(x, minlength=0, spaces=2, cp, digits= getOption("digits"), \dots)
 }
 \arguments{
 \item{x}{
@@ -26,23 +26,28 @@ the number of spaces to indent nodes of increasing depth.
 the number of digits of numbers to print. 
 }
 \item{cp}{
-prune all nodes with a complexity less than \code{cp} from the printout.
+  prune all nodes with a complexity less than \code{cp} from the
+  printout. Ignored if unspecified.
+}
+\item{\dots}{
+  arguments to be passed to or from other methods.
 }}
 \section{Side Effects}{
-A semi-graphical layout of the contents of \code{x$frame} is
-printed.  Indentation is used to convey the tree topology.
-Information for each node includes the node number, split, size,
-deviance, and fitted value.  For the \code{"class"} method, \code{yprob} is also
-printed. 
+  A semi-graphical layout of the contents of \code{x$frame} is
+  printed.  Indentation is used to convey the tree topology.
+  Information for each node includes the node number, split, size,
+  deviance, and fitted value.  For the \code{"class"} method, the
+  class probabilties are also printed. 
 }
 \details{
-This function is a method for the generic function \code{print} for class 
-\code{"rpart"}.  It can be invoked by calling print for an object of the 
-appropriate class, or directly by calling \code{print.rpart} regardless of 
-the class of the object. 
+  This function is a method for the generic function \code{print} for class 
+  \code{"rpart"}.  It can be invoked by calling print for an object of the 
+  appropriate class, or directly by calling \code{print.rpart} regardless of 
+  the class of the object. 
 }
 \seealso{
-\code{\link{print}},  \code{\link{rpart.object}},  \code{\link{summary.rpart}},  \code{\link{printcp}}   
+  \code{\link{print}},  \code{\link{rpart.object}},
+  \code{\link{summary.rpart}},  \code{\link{printcp}}   
 }
 \examples{
 data(car.test.frame)
@@ -51,14 +56,13 @@ z.auto
 \dontrun{node), split, n, deviance, yval
       * denotes terminal node
 
-
-1) root 60 1355.00 24.58  
-  2) Weight>2567.5 45  361.20 22.47  
-    4) Weight>3087.5 22   61.32 20.41 *
-    5) Weight<3087.5 23  117.70 24.43 *
-  3) Weight<2567.5 15  186.90 30.93 *
-}
-}
+ 1) root 60 1354.58300 24.58333  
+   2) Weight>=2567.5 45  361.20000 22.46667  
+     4) Weight>=3087.5 22   61.31818 20.40909 *
+     5) Weight<3087.5 23  117.65220 24.43478  
+      10) Weight>=2747.5 15   60.40000 23.80000 *
+      11) Weight<2747.5 8   39.87500 25.62500 *
+   3) Weight<2567.5 15  186.93330 30.93333 *
+}}
 \keyword{tree}
 % docclass is function
-% Converted by Sd2Rd version 1.20.

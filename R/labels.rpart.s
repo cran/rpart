@@ -1,4 +1,4 @@
-# SCCS %W% %G%
+# SCCS @(#)labels.rpart.s	1.4 07/05/01
 # Make the nice labels used by print and summary
 #   digits = obvious
 #   minlength = 0 = don't abbrev factors
@@ -15,7 +15,7 @@
 #   ... = other args for abbreviate()
 #
 labels.rpart <- function(object, digits=4, minlength=1, pretty,
-			      collapse=T, ...) {
+			      collapse=TRUE, ...) {
     if (missing(minlength) && !missing(pretty)) {
 	if (is.null(pretty)) minlength <-1
 	else if (is.logical(pretty)) {
@@ -27,12 +27,14 @@ labels.rpart <- function(object, digits=4, minlength=1, pretty,
 
     ff <- object$frame
     n  <- nrow(ff)
+    if (n==1) return("root")  #special case of no splits
+
     is.leaf <- (ff$var == "<leaf>")
     whichrow <- !is.leaf
     vnames <- ff$var[whichrow]  #the variable names for the primary splits
 
     index <- cumsum(c(1, ff$ncompete + ff$nsurrogate + 1*(!is.leaf)))
-    irow  <- index[c(whichrow,F)]     #we only care about the primary split
+    irow  <- index[c(whichrow, FALSE)]     #we only care about the primary split
     ncat  <- object$splits[irow, 2]
 
     # Now to work: first create labels for the left and right splits,
@@ -120,8 +122,3 @@ labels.rpart <- function(object, digits=4, minlength=1, pretty,
     labels[1] <- "root"
     labels
     }
-
-
-
-
-

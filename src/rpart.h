@@ -1,4 +1,4 @@
-/* SCCS %W% %G%   */
+/* SCCS @(#)rpart.h	1.10 06/06/01   */
 /*
 ** commom variables for the rpart routine
 */
@@ -19,6 +19,7 @@
 struct {
     double complexity;
     double alpha;
+    double iscale;         /* used to check improvement==0, with error */
     double **ydata;
     FLOAT  **xdata;
     FLOAT  *xtemp;
@@ -27,6 +28,7 @@ struct {
     double *wtemp;          /* temp vector of weights */
     double *lwt;
     double *rwt;            /*scratch double vectors, of length ncat */
+    double *vcost;          /* variable costs */
     Sint    *numcat;        /* variable type: 0=cont, 1+  =#categories */
     Sint   **sorts;             /* allocated on the fly */
     int    n;              /* total number of subjects  */

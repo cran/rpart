@@ -8,9 +8,8 @@ Recursive Partitioning and Regression Trees
 Fit a \code{rpart} model 
 }
 \usage{
-rpart(formula, data, weights, subset, na.action=na.rpart, method,
-      model=FALSE, x=FALSE, y=TRUE, parms,
-     control=rpart.control(\dots), \dots)
+rpart(formula, data=NULL, weights, subset, na.action=na.rpart, method,
+      model=FALSE, x=FALSE, y=TRUE, parms, control, cost, \dots)
 }
 \arguments{
 \item{formula}{
@@ -73,8 +72,15 @@ and the split defaults to \code{gini}.
 \item{control}{
 options that control details of the \code{rpart} algorithm. 
 }
+\item{cost}{
+a vector of non-negative costs, one for each variable in the
+model. Defaults to one for all variables.  These are scalings to be
+applied when considering splits, so the improvement on splitting on a
+variable is divided by its cost in deciding which split to choose.
+}
 \item{\dots}{
-arguments to \code{rpart.control} may also be specified in the call to \code{rpart}. 
+arguments to \code{rpart.control} may also be specified in the call to
+\code{rpart}.  They are checked against the list of valid arguments.
 }
 }
 \value{

@@ -1,11 +1,12 @@
-#SCCS  %W% %G%
+#SCCS  @(#)print.rpart.s	1.15 06/06/01
 print.rpart <- function(x, minlength=0, spaces=2, cp,
                digits=getOption("digits"), ...) {
     if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
+    if (!is.null(x$frame$splits)) x <- rpconvert(x)  #help for old objects
 
     if (!missing(cp)) x <- prune.rpart(x, cp=cp)
     frame <- x$frame
-    ylevel <- attr(x,'ylevels')
+    ylevel <- attr(x, "ylevels")
     node <- as.numeric(row.names(frame))
     depth <- tree.depth(node)
     indent <- paste(rep(" ", spaces * 32), collapse = "")
@@ -13,7 +14,7 @@ print.rpart <- function(x, minlength=0, spaces=2, cp,
     if(length(node) > 1) {
         indent <- substring(indent, 1, spaces * seq(depth))
         indent <- paste(c("", indent[depth]), format(node), ")", sep = "")
-        }
+    }
     else indent <- paste(format(node), ")", sep = "")
 
     tfun <- (x$functions)$print
@@ -28,7 +29,7 @@ print.rpart <- function(x, minlength=0, spaces=2, cp,
     z <- labels(x, digits=digits, minlength=minlength, ...)
     n <- frame$n
     z <- paste(indent, z, n, format(signif(frame$dev, digits = digits)),
-            yval, term)
+               yval, term)
 
     omit <- x$na.action
     if (length(omit))
@@ -36,7 +37,7 @@ print.rpart <- function(x, minlength=0, spaces=2, cp,
     else cat("n=", n[1], "\n\n")
 
     #This is stolen, unabashedly, from print.tree
-    if (x$method=='class')
+    if (x$method=="class")
          cat("node), split, n, loss, yval, (yprob)\n")
     else cat("node), split, n, deviance, yval\n")
     cat("      * denotes terminal node\n\n")

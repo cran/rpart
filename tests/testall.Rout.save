@@ -1,6 +1,6 @@
 
 R : Copyright 2001, The R Development Core Team
-Version 1.3.0 Under development (unstable) (2001-05-25)
+Version 1.3.0 Patched (2001-07-25)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -202,7 +202,7 @@ Node number 13: 57 observations,    complexity param=0.02627
       age     < 69.5  to the left,  improve=3.14300, (0 missing)
       eet     < 1.5   to the left,  improve=0.04885, (1 missing)
   Surrogate splits:
-      grade < 3.5   to the left,  agree=0.772, adj=0.187, (0 split)
+      grade < 3.5   to the left,  agree=0.772, adj=0.188, (0 split)
 
 Node number 26: 41 observations,    complexity param=0.01797
   events=18,  estimated rate=0.07684 , mean deviance=1.354 
@@ -406,15 +406,21 @@ Node number 51: 11 observations
   mean=0.4441, MSE=0.3329 
 
 > 
-> 
+> #
+> # In 6/2001 rpart.exp changed to fix a bug.  A side effect was reexamination
+> #  of one definition: the old version didn't count person-years after the
+> #  last death in computing the rescaling, the new one does.  One could argue
+> #  about which is better.  To match the old output, we modify the data.
+> tdata <- stagec
+> tdata$pgtime <- pmin(tdata$pgtime, max(tdata$pgtime[tdata$pgstat==1]))
 > 
 > fit3 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
-+ 		stagec, control=rpart.control(usesurrogate=1, cp=.001))
++ 		tdata, control=rpart.control(usesurrogate=1, cp=.001))
 > 
 > summary(fit3)
 Call:
 rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + 
-    gleason + ploidy, data = stagec, control = rpart.control(usesurrogate = 1, 
+    gleason + ploidy, data = tdata, control = rpart.control(usesurrogate = 1, 
     cp = 0.001))
   n= 146 
 
@@ -597,10 +603,6 @@ Node number 51: 11 observations
 > 
 > xvals <- 1:nrow(mystate)
 > xvals[order(mystate$income)] <- rep(1:10, length=nrow(mystate))
-> 
-> mystate <- data.frame(state.x77, region=factor(state.region))
-> names(mystate) <- c("population","income" , "illiteracy","life" ,
-+        "murder", "hs.grad", "frost",     "area",      "region")
 > 
 > fit4 <- rpart(income ~ population + region + illiteracy +life + murder +
 + 			hs.grad + frost , mystate,
@@ -835,8 +837,8 @@ rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason +
 
 Node number 1: 146 observations,    complexity param=0.3986
   predicted class=0  expected loss=0.5
-    class counts: 92 54
-   probabilities: 0.5 0.5 
+    class counts:    92    54
+   probabilities: 0.500 0.500 
   left son=2 (61 obs) right son=3 (85 obs)
   Primary splits:
       grade   < 2.5   to the left,  improve=12.490, (0 missing)
@@ -852,8 +854,8 @@ Node number 1: 146 observations,    complexity param=0.3986
 
 Node number 2: 61 observations,    complexity param=0.0153
   predicted class=0  expected loss=0.1995
-    class counts: 52 9
-   probabilities: 0.6764 0.1995 
+    class counts:    52     9
+   probabilities: 0.772 0.228 
   left son=4 (33 obs) right son=5 (28 obs)
   Primary splits:
       g2      < 11.36 to the left,  improve=3.5470, (1 missing)
@@ -867,8 +869,8 @@ Node number 2: 61 observations,    complexity param=0.0153
 
 Node number 3: 85 observations,    complexity param=0.02335
   predicted class=1  expected loss=0.3734
-    class counts: 40 45
-   probabilities: 0.3734 0.7157 
+    class counts:    40    45
+   probabilities: 0.343 0.657 
   left son=6 (40 obs) right son=7 (45 obs)
   Primary splits:
       g2      < 13.2  to the left,  improve=1.96800, (6 missing)
@@ -883,13 +885,13 @@ Node number 3: 85 observations,    complexity param=0.02335
 
 Node number 4: 33 observations
   predicted class=0  expected loss=0.04097
-    class counts: 32 1
-   probabilities: 0.7694 0.04097 
+    class counts:    32     1
+   probabilities: 0.949 0.051 
 
 Node number 5: 28 observations,    complexity param=0.0153
   predicted class=0  expected loss=0.3862
-    class counts: 20 8
-   probabilities: 0.5668 0.3862 
+    class counts:    20     8
+   probabilities: 0.595 0.405 
   left son=10 (20 obs) right son=11 (8 obs)
   Primary splits:
       gleason < 5.5   to the left,  improve=1.1580, (1 missing)
@@ -898,8 +900,8 @@ Node number 5: 28 observations,    complexity param=0.0153
 
 Node number 6: 40 observations,    complexity param=0.02335
   predicted class=1  expected loss=0.4563
-    class counts: 23 17
-   probabilities: 0.4562 0.5745 
+    class counts:    23    17
+   probabilities: 0.443 0.557 
   left son=12 (7 obs) right son=13 (33 obs)
   Primary splits:
       g2      < 11.85 to the right, improve=1.42400, (5 missing)
@@ -912,8 +914,8 @@ Node number 6: 40 observations,    complexity param=0.02335
 
 Node number 7: 45 observations,    complexity param=0.02275
   predicted class=1  expected loss=0.2998
-    class counts: 17 28
-   probabilities: 0.2998 0.8412 
+    class counts:    17    28
+   probabilities: 0.263 0.737 
   left son=14 (22 obs) right son=15 (23 obs)
   Primary splits:
       g2      < 17.91 to the right, improve=4.07900, (1 missing)
@@ -928,23 +930,23 @@ Node number 7: 45 observations,    complexity param=0.02275
 
 Node number 10: 20 observations
   predicted class=0  expected loss=0.2704
-    class counts: 16 4
-   probabilities: 0.6348 0.2704 
+    class counts:    16     4
+   probabilities: 0.701 0.299 
 
 Node number 11: 8 observations
   predicted class=1  expected loss=0.3967
-    class counts: 4 4
-   probabilities: 0.3967 0.6759 
+    class counts:     4     4
+   probabilities: 0.370 0.630 
 
 Node number 12: 7 observations
   predicted class=0  expected loss=0.1931
-    class counts: 6 1
-   probabilities: 0.6801 0.1931 
+    class counts:     6     1
+   probabilities: 0.779 0.221 
 
 Node number 13: 33 observations,    complexity param=0.01892
   predicted class=1  expected loss=0.4088
-    class counts: 17 16
-   probabilities: 0.4088 0.6554 
+    class counts:    17    16
+   probabilities: 0.384 0.616 
   left son=26 (25 obs) right son=27 (8 obs)
   Primary splits:
       g2      < 11.01 to the left,  improve=1.06300, (5 missing)
@@ -957,8 +959,8 @@ Node number 13: 33 observations,    complexity param=0.01892
 
 Node number 14: 22 observations,    complexity param=0.02275
   predicted class=0  expected loss=0.4916
-    class counts: 14 8
-   probabilities: 0.5049 0.4916 
+    class counts:    14     8
+   probabilities: 0.507 0.493 
   left son=28 (15 obs) right son=29 (7 obs)
   Primary splits:
       age     < 62.5  to the right, improve=0.976400, (0 missing)
@@ -969,13 +971,13 @@ Node number 14: 22 observations,    complexity param=0.02275
 
 Node number 15: 23 observations
   predicted class=1  expected loss=0.1035
-    class counts: 3 20
-   probabilities: 0.1035 1.176 
+    class counts:     3    20
+   probabilities: 0.081 0.919 
 
 Node number 26: 25 observations,    complexity param=0.01892
   predicted class=1  expected loss=0.4443
-    class counts: 14 11
-   probabilities: 0.4443 0.5948 
+    class counts:    14    11
+   probabilities: 0.428 0.572 
   left son=52 (17 obs) right son=53 (8 obs)
   Primary splits:
       ploidy  splits as  L-R,       improve=2.157000, (0 missing)
@@ -989,28 +991,28 @@ Node number 26: 25 observations,    complexity param=0.01892
 
 Node number 27: 8 observations
   predicted class=1  expected loss=0.2976
-    class counts: 3 5
-   probabilities: 0.2976 0.8449 
+    class counts:     3     5
+   probabilities: 0.260 0.740 
 
 Node number 28: 15 observations
   predicted class=0  expected loss=0.3605
-    class counts: 11 4
-   probabilities: 0.5819 0.3605 
+    class counts:    11     4
+   probabilities: 0.617 0.383 
 
 Node number 29: 7 observations
   predicted class=1  expected loss=0.3401
-    class counts: 3 4
-   probabilities: 0.3401 0.7725 
+    class counts:     3     4
+   probabilities: 0.306 0.694 
 
 Node number 52: 17 observations
   predicted class=0  expected loss=0.3976
-    class counts: 12 5
-   probabilities: 0.5601 0.3976 
+    class counts:    12     5
+   probabilities: 0.585 0.415 
 
 Node number 53: 8 observations
   predicted class=1  expected loss=0.1984
-    class counts: 2 6
-   probabilities: 0.1984 1.014 
+    class counts:     2     6
+   probabilities: 0.164 0.836 
 
 > #
 > # Fit a classification model to the car data.
@@ -1037,8 +1039,8 @@ rpart(formula = Reliability ~ Price + Country + Mileage + Type,
 
 Node number 1: 85 observations,    complexity param=0.3051
   predicted class=average      expected loss=0.6941
-    class counts: 18 12 26 8 21
-   probabilities: 0.2118 0.1412 0.3059 0.09412 0.2471 
+    class counts:    18    12    26     8    21
+   probabilities: 0.212 0.141 0.306 0.094 0.247 
   left son=2 (58 obs) right son=3 (27 obs)
   Primary splits:
       Country splits as  ---LRRLLLL, improve=15.220, (0 missing)
@@ -1048,8 +1050,8 @@ Node number 1: 85 observations,    complexity param=0.3051
 
 Node number 2: 58 observations,    complexity param=0.08475
   predicted class=average      expected loss=0.6034
-    class counts: 18 12 23 5 0
-   probabilities: 0.3103 0.2069 0.3966 0.08621 0 
+    class counts:    18    12    23     5     0
+   probabilities: 0.310 0.207 0.397 0.086 0.000 
   left son=4 (9 obs) right son=5 (49 obs)
   Primary splits:
       Type    splits as  RRRRLR,     improve=3.187, (0 missing)
@@ -1059,18 +1061,18 @@ Node number 2: 58 observations,    complexity param=0.08475
 
 Node number 3: 27 observations
   predicted class=Much better  expected loss=0.2222
-    class counts: 0 0 3 3 21
-   probabilities: 0 0 0.1111 0.1111 0.7778 
+    class counts:     0     0     3     3    21
+   probabilities: 0.000 0.000 0.111 0.111 0.778 
 
 Node number 4: 9 observations
   predicted class=Much worse   expected loss=0.2222
-    class counts: 7 0 2 0 0
-   probabilities: 0.7778 0 0.2222 0 0 
+    class counts:     7     0     2     0     0
+   probabilities: 0.778 0.000 0.222 0.000 0.000 
 
 Node number 5: 49 observations,    complexity param=0.05085
   predicted class=average      expected loss=0.5714
-    class counts: 11 12 21 5 0
-   probabilities: 0.2245 0.2449 0.4286 0.102 0 
+    class counts:    11    12    21     5     0
+   probabilities: 0.224 0.245 0.429 0.102 0.000 
   left son=10 (27 obs) right son=11 (22 obs)
   Primary splits:
       Type    splits as  RLLR-L,     improve=2.880, (0 missing)
@@ -1083,13 +1085,13 @@ Node number 5: 49 observations,    complexity param=0.05085
 
 Node number 10: 27 observations
   predicted class=average      expected loss=0.4074
-    class counts: 7 4 16 0 0
-   probabilities: 0.2593 0.1481 0.5926 0 0 
+    class counts:     7     4    16     0     0
+   probabilities: 0.259 0.148 0.593 0.000 0.000 
 
 Node number 11: 22 observations,    complexity param=0.0339
   predicted class=worse        expected loss=0.6364
-    class counts: 4 8 5 5 0
-   probabilities: 0.1818 0.3636 0.2273 0.2273 0 
+    class counts:     4     8     5     5     0
+   probabilities: 0.182 0.364 0.227 0.227 0.000 
   left son=22 (14 obs) right son=23 (8 obs)
   Primary splits:
       Country splits as  ---R--LRRL, improve=1.5190, (0 missing)
@@ -1100,13 +1102,13 @@ Node number 11: 22 observations,    complexity param=0.0339
 
 Node number 22: 14 observations
   predicted class=worse        expected loss=0.5714
-    class counts: 4 6 1 3 0
-   probabilities: 0.2857 0.4286 0.07143 0.2143 0 
+    class counts:     4     6     1     3     0
+   probabilities: 0.286 0.429 0.071 0.214 0.000 
 
 Node number 23: 8 observations
   predicted class=average      expected loss=0.5
-    class counts: 0 2 4 2 0
-   probabilities: 0 0.25 0.5 0.25 0 
+    class counts:     0     2     4     2     0
+   probabilities: 0.000 0.250 0.500 0.250 0.000 
 
 > #
 > # Simplest weight test: treble the weights
@@ -1298,17 +1300,24 @@ Node number 7: 3 observations
 > 
 > 
 > # Now for a set of non-equal weights
+> #  We need to set maxcompete=3 because there just happens to be, in one
+> #  of the lower nodes, an exact tie between variables "life" and "murder".
+> #  Round off error causes fit5 to choose one and fit5b the other.
+> # Later -- cut it back to maxdepth=3 for the same reason (a tie).
+> #
 > nn <- nrow(mystate)
 > wts <- sample(1:5, nn, replace=T)
 > temp <- rep(1:nn, wts)             #row replicates
 > xgrp <- rep(1:10, length=nn)[order(runif(nn))]
 > xgrp2<- rep(xgrp, wts)
-> tempc <- rpart.control(minsplit=2, xval=xgrp2, maxsurrogate=0)
+> tempc <- rpart.control(minsplit=2, xval=xgrp2, maxsurrogate=0,
++ 		       maxcompete=3, maxdepth=3)
 > #  Direct: replicate rows in the data set, and use unweighted
 > fit5 <-  rpart(income ~ population + region + illiteracy +life + murder +
 +                         hs.grad + frost , data=mystate[temp,], control=tempc)
 > #  Weighted
-> tempc <- rpart.control(minsplit=2, xval=xgrp, maxsurrogate=0)
+> tempc <- rpart.control(minsplit=2, xval=xgrp, maxsurrogate=0,
++ 		       maxcompete=3, maxdepth=3)
 > fit5b <-  rpart(income ~ population + region + illiteracy +life + murder +
 +                         hs.grad + frost , data=mystate, control=tempc,
 +                         weights=wts)
@@ -1316,20 +1325,20 @@ Node number 7: 3 observations
 [1] TRUE
 > all.equal(fit5$cptable,    fit5b$cptable)
 [1] TRUE
-> all.equal(fit5$splits[,-1],fit5b$splits[,-1]) #fails
+> all.equal(fit5$splits[,-1],fit5b$splits[,-1])
 [1] TRUE
 > all.equal(fit5$csplit,    fit5b$csplit)
 [1] TRUE
 > #
 > # The treble test for classification trees
 > #
-> nn <- sum(!is.na(cu.summary$Reliability))
-> xgrp <- rep(1:10,length=nn)
-> carfit <- rpart(Reliability ~ Price + Country + Mileage + Type,
+> #
+> xgrp <- rep(1:10,length=nrow(cu.summary))
+> carfit <- rpart(Country ~ Reliability + Price + Mileage + Type,
 + 		 method='class', data=cu.summary,
 + 		 control=rpart.control(xval=xgrp))
 > 
-> carfit2 <- rpart(Reliability ~ Price + Country + Mileage + Type,
+> carfit2 <- rpart(Country ~ Reliability + Price + Mileage + Type,
 + 		 method='class', data=cu.summary,
 + 		 weight=rep(3,nrow(cu.summary)),
 + 		 control=rpart.control(xval=xgrp))
@@ -1340,13 +1349,13 @@ Node number 7: 3 observations
 [1] TRUE
 > all.equal(carfit$frame[,5:7], carfit2$frame[,5:7])
 [1] TRUE
-> all.equal(carfit$frame$yval2[,7:11], carfit2$frame$yval2[,7:11])
+> all.equal(carfit$frame$yval2[,12:21], carfit2$frame$yval2[,12:21])
 [1] TRUE
 > all.equal(carfit[c('where', 'csplit')],
 + 	  carfit2[c('where', 'csplit')])
 [1] TRUE
 > xx <- carfit2$splits
-> xx[,'improve'] <- xx[,'improve'] / ifelse(xx[,1]==0,1,3)
+> xx[,'improve'] <- xx[,'improve'] / ifelse(xx[,5]> 0,1,3) # surrogate?
 > all.equal(xx, carfit$splits)
 [1] TRUE
 > all.equal(as.vector(carfit$cptable),
@@ -1355,90 +1364,108 @@ Node number 7: 3 observations
 > 
 > summary(carfit2)
 Call:
-rpart(formula = Reliability ~ Price + Country + Mileage + Type, 
+rpart(formula = Country ~ Reliability + Price + Mileage + Type, 
     data = cu.summary, weights = rep(3, nrow(cu.summary)), method = "class", 
     control = rpart.control(xval = xgrp))
-  n=85 (32 observations deleted due to missing)
+  n= 117 
 
        CP nsplit rel error xerror    xstd
-1 0.30508      0    1.0000 1.0000 0.04157
-2 0.08475      1    0.6949 0.6949 0.04508
-3 0.05085      2    0.6102 0.7458 0.04508
-4 0.03390      3    0.5593 0.7288 0.04511
-5 0.01000      4    0.5254 0.7966 0.04486
+1 0.23529      0    1.0000 1.0000 0.04531
+2 0.02941      1    0.7647 0.8088 0.04584
+3 0.02206      3    0.7059 0.9118 0.04584
+4 0.01000      5    0.6618 0.9559 0.04563
 
-Node number 1: 85 observations,    complexity param=0.3051
-  predicted class=average      expected loss=0.6941
-    class counts: 54 36 78 24 63
-   probabilities: 0.2118 0.1412 0.3059 0.09412 0.2471 
-  left son=2 (58 obs) right son=3 (27 obs)
+Node number 1: 117 observations,    complexity param=0.2353
+  predicted class=USA        expected loss=0.5812
+    class counts:     3     3     6    33    93    27    15     9    15   147
+   probabilities: 0.009 0.009 0.017 0.094 0.265 0.077 0.043 0.026 0.043 0.419 
+  left son=2 (33 obs) right son=3 (84 obs)
   Primary splits:
-      Country splits as  ---LRRLLLL, improve=45.660, (0 missing)
-      Type    splits as  RLLRLL,     improve=12.860, (0 missing)
-      Price   < 11970 to the right,  improve= 9.600, (0 missing)
-      Mileage < 24.5  to the left,   improve= 7.429, (36 missing)
+      Reliability splits as  RRRLL,     improve=44.780, (32 missing)
+      Type        splits as  LRRLRR,    improve=11.250, (0 missing)
+      Price       < 6923  to the left,  improve=10.450, (0 missing)
+      Mileage     < 22.5  to the right, improve= 6.084, (57 missing)
+  Surrogate splits:
+      Type  splits as  RRRLRR,    agree=0.706, adj=0.138, (32 split)
+      Price < 6665  to the left,  agree=0.682, adj=0.069, (0 split)
 
-Node number 2: 58 observations,    complexity param=0.08475
-  predicted class=average      expected loss=0.6034
-    class counts: 54 36 69 15 0
-   probabilities: 0.3103 0.2069 0.3966 0.08621 0 
-  left son=4 (9 obs) right son=5 (49 obs)
+Node number 2: 33 observations,    complexity param=0.02206
+  predicted class=Japan      expected loss=0.4545
+    class counts:     3     0     0     3    54    27     3     3     0     6
+   probabilities: 0.030 0.000 0.000 0.030 0.545 0.273 0.030 0.030 0.000 0.061 
+  left son=4 (9 obs) right son=5 (24 obs)
   Primary splits:
-      Type    splits as  RRRRLR,     improve=9.560, (0 missing)
-      Price   < 11230 to the left,   improve=7.691, (0 missing)
-      Mileage < 24.5  to the left,   improve=5.405, (30 missing)
-      Country splits as  ---L--RLRL, improve=3.988, (0 missing)
+      Price       < 13200 to the right, improve=7.621, (0 missing)
+      Type        splits as  R-LRLL,    improve=5.621, (0 missing)
+      Reliability splits as  RRRRL,     improve=5.406, (4 missing)
+      Mileage     < 23.5  to the left,  improve=3.916, (9 missing)
+  Surrogate splits:
+      Type splits as  R-LRLL, agree=0.879, adj=0.556, (0 split)
 
-Node number 3: 27 observations
-  predicted class=Much better  expected loss=0.2222
-    class counts: 0 0 9 9 63
-   probabilities: 0 0 0.1111 0.1111 0.7778 
+Node number 3: 84 observations,    complexity param=0.02941
+  predicted class=USA        expected loss=0.4405
+    class counts:     0     3     6    30    39     0    12     6    15   141
+   probabilities: 0.000 0.012 0.024 0.119 0.155 0.000 0.048 0.024 0.060 0.560 
+  left son=6 (30 obs) right son=7 (54 obs)
+  Primary splits:
+      Price       < 16670 to the right, improve=10.400, (0 missing)
+      Type        splits as  RRRLRR,    improve= 6.026, (0 missing)
+      Mileage     < 22.5  to the right, improve= 3.133, (48 missing)
+      Reliability splits as  RLLLL,     improve= 2.195, (28 missing)
+  Surrogate splits:
+      Type splits as  RLLRRR, agree=0.714, adj=0.2, (0 split)
 
 Node number 4: 9 observations
-  predicted class=Much worse   expected loss=0.2222
-    class counts: 21 0 6 0 0
-   probabilities: 0.7778 0 0.2222 0 0 
+  predicted class=Japan      expected loss=0.1111
+    class counts:     0     0     0     3    24     0     0     0     0     0
+   probabilities: 0.000 0.000 0.000 0.111 0.889 0.000 0.000 0.000 0.000 0.000 
 
-Node number 5: 49 observations,    complexity param=0.05085
-  predicted class=average      expected loss=0.5714
-    class counts: 33 36 63 15 0
-   probabilities: 0.2245 0.2449 0.4286 0.102 0 
-  left son=10 (27 obs) right son=11 (22 obs)
+Node number 5: 24 observations,    complexity param=0.02206
+  predicted class=Japan      expected loss=0.5833
+    class counts:     3     0     0     0    30    27     3     3     0     6
+   probabilities: 0.042 0.000 0.000 0.000 0.417 0.375 0.042 0.042 0.000 0.083 
+  left son=10 (7 obs) right son=11 (17 obs)
   Primary splits:
-      Type    splits as  RLLR-L,     improve=8.639, (0 missing)
-      Mileage < 24.5  to the left,   improve=7.500, (25 missing)
-      Price   < 11470 to the right,  improve=7.271, (0 missing)
-      Country splits as  ---R--LRLR, improve=3.080, (0 missing)
-  Surrogate splits:
-      Price   < 11470 to the right,  agree=0.898, adj=0.773, (0 split)
-      Country splits as  ---R--RRRL, agree=0.755, adj=0.455, (0 split)
+      Price   < 7038  to the left,  improve=4.836, (0 missing)
+      Type    splits as  R--LR-,    improve=1.967, (0 missing)
+      Mileage < 30.5  to the right, improve=1.717, (6 missing)
 
-Node number 10: 27 observations
-  predicted class=average      expected loss=0.4074
-    class counts: 21 12 48 0 0
-   probabilities: 0.2593 0.1481 0.5926 0 0 
-
-Node number 11: 22 observations,    complexity param=0.0339
-  predicted class=worse        expected loss=0.6364
-    class counts: 12 24 15 15 0
-   probabilities: 0.1818 0.3636 0.2273 0.2273 0 
-  left son=22 (14 obs) right son=23 (8 obs)
+Node number 6: 30 observations,    complexity param=0.02941
+  predicted class=USA        expected loss=0.6333
+    class counts:     0     3     3    24    12     0     0     0    15    33
+   probabilities: 0.000 0.033 0.033 0.267 0.133 0.000 0.000 0.000 0.167 0.367 
+  left son=12 (10 obs) right son=13 (20 obs)
   Primary splits:
-      Country splits as  ---R--LRRL, improve=4.5580, (0 missing)
-      Price   < 8646  to the left,   improve=3.8160, (0 missing)
-      Type    splits as  L--R--,     improve=0.5727, (0 missing)
+      Type        splits as  LRR-L-,    improve=6.6000, (0 missing)
+      Price       < 30510 to the right, improve=5.3740, (0 missing)
+      Reliability splits as  RRLLL,     improve=0.3333, (12 missing)
   Surrogate splits:
-      Price < 13970 to the left,  agree=0.864, adj=0.625, (0 split)
+      Price < 19420 to the left,  agree=0.767, adj=0.3, (0 split)
 
-Node number 22: 14 observations
-  predicted class=worse        expected loss=0.5714
-    class counts: 12 18 3 9 0
-   probabilities: 0.2857 0.4286 0.07143 0.2143 0 
+Node number 7: 54 observations
+  predicted class=USA        expected loss=0.3333
+    class counts:     0     0     3     6    27     0    12     6     0   108
+   probabilities: 0.000 0.000 0.019 0.037 0.167 0.000 0.074 0.037 0.000 0.667 
 
-Node number 23: 8 observations
-  predicted class=average      expected loss=0.5
-    class counts: 0 6 12 6 0
-   probabilities: 0 0.25 0.5 0.25 0 
+Node number 10: 7 observations
+  predicted class=Japan      expected loss=0.2857
+    class counts:     0     0     0     0    15     3     3     0     0     0
+   probabilities: 0.000 0.000 0.000 0.000 0.714 0.143 0.143 0.000 0.000 0.000 
+
+Node number 11: 17 observations
+  predicted class=Japan/USA  expected loss=0.5294
+    class counts:     3     0     0     0    15    24     0     3     0     6
+   probabilities: 0.059 0.000 0.000 0.000 0.294 0.471 0.000 0.059 0.000 0.118 
+
+Node number 12: 10 observations
+  predicted class=Germany    expected loss=0.5
+    class counts:     0     0     0    15     3     0     0     0     9     3
+   probabilities: 0.000 0.000 0.000 0.500 0.100 0.000 0.000 0.000 0.300 0.100 
+
+Node number 13: 20 observations
+  predicted class=USA        expected loss=0.5
+    class counts:     0     3     3     9     9     0     0     0     6    30
+   probabilities: 0.000 0.050 0.050 0.150 0.150 0.000 0.000 0.000 0.100 0.500 
 
 > 
 > #
@@ -1460,7 +1487,6 @@ Node number 23: 8 observations
 > fit1b$splits[,3] <- fit1b$splits[,3]/3
 > all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 [1] TRUE
-> 
 > 
 > # Now for a set of non-equal weights
 > nn <- nrow(kyphosis)
@@ -1486,8 +1512,33 @@ Node number 23: 8 observations
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] "Attributes: < Component 2: Component 1: 2 string mismatches >"
-[2] "Mean relative  difference: 0.5171"                            
+[1] TRUE
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
+> 
+> 
+> #
+> # Check out using costs
+> #
+> data(lung)
+> fit1 <- rpart(Surv(time, status) ~ age + sex + ph.ecog + ph.karno + pat.karno
++ 	      + meal.cal + wt.loss, data=lung,
++ 	      maxdepth=1, maxcompete=6, xval=0)
+> 
+> fit2 <- rpart(Surv(time, status) ~ age + sex + ph.ecog + ph.karno + pat.karno
++ 	      + meal.cal + wt.loss, data=lung,
++ 	      maxdepth=1, maxcompete=6, xval=0, cost=(1+ 1:7/10))
+> 
+> temp1 <- fit1$splits[1:7,]
+> temp2 <- fit2$splits[1:7,]
+> temp3 <- c('age', 'sex', 'ph.ecog', 'ph.karno', 'pat.karno', 'meal.cal',
++ 	   'wt.loss')
+> indx1 <- match(temp3, dimnames(temp1)[[1]])
+> indx2 <- match(temp3, dimnames(temp2)[[1]])
+> all.equal(temp1[indx1,1], temp2[indx2,1])             #same n's ?
+[1] TRUE
+> all.equal(temp1[indx1,3], temp2[indx2,3]*(1+ 1:7/10)) #scaled importance
+[1] TRUE
+> 
+> 
 > q()

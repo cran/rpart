@@ -1,12 +1,11 @@
-# SCCS  @(#)rpart.s	1.31 04/23/01
+# SCCS  @(#)rpart.s	1.35 07/05/01
 #
 #  The recursive partitioning function, for S
 #
 rpart <- function(formula, data=NULL, weights, subset,
 		   na.action=na.rpart, method, model=FALSE, x=FALSE, y=TRUE,
-		   parms, control, ...) {
-
-
+		   parms, control, cost, ...)
+{
     call <- match.call()
     if (is.data.frame(model)) {
 	m <- model
@@ -16,6 +15,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 	m <- match.call(expand=FALSE)
 	m$model <- m$method <- m$control<- NULL
 	m$x <- m$y <- m$parms <- m$... <- NULL
+	m$cost <- NULL
 	m$na.action <- na.action
 	m[[1]] <- as.name("model.frame.default")
 	m <- eval(m, parent.frame())
@@ -30,6 +30,7 @@ rpart <- function(formula, data=NULL, weights, subset,
     offset <- attr(Terms, "offset")
     X <- rpart.matrix(m)
     nobs <- nrow(X)
+    nvar <- ncol(X)
 
     if (missing(method)) {
 	if (is.factor(Y) || is.character(Y))      method <- 'class'
@@ -43,122 +44,11 @@ rpart <- function(formula, data=NULL, weights, subset,
 	mlist <- method
 	method <- 'user'
 
-	if (missing(parms)) init <- mlist$init(Y, offset,,wt)
+	if (missing(parms)) init <- mlist$init(Y, offset, wt=wt)
 	else                init <- mlist$init(Y, offset, parms, wt)
 
 	method.int <- 4      #the fourth entry in func_table.h
-if(F) {
-	if (!is.list(mlist) || length(mlist) !=3)
-		stop("User written methods must have 3 functions")
-	if (is.null(mlist$init) || typeof(mlist$init) != 'closure')
-		stop("User written method does not contain an init function")
-	if (is.null(mlist$split) || typeof(mlist$split) != 'closure')
-		stop("User written method does not contain a split function")
-	if (is.null(mlist$eval) || typeof(mlist$eval) != 'closure')
-		stop("User written method does not contain an eval function")
 
-	user.eval <- mlist$eval
-	user.split <- mlist$split
-
-	numresp <- init$numresp
-	numy <-  init$numy
-	parms <- init$parms
-
-	#
-	# expr2 is an expression that will call the user "evaluation"
-	#   function, and check that what comes back is valid
-	# expr1 does the same for the user "split" function
-	#
-	# For speed in the C interface, yback, xback, and wback are
-	#  fixed S vectors of a fixed size, and nback tells us how
-	#  much of the vector is actually being used on this particular
-	#  callback.
-	#
-	if (numy==1) {
-	    expr2 <- quote({
-		temp <- user.eval(yback[1:nback], wback[1:nback], parms)
-		if (length(temp$label) != numresp)
-			stop("User eval function returned invalid label")
-		if (length(temp$deviance) !=1)
-			stop("User eval function returned invalid deviance")
-		as.numeric(as.vector(c(temp$deviance, temp$label)))
-		})
-	    expr1 <- quote({
-		if (nback <0) { #categorical variable
-		    n2 <- -1*nback
-		    temp  <- user.split(yback[1:n2], wback[1:n2],
-					xback[1:n2], parms, FALSE)
-		    ncat <- length(unique(xback[1:n2]))
-		    if (length(temp$goodness) != ncat-1 ||
-			length(temp$direction) != ncat)
-			    stop("Invalid return from categorical split fcn")
-		    }
-
-		else {
-		    temp <- user.split(yback[1:nback], wback[1:nback],
-				       xback[1:nback], parms, TRUE)
-		    if (length(temp$goodness) != (nback-1))
-			stop("User split function returned invalid goodness")
-		    if (length(temp$direction) != (nback-1))
-			stop("User split function returned invalid direction")
-		    }
-		as.numeric(as.vector(c(temp$goodness, temp$direction)))
-		})
-	    }
-	else {
-	    expr2 <- quote({
-		tempy <- matrix(yback[1:(nback*numy)], ncol=numy)
-		temp <- user.eval(tempy, wback[1:nback], parms)
-		if (length(temp$label) != numresp)
-			stop("User eval function returned invalid label")
-		if (length(temp$deviance !=1))
-			stop("User eval function returned invalid deviance")
-		as.numeric(as.vector(c(temp$deviance, temp$label)))
-		})
-	    expr1 <- quote({
-		if (nback <0) { #categorical variable
-		    n2 <- -1*nback
-		    tempy <- matrix(yback[1:(n2*numy)], ncol=numy)
-		    temp  <- user.split(tempy, wback[1:n2], xback[1:n2],
-					parms, FALSE)
-		    ncat <- length(unique(xback[1:n2]))
-		    if (length(temp$goodness) != ncat-1 ||
-			length(temp$direction) != ncat)
-			    stop("Invalid return from categorical split fcn")
-		    }
-		else {
-		    tempy <- matrix(yback[1:(nback*numy)], ncol=numy)
-		    temp <- user.split(tempy, wback[1:nback],xback[1:nback],
-				       parms, TRUE)
-		    if (length(temp$goodness) != (nback-1))
-			stop("User split function returned invalid goodness")
-		    if (length(temp$direction) != (nback-1))
-			stop("User split function returned invalid direction")
-		    }
-		as.numeric(as.vector(c(temp$goodness, temp$direction)))
-		})
-	    }
-	#
-	# The vectors nback, wback, xback and yback will have their
-	#  contents constantly re-inserted by C code.  It's one way to make
-	#  things very fast.  It is dangerous to do this, so they
-	#  are tossed into a separate frame to isolate them.  Evaluations of
-	#  the above expressions occur in that frame.
-	#
-        rho <- new.env()
-        assign("nback", integer(1), envir = rho)
-        assign("wback", double(nobs), envir = rho)
-        assign("xback", double(nobs), envir = rho)
-        assign("yback", double(nobs), envir = rho)
-        assign("user.eval", user.eval, envir = rho)
-        assign("user.split", user.split, envir = rho)
-        assign("numy", numy, envir = rho)
-        assign("numresp", numresp, envir = rho)
-        assign("parms", parms, envir = rho)
-	.Call("init_rpcallback", rho, as.integer(numy),
-	                         as.integer(numresp),
-	                         expr1, expr2)
-    }
         ## assign this to avoid garbage collection
         keep <- rpartcallback(mlist, nobs, init)
     }
@@ -183,6 +73,18 @@ if(F) {
 		  unlist(lapply(xlevels, length))
 	}
 
+    # We want to pass any ... args to rpart.control, but not pass things
+    #  like "dats=mydata" where someone just made a typo.  The use of ...
+    #  is just to allow things like "cp=.05" with easier typing
+    extraArgs <- list(...)
+    if (length(extraArgs)) {
+	controlargs <- names(formals(rpart.control))  #legal arg names
+	indx <- match(names(extraArgs), controlargs, nomatch=0)
+	if (any(indx==0))
+		stop(paste("Argument", names(extraArgs)[indx==0],
+			    "not matched"))
+	}
+
     controls <- rpart.control(...)
     if (!missing(control)) controls[names(control)] <- control
 
@@ -199,7 +101,30 @@ if(F) {
 	xgroups <- xval
 	xval <- length(unique(xgroups))
 	}
-    else stop("Invalid value for xval")
+    else {
+	# Check to see if observations were removed due to missing
+	if (!is.null(attr(m, 'na.action'))) {
+	    # if na.rpart was used, then na.action will be a vector
+	    temp <- as.integer(attr(m, 'na.action'))
+	    xval <- xval[-temp]
+	    if (length(xval) == nobs) {
+		xgroups <- xval
+		xval <- length(unique(xgroups))
+		}
+	    else stop("Wrong length for xval")
+	    }
+	else stop("Wrong length for xval")
+	}
+
+    #
+    # Incorporate costs
+    #
+    if (missing(cost)) cost <- rep(1.0, nvar)
+    else {
+	if (length(cost) != nvar)
+		stop("Cost vector is the wrong length")
+	if (any(cost <=0)) stop("Cost vector must be positive")
+	}
 
     #
     # Have s_to_rp consider ordered categories as continuous
@@ -213,19 +138,20 @@ if(F) {
     isord <- unlist(lapply(m[attr(Terms, 'term.labels')], tfun))
     rpfit <- .C("s_to_rp",
 		    n = as.integer(nobs),
-		    nvarx = as.integer(ncol(X)),
+		    nvarx = as.integer(nvar),
 		    ncat = as.integer(cats* !isord),
 		    method= as.integer(method.int),
 		    as.double(unlist(controls)),
-		    parms = as.double(init$parms),
+		    parms = as.double(unlist(init$parms)),
 		    as.integer(xval),
 		    as.integer(xgroups),
 		    as.double(t(init$y)),
 		    as.double(X),
-		    as.integer(!is.finite(X)),
+		    as.integer(!is.finite(X)), # R lets Infs through
 		    error = character(1),
 		    wt = as.double(wt),
 		    as.integer(init$numy),
+		    as.double(cost),
 		    NAOK=TRUE )
     if (rpfit$n == -1)  stop(rpfit$error)
 
@@ -236,8 +162,7 @@ if(F) {
     ncat  <- rpfit$ncat[1]    #total number of categorical splits
     numresp<- init$numresp    # length of the response vector
 
-    if (nsplit==0) stop("No splits found")
-    cpcol <- if (xval>0) 5 else 3
+    cpcol <- if (xval>0 && nsplit>0) 5 else 3
     if (ncat==0) catmat <- 0
     else         catmat <- matrix(integer(1), ncat, max(cats))
 
@@ -290,27 +215,39 @@ if(F) {
 	}
     else catmat <- rp$csplit
 
-    temp <- ifelse(index==0, 1, index)
-    svar <- ifelse(index==0, 0, rp$isplit[temp,1]) #var number for each node
-    frame <- data.frame(row.names=rp$inode[,1],
-			   var=  factor(svar, 0:ncol(X), tname),
-			   n =   rp$inode[,5],
-			   wt=   rp$dnode[,3],
-			   dev=  rp$dnode[,1],
-			   yval= rp$dnode[,4],
-			   complexity=rp$dnode[,2],
-			   ncompete  = pmax(0, rp$inode[,3]-1),
-			   nsurrogate=rp$inode[,4])
-
+    if (nsplit==0) {  #tree with no splits
+	frame <- data.frame(row.names=1,
+			    var=  "<leaf>",
+			    n =   rp$inode[,5],
+			    wt=   rp$dnode[,3],
+			    dev=  rp$dnode[,1],
+			    yval= rp$dnode[,4],
+			    complexity=rp$dnode[,2],
+			    ncompete  = pmax(0, rp$inode[,3]-1),
+			    nsurrogate=rp$inode[,4])
+	}
+    else {
+	temp <- ifelse(index==0, 1, index)
+	svar <- ifelse(index==0, 0, rp$isplit[temp,1]) #var number
+	frame <- data.frame(row.names=rp$inode[,1],
+			    var=  factor(svar, 0:ncol(X), tname),
+			    n =   rp$inode[,5],
+			    wt=   rp$dnode[,3],
+			    dev=  rp$dnode[,1],
+			    yval= rp$dnode[,4],
+			    complexity=rp$dnode[,2],
+			    ncompete  = pmax(0, rp$inode[,3]-1),
+			    nsurrogate=rp$inode[,4])
+	}
     if (method.int ==3 ) {
         numclass <- init$numresp -1
-        temp <- rp$dnode[,-(1:4)] %*% diag(init$parms[1:numclass]*
+        temp <- rp$dnode[,-(1:4)] %*% diag(init$parms$prior*
 					   sum(init$counts)/init$counts)
-        yprob <- matrix(temp /rp$dnode[,3] ,ncol=numclass)
+        yprob <- temp /apply(temp,1,sum)   #necessary with altered priors
         yval2 <- matrix(rp$dnode[, -(1:3)], ncol=numclass+1)
 	frame$yval2 <- cbind(yval2, yprob)
 	}
-    else if (init$numy >1) frame$yval2 <- rp$dnode[,-(1:3)]
+    else if (init$numresp >1) frame$yval2 <- rp$dnode[,-(1:3)]
 
     if (is.null(init$summary))
 	    stop("Initialization routine is missing the summary function")
@@ -320,16 +257,30 @@ if(F) {
     if (!is.null(init$text)) functions <- c(functions, list(text=init$text))
     if (method=='user')	functions <- c(functions, mlist)
 
-    ans <- list(frame = frame,
-                where = structure(rp$which, names = row.names(m)),
-                call=call, terms=Terms,
-    		cptable =  t(rp$cptable),
-		splits = splits,
-		method = method,
-		parms  = init$parms,
-		control= controls,
-		functions= functions)
+    where <- rp$which
+    names(where) <- row.names(m)
 
+    if (nsplit ==0) {  # no 'splits' component
+	ans <- list(frame = frame,
+		    where = where,
+		    call=call, terms=Terms,
+		    cptable =  t(rp$cptable),
+		    method = method,
+		    parms  = init$parms,
+		    control= controls,
+		    functions= functions)
+	}
+    else {
+	ans <- list(frame = frame,
+		    where = where,
+		    call=call, terms=Terms,
+		    cptable =  t(rp$cptable),
+		    splits = splits,
+		    method = method,
+		    parms  = init$parms,
+		    control= controls,
+		    functions= functions)
+	}
     if (ncat>0) ans$csplit <- catmat +2
     if (model) {
 	ans$model <- m
@@ -341,10 +292,11 @@ if(F) {
 	ans$wt<- wt
 	}
     ans$ordered <- isord
+    if(!is.null(attr(m, "na.action")))
+	    ans$na.action <- attr(m, "na.action")
     if (!is.null(xlevels)) attr(ans, 'xlevels') <- xlevels
     if(method=='class') attr(ans, "ylevels") <- init$ylevels
-    na.action <- attr(m, "na.action")
-    if (length(na.action)) ans$na.action <- na.action
-    class(ans) <- c("rpart")
+#    if (length(xgroups)) ans$xgroups <- xgroups
+    class(ans) <- "rpart"
     ans
     }

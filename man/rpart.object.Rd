@@ -47,7 +47,7 @@ or right by the split (for competitor splits this is the number that
 would have been sent left or right had this split been used, for surrogate
 splits it is the number missing the primary split variable which were decided
 using this surrogate), \code{ncat}, the number of categories or levels for the
-variable (+/-1 for a continuous variable), \code{improve}, which is the improvement
+variable (\code{+/-1} for a continuous variable), \code{improve}, which is the improvement
 in deviance given by this split, or, for surrogates, the concordance of the
 surrogate with the primary, and \code{split}, the numeric split point.  
 The last column \code{adj} gives the adjusted concordance for surrogate splits.
@@ -58,10 +58,10 @@ subset \code{x < cutpoint} or \code{x > cutpoint} is sent to the left.
 }
 \item{csplit}{
 this will be present only if one of the split variables is a factor. There
-is one row for each such split, and column i = -1 if this level of the
-factor goes to the left, +1 if it goes to the right, and 0 if that level
+is one row for each such split, and column \code{i = -1} if this level of the
+factor goes to the left, \code{+1} if it goes to the right, and 0 if that level
 is not present at this node of the tree.
-For an ordered categorical variable all levels are marked as R/L, 
+For an ordered categorical variable all levels are marked as \code{R/L}, 
 including levels that are not present.
 }
 \item{method}{

@@ -1,8 +1,9 @@
-#SCCS @(#)plot.rpart.s	1.6 02/24/00
-plot.rpart <- function(tree, uniform=FALSE, branch=1, compress=FALSE,
+#SCCS @(#)plot.rpart.s	1.8 06/08/01
+plot.rpart <- function(x, uniform=FALSE, branch=1, compress=FALSE,
 			     nspace, margin=0, minbranch=.3, ...){
-    if(!inherits(tree, "rpart"))
+    if(!inherits(x, "rpart"))
 	    stop("Not an rpart object")
+    if (!is.null(x$frame$splits)) x <- rpconvert(x)  #help for old objects
 
     if (compress & missing(nspace)) nspace <- branch
     if (!compress) nspace <- -1     #means no compression
@@ -13,21 +14,21 @@ plot.rpart <- function(tree, uniform=FALSE, branch=1, compress=FALSE,
 		 minbranch=minbranch), envir=.GlobalEnv)
 
     #define the plot region
-    temp <- rpartco(tree)
-    x <- temp$x
-    y <- temp$y
-    temp1 <- range(x) + diff(range(x))*c(-margin, margin)
-    temp2 <- range(y) + diff(range(y))*c(-margin, margin)
+    temp <- rpartco(x)
+    xx <- temp$x
+    yy <- temp$y
+    temp1 <- range(xx) + diff(range(xx))*c(-margin, margin)
+    temp2 <- range(yy) + diff(range(yy))*c(-margin, margin)
     plot(temp1, temp2, type='n', axes=FALSE, xlab='', ylab='', ...)
 
     # Draw a series of horseshoes or V's, left son, up, down to right son
     #   NA's in the vector cause lines() to "lift the pen"
-    node <- as.numeric(row.names(tree$frame))
-    temp <- rpart.branch(x, y, node, branch)
+    node <- as.numeric(row.names(x$frame))
+    temp <- rpart.branch(xx, yy, node, branch)
 
-    if (branch>0) text(x[1], y[1], '|')
+    if (branch>0) text(xx[1], yy[1], '|')
     lines(c(temp$x), c(temp$y))
-    invisible(list(x=x, y=y))
+    invisible(list(x=xx, y=yy))
 }
 
 

@@ -103,7 +103,7 @@ void rpart_callback1(int n, double *y[], double *wt, double *z) {
 ** This part is called by the rpart "split" function
 **   It is expected to return an n-1 length vector of "goodness of split"
 */
-void rpart_callback (int n, int ncat, double *y[], double *wt, 
+void rpart_callback2(int n, int ncat, double *y[], double *wt, 
 		     FLOAT *x, double *good) {
     int i, j, k;
     SEXP goodness;

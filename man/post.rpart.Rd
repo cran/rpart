@@ -10,8 +10,8 @@ Generates a PostScript presentation plot of an \code{rpart} object.
 \usage{
 post.rpart(tree, title., 
            filename=paste(deparse(substitute(tree)), ".ps", sep = ""), 
-           digits= .Options$digits -3, pretty=TRUE,
-	   use.n=T, horizontal=TRUE, \dots)
+           digits=getOption("digits") - 3, pretty=TRUE,
+	   use.n=TRUE, horizontal=TRUE, \dots)
 }
 \arguments{
 \item{tree}{
@@ -52,7 +52,8 @@ other arguments to the \code{postscript} function.
 }
 }
 \section{Side Effects}{
-a plot of \code{rpart} is created using the \code{postscript} driver. 
+a plot of \code{rpart} is created using the \code{postscript} driver, or
+the current device if \code{filename = ""}.
 }
 \details{
 The plot created uses the functions \code{plot.rpart} and \code{text.rpart} (with 

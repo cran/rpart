@@ -1,4 +1,4 @@
-/* SCCS @(#)insert_split.c	1.4 12/13/99  */
+/* SCCS 06/06/01 @(#)insert_split.c	1.5 */
 /*
 ** sort a new split into a linked list, based on its "improvement"
 **
@@ -15,7 +15,7 @@ struct split *insert_split(struct split **listhead, int ncat,
 			   double improve,          int max)
     {
     int nlist;
-    struct split *s1, *s2, *s3, *s4;
+    struct split *s1, *s2, *s3=NULL, *s4;
 
     if (ncat==0) ncat=1;     /* ensure "ncat-1" below never gives a negative */
     if (*listhead ==0) {
@@ -58,7 +58,7 @@ struct split *insert_split(struct split **listhead, int ncat,
     if (nlist==max) {
 	if (s2==0)  return(0);        /* not good enough */
 	if (ncat >1) {
-	    Free(s4);              /*get new memory-- this chunk may be too small */
+	    Free(s4);         /*get new memory-- this chunk may be too small */
 	    s4 = (struct split *)CALLOC(1, sizeof(struct split) +
 						     (ncat-2)*sizeof(int));
 	    }

@@ -28,6 +28,7 @@ rpart.object             Recursive Partitioning and Regression Trees
 rpart.poisson            Set up for `poisson' Method for an Rpart Model
 rpartco                  Calculate Plotting Coordinates for Nodes of an
                          Rpart Object
+rpconvert                Update an rpart object
 rsq.rpart                Plots the Approximate R-Square for the Different
                          Splits
 snip.rpart               Snip Subtrees of an Rpart Object

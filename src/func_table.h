@@ -1,4 +1,4 @@
-/* SCCS %W% %G%  */
+/* SCCS @(#)func_table.h	1.5 06/06/01  */
 /*
 ** The table of implimented splitting functions
 **
@@ -10,6 +10,9 @@
 **  error        - Function that returns the prediction error.
 **  num_y        - Number of columns needed to represent y (usually 1)
 */
+#ifndef FLOAT
+#define FLOAT float   /*see comments in rpart.h */
+#endif
 
 extern int anovainit( int n,	    double*y[],  int maxcat, char **error, 
 		      double *parm, int *size,   int who,    double *wt);

@@ -1,4 +1,4 @@
-/* SCCS @(#)rpcountup.c	1.4 02/08/98 */
+/* SCCS @(#)rpcountup.c	1.5 06/06/01 */
 /*
 ** count up the number of nodes and splits in the final result
 **

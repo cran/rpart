@@ -1,4 +1,4 @@
-/* SCCS @(#)anova.c	1.5 12/13/99  */
+/* SCCS @(#)anova.c	1.7 06/06/01  */
 /*
 ** The four routines for anova splitting
 */
@@ -136,7 +136,7 @@ void anova(int n,    double *y[],     FLOAT *x,     int nclass,
 
 	/* rank the classes by their mean y value */
 	for (i=0; i<n; i++) {
-	    j = (int) x[i] -1;
+	    j = (int)x[i] -1;
 	    countn[j]++;
 	    wts[j] += wt[i];
 	    sums[j] += (*y[i] - grandmean) * wt[i];

@@ -1,12 +1,10 @@
-/*  SCCS @(#)formatg.c	1.1 03/31/01 */
+/*  SCCS @(#)formatg.c	1.2 06/06/01 */
 /*
 ** Write a bunch of numbers in a desired C format, (almost always %g)
 */
-
 #include <stdio.h>
 #include "rpartS.h"
-
-void formatg(Sint *n, double *x, char **format, char **out) {
+void formatg( Sint *n, double *x, char **format, char **out) {
     int i;
 
     for (i=0; i< *n; i++) {

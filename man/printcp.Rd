@@ -7,7 +7,7 @@
   Displays the \code{cp} table for fitted \code{rpart} object.
 }
 \usage{
-printcp(x, digits=.Options$digits - 2)
+printcp(x, digits=getOption("digits") - 2)
 }
 \arguments{
 \item{x}{
@@ -42,8 +42,7 @@ Root node error: 1354.6/60 = 22.576
 2 0.134528      1   0.40465 0.60508 0.105217
 3 0.012828      2   0.27012 0.45153 0.083330
 4 0.010000      3   0.25729 0.44826 0.076998
-}
-}
+}}
 \keyword{tree}
 % docclass is function
 % Converted by Sd2Rd version 1.20.

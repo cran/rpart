@@ -1,5 +1,7 @@
-2001 Jul 25	3.0-2	Further updates from TMT.
-			Correct documentation for predict.rpart.
+2001 Aug 08	3.1-0	Further updates from TMT.
+                        More documentation updates and corrections.
+
+2001 Jul 25	3.0-2	Correct documentation for predict.rpart.
 			Remove left-over frame$yprob in residuals.rpart.
 			Use >= vs < in the labels for continuous splits.
 

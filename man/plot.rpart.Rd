@@ -7,13 +7,13 @@ Plot an Rpart Object
 Plots an rpart object on the current graphics device.
 }
 \usage{
-plot.rpart(tree, uniform=FALSE, branch=1, compress=FALSE, nspace, margin=0,
-		minbranch=.3, \dots)
+\method{plot}{rpart}(x, uniform=FALSE, branch=1, compress=FALSE, nspace,
+     margin=0, minbranch=.3, \dots)
 }
 \arguments{
-\item{tree}{
-a fitted object of class \code{rpart}, containing a classification, regression,
-or rate tree.
+\item{x}{
+  a fitted object of class \code{rpart}, containing a classification,
+  regression, or rate tree.
 }
 \item{uniform}{
 if \code{TRUE}, uniform vertical spacing of the nodes is used; this may be
@@ -52,6 +52,9 @@ Sometimes a split will give very little improvement, or even (in
 the classification case) no improvement at all.  
 A tree with branch lengths strictly proportional to improvement
 leaves no room to squeeze in node labels.
+}
+\item{\dots}{
+  arguments to be passed to or from other methods.
 }}
 \value{
 the coordinates of the nodes are returned as a list, with

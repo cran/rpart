@@ -1,4 +1,4 @@
-/* SCCS @(#)rundown.c	1.4 02/08/98 */
+/* SCCS @(#)rundown.c	1.5 06/03/01 */
 /*
 ** Run an observation down the tree, and return the prediction error,
 **    for several CP values at once.

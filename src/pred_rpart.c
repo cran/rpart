@@ -1,5 +1,5 @@
-/*  SCCS @(#)pred_rpart.c	1.5 02/08/98 
-**
+/*  SCCS @(#)pred_rpart.c	1.6  06/06/01 */
+/*
 **  Do rpart predictions given the matrix form of the tree.
 **
 **  Input
@@ -42,7 +42,7 @@ void pred_rpart(Sint *dimx,	Sint *nnode, 	Sint *nsplit, 	Sint *dimc,
     double temp;
     Sint   *nodes[4];
     double *split[4];
-    Sint   **csplit,
+    Sint   **csplit = NULL,
 	   **xmiss;
     double **xdata;
 

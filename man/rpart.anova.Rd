@@ -9,9 +9,21 @@
 \usage{
 rpart.anova(y, offset, parms, wt)
 }
+\arguments{
+  \item{y}{the responses.}
+  \item{offset}{an offset, or \code{NULL}.}
+  \item{parms}{a list of parameters, usually empty.}
+  \item{wt}{case weights.}
+}
 \value{
-  Returns a list consisting of \code{y} (substracting \code{offset}
-  if necessary), \code{parms}, and \code{numresp=1}).
+  Returns a list consisting of
+  \item{y}{(subtracting \code{offset} if necessary),}
+  \item{parms}{as input,}
+  \item{numresp}{the number of responses, here \code{1},}
+  \item{summary}{a function to be invoked by \code{\link{summary.rpart}},}
+  \item{text}{a function to be invoked by \code{\link{text.rpart}}.}
+}
+\details{
   \code{rpart.anova} is used only by the function \code{rpart}.
 }
 \keyword{tree}

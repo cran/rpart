@@ -1,4 +1,4 @@
-# SCCS 02/07/00 @(#)post.rpart.s	1.12
+# SCCS 05/11/01 @(#)post.rpart.s	1.13
 #
 post.rpart <- function(tree, title.,
 		       filename=paste(deparse(substitute(tree)),".ps",sep=""),

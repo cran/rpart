@@ -1,4 +1,4 @@
-#SCCS  %W% %G%
+#SCCS  @(#)rpart.matrix.s	1.6 04/02/01
 #
 # This differs from tree.matrix in xlevels -- we don't keep NULLS in
 #   the list for all of the non-categoricals

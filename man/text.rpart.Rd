@@ -7,9 +7,9 @@
   Labels the current plot of the tree dendrogram with text.
 }
 \usage{
-text.rpart(x, splits=T, label="yval", FUN=text, all=FALSE,
-           pretty=NULL, digits=.Options$digits - 3, use.n=FALSE,
-           fancy=FALSE, fwidth=0.8, fheight=0.8, \dots)
+\method{text}{rpart}(x, splits=TRUE, label="yval", FUN=text, all=FALSE,
+     pretty=NULL, digits=getOption("digits") - 3, use.n=FALSE,
+     fancy=FALSE, fwidth=0.8, fheight=0.8, \dots)
 }
 \arguments{
 \item{x}{
@@ -57,13 +57,13 @@ of that factor level.
 }
 \item{fwidth}{
   Relates to option \code{fancy} and the width of the ellipses and rectangles.
-  If \code{fwidth < 1} then it is a scaling factor (default = .8).  If 
+  If \code{fwidth < 1} then it is a scaling factor (default = 0.8).  If 
   \code{fwidth > 1} then it representes the number of character widths 
   (for current graphical device) to use.
 }
 \item{fheight}{
   Relates to option \code{fancy} and the height of the ellipses and rectangles.
-  If \code{fheight <1} then it is a scaling factor (default = .8).  If
+  If \code{fheight <1} then it is a scaling factor (default = 0.8).  If
   \code{fheight > 1} then it represents the number of character heights 
   (for current graphical device) to use.
 }

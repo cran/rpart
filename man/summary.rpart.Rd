@@ -7,7 +7,7 @@
   Returns a detailed listing of a fitted \code{rpart} object.
 }
 \usage{
-summary.rpart(object, cp=0, digits, file, \dots)
+summary.rpart(object, cp=0, digits=getOption("digits"), file, \dots)
 }
 \arguments{
 \item{object}{
@@ -24,6 +24,9 @@ summary.rpart(object, cp=0, digits, file, \dots)
 \item{file}{
   write the output to a given file name. (Full listings of a tree are
   often quite long).
+}
+\item{\dots}{
+  arguments to be passed to or from other methods.
 }}
 \details{
   This function is a method for the generic function summary for class

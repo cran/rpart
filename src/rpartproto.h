@@ -1,5 +1,5 @@
 /*
-**  SCCS  @(#)rpartproto.h	1.4 04/30/01
+**  SCCS  @(#)rpartproto.h	1.5 06/06/01
 ** prototypes for all of the rpart functions
 **   This helps the ansi compiler do tight checking.
 **
@@ -46,13 +46,12 @@ int rpart(int n,         int nvarx,      Sint *ncat,     int method,
           Sint *missmat, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
 	  int xvals,     Sint *x_grp,    double *wt,     double *opt,
-	  int ny) ;
+	  int ny,        double *cost) ;
 
 void rpart_callback0(int *nr);
-
 void rpart_callback1(int n, double *y[], double *wt, double *z);
 
-void rpart_callback (int n, int ncat, double *y[], double *wt, 
+void rpart_callback2(int n, int ncat, double *y[], double *wt, 
 		     FLOAT *x, double *good);
 
 void rpcountup(struct node *me, Sint *nnode, Sint *nsplit, int *ncat);
@@ -73,7 +72,7 @@ void rundown2(struct node *tree, int obs, double *cp, double *xpred);
 void s_to_rp(Sint *n, 	  Sint *nvarx, 	 Sint *ncat, 	Sint *method, 
 	     double *opt, double *parms, Sint *xvals,   Sint *x_grp,
 	     double *y,   FLOAT  *xmat,  Sint *missmat, char **error,
-	     double *wt,  Sint   *ny);
+	     double *wt,  Sint   *ny,    double *cost);
 
 void s_to_rp2(Sint *n,         Sint *nsplit,    Sint *nnode,     Sint *ncat, 
 	      Sint *numcat,    Sint *maxcat,    Sint *xvals,     Sint *which, 
@@ -84,10 +83,9 @@ void s_xpred(Sint *sn, 	   Sint *nvarx,   Sint *ncat,    Sint *method,
 	     double *opt,  double *parms, Sint *xvals,   Sint *x_grp,
 	     double *ymat, FLOAT  *xmat,  Sint *missmat, double *predict,
 	     Sint *ncp,    double *cp,    char **error,  double *wt,
-	     Sint *ny);
+	     Sint *ny,     double *cost);
 
 void surrogate(struct node *me, int nodenum);
 
 void xval(int n_xval,  struct cptable *cptable_head,  Sint *x_grp, 
 	  int maxcat,  char **error,                  double * parms);
-

@@ -1,4 +1,4 @@
-#SCCS  @(#)snip.rpart.s	1.8 01/20/00
+#SCCS  @(#)snip.rpart.s	1.9 05/11/01
 #
 #  This routine "throws away" branches
 #
@@ -20,7 +20,7 @@ snip.rpart <- function(x, toss) {
     toss.idx <- match(toss, id, nomatch=0) #the rows of the named nodes
     if (any(toss.idx ==0)) {
 	warning(paste("Nodes", toss[toss.idx==0], "are not in this tree"))
-	toss <- toss[toss.indx>0]
+	toss <- toss[toss.idx>0]
         toss.idx <- toss.idx[toss.idx>0]
         }
 
@@ -64,7 +64,6 @@ snip.rpart <- function(x, toss) {
     # Thin out unneeded rows in the frame component
     ff$ncompete[newleaf] <- ff$nsurrogate[newleaf] <- 0
     ff$var[newleaf]     <- "<leaf>"
-##    ff$splits[newleaf,] <- ""
     x$frame <- ff[sort(c(keepit, newleaf)),]
 
     # Now do the 'parents' loop one more time, to fix up the "where"

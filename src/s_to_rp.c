@@ -1,4 +1,4 @@
-/* SCCS %W% %G%  */
+/* SCCS @(#)s_to_rp.c	1.17 06/06/01  */
 /*
 ** An S interface to the the recursive partitioning routines.
 */
@@ -15,7 +15,7 @@ static int *savewhich;
 void s_to_rp(Sint *n, 	  Sint *nvarx, 	 Sint *ncat, 	Sint *method, 
 	     double *opt, double *parms, Sint *xvals,   Sint *x_grp,
 	     double *y,   FLOAT *xmat,   Sint *missmat, char **error,
-	     double *wt,  Sint  *ny)
+	     double *wt,  Sint  *ny,     double *cost)
     {
     int itemp;
     int maxpri;
@@ -31,7 +31,7 @@ void s_to_rp(Sint *n, 	  Sint *nvarx, 	 Sint *ncat, 	Sint *method,
 	           maxpri,      parms,       y,            xmat,        
 		  missmat,     &cptab,      &tree,        &(error[0]), 
 		  savewhich,  (int)*xvals,  x_grp,         wt,         
-		  opt,        (int)ny[0]);
+		  opt,        (int)ny[0],   cost);
     /*
     ** count up the number of nodes, splits, categorical splits, and cp's
     */

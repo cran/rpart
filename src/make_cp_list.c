@@ -35,7 +35,7 @@
 void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
     {
     double me_cp;
-    struct cptable *cplist, *cptemp;
+    struct cptable *cplist, *cptemp = NULL;
 
     if (me->complexity > parent) me->complexity = parent;
     me_cp = me->complexity;
