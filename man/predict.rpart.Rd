@@ -1,5 +1,6 @@
 \name{predict.rpart}
 \alias{predict.rpart}
+\alias{pred.rpart}
 \title{
 Predictions from a Fitted Rpart Object
 }

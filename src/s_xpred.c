@@ -1,5 +1,5 @@
 /*
-**  SCCS  @(#)s_xpred.c	1.9 12/13/99   
+**  SCCS  @(#)s_xpred.c	1.12 02/15/00   
 ** An S interface to "cross validated predictions"
 **    99% of this routine is a copy of s_to_rp and rpart.c
 */
@@ -23,13 +23,6 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
     double old_wt, total_wt;
 
     /*
-    **  The opt string is in the order of control.rpart()
-    **    minsplit, minbucket, cp, maxcomptete, maxsurrogate, usesurrogate,
-    **    and xval
-    */
-    maxpri = opt[3] +1;
-
-    /*
     ** initialize the splitting functions from the function table
     */
     if (*method <= NUM_METHODS) {
@@ -47,22 +40,30 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
 	}
 
     /*
-    ** set some other parameters
+    ** Set other parameters
+    **
+    **  The opt string is in the order of control.rpart()
+    **    minsplit, minbucket, cp, maxcomptete, maxsurrogate, usesurrogate,
+    **    and xval
     */
     n = *sn;
     nvar = *nvarx;
+    rp.nvar =  nvar;
+    rp.numcat = ncat;
+    rp.n = n;
+    rp.num_unique_cp = *ncp;
+    rp.wt = wt;
+
     rp.min_node =  opt[1];
     rp.min_split = opt[0];
     rp.complex   = opt[2];
-    rp.nvar =  nvar;
-    rp.numcat =  ncat;
+    maxpri       = opt[3] +1;
     rp.maxpri = maxpri;
     if (maxpri <1) rp.maxpri =1;
     rp.maxsur = opt[4];
     rp.usesurrogate = opt[5];
-    rp.n = n;
-    rp.num_unique_cp = *ncp;
-    rp.wt = wt;
+    rp.sur_agree = opt[6];
+    rp.maxnode  = pow((double)2.0, opt[8]) -1;
 
     /*
     ** create the "ragged array" pointers to the matrix
@@ -123,6 +124,13 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
     nodesize = sizeof(struct node) + (rp.num_resp-2)*sizeof(double);
 
     /*
+    ** I need the risk of the full tree, to scale alpha
+    */
+    xtree = (struct node *) ALLOC(1, nodesize);
+    (*rp_eval)(n, rp.ydata, xtree->response_est, &(xtree->risk), rp.wt);
+    rp.alpha = rp.complex * (xtree)->risk;
+
+    /*
     ** do the validations
     */
     total_wt =0;
@@ -164,7 +172,7 @@ void s_xpred(int *sn, 	   int *nvarx,   int *ncat,    int *method,
 	xtree->complexity = xtree->risk;
 	partition(1, xtree, &temp);
 	fix_cp(xtree, xtree->complexity);
- 
+
 	/*
 	** run the extra data down the new tree
 	*/

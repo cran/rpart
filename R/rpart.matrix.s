@@ -1,4 +1,4 @@
-# SCCS @(#)rpart.matrix.s	1.3 01/21/97
+#SCCS  @(#)rpart.matrix.s	1.5 01/20/00
 #
 # This differs from tree.matrix in xlevels -- we don't keep NULLS in
 #   the list for all of the non-categoricals
@@ -23,6 +23,9 @@ rpart.matrix <- function(frame)
 	    frame[[predictors[TT]]] <- NULL
 	    }
 	if(!is.null(removals)) predictors <- predictors[ - removals]
+        labels <- a$term.labels
+	if(abs(length(labels)-length(predictors))>0)
+	  predictors <- predictors[match(labels,predictors)]
 	}
 
     factors <- sapply(frame, function(x) !is.null(levels(x)))
@@ -41,7 +44,7 @@ rpart.matrix <- function(frame)
 	x <- as.matrix(frame)
 	attr(x, "column.levels") <- column.levels
 	}
-    else x <- as.matrix(frame)
+    else x <- as.matrix(frame[predictors])
     class(x) <- "rpart.matrix"
     x
 }

@@ -1,11 +1,11 @@
-#SCCS @(#)snip.rpart.s	1.6 10/16/97
+#SCCS  @(#)snip.rpart.s	1.8 01/20/00
 #
-#  This routine "throws away" branches 
+#  This routine "throws away" branches
 #
 snip.rpart <- function(x, toss) {
     if (!inherits(x, 'rpart')) stop("Not an rpart object")
 
-    if (missing(toss) || length(toss)==0) { 
+    if (missing(toss) || length(toss)==0) {
         toss <- snip.rpart.mouse(x)
 	if (length(toss)==0) return(x)
 	}
@@ -16,7 +16,7 @@ snip.rpart <- function(x, toss) {
     index <- ff$index
     ff.n  <- length(id)
 
-    toss <- unique(toss)	
+    toss <- unique(toss)
     toss.idx <- match(toss, id, nomatch=0) #the rows of the named nodes
     if (any(toss.idx ==0)) {
 	warning(paste("Nodes", toss[toss.idx==0], "are not in this tree"))
@@ -31,8 +31,8 @@ snip.rpart <- function(x, toss) {
 	}
 
     # Now add all of the descendants of the selected nodes
-    #   We do this be finding all node's parents. 
-    #        (Division by 2 gives the parent of any node.) 
+    #   We do this be finding all node's parents.
+    #        (Division by 2 gives the parent of any node.)
     #   At each step we make id2 <- parent(id2), and augment 'toss' with
     #     found children.  The loop should take <  log_2(maxdepth)/2 steps
     id2 <- id
@@ -51,10 +51,10 @@ snip.rpart <- function(x, toss) {
     # Compute the parent row for each row in the splits structure
     #  Then "thin out" the splits and csplit components
     n.split <- rep((1:ff.n), ff$ncompete + ff$nsurrogate+ 1*(ff$var!='<leaf>'))
-    split <- x$splits[match(n.split, keepit, nomatch=0) >0, ]
+    split <- x$splits[match(n.split, keepit, nomatch=0) >0, ,drop=FALSE]
     temp <- split[,2] >1      #which rows point to categoricals?
     if (any(temp)) {
-        x$csplit <- x$csplit[split[temp,4], , drop=F]
+        x$csplit <- x$csplit[split[temp,4], , drop=FALSE]
 	split[temp,4] <- 1
         if(is.matrix(x$csplit)) split[temp,4] <- 1:nrow(x$csplit)
 	}
@@ -79,6 +79,6 @@ snip.rpart <- function(x, toss) {
 	temp <- match(id2, id3, nomatch=0)
 	}
     x$where <- match(id2, id3)
-   
-    x	
+
+    x
     }

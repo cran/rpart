@@ -1,4 +1,4 @@
-/* SCCS @(#)rpart.c	1.7 12/13/99 */
+/* SCCS @(#)rpart.c	1.8 01/06/00 */
 /*
 ** The main entry point for recursive partitioning routines.
 **
@@ -8,24 +8,18 @@
 **      ncat    = # categories for each var, 0 for continuous variables.
 **      method  = 1 - anova
 **                2 - exponential survival
-**      node    = minimum node size
-**      split   = minimum size of a node to attempt a split
 **      maxpri  = max number of primary variables to retain (must be >0)
-**      maxsur  = max number of surrogate splits to retain
-**      usesur  = 0 - don't use the surrogates to do splits
-**              = 1 - use them, but not the "go with majority" surrogate
-**              = 2 - use surrogates fully
 **      parms   = extra parameters for the split function, e.g. poissoninit
 **      ymat    = matrix or vector of response variables
 **      xmat    = matrix of continuous variables
 **      missmat = matrix that indicates missing x's.  1=missing.
-**      complex = initial complexity parameter
 **      cptable  = a pointer to the root of the complexity parameter table
 **      tree     = a pointer to the root of the tree
 **      error    = a pointer to an error message buffer
 **      xvals    = number of cross-validations to do
 **      xgrp     = indices for the cross-validations
 **      wt       = vector of case weights
+**      opt      = options, in the order of rpart.control()
 **
 ** Returned variables
 **      error    = text of the error message
@@ -35,6 +29,7 @@
 **
 */
 #include <stdio.h>
+#include <math.h>
 #include "rpart.h"
 #include "node.h"
 #include "func_table.h"
@@ -42,12 +37,10 @@
 #include "rpartproto.h"
 
 int rpart(int n,         int nvarx,      int *ncat,     int method, 
-          int mnode,     int msplit,     int  maxpri,    int maxsur,
-	  int usesur,    double *parms,  double *ymat,   FLOAT *xmat,  
-          int *missmat, double complex, struct cptable *cptable,
+          int  maxpri,   double *parms,  double *ymat,   FLOAT *xmat,
+          int *missmat, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
-	  int xvals,     int *x_grp,    double *wt,     int surragree)
-    {
+	  int xvals,     int *x_grp,    double *wt,     double *opt) {
     int i,k;
     int maxcat;
     double temp;
@@ -71,16 +64,17 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
     /*
     ** set some other parameters
     */
-    rp.min_node =  mnode;
-    rp.min_split = msplit;
-    rp.complex = complex;
+    rp.min_node =  opt[1];
+    rp.min_split = opt[0];
+    rp.complex   = opt[2];
+    rp.maxsur = opt[4];
+    rp.usesurrogate = opt[5];
+    rp.sur_agree = opt[6];
+    rp.maxnode  = pow((double)2.0, opt[8]) -1;
     rp.nvar = nvarx;
     rp.numcat = ncat;
     rp.maxpri = maxpri;
     if (maxpri <1) rp.maxpri =1;
-    rp.maxsur = maxsur;
-    rp.usesurrogate = usesur;
-    rp.sur_agree = surragree;
     rp.n = n;
     rp.which = which;
     rp.wt    = wt;

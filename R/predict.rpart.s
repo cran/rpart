@@ -1,5 +1,4 @@
-## SCCS @(#)predict.rpart.s	1.7 02/12/98
-
+## SCCS @(#)predict.rpart.s	1.9 02/15/00
 predict.rpart <-
 function(object, newdata = list(), type = c("vector", "tree", "class"))
 {

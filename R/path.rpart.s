@@ -1,6 +1,6 @@
 ## submitted by Anantha Prasad 1/26/98
 
-path.rpart <- function(tree, nodes, pretty = 0, print.it = T)
+path.rpart <- function(tree, nodes, pretty = 0, print.it = TRUE)
 {
         if(!inherits(tree, "rpart"))
                 stop("Not legitimate tree")
@@ -12,7 +12,7 @@ path.rpart <- function(tree, nodes, pretty = 0, print.it = T)
         path <- list()
         if(missing(nodes)) {
                 xy <- rpartco(tree)
-                while(length(i <- identify(xy, n = 1, plot = F)) > 0) {
+                while(length(i <- identify(xy, n = 1, plot = FALSE)) > 0) {
                         path[[n[i]]] <- path.i <- splits[which[, i]]
                         if(print.it) {
                                 cat("\n", "node number:", n[i], "\n")
@@ -30,7 +30,7 @@ path.rpart <- function(tree, nodes, pretty = 0, print.it = T)
                                 cat("\n", "node number:", n[i], "\n")
                                 cat(paste("  ", path.i), sep = "\n")
                                 }
-                       } 
+                       }
         }
         invisible(path)
 }

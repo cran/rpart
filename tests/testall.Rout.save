@@ -1,6 +1,6 @@
 
-R : Copyright 1999, The R Development Core Team
-Version 0.90.0 Patched (December 15, 1999)
+R : Copyright 2000, The R Development Core Team
+Version 1.1.0  (June 15, 2000)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -13,27 +13,22 @@ Type	"demo()" for some demos, "help()" for on-line help, or
     	"help.start()" for a HTML browser interface to help.
 Type	"q()" to quit R.
 
-> invisible(options(echo = TRUE))
 > # Any necessary setup
-> library(rpart2)
+> library(rpart)
 > library(survival5)
 
 Attaching Package "package:survival5":
 
 
-	The following object(s) are masked from package:rpart2 :
+	The following object(s) are masked from package:rpart :
 
 	 is.Surv 
-
-
-	The following object(s) are masked from package:base :
-
-	 sort.list 
 
 > data(state)
 > data(cu.summary)
 > data(kyphosis)
 > options(na.action="na.omit")
+> set.seed(1234)
 > #
 > # Read the data
 > #
@@ -73,6 +68,8 @@ Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted d
 + 		stagec, control=rpart.control(usesurrogate=0, cp=0),
 + 		method='poisson')
 > fit1
+n= 146 
+
 node), split, n, deviance, yval
       * denotes terminal node
 
@@ -102,15 +99,15 @@ rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade +
     cp = 0))
 
         CP nsplit rel error xerror    xstd
-1 0.128138      0    1.0000 1.0057 0.06307
-2 0.052155      1    0.8719 0.8854 0.07188
-3 0.045615      3    0.7676 0.9049 0.07857
-4 0.026271      4    0.7219 0.9171 0.07759
-5 0.017966      5    0.6957 0.9363 0.08723
-6 0.009059      6    0.6777 0.9590 0.08978
-7 0.008132      7    0.6686 1.0386 0.09672
-8 0.006384      8    0.6605 1.0392 0.09708
-9 0.000000      9    0.6541 1.0420 0.09643
+1 0.128138      0    1.0000 1.0187 0.06276
+2 0.052155      1    0.8719 0.9510 0.07306
+3 0.045615      3    0.7676 1.0155 0.08505
+4 0.026271      4    0.7219 1.0083 0.08603
+5 0.017966      5    0.6957 0.9905 0.09158
+6 0.009059      6    0.6777 1.0184 0.09407
+7 0.008132      7    0.6686 1.0107 0.09306
+8 0.006384      8    0.6605 1.0154 0.09288
+9 0.000000      9    0.6541 1.0033 0.09034
 
 Node number 1: 146 observations,    complexity param=0.1281
   events=54,  estimated rate=0.0585 , mean deviance=1.325
@@ -254,6 +251,8 @@ Node number 105: 16 observations
 > fit2 <- rpart(cox0$residual ~ age + eet + g2+grade+gleason +ploidy,
 + 		stagec)
 > fit2
+n= 146 
+
 node), split, n, deviance, yval
       * denotes terminal node
 
@@ -280,12 +279,12 @@ rpart(formula = cox0$residual ~ age + eet + g2 + grade + gleason +
     ploidy, data = stagec)
 
        CP nsplit rel error xerror    xstd
-1 0.16404      0    1.0000 1.0125 0.05732
-2 0.03608      1    0.8360 0.8543 0.06605
-3 0.02561      3    0.7671 0.9824 0.08384
-4 0.01979      4    0.7415 0.9929 0.08621
-5 0.01452      7    0.6830 1.0111 0.09059
-6 0.01000      8    0.6684 1.0257 0.09503
+1 0.16404      0    1.0000 1.0192 0.05787
+2 0.03608      1    0.8360 0.8708 0.06720
+3 0.02561      3    0.7671 1.0167 0.08768
+4 0.01979      4    0.7415 1.0497 0.09136
+5 0.01452      7    0.6830 1.0499 0.09209
+6 0.01000      8    0.6684 1.0801 0.09695
 
 Node number 1: 146 observations,    complexity param=0.164
   mean=-4.563e-17, MSE=0.3659
@@ -422,14 +421,14 @@ rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade +
     cp = 0.001))
 
         CP nsplit rel error xerror    xstd
-1 0.129126      0    1.0000 1.0136 0.07396
-2 0.041689      1    0.8709 0.9063 0.07773
-3 0.028803      2    0.8292 0.9906 0.09174
-4 0.017195      3    0.8004 1.0453 0.09568
-5 0.015181      4    0.7832 1.0699 0.09671
-6 0.013514      5    0.7680 1.0763 0.09662
-7 0.009607      8    0.7291 1.0911 0.10118
-8 0.001000     10    0.7105 1.0884 0.10162
+1 0.129126      0    1.0000  1.008 0.07351
+2 0.041689      1    0.8709  0.918 0.07705
+3 0.028803      2    0.8292  1.015 0.09182
+4 0.017195      3    0.8004  1.059 0.10192
+5 0.015181      4    0.7832  1.086 0.10375
+6 0.013514      5    0.7680  1.081 0.10384
+7 0.009607      8    0.7291  1.082 0.10423
+8 0.001000     10    0.7105  1.080 0.10404
 
 Node number 1: 146 observations,    complexity param=0.1291
   events=54,  estimated rate=1 , mean deviance=1.338
@@ -590,7 +589,7 @@ Node number 51: 11 observations
 > #
 > # In order to compare the x-vals estimates of the mainline and S versions,
 > #  it is necessary that we use stratified xval sets (like the mainline
-> #  does).  
+> #  does).
 > 
 > mystate <- data.frame(state.x77, region=factor(state.region))
 > names(mystate) <- c("population","income" , "illiteracy","life" ,
@@ -797,6 +796,8 @@ variable 2 is not a factor in: model.frame.default(Terms, newdata, na.action = a
 + 	  stagec)
 > 
 > fit5
+n= 146 
+
 node), split, n, loss, yval, (yprob)
       * denotes terminal node
 
@@ -824,11 +825,11 @@ rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason +
     ploidy, data = stagec, parms = list(prior = c(0.5, 0.5)))
 
        CP nsplit rel error xerror    xstd
-1 0.39855      0    1.0000 1.1417 0.09340
-2 0.02335      1    0.6014 0.6014 0.07304
-3 0.01892      5    0.5093 0.7246 0.08264
-4 0.01530      7    0.4714 0.7661 0.08616
-5 0.01000      9    0.4408 0.7705 0.08780
+1 0.39855      0    1.0000 1.1630 0.08486
+2 0.02335      1    0.6014 0.6341 0.07357
+3 0.01892      5    0.5093 0.8007 0.08284
+4 0.01530      7    0.4714 0.8780 0.08508
+5 0.01000      9    0.4408 0.8422 0.08610
 
 Node number 1: 146 observations,    complexity param=0.3986
   predicted class= 0  expected loss= 0.5 
@@ -1027,9 +1028,9 @@ rpart(formula = Reliability ~ Price + Country + Mileage + Type,
        CP nsplit rel error xerror    xstd
 1 0.30508      0    1.0000 1.0000 0.07200
 2 0.08475      1    0.6949 0.6949 0.07808
-3 0.05085      2    0.6102 0.6780 0.07800
-4 0.03390      3    0.5593 0.6271 0.07747
-5 0.01000      4    0.5254 0.6102 0.07721
+3 0.05085      2    0.6102 0.7119 0.07813
+4 0.03390      3    0.5593 0.7119 0.07813
+5 0.01000      4    0.5254 0.7119 0.07813
 
 Node number 1: 85 observations,    complexity param=0.3051
   predicted class= average  expected loss= 0.6941 
@@ -1138,7 +1139,7 @@ Node number 23: 8 observations
 > # For larger trees, the weighted split will sometimes have fewer
 > #  surrogates, because of the "at least two obs" rule.
 > #
-> .Random.seed <- c(53, 33, 62, 6, 45, 2, 43, 33, 16, 10, 39, 3)
+> set.seed(1234)
 > wts <- sample(1:5, nrow(stagec), replace=T)
 > temp <- rep(1:nrow(stagec), wts)             #row replicates
 > xgrp <- rep(1:10, length=146)[order(runif(146))]
@@ -1153,13 +1154,53 @@ Node number 23: 8 observations
 + 	      data=stagec, method='poisson', weight=wts)
 > 
 > all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
-[1] TRUE
+[1] "Component nsurrogate: Mean relative  difference: 0.5"
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] TRUE
+[[1]]
+[1] "Lengths: 196, 192"
+
+[[2]]
+[1] "Attributes: < Component dim: Mean relative  difference: 0.02040816 >"
+
+[[3]]
+[1] "Attributes: < Component dimnames: Component 1: Lengths: 49, 48 >"
+
+[[4]]
+[1] "Attributes: < Component dimnames: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
+
+[[5]]
+[1] "Attributes: < Component dimnames: Component 1: 24 string mismatches >"
+
+[[6]]
+[1] "Numeric : lengths ( 196 ,  192 ) differ"
+
+$sep
+[1] ""
+
 > all.equal(fit2$splits[-24,-1],fit2b$splits[-24,-1]) #ok
-[1] TRUE
+[[1]]
+[1] "Lengths: 192, 188"
+
+[[2]]
+[1] "Attributes: < Component dim: Mean relative  difference: 0.02083333 >"
+
+[[3]]
+[1] "Attributes: < Component dimnames: Component 1: Lengths: 48, 47 >"
+
+[[4]]
+[1] "Attributes: < Component dimnames: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
+
+[[5]]
+[1] "Attributes: < Component dimnames: Component 1: 24 string mismatches >"
+
+[[6]]
+[1] "Numeric : lengths ( 192 ,  188 ) differ"
+
+$sep
+[1] ""
+
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
 > # Line 24 is a surrogate split in a group whose 2 smallest ages are
@@ -1187,7 +1228,7 @@ Node number 23: 8 observations
 > fit4b$frame$dev  <- fit4b$frame$dev/3
 > fit4b$cptable[,5] <- fit4b$cptable[,5] * sqrt(3)
 > temp <- c('frame', 'where', 'splits', 'csplit', 'cptable')
-> all.equal(fit4[temp], fit4b[temp])  
+> all.equal(fit4[temp], fit4b[temp])
 [1] TRUE
 > 
 > 
@@ -1281,11 +1322,11 @@ Node number 7: 3 observations
 > nn <- sum(!is.na(cu.summary$Reliability))
 > xgrp <- rep(1:10,length=nn)
 > carfit <- rpart(Reliability ~ Price + Country + Mileage + Type,
-+ 		 method='class', data=cu.summary, 
++ 		 method='class', data=cu.summary,
 + 		 control=rpart.control(xval=xgrp))
 > 
 > carfit2 <- rpart(Reliability ~ Price + Country + Mileage + Type,
-+ 		 method='class', data=cu.summary, 
++ 		 method='class', data=cu.summary,
 + 		 weight=rep(3,nrow(cu.summary)),
 + 		 control=rpart.control(xval=xgrp))
 > 
@@ -1304,9 +1345,9 @@ Node number 7: 3 observations
 > xx[,'improve'] <- xx[,'improve'] / ifelse(xx[,1]==0,1,3)
 > all.equal(xx, carfit$splits)
 [1] TRUE
-> all.equal(as.vector(carfit$cptable), 
+> all.equal(as.vector(carfit$cptable),
 + 	  as.vector(carfit2$cptable%*% diag(c(1,1,1,1,sqrt(3)))))
-[1] "Mean relative  difference: 0.03722347"
+[1] TRUE
 > 
 > summary(carfit2)
 Call:
@@ -1317,9 +1358,7 @@ rpart(formula = Reliability ~ Price + Country + Mileage + Type,
        CP nsplit rel error xerror    xstd
 1 0.30508      0    1.0000 1.0000 0.04157
 2 0.08475      1    0.6949 0.6949 0.04508
-3 0.05085      2    0.6102 0.7458 0.04508
-4 0.03390      3    0.5593 0.7288 0.04511
-5 0.01000      4    0.5254 0.7966 0.04486
+3 0.01000      2    0.6102 0.7458 0.04508
 
 Node number 1: 85 observations,    complexity param=0.3051
   predicted class= average  expected loss= 0.6941 
@@ -1353,60 +1392,24 @@ Node number 4: 9 observations
      class counts:  21  0  6  0  0 
     probabilities:  0.7778 0.0000 0.2222 0.0000 0.0000 
 
-Node number 5: 49 observations,    complexity param=0.05085
+Node number 5: 49 observations
   predicted class= average  expected loss= 0.5714 
      class counts:  33 36 63 15  0 
     probabilities:  0.2245 0.2449 0.4286 0.1020 0.0000 
-  left son=10 (27 obs) right son=11 (22 obs)
-  Primary splits:
-      Type    splits as  RLLR-L,     improve=8.639, (0 missing)
-      Mileage < 24.5  to the left,   improve=7.500, (25 missing)
-      Price   < 11470 to the right,  improve=7.271, (0 missing)
-      Country splits as  ---R--LRLR, improve=3.080, (0 missing)
-  Surrogate splits:
-      Price   < 11470 to the right,  agree=0.898, adj=0.773, (0 split)
-      Country splits as  ---R--RRRL, agree=0.755, adj=0.455, (0 split)
-
-Node number 10: 27 observations
-  predicted class= average  expected loss= 0.4074 
-     class counts:  21 12 48  0  0 
-    probabilities:  0.2593 0.1481 0.5926 0.0000 0.0000 
-
-Node number 11: 22 observations,    complexity param=0.0339
-  predicted class= worse  expected loss= 0.6364 
-     class counts:  12 24 15 15  0 
-    probabilities:  0.1818 0.3636 0.2273 0.2273 0.0000 
-  left son=22 (14 obs) right son=23 (8 obs)
-  Primary splits:
-      Country splits as  ---R--LRRL, improve=4.5580, (0 missing)
-      Price   < 8646  to the left,   improve=3.8160, (0 missing)
-      Type    splits as  L--R--,     improve=0.5727, (0 missing)
-  Surrogate splits:
-      Price < 13970 to the left,  agree=0.864, adj=0.625, (0 split)
-
-Node number 22: 14 observations
-  predicted class= worse  expected loss= 0.5714 
-     class counts:  12 18  3  9  0 
-    probabilities:  0.2857 0.4286 0.0714 0.2143 0.0000 
-
-Node number 23: 8 observations
-  predicted class= average  expected loss= 0.5 
-     class counts:   0  6 12  6  0 
-    probabilities:  0.00 0.25 0.50 0.25 0.00 
 
 > 
 > #
 > # Treble test for class trees with 2 outcomes
 > #
-> fit1 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
+> fit1 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
 +                control=rpart.control(maxsurrogate=0, cp=0, xval=0),
-+                parms=list(prior=c(.7,.3), 
++                parms=list(prior=c(.7,.3),
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > wts <- rep(3, nrow(kyphosis))
-> fit1b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
+> fit1b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
 +                 control=rpart.control(maxsurrogate=0, cp=0, xval=0),
 + 	       weights=wts,
-+                parms=list(prior=c(.7,.3), 
++                parms=list(prior=c(.7,.3),
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > fit1b$frame$wt   <- fit1b$frame$wt/3
 > fit1b$frame$dev  <- fit1b$frame$dev/3
@@ -1424,15 +1427,15 @@ Node number 23: 8 observations
 > xgrp2<- rep(xgrp, wts)
 > tempc <- rpart.control(minsplit=2, xval=xgrp2, maxsurrogate=0)
 > #  Direct: replicate rows in the data set, and use unweighted
-> fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis[temp,], 
-+                control=tempc, 
-+                parms=list(prior=c(.7,.3), 
+> fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis[temp,],
++                control=tempc,
++                parms=list(prior=c(.7,.3),
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > #  Weighted
 > tempc <- rpart.control(minsplit=2, xval=xgrp, maxsurrogate=0)
-> fit2b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
+> fit2b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
 +                control=tempc, weights=wts,
-+                parms=list(prior=c(.7,.3), 
++                parms=list(prior=c(.7,.3),
 +                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 > 
 > all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
@@ -1440,7 +1443,8 @@ Node number 23: 8 observations
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] "Mean relative  difference: 0.0248211"
+[1] "Attributes: < Component dimnames: Component 1: 2 string mismatches >"
+[2] "Mean relative  difference: 1.383602"                                 
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
 > q()

@@ -1,22 +1,25 @@
 \name{printcp}
 \alias{printcp}
 \title{
-Displays CP table for Fitted Rpart Object
+  Displays CP table for Fitted Rpart Object
 }
 \usage{
 printcp(x, digits=.Options$digits - 2)
 }
+\description{
+  Displays the \code{cp} table for fitted \code{rpart} object.
+}
 \arguments{
 \item{x}{
-fitted model object of class \code{rpart}.  This is assumed to be the result
-of some function that produces an object with the same named
-components as that returned by the \code{rpart} function.
+  fitted model object of class \code{rpart}.  This is assumed to be the result
+  of some function that produces an object with the same named
+  components as that returned by the \code{rpart} function.
 }
 \item{digits}{
-the number of digits of numbers to print.
+  the number of digits of numbers to print.
 }}
 \details{
-Prints a table of optimal prunings based on a complexity parameter.
+  Prints a table of optimal prunings based on a complexity parameter.
 }
 \seealso{
 \code{\link{summary.rpart}}, \code{\link{rpart.object}}
@@ -42,4 +45,4 @@ Root node error: 1354.6/60 = 22.576
 }
 }
 \keyword{rpart}
-% Converted by Sd2Rd version 0.3-1.
+

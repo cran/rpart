@@ -24,7 +24,7 @@ rpart.class <- function(y, offset, parms, wt) {
 	    if (length(temp2) != numclass^2)
 			    stop("Wrong length for loss matrix")
 	    temp2 <- matrix(temp2, ncol=numclass)
-	    if (any(diag(temp2)!=0))
+	    if (any(diag(temp2) != 0))
 			stop("Loss matrix must have zero on diagonals")
 	    if (any(temp2<0))
 			stop("Loss matrix cannot have negative elements")

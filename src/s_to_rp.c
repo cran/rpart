@@ -1,4 +1,4 @@
-/* SCCS @(#)s_to_rp.c	1.13 12/13/99 */
+/* SCCS @(#)s_to_rp.c	1.14 01/06/00 */
 /*
 ** An S interface to the the recursive partitioning routines.
 */
@@ -28,10 +28,10 @@ void s_to_rp(int *n, 	  int *nvarx, 	 int *ncat, 	int *method,
     */
     maxpri = opt[3] +1;
     rval = rpart( (int)*n,    (int)*nvarx,   ncat,        (int)*method,
-	          (int)opt[1], (int)opt[0],  maxpri,      (int)opt[4],
-	          (int)opt[5], parms,       y,            xmat,        missmat,
-	       opt[2],      &cptab,      &tree,      &(error[0]),    savewhich,
-	      (int)*xvals,  x_grp,       wt,         (int)opt[6]);
+	           maxpri,      parms,       y,            xmat,        
+		  missmat,     &cptab,      &tree,        &(error[0]), 
+		  savewhich,  (int)*xvals,  x_grp,         wt,         
+		  opt);
     /*
     ** count up the number of nodes, splits, categorical splits, and cp's
     */

@@ -1,4 +1,4 @@
-/* SCCS @(#)choose_surg.c	1.4 12/13/99 */
+/* SCCS @(#)choose_surg.c	1.5 02/25/00 */
 /*
 ** A particular split routine, optimized for the surrogate variable
 **  search.  The "goodness" of a split is the total weights of concordant
@@ -129,7 +129,7 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     int *order,
 		    case RIGHT: right[j]++;
 			        rwt[j] += rp.wt[i];
 				break;
-		    majority:;
+		    default:;
 		    }
 		}
 	    }

@@ -1,32 +1,34 @@
 \name{kyphosis}
 \alias{kyphosis}
 \non_function{}
-\title{ ~~ 1-line description of the data frame ~~ }
+\title{Data on Children who have had Corrective Spinal Surgery}
 \description{
   The \code{kyphosis} data frame has 81 rows and 4 columns.
   representing data on children who have had corrective spinal surgery
 }
+\usage{
+data(kyphosis)
+}
 \format{
 This data frame contains the following columns:
-}
-\arguments{
-\item{Kyphosis}{
+\describe{
+\item{\code{Kyphosis}}{
 a factor with levels
 \code{absent} 
 \code{present}
 indicating if a kyphosis (a type of deformation)
 was present after the operation.
 }
-\item{Age}{
+\item{\code{Age}}{
 in months
 }
-\item{Number}{
+\item{\code{Number}}{
 the number of vertebrae involved 
 }
-\item{Start}{
+\item{\code{Start}}{
 the number of the first (topmost) vertebra operated on.
 }
-}
+}}
 \source{
    John M. Chambers and Trevor J. Hastie eds. (1992)
   \emph{Statistical Models in S}, Wadsworth and Brooks/Cole,

@@ -1,8 +1,6 @@
-# SCCS @(#)xpred.rpart.s	1.14 12/13/99
+# SCCS @(#)xpred.rpart.s	1.16 02/24/00
 #
 #  Get a set of cross-validated predictions
-#
-
 xpred.rpart <- function(fit, xval=10, cp) {
     if (!inherits(fit, 'rpart')) stop("Invalid fit object")
 
@@ -48,12 +46,13 @@ xpred.rpart <- function(fit, xval=10, cp) {
     if (missing(cp)) {
 	cp<- fit$cptable[,1]
 	cp <- sqrt(cp * c(10, cp[-length(cp)]))
+	cp[1] <- (1+fit$cptable[1,1])/2
 	}
     ncp <- length(cp)
 
     if (length(xval)==1) {
 	# make random groups
-	xgroups <- sample(rep(1:xval, length=nobs), nobs, replace=F)
+	xgroups <- sample(rep(1:xval, length=nobs), nobs, replace=FALSE)
 	}
     else if (length(xval) == nrow(Y)) {
 	xgroups <- xval
@@ -66,7 +65,7 @@ xpred.rpart <- function(fit, xval=10, cp) {
 		    nvarx = as.integer(ncol(X)),
 		    ncat = as.integer(cats),
 		    method= as.integer(method.int),
-		    as.double(unlist(controls))[1:7],
+		    as.double(unlist(controls)),
 		    parms = as.double(fit$parms),
 		    as.integer(xval),
 		    as.integer(xgroups),
@@ -78,9 +77,9 @@ xpred.rpart <- function(fit, xval=10, cp) {
 		    as.double(cp * fit$frame[1,"dev"]),
 		    error = character(1),
 		    wt = as.double(wt),
-		    NAOK=T )
+		    NAOK=TRUE )
     if (rpfit$n == -1)  stop(rpfit$error)
 
-    matrix(rpfit$pred, ncol=ncp, byrow=T,
+    matrix(rpfit$pred, ncol=ncp, byrow=TRUE,
 		dimnames=list(dimnames(X)[[1]], format(cp)) )
     }

@@ -1,20 +1,14 @@
-#SCCS  @(#)print.rpart.s	1.11 09/03/97
-print.rpart <- function(x, pretty=0, spaces=2, cp, 
+#SCCS  @(#)print.rpart.s	1.13 01/20/00
+print.rpart <- function(x, pretty=0, spaces=2, cp,
                digits=.Options$digits-3, ...) {
     if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
 
-    #This is stolen, unabashedly, from print.tree
-    if (x$method=='class')
-         cat("node), split, n, loss, yval, (yprob)\n")
-    else cat("node), split, n, deviance, yval\n")
-    cat("      * denotes terminal node\n\n")
-  
     if (!missing(cp)) x <- prune.rpart(x, cp=cp)
     frame <- x$frame
     ylevel <- attr(x,'ylevels')
     node <- as.numeric(row.names(frame))
     depth <- tree.depth(node)
-    indent <- paste(rep(" ", spaces * 32), collapse = "")   
+    indent <- paste(rep(" ", spaces * 32), collapse = "")
     #32 is the maximal depth
     if(length(node) > 1) {
         indent <- substring(indent, 1, spaces * seq(depth))
@@ -22,7 +16,7 @@ print.rpart <- function(x, pretty=0, spaces=2, cp,
         }
     else indent <- paste(format(node), ")", sep = "")
     if (x$method=='class') {
-        if(!is.null(ylevel)) 
+        if(!is.null(ylevel))
            yval <- paste(as.character(ylevel[frame$yval]),
                                   " (", sep = "")
         else
@@ -38,8 +32,17 @@ print.rpart <- function(x, pretty=0, spaces=2, cp,
     term[frame$var == "<leaf>"] <- "*"
     z <- labels(x, pretty = pretty)
     n <- frame$n
-    z <- paste(indent, z, n, format(signif(frame$dev, digits = digits)), 
+    z <- paste(indent, z, n, format(signif(frame$dev, digits = digits)),
             yval, term)
+
+    cat("n=", n[1], "\n\n")
+
+    #This is stolen, unabashedly, from print.tree
+    if (x$method=='class')
+         cat("node), split, n, loss, yval, (yprob)\n")
+    else cat("node), split, n, deviance, yval\n")
+    cat("      * denotes terminal node\n\n")
+
     cat(z, sep = "\n")
     return(invisible(x))
     #end of the theft

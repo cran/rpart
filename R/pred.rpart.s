@@ -5,7 +5,7 @@ pred.rpart <- function(fit, x) {
 
     frame <- fit$frame
     nc <- frame[, c('ncompete', 'nsurrogate')]
-    frame$index <- 1 + c(0, cumsum((frame$var != "<leaf>") + 
+    frame$index <- 1 + c(0, cumsum((frame$var != "<leaf>") +
                                        nc[[1]] + nc[[2]]))[-(nrow(frame)+1)]
     frame$index[frame$var == "<leaf>"] <- 0
     vnum <- match(dimnames(fit$split)[[1]], dimnames(x)[[2]])
@@ -26,7 +26,7 @@ pred.rpart <- function(fit, x) {
 		    as.double(x),
 		    as.integer(is.na(x)),
 		    where = integer(dim(x)[1]),
-		    NAOK =T)
+		    NAOK =TRUE)
     temp <- temp$where
     names(temp) <- dimnames(x)[[1]]
     temp

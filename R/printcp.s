@@ -1,4 +1,4 @@
-#SCCS  @(#)printcp.s	1.5 09/03/97
+#SCCS  @(#)printcp.s	1.6 01/20/00
 # print out the cptable, along with some summary of the tree
 printcp <- function(x, digits=.Options$digits-2) {
     if (!inherits(x, 'rpart')) stop ("Must be an rpart x")
@@ -18,14 +18,14 @@ printcp <- function(x, digits=.Options$digits-2) {
 
     if(!is.null(used)) {
 		cat("Variables actually used in tree construction:\n")
-		print(sort(as.character(used)), quote=F)
+		print(sort(as.character(used)), quote=FALSE)
 		cat("\n")
 	}
 
 
-    cat("Root node error: ", format(frame$dev[1], digits=digits), '/', 
+    cat("Root node error: ", format(frame$dev[1], digits=digits), '/',
 			frame$n[1], ' = ',
-		         format(frame$dev[1]/frame$n[1], digits=digits), 
+		         format(frame$dev[1]/frame$n[1], digits=digits),
  			'\n\n', sep='')
 
     print (x$cptable, digits=digits)

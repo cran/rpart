@@ -1,8 +1,9 @@
-src/*.{h,c} single -> double (1.1: just define FLOAT in the various headers)
 src/*.{h,c} long -> int
 
 man/*.Rd  convert *.d by Sd2Rd
 
+Don't implement code using naresid, which R does not have.
+F -> FALSE, T -> TRUE
 
 R/labels.rpart.s	replace call to prlabel by S code.
 R/model.frame.rpart.s 	deparse calls
@@ -12,18 +13,15 @@ R/post.rpart.s		change `title' trickery
 R/print.rpart.s		remove nsmall in call to format
 			attr(x, 'ylevels') not 'ylevel'
 R/rpart.branch.s	get with inherits not frame=0
-R/rpart.class.s		remove exclude=NA in call to table
 R/rpart.matrix.s	adjust for different terms structure
 R/rpart.s		single -> double
 			sys.parent() -> sys.frame(sys.parent())
 R/rpartco.s		remove frame=0 several times
-R/snip.rpart.s		add a drop=F on x$csplit
-R/snip.rpart.mouse.s	drop frame=0, direct call to identify
+R/snip.rpart.mouse.s	drop frame=0
 R/summary.rpart.s	remove justify="left" in format
 			remove comma in paste(... ,,collapse ...)
 			attr(x, 'ylevels') not 'ylevel'
 R/text.rpart.s		text.default prints "NA", so remove these
-			no par("cxy") so work around
 			remove density=0 in calls to polygon
 R/xpred.rpart.s		single -> double
 			sys.parent() -> sys.frame(sys.parent())

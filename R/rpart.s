@@ -1,19 +1,19 @@
-# SCCS @(#)rpart.s	1.26 12/14/99
+#SCCS  @(#)rpart.s	1.29 02/03/00
 #
 #  The recursive partitioning function, for S
 #
 rpart <- function(formula, data=NULL, weights, subset,
-		   na.action=na.rpart, method, model=F, x=F, y=T,
+		   na.action=na.rpart, method, model=FALSE, x=FALSE, y=TRUE,
 		   parms, control, ...) {
 
 
     call <- match.call()
     if (is.data.frame(model)) {
 	m <- model
-	model <- F
+	model <- FALSE
 	}
     else {
-	m <- match.call(expand=F)
+	m <- match.call(expand=FALSE)
 	m$model <- m$method <- m$control<- NULL
 	m$x <- m$y <- m$parms <- m$... <- NULL
 	m$na.action <- na.action
@@ -64,7 +64,7 @@ rpart <- function(formula, data=NULL, weights, subset,
 	}
     else if (length(xval)==1) {
 	# make random groups
-        xgroups <- sample(rep(1:xval, length=nobs), nobs, replace=F)
+        xgroups <- sample(rep(1:xval, length=nobs), nobs, replace=FALSE)
 	}
     else if (length(xval) == nobs) {
 	xgroups <- xval
@@ -87,16 +87,16 @@ rpart <- function(formula, data=NULL, weights, subset,
 		    nvarx = as.integer(ncol(X)),
 		    ncat = as.integer(cats* !isord),
 		    method= as.integer(method.int),
-		    as.double(unlist(controls))[1:7],
+		    as.double(unlist(controls)),
 		    parms = as.double(init$parms),
 		    as.integer(xval),
 		    as.integer(xgroups),
 		    as.double(t(init$y)),
 		    as.double(X),
-		    as.integer(is.na(X)),
+		    as.integer(!is.finite(X)),
 		    error = character(1),
 		    wt = as.double(wt),
-		    NAOK=T )
+		    NAOK=TRUE )
     if (rpfit$n == -1)  stop(rpfit$error)
 
     # rpfit$newX[1:n] contains the final sorted order of the observations
@@ -205,7 +205,7 @@ rpart <- function(formula, data=NULL, weights, subset,
     if (ncat>0) ans$csplit <- catmat +2
     if (model) {
 	ans$model <- m
-	if (missing(y)) y <- F
+	if (missing(y)) y <- FALSE
 	}
     if (y) ans$y <- Y
     if (x) {
@@ -215,6 +215,8 @@ rpart <- function(formula, data=NULL, weights, subset,
     ans$control <- controls
     if (!is.null(xlevels)) attr(ans, 'xlevels') <- xlevels
     if(method=='class') attr(ans, "ylevels") <- init$ylevels
-    class(ans) <- "rpart"
+    na.action <- attr(m, "na.action")
+    if (length(na.action)) ans$na.action <- na.action
+    class(ans) <- c("rpart")
     ans
     }

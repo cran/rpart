@@ -1,5 +1,5 @@
 /*
-**  SCCS  @(#)rpartproto.h	1.2 12/13/99
+**  SCCS  @(#)rpartproto.h	1.3 01/06/00
 ** prototypes for all of the rpart functions
 **   This helps the ansi compiler do tight checking.
 **
@@ -42,11 +42,10 @@ void pred_rpart(int *dimx,	int *nnode, 	int *nsplit, 	int *dimc,
 		int *xmiss2,   int *where);
 
 int rpart(int n,         int nvarx,      int *ncat,     int method, 
-          int mnode,     int msplit,     int  maxpri,    int maxsur,
-	  int usesur,    double *parms,  double *ymat,   FLOAT *xmat,  
-          int *missmat, double complex, struct cptable *cptable,
+          int  maxpri,   double *parms,  double *ymat,   FLOAT *xmat,
+          int *missmat, struct cptable *cptable,
 	  struct node **tree,            char **error,   int *which,
-	  int xvals,     int *x_grp,    double *wt,     int surragree);
+	  int xvals,     int *x_grp,    double *wt,     double *opt) ;
 
 void rpcountup(struct node *me, int *nnode, int *nsplit, int *ncat);
 

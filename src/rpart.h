@@ -1,4 +1,4 @@
-/* SCCS @(#)rpart.h	1.5 12/13/99 */
+/* SCCS @(#)rpart.h	1.7 01/06/00 */
 /*
 ** commom variables for the rpart routine
 */
@@ -41,6 +41,7 @@ struct {
     int    min_split;      /*minimum size before we attempt a split */
     int    num_resp;       /*length of the response vector */
     int    sur_agree;      /*0 =  my style, 1=CART style */
+    int    maxnode;        /*controls the maximum depth of the tree */
     int    *tempvec;       /*to be allocated by the mainline, of length n */
     int    *which;
     int    *csplit;

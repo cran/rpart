@@ -1,4 +1,4 @@
-/* SCCS  @(#)partition.c	1.4 12/13/99 */
+/* SCCS  @(#)partition.c	1.5 01/06/00 */
 /*
 ** The main workhorse of the recursive partitioning module.  When called
 **   with a node, it partitions it and then calls itself to partition the
@@ -47,7 +47,8 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
     /*
     ** Can I quit now ?
     */
-    if (me->num_obs < rp.min_split  ||  tempcp <= rp.alpha) {
+    if (me->num_obs < rp.min_split  ||  tempcp <= rp.alpha  || 
+	nodenum > rp.maxnode) {
 	me->complexity =  rp.alpha;
 	me->leftson = (struct node *)0;
 	me->rightson= (struct node *)0;
@@ -103,7 +104,6 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
 		    (left_split + right_split +1);
 
     /* Who goes first -- minimum of tempcp, leftson, and rightson */
-
     if ( (me->rightson)->complexity  > (me->leftson)->complexity ) {
 	if (tempcp > (me->leftson)->complexity) {
 	    /* leftson collapses first */

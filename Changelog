@@ -1,3 +1,5 @@
+2000 Aug 12	2.0-1	Update for 2000/02/25 release of rpart, which
+			added case weights
 2000 Feb 07	1.1-2	Header file changes for 0.99.0 (especially re error)
 			Escape # in post.part.Rd and text.rpart.Rd
 1999 Dec 15	1.1-1	New version which uses weights.

@@ -8,14 +8,16 @@
   \emph{Consumer Reports}. This is part of a larger dataset, some
   columns of which are given in \code{\link{cu.summary}}.
 }
+\usage{
+data(car.test.frame)
+}
 \format{
 This data frame contains the following columns:
-}
-\arguments{
-\item{Price}{
+\describe{
+\item{\code{Price}}{
 a numeric vector giving the list price in US dollars of a standard model
 }
-\item{Country}{
+\item{\code{Country}}{
 of origin, a factor with levels
 \code{France} 
 \code{Germany} 
@@ -26,13 +28,13 @@ of origin, a factor with levels
 \code{Sweden} 
 \code{USA} 
 }
-\item{Reliability}{
+\item{\code{Reliability}}{
 a numeric vector coded \code{1} to \code{5}.
 }
-\item{Mileage}{
+\item{\code{Mileage}}{
 fuel consumption miles per US gallon, as tested. 
 }
-\item{Type}{
+\item{\code{Type}}{
 a factor with levels
 \code{Compact} 
 \code{Large} 
@@ -41,16 +43,16 @@ a factor with levels
 \code{Sporty} 
 \code{Van} 
 }
-\item{Weight}{
+\item{\code{Weight}}{
 kerb weight in pounds.
 }
-\item{Disp.}{
+\item{\code{Disp.}}{
 the engine capacity (displacement) in litres.
 }
-\item{HP}{
+\item{\code{HP}}{
 the net horsepower of the vehicle.
 }
-}
+}}
 \source{
   \emph{Consumer Reports}, April, 1990, pp. 235--288 quoted in
 

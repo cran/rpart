@@ -1,4 +1,4 @@
-#SCCS  @(#)residuals.rpart.s	1.5 04/23/97
+#SCCS  @(#)residuals.rpart.s	1.7 02/11/00
 
 residuals.rpart <- function(object, type)
     {
@@ -27,7 +27,6 @@ residuals.rpart <- function(object, type)
                 # sum((obs-fitted)/fitted)
                 deviance = -2 * log(yhat))
         names(r) <- names(y)
-        r
        }
 
     else {
@@ -37,7 +36,7 @@ residuals.rpart <- function(object, type)
 
 	events <- y[,2]
 	temp <- pmax(events, 1)
-	sign(events-lambdat) *
+	r <- sign(events-lambdat) *
 		  sqrt(-2*((events - lambdat) + events*log(lambdat/temp)))
 	}
     }

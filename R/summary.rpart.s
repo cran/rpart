@@ -1,4 +1,4 @@
-#SCCS  @(#)summary.rpart.s	1.11 12/14/99
+#SCCS  @(#)summary.rpart.s	1.14 02/24/00
 summary.rpart <- function(x, cp=0, digits=.Options$digits-3,
 			file,  ...) {
     if(!inherits(x, "rpart")) stop("Not legitimate rpart object")

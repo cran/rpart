@@ -1,4 +1,4 @@
-#SCCS @(#)rpartco.s	1.6 03/12/97
+#SCCS @(#)rpartco.s	1.7 02/07/00
 # Compute the x-y coordinates for a tree
 rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     {
@@ -15,14 +15,14 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	minbranch <- parms$minbranch
 	}
     else {
-	uniform <- F
-	nspace <- -1	
+	uniform <- FALSE
+	nspace <- -1
 	minbranch <- .3
         }
-   
+
     if(uniform) y <- (1 + max(depth) -depth) / max(depth,4)
     else {                    #make y- (parent y) = change in deviance
-	y <- dev <- frame$dev  
+	y <- dev <- frame$dev
         temp <- split(seq(node), depth)     #depth 0 nodes, then 1, then ...
         parent <- match(floor(node/2), node)
         sibling <- match(ifelse(node %% 2, node - 1, node + 1), node)
@@ -45,7 +45,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	    }
 	y <- y / (max(y))
         }
-    
+
     # Now compute the x coordinates, by spacing out the leaves and then
     #   filling in
     x   <-  double(length(node))         #allocate, then fill it in below
@@ -54,7 +54,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     right.child <- match(node * 2 + 1, node)
 
     # temp is a list of non-is.leaf, by depth
-    temp <- split(seq(node)[!is.leaf], depth[!is.leaf])  
+    temp <- split(seq(node)[!is.leaf], depth[!is.leaf])
     for(i in rev(temp))
             x[i] <- 0.5 * (x[left.child[i]] + x[right.child[i]])
 
@@ -62,10 +62,10 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 
     #
     # Now we get fancy, and try to do overlapping
-    #	
+    #
     #  The basic algorithm is, at each node:
     #      1: get the left & right edges, by depth, for the left and
-    #           right sons, of the x-coordinate spacing. 
+    #           right sons, of the x-coordinate spacing.
     #      2: find the minimal free spacing.  If this is >0, slide the
     #           right hand son over to the left
     #      3: report the left & right extents of the new tree up to the
@@ -77,11 +77,11 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     #      'stair step' edges). Do the same for the right son.  Now
     #      insert some spacers, one per level, and slide right hand
     #      board over until they touch.  Glue the boards and spacer
-    #      together at that point. 
+    #      together at that point.
     #
     #  If a node has children, its 'space' is considered to extend left
     #    and right by the amount "nspace", which accounts for space
-    #    used by the arcs from this node to its children.  For 
+    #    used by the arcs from this node to its children.  For
     #    horseshoe connections nspace usually is 1.
     #
     #  To make it global for a recursive function, the x coordinate list
@@ -89,15 +89,16 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     #
     compress <- function(me, depth) {
         lson <- me +1
-	if (is.leaf[lson]) left <- list(left=x[lson], right=x[lson], 
+	x <- x
+	if (is.leaf[lson]) left <- list(left=x[lson], right=x[lson],
 						depth=depth+1, sons=lson)
         else               left <- compress(me+1, depth+1)
 
         rson <- me + 1 + length(left$sons)        #index of right son
-	if (is.leaf[rson]) right<- list(left=x[rson], right=x[rson], 
+	if (is.leaf[rson]) right<- list(left=x[rson], right=x[rson],
 						depth=depth+1, sons=rson)
 	else               right<- compress(rson, depth+1)
-     
+
 	maxd <- max(left$depth, right$depth) - depth
         mind <- min(left$depth, right$depth) - depth
 
@@ -112,7 +113,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	    }
 	else slide <- 0
 
-	# report back 
+	# report back
         if (left$depth > right$depth) {
 	    templ <- left$left
             tempr <- left$right
@@ -123,7 +124,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	    tempr <- right$right - slide
 	    templ[1:mind] <- pmin(templ[1:mind], left$left)
 	    }
-	     
+
 	list(left = c(x[me]- nspace*(x[me] -x[lson]), templ),
 	     right= c(x[me]- nspace*(x[me] -x[rson]), tempr),
 	     depth= maxd+ depth, sons=c(me, left$sons, right$sons))
@@ -131,10 +132,10 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     assign('compress', compress)
     assign('x', x)
     assign('is.leaf', is.leaf)
-    assign('nspace', nspace) 
+    assign('nspace', nspace)
 
     temp <- compress(1, 1)
-    x <- get('x') 
+    x <- get('x')
 #    remove(c('compress', 'x', 'is.leaf', 'nspace'))
     list(x = x, y = y)
 }

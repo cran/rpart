@@ -1,11 +1,11 @@
-#sccs @(#)text.rpart.s	1.7 02/18/97
-# This is a modification of text.tree.  
+#sccs @(#)text.rpart.s	1.8 02/07/00
+# This is a modification of text.tree.
 # Fancy option has been added in (to mimic post.tree)
 #
 
-text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
-		        pretty = NULL, digits = .Options$digits - 3, 
-                        use.n=F, fancy=F, fwidth=.8, fheight =.8, ...)
+text.rpart <-  function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
+		        pretty = NULL, digits = .Options$digits - 3,
+                        use.n=FALSE, fancy=FALSE, fwidth=.8, fheight =.8, ...)
 {
   FUN1 <- function(x, y, lab,...){
     ind <- lab != "NA"
@@ -21,14 +21,12 @@ text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
 	if(is.na(match(label, col)))
 		stop("Label must be a column label of the frame component of the tree"
 			)
-        charw <- diff(par("usr")[1:2])/ par("pin")[1]
-        charht <- diff(par("usr")[3:4])/ par("pin")[2]
-        if(!is.null(srt <- list(...)$srt) && srt == 90){
-          cxy <- c(charw*par("cin")[2], charht*par("cin")[1])
-        } else {
-          cxy <- c(charw*par("cin")[1], charht*par("cin")[2])
-        }
+	cxy <- par("cxy") #character width and height
+	if(!is.null(srt <- list(...)$srt) && srt == 90)
+		cxy <- rev(cxy)
 	xy <- rpartco(x)
+
+
 
         node <- as.numeric(row.names(x$frame))
         is.left <- (node%%2 ==0)        #left hand sons
@@ -60,16 +58,22 @@ text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
 		else FUN1(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
 	}
 	leaves <- if(all) rep(T, nrow(frame)) else frame$var == "<leaf>"
-        if(method=='class') { 
+        if(method=='class') {
             if (label=='yval') stat <- ylevels[frame$yval[leaves]]
 	    else  if(!is.na(lev <- match(label, ylevels)))
 		stat <- format(signif(frame$yprob[leaves, lev],
 				      digits = digits))
-            else stat <- frame$yval[leaves]
-            if(use.n) 
+            else if(label=='yprob'){
+                sub <- matrix(c(1:length(frame$yval),frame$yval),
+		              nrow=length(frame$yval))
+	        stat <- format(signif(frame$yprob[sub][leaves],
+				      digits = digits))
+				      }
+            else stat <- format(signif(frame[leaves,label],digits=digits))
+            if(use.n)
 		  stat <- paste(stat,'\n','(',
 			   apply(frame$yval2[leaves,], 1, paste, collapse='/'),
-      			     ')', sep='') 
+      			     ')', sep='')
 	      }
 	else if(method=='anova') {
 	    stat <- format(signif(frame[leaves, label], digits =digits))
@@ -82,8 +86,8 @@ text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
 	   if(use.n)
              { stat <-
 	     paste(stat,'\n', frame$yval2[leaves],'/',frame$n[leaves], sep="")
-	       }	    
-     
+	       }
+
 	 }
 
         oval <- function(middlex,middley,a,b) {
@@ -92,16 +96,16 @@ text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
 	     newx <- middlex + a*cos(theta)
 	     newy <- middley + b*sin(theta)
 
-	     polygon(newx,newy,border=T,col=0)
+	     polygon(newx,newy,border=TRUE,col=0)
 #	     polygon(newx,newy,border=T)
 	   }
-  
+
         rectangle <- function(middlex, middley,a,b) {
 
 	  newx <- middlex + c(a,a,-a,-a)
 	  newy <- middley + c(b,-b,-b,b)
 
-	  polygon(newx,newy,border=T,col=0)
+	  polygon(newx,newy,border=TRUE,col=0)
 #	  polygon(newx,newy,border=T)
           }
 
@@ -116,7 +120,7 @@ text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
 
 		if(fheight<1) b.length <- fheight*cxy[2]*maxht
 		else b.length <- fheight*cxy[2]
-		
+
 	        ### create ovals and rectangles here
 		## sqrt(2) creates the smallest oval that fits around the
 		## best fitting rectangle
@@ -127,7 +131,7 @@ text.rpart <-  function(x, splits = T, label = "yval", FUN = text, all=F,
 				  a=a.length/2,b=b.length/2)
 	      }
 
-#if FUN=text then adj=1 puts the split label to the left of the 
+#if FUN=text then adj=1 puts the split label to the left of the
 #    split rather than centered
 #Allow labels at all or just leaf nodes
 
