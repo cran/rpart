@@ -7,12 +7,12 @@
   Returns a detailed listing of a fitted \code{rpart} object.
 }
 \usage{
-summary.rpart(object, cp=0, file, digits)
+summary.rpart(object, cp=0, digits, file, \dots)
 }
 \arguments{
 \item{object}{
   fitted model object of class \code{rpart}.  This is assumed to be the result
-  of some funciton that produces an object with the same named
+  of some function that produces an object with the same named
   components as that returned by the \code{rpart} function.
 }
 \item{cp}{

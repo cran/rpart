@@ -1,17 +1,17 @@
 
-R : Copyright 2000, The R Development Core Team
-Version 1.1.0  (June 15, 2000)
+R : Copyright 2001, The R Development Core Team
+Version 1.2.2  (2001-02-26)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
-Type	"?license" or "?licence" for distribution details.
+Type `license()' or `licence()' for distribution details.
 
 R is a collaborative project with many contributors.
-Type	"?contributors" for a list.
+Type `contributors()' for more information.
 
-Type	"demo()" for some demos, "help()" for on-line help, or
-    	"help.start()" for a HTML browser interface to help.
-Type	"q()" to quit R.
+Type `demo()' for some demos, `help()' for on-line help, or
+`help.start()' for a HTML browser interface to help.
+Type `q()' to quit R.
 
 > # Any necessary setup
 > library(rpart)
@@ -1154,7 +1154,7 @@ Node number 23: 8 observations
 + 	      data=stagec, method='poisson', weight=wts)
 > 
 > all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
-[1] "Component nsurrogate: Mean relative  difference: 0.5"
+[1] "Component 7: Mean relative  difference: 0.5"
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
@@ -1162,16 +1162,16 @@ Node number 23: 8 observations
 [1] "Lengths: 196, 192"
 
 [[2]]
-[1] "Attributes: < Component dim: Mean relative  difference: 0.02040816 >"
+[1] "Attributes: < Component 1: Mean relative  difference: 0.02040816 >"
 
 [[3]]
-[1] "Attributes: < Component dimnames: Component 1: Lengths: 49, 48 >"
+[1] "Attributes: < Component 2: Component 1: Lengths: 49, 48 >"
 
 [[4]]
-[1] "Attributes: < Component dimnames: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
+[1] "Attributes: < Component 2: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
 
 [[5]]
-[1] "Attributes: < Component dimnames: Component 1: 24 string mismatches >"
+[1] "Attributes: < Component 2: Component 1: 24 string mismatches >"
 
 [[6]]
 [1] "Numeric : lengths ( 196 ,  192 ) differ"
@@ -1184,16 +1184,16 @@ $sep
 [1] "Lengths: 192, 188"
 
 [[2]]
-[1] "Attributes: < Component dim: Mean relative  difference: 0.02083333 >"
+[1] "Attributes: < Component 1: Mean relative  difference: 0.02083333 >"
 
 [[3]]
-[1] "Attributes: < Component dimnames: Component 1: Lengths: 48, 47 >"
+[1] "Attributes: < Component 2: Component 1: Lengths: 48, 47 >"
 
 [[4]]
-[1] "Attributes: < Component dimnames: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
+[1] "Attributes: < Component 2: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
 
 [[5]]
-[1] "Attributes: < Component dimnames: Component 1: 24 string mismatches >"
+[1] "Attributes: < Component 2: Component 1: 24 string mismatches >"
 
 [[6]]
 [1] "Numeric : lengths ( 192 ,  188 ) differ"
@@ -1443,8 +1443,8 @@ Node number 5: 49 observations
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] "Attributes: < Component dimnames: Component 1: 2 string mismatches >"
-[2] "Mean relative  difference: 1.383602"                                 
+[1] "Attributes: < Component 2: Component 1: 2 string mismatches >"
+[2] "Mean relative  difference: 1.383602"                          
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
 > q()

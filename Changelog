@@ -1,27 +1,40 @@
+2001 Mar 31	2.0-3	Add priority: recommended
+			Re-licence under GPL2
+
 2000 Dec 05	2.0-2	Update for R 1.2.0: more careful use of malloc
+
 2000 Aug 12	2.0-1	Update for 2000/02/25 release of rpart, which
 			added case weights
+
 2000 Feb 07	1.1-2	Header file changes for 0.99.0 (especially re error)
 			Escape # in post.part.Rd and text.rpart.Rd
+
 1999 Dec 15	1.1-1	New version which uses weights.
 			Change all occurrences of longs.
+
 1999 May 11     1.0-7   Fix bug in graycode.c, from TMT.
 			All the examples now run correctly.
+
 1999 Apr	1.0-6	Add index of (test) datasets.
+
 1999 Feb 24	1.0-5	Correct rpart.branch.s to get(parms, inherits=TRUE).
 			Add tolerance to tree.depth, needed for the Windows 
-			version.
+			  version.
+
 1999 Jan 06	1.0-4	Remove model.frame.rp, which was no longer needed
-			now model.frame.default uses xlevels.
+			  now model.frame.default uses xlevels.
 			Modified rpart.matrix to allow - in model formulae.
 			Examples are now all executable (or commented out).
+
 1998 Jul 24  	1.0-3	Added identify.rpart to work around R's limited
-			identify.
+			  identify.
 			text is now generic in R, so removed from zzz.R.
 			levels is now generic in R, so removed from zzz.R.
 			Manual pages re-converted with Sd2Rd version 0.3-1.
 			predict now uses xlevels to force agreement of
-			levels of factors in newdata.
+			  levels of factors in newdata.
+
 1998 Jun 22  	1.0-2	Manual pages converted with Details section
 			snip.rpart implemented.
+
 1998 Jun 16  	1.0-1	Original port
