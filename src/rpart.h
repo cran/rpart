@@ -50,11 +50,16 @@ struct {
     int    *right;
     }  rp;
 
-struct cptable *cptable_tail;
-int  (*rp_init)();    /*called to initialize a splitting function */
-void (*rp_choose)();  /*set to the splitting function */
-void (*rp_eval)() ;   /*set to the evaluation routine */
-double (*rp_error)();     /*set to the prediction error routine */
+#ifdef MAINRP
+#define EXTERN
+#else
+#define EXTERN extern
+#endif
+EXTERN struct cptable *cptable_tail;
+EXTERN int  (*rp_init)();    /*called to initialize a splitting function */
+EXTERN void (*rp_choose)();  /*set to the splitting function */
+EXTERN void (*rp_eval)() ;   /*set to the evaluation routine */
+EXTERN double (*rp_error)();     /*set to the prediction error routine */
 
 /*
 ** The user inputs his complexity parameter as a percentage. and the

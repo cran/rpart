@@ -6,6 +6,12 @@
 #define FLOAT float   /*see comments in rpart.h */
 #endif
 
+#ifdef MAINRP
+#define EXTERN
+#else
+#define EXTERN extern
+#endif
+
 struct split {
     double improve;
     double adj;           /* for surrogates only, adjusted agreement */
@@ -28,7 +34,7 @@ struct node {
     int lastsurrogate;
     double response_est[2];  /*actual length depends on splitting rule */
     };
-int nodesize;
+EXTERN int nodesize;
 
 struct cptable {
     double cp;

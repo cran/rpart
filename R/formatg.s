@@ -10,7 +10,7 @@
 formatg <- function(x, digits= unlist(options('digits')),
 		         format= paste("%.", digits, "g", sep='')) {
     if (!is.numeric(x)) stop("x must be a numeric vector")
-    
+
     n <- length(x)
     #
     # the resultant strings could be up to 8 characters longer,
@@ -20,7 +20,7 @@ formatg <- function(x, digits= unlist(options('digits')),
     temp <- .C("formatg", as.integer(n),
 	                  as.double(x),
                           rep(format,n),
-                          out= rep(dummy, n))$out
+                          out= rep(dummy, n), NAOK=TRUE)$out
     if (is.matrix(x)) matrix(temp, nrow=nrow(x))
     else temp
-    } 
+    }

@@ -1,8 +1,8 @@
 # SCCS @(#)plotcp.s	1.1 02/08/98
 # Contributed by B.D. Ripley 97/07/17
 #
-plotcp <- function(x, minline=TRUE, lty=3, col=1,
-		   upper=c("size", "splits", "none"), ...)
+plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
+		   upper = c("size", "splits", "none"), ylim, ...)
 {
   if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
   upper <- match.arg(upper)
@@ -15,7 +15,8 @@ plotcp <- function(x, minline=TRUE, lty=3, col=1,
   ns <- seq(along=nsplit)
   cp0 <- p.rpart[ ,1]
   cp <- sqrt(cp0 * c(Inf, cp0[-length(cp0)]))
-  ylim <- c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)
+  if(missing(ylim))
+      ylim <- c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)
   plot(ns, xerror, axes = FALSE, xlab = "cp", ylab =
        "X-val Relative Error", ylim = ylim, type = "o", ...)
   box()

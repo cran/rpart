@@ -32,6 +32,7 @@
 ** Return value: 0 if all was well, 1 for error
 **
 */
+#define MAINRP
 #include <stdio.h>
 #include <math.h>
 #include "rpart.h"

@@ -8,8 +8,12 @@ Gives a visual representation of the cross-validation results in an
 \code{rpart} object. 
 }
 \usage{
-plotcp(x, minline=TRUE, lty=3, col=1,
-       upper=c("size", "splits", "none"), \dots)
+plotcp(x, minline = TRUE, lty = 3, col = 1,
+       upper = c("size", "splits", "none"), \dots)
+}
+\synopsis{
+plotcp(x, minline = TRUE, lty = 3, col = 1,
+       upper = c("size", "splits", "none"), ylim, ...)
 }
 \arguments{
 \item{x}{
@@ -25,7 +29,7 @@ line type for this line
 colour for this line 
 }
 \item{upper}{
-what is plotted on the top axis: the size of the tree (the number of 
+what is plotted on the top axis: the size of the tree (the number of
 leaves), the number of splits or nothing. 
 }
 \item{\dots}{
