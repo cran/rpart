@@ -152,7 +152,7 @@ all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 #  surrogates, because of the "at least two obs" rule.
 #
 set.seed(1234)
-wts <- sample(1:5, nrow(stagec), replace=T)
+wts <- sample(1:5, nrow(stagec), replace=TRUE)
 temp <- rep(1:nrow(stagec), wts)             #row replicates
 xgrp <- rep(1:10, length=146)[order(runif(146))]
 xgrp2<- rep(xgrp, wts)
@@ -216,7 +216,7 @@ summary(xx2)
 # Later -- cut it back to maxdepth=3 for the same reason (a tie).
 #
 nn <- nrow(mystate)
-wts <- sample(1:5, nn, replace=T)
+wts <- sample(1:5, nn, replace=TRUE)
 temp <- rep(1:nn, wts)             #row replicates
 xgrp <- rep(1:10, length=nn)[order(runif(nn))]
 xgrp2<- rep(xgrp, wts)
@@ -284,7 +284,7 @@ all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 
 # Now for a set of non-equal weights
 nn <- nrow(kyphosis)
-wts <- sample(1:5, nn, replace=T)
+wts <- sample(1:5, nn, replace=TRUE)
 temp <- rep(1:nn, wts)             #row replicates
 xgrp <- rep(1:10, length=nn)[order(runif(nn))]
 xgrp2<- rep(xgrp, wts)
