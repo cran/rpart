@@ -58,7 +58,7 @@ void graycode_init2(int numcat, int *count, double *val)
 	    }
 	else {
 	    temp = val[i];
-	    for (j=i-1; j>=0 && val[j]>temp; j--) {
+	    for (j=i-1; j>=k && val[j]>temp; j--) {
 		gray[j+1] = gray[j];
 		val[j+1] = val[j];
 	        }

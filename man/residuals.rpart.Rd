@@ -26,7 +26,7 @@ vector of residuals of type \code{type} from a fitted \code{rpart} object.
 data(solder)
 fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
        data=solder, method='anova')
-plot(fitted(fit),residuals(fit))
+summary(residuals(fit))
+plot(predict(fit),residuals(fit))
 }
 \keyword{rpart}
-% Converted by Sd2Rd version 0.3-1.

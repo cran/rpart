@@ -29,11 +29,10 @@ A new \code{rpart} object that is trimmed to the value \code{cp}.
 \examples{
 data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
-zp <- prune.rpart(z.auto)
+zp <- prune.rpart(z.auto, cp=0.1)
 plot(zp) #plot smaller rpart object
 }
 \keyword{rpart}
-% Converted by Sd2Rd version 0.3-1.
 
 
 

@@ -1,3 +1,5 @@
+1999 May 11     1.0-7   Fix bug in graycode.c, from TMT.
+			All the examples now run correctly.
 1999 Apr	1.0-6	Add index of (test) datasets.
 1999 Feb 24	1.0-5	Correct rpart.branch.s to get(parms, inherits=TRUE).
 			Add tolerance to tree.depth, needed for the Windows 

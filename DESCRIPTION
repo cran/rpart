@@ -1,5 +1,5 @@
 Package: rpart
-Version: 1.0-6
+Version: 1.0-7
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.
         R port by Brian Ripley <ripley@stats.ox.ac.uk>.
 Description: Recursive partitioning.
