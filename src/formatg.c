@@ -7,9 +7,13 @@
 #ifdef WIN32
 #include <ctype.h>
 #endif
-void formatg( Sint *n, double *x, char **format, char **out) {
-    int i, len;
+void formatg( Sint *n, double *x, char **format, char **out) 
+{
+    int i;
+#ifdef WIN32
+    int len;
     char *p;
+#endif
 
     for (i=0; i< *n; i++) {
 	sprintf(out[i], format[i], x[i]);

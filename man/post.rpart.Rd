@@ -8,10 +8,10 @@
 Generates a PostScript presentation plot of an \code{rpart} object. 
 }
 \usage{
-post.rpart(tree, title., 
-           filename=paste(deparse(substitute(tree)), ".ps", sep = ""), 
-           digits=getOption("digits") - 3, pretty=TRUE,
-	   use.n=TRUE, horizontal=TRUE, \dots)
+\method{post}{rpart}(tree, title., 
+     filename = paste(deparse(substitute(tree)), ".ps", sep = ""), 
+     digits = getOption("digits") - 3, pretty = TRUE,
+     use.n = TRUE, horizontal = TRUE, \dots)
 }
 \arguments{
 \item{tree}{
@@ -69,13 +69,11 @@ options.
 \examples{
 data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
-post(z.auto, file="")   # display tree on active device
-   # now construct postscript version on file "pretty"
+post(z.auto, file = "")   # display tree on active device
+   # now construct postscript version on file "pretty.ps"
    # with no title
-post(z.auto, file="pretty", title=" ")
+post(z.auto, file = "pretty.ps", title = " ")
 z.hp <- rpart(Mileage ~ Weight + HP, car.test.frame)
 post(z.hp)
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

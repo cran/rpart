@@ -50,7 +50,7 @@ a plot is put on the current graphics device.
 \examples{
 data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
-meanvar.rpart(z.auto, log='xy')
+meanvar(z.auto, log='xy')
 }
 \keyword{tree}
 % docclass is function

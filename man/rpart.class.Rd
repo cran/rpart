@@ -28,13 +28,11 @@ rpart.class(y, offset, parms, wt)
   \item{text}{a function to be invoked by \code{\link{text.rpart}}.}
 }
 \details{
-  \code{rpart.class} is used only by the function \code{rpart}. It
+  \code{rpart.class} is to be used only by the function \code{rpart}. It
   validates the input parameter list: if that is missing or \code{NULL}
   default values are supplied.
 }
 \seealso{
 \code{\link{rpart}} 
 }
-\keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.
+\keyword{internal}

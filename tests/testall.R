@@ -6,6 +6,7 @@ data(cu.summary)
 data(kyphosis)
 options(na.action="na.omit")
 options(digits=4) # to match earlier output
+RNGversion("1.6.2")
 set.seed(1234)
 #
 # Read the data

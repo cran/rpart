@@ -24,7 +24,6 @@ rpart.anova(y, offset, parms, wt)
   \item{text}{a function to be invoked by \code{\link{text.rpart}}.}
 }
 \details{
-  \code{rpart.anova} is used only by the function \code{rpart}.
+  \code{rpart.anova} is to be used only by the function \code{rpart}.
 }
-\keyword{tree}
-% docclass is function
+\keyword{internal}

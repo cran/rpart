@@ -44,5 +44,5 @@ oops:;
     **  xval tree just built.  This is impossible (I think).  But just in
     **  case I put a message here.
     */
-    fprintf(stderr, "Warning message--see rundown2.c\n");
+    REprintf("Warning message--see rundown2.c\n");
     }

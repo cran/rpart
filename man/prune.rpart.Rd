@@ -10,7 +10,7 @@ by recursively \code{snipping} off the least important splits, based on the
 complexity parameter (\code{cp}). 
 }
 \usage{
-prune.rpart(tree, cp, ...)
+\method{prune}{rpart}(tree, cp, ...)
 }
 \arguments{
 \item{tree}{
@@ -32,7 +32,7 @@ A new \code{rpart} object that is trimmed to the value \code{cp}.
 \examples{
 data(car.test.frame)
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
-zp <- prune.rpart(z.auto, cp=0.1)
+zp <- prune(z.auto, cp=0.1)
 plot(zp) #plot smaller rpart object
 }
 \keyword{tree}

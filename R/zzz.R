@@ -1,4 +1,5 @@
-.First.lib <- function(lib, pkg) library.dynam("rpart", pkg, lib)
+#.First.lib <- function(lib, pkg) library.dynam("rpart", pkg, lib)
+.noGenerics <- TRUE
 
 tree.depth <- function (nodes)
 {

@@ -1,6 +1,6 @@
 
-R : Copyright 2002, The R Development Core Team
-Version 1.7.0 Under development (unstable) (2002-12-10)
+R : Copyright 2003, The R Development Core Team
+Version 1.7.0 Under development (unstable) (2003-03-01)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -21,6 +21,7 @@ Type `q()' to quit R.
 > data(kyphosis)
 > options(na.action="na.omit")
 > options(digits=4) # to match earlier output
+> RNGversion("1.6.2")
 > set.seed(1234)
 > #
 > # Read the data
@@ -1165,17 +1166,15 @@ Node number 23: 8 observations
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
 [1] "Lengths: 196, 192"                                                                             
 [2] "Attributes: < Component 1: Mean relative  difference: 0.02041 >"                               
-[3] "Attributes: < Component 2: Component 1: Lengths: 49, 48 >"                                     
-[4] "Attributes: < Component 2: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
-[5] "Attributes: < Component 2: Component 1: 24 string mismatches >"                                
-[6] "Numeric: lengths (196, 192) differ"                                                            
+[3] "Attributes: < Component 2: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
+[4] "Attributes: < Component 2: Component 1: 24 string mismatches >"                                
+[5] "Numeric: lengths (196, 192) differ"                                                            
 > all.equal(fit2$splits[-24,-1],fit2b$splits[-24,-1]) #ok
 [1] "Lengths: 192, 188"                                                                             
 [2] "Attributes: < Component 1: Mean relative  difference: 0.02083 >"                               
-[3] "Attributes: < Component 2: Component 1: Lengths: 48, 47 >"                                     
-[4] "Attributes: < Component 2: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
-[5] "Attributes: < Component 2: Component 1: 24 string mismatches >"                                
-[6] "Numeric: lengths (192, 188) differ"                                                            
+[3] "Attributes: < Component 2: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
+[4] "Attributes: < Component 2: Component 1: 24 string mismatches >"                                
+[5] "Numeric: lengths (192, 188) differ"                                                            
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
 > # Line 24 is a surrogate split in a group whose 2 smallest ages are

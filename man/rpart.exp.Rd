@@ -26,10 +26,8 @@ rpart.exp(y, offset, parms, wt)
   \item{text}{a function to be invoked by \code{\link{text.rpart}}.}
 }
 \details{
-  \code{rpart.exp} is used only by the function \code{rpart}.  It
+  \code{rpart.exp} is to be used only by the function \code{rpart}.  It
   transforms the data to look like a unit-rate Poisson process so that
   the \code{rpart.exp} method can be used.
 }
-\keyword{tree}
-% docclass is function
-
+\keyword{internal}

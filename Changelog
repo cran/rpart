@@ -1,3 +1,11 @@
+2003 Mar 15	3.1-12	Update NAMESPACE file
+			Use post not post.rpart
+
+2003 Mar 03	3.1-11	Reinstate rpart.matrix etc, as ipred used it (even
+			though they were documented as for use in rpart).
+
+2003 Mar 01	3.1-10	Use namespace, REprintf.
+
 2002 Dec 10	3.1-9	Apparent typo in rpartcallback.s spotted by 
 			Torsten Hothorn.
 			formatg uses e+/-0n not 00n under Windows

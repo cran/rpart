@@ -28,7 +28,6 @@ rpart.poisson(y, offset, parms, wt)
   \item{text}{a function to be invoked by \code{\link{text.rpart}}.}
 }
 \details{
-  \code{rpart.poisson} is used only by the function \code{rpart}.
+  \code{rpart.poisson} is to be used only by the function \code{rpart}.
 }
 \keyword{tree}
-% docclass is function
