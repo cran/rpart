@@ -13,10 +13,15 @@
 #define RIGHT  1
 #define MISSING 0
 
+#ifdef MAINRP
+#define EXTERN
+#else
+#define EXTERN extern
+#endif
 /* As a sop to S, I need to keep the total number of external symbols
 **  somewhat smaller.  So, pack most of them all into a structure.
 */
-struct {
+EXTERN struct {
     double complexity;
     double alpha;
     double iscale;         /* used to check improvement==0, with error */
@@ -50,11 +55,6 @@ struct {
     int    *right;
     }  rp;
 
-#ifdef MAINRP
-#define EXTERN
-#else
-#define EXTERN extern
-#endif
 EXTERN struct cptable *cptable_tail;
 EXTERN int  (*rp_init)();    /*called to initialize a splitting function */
 EXTERN void (*rp_choose)();  /*set to the splitting function */
