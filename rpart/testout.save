@@ -1,0 +1,2141 @@
+S-PLUS : Copyright (c) 1988, 1996 MathSoft, Inc.
+S : Copyright AT&T.
+Version 3.4 Release 1 for Sun SPARC, SunOS 5.3 : 1996 
+Mayo local startup...
+    loading survival
+    loading date
+    loading slocal.misc
+    set missing value action to 'na.omit'
+    set contrasts to ('contr.treatment', 'contr.poly')
+    stop automatic character -> factor conversion in data frames
+
+Working data will be in /people/biostat5/atkinson/.Data 
+Warning! Resetting global defaults:
+         options(gui="motif")
+         attach(~/sfunc/.Data, pos=5)
+> ### This file tests many of the rpart/tree functions.  Plots are
+> ### commented out so that the program can be run via BATCH.
+> ###
+> ### The assumption is that you are running this in the rpart 
+> ### directory that you created.  If you are running this from another 
+> ### directory, the first line of the program will need to be modified.
+> ###
+> 
+> library(src, lib.loc=".")
+> #library(rpart)
+> 
+> # Read in test data stagec
+> #
+> #   Time to progression in years
+> #   status  1=progressed, 0= censored
+> #   age
+> #   early endocrine therapy   1=no 2=yes
+> #   % of cells in g2 phase, from flow cytometry
+> #   tumor grade (Farrow) 1,2,3,4
+> #   Gleason score (competing grading system)
+> #   ploidy
+> 
+> stagec <- read.table("data.stagec",  col.names=c("pgtime", "pgstat", "age",
++ 			"eet", "g2", "grade", "gleason", "ploidy"))
+> > stagec$ploidy <- factor(stagec$ploidy, levels=1:3,
++ 				labels=c("diploid", "tetraploid", "aneuploid"))
+> > ######################################################################
+> 
+> 
+> .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
+> > # fit classification tree to data in kyphosis data frame
+> # method = "class"
+>  
+> c.fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis, 
++ 	       control=rpart.control(minsplit=10,cp=0.001,xval=5),
++ 	       parms=list(prior=c(.7,.3), 
++                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
+> > printcp(c.fit)
+
+Classification tree:
+rpart(formula = Kyphosis ~ Age + Number + Start, data = kyphosis, parms = list(
+	prior = c(0.7, 0.3), loss = matrix(c(0, 1, 2, 0), nrow = 2, ncol = 2)), 
+	control = rpart.control(minsplit = 10, cp = 0.001, xval = 5))
+
+Variables actually used in tree construction:
+[1] Age    Number Start 
+
+Root node error: 48.6/81 = 0.6
+
+         CP nsplit rel error  xerror    xstd 
+1 0.5177696      0   1.00000 1.00000 0.21559
+2 0.1052390      1   0.48223 0.50460 0.11497
+3 0.0546875      2   0.37699 0.53110 0.13468
+4 0.0273438      3   0.32230 0.54933 0.13501
+5 0.0223652      5   0.26762 0.52696 0.12542
+6 0.0088337      6   0.24525 0.64461 0.14473
+7 0.0010000      9   0.21875 0.58578 0.13558
+> print(c.fit)
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 81 48.600 absent ( 0.7000 0.3000 )  
+   2) Start>12.5 46  5.718 absent ( 0.9317 0.0683 )  
+     4) Start>14.5 29  0.000 absent ( 1.0000 0.0000 ) *
+     5) Start<14.5 17  5.718 absent ( 0.8230 0.1770 )  
+      10) Age<59 5  0.000 absent ( 1.0000 0.0000 ) *
+      11) Age>59 12  5.718 absent ( 0.7560 0.2440 )  
+        22) Age>157.5 5  0.000 absent ( 1.0000 0.0000 ) *
+        23) Age<157.5 7  4.430 present ( 0.6078 0.3922 ) *
+   3) Start<12.5 35 17.720 present ( 0.4525 0.5475 )  
+     6) Age<34.5 10  2.859 absent ( 0.8480 0.1520 )  
+      12) Start>4 7  0.000 absent ( 1.0000 0.0000 ) *
+      13) Start<4 3  1.772 present ( 0.5535 0.4465 ) *
+     7) Age>34.5 25  9.745 present ( 0.3275 0.6725 )  
+      14) Age>139.5 3  0.000 absent ( 1.0000 0.0000 ) *
+      15) Age<139.5 22  7.088 present ( 0.2615 0.7385 )  
+        30) Number<4.5 11  5.316 present ( 0.4265 0.5735 )  
+          60) Age<88.5 3  0.000 absent ( 1.0000 0.0000 ) *
+          61) Age>88.5 8  2.658 present ( 0.2711 0.7289 ) *
+        31) Number>4.5 11  1.772 present ( 0.1211 0.8789 ) *
+> summary(c.fit,cp=.01)
+Call:
+rpart(formula = Kyphosis ~ Age + Number + Start, data = kyphosis, parms = list(
+	prior = c(0.7, 0.3), loss = matrix(c(0, 1, 2, 0), nrow = 2, ncol = 2)), 
+	control = rpart.control(minsplit = 10, cp = 0.001, xval = 5))
+
+        CP nsplit rel error xerror   xstd 
+1 0.517770      0    1.0000 1.0000 0.2156
+2 0.105239      1    0.4822 0.5046 0.1150
+3 0.054688      2    0.3770 0.5311 0.1347
+4 0.027344      3    0.3223 0.5493 0.1350
+5 0.022365      5    0.2676 0.5270 0.1254
+6 0.008834      6    0.2453 0.6446 0.1447
+7 0.001000      9    0.2188 0.5858 0.1356
+
+Node number 1: 81 observations,    complexity param=0.5178
+  predicted class= absent  expected loss= 0.6 
+     class counts:  64 17 
+    probabilities:  0.7 0.3 
+  left son=2 (46 obs) right son=3 (35 obs)
+  Primary splits:
+      Start  < 12.5  to the right, improve=13.300, (0 missing)
+      Age    < 39.5  to the left,  improve= 6.083, (0 missing)
+      Number < 4.5   to the left,  improve= 5.903, (0 missing)
+  Surrogate splits:
+      Number < 3.5   to the left,  agree=0.6667, (0 split)
+
+Node number 2: 46 observations
+  predicted class= absent  expected loss= 0.1243 
+     class counts:  44  2 
+    probabilities:  0.9317 0.0683 
+
+Node number 3: 35 observations,    complexity param=0.1052
+  predicted class= present  expected loss= 0.5062 
+     class counts:  20 15 
+    probabilities:  0.4525 0.5475 
+  left son=6 (10 obs) right son=7 (25 obs)
+  Primary splits:
+      Age    < 34.5  to the left,  improve=3.995, (0 missing)
+      Start  < 8.5   to the right, improve=1.915, (0 missing)
+      Number < 4.5   to the left,  improve=1.637, (0 missing)
+
+Node number 6: 10 observations,    complexity param=0.02237
+  predicted class= absent  expected loss= 0.2859 
+     class counts:  9 1 
+    probabilities:  0.848 0.152 
+  left son=12 (7 obs) right son=13 (3 obs)
+  Primary splits:
+      Start  < 4     to the right, improve=1.5550, (0 missing)
+      Number < 4.5   to the left,  improve=1.1180, (0 missing)
+      Age    < 16    to the right, improve=0.8031, (0 missing)
+  Surrogate splits:
+      Number < 4.5   to the left,  agree=0.9, (0 split)
+
+Node number 7: 25 observations,    complexity param=0.05469
+  predicted class= present  expected loss= 0.3898 
+     class counts:  11 14 
+    probabilities:  0.3275 0.6725 
+  left son=14 (3 obs) right son=15 (22 obs)
+  Primary splits:
+      Age    < 139.5 to the right, improve=2.7940, (0 missing)
+      Number < 4.5   to the left,  improve=0.6111, (0 missing)
+      Start  < 8.5   to the right, improve=0.5736, (0 missing)
+
+Node number 12: 7 observations
+  predicted class= absent  expected loss= 0 
+     class counts:  7 0 
+    probabilities:  1 0 
+
+Node number 13: 3 observations
+  predicted class= present  expected loss= 0.5906 
+     class counts:  2 1 
+    probabilities:  0.5535 0.4465 
+
+Node number 14: 3 observations
+  predicted class= absent  expected loss= 0 
+     class counts:  3 0 
+    probabilities:  1 0 
+
+Node number 15: 22 observations,    complexity param=0.02734
+  predicted class= present  expected loss= 0.3222 
+     class counts:   8 14 
+    probabilities:  0.2615 0.7385 
+  left son=30 (11 obs) right son=31 (11 obs)
+  Primary splits:
+      Number < 4.5   to the left,  improve=0.7520, (0 missing)
+      Age    < 86    to the left,  improve=0.6102, (0 missing)
+      Start  < 8.5   to the right, improve=0.2507, (0 missing)
+  Surrogate splits:
+      Age   < 120.5 to the right, agree=0.7727, (0 split)
+      Start < 5.5   to the left,  agree=0.7273, (0 split)
+
+Node number 30: 11 observations,    complexity param=0.02734
+  predicted class= present  expected loss= 0.4832 
+     class counts:  6 5 
+    probabilities:  0.4265 0.5735 
+  left son=60 (3 obs) right son=61 (8 obs)
+  Primary splits:
+      Age    < 88.5  to the left,  improve=2.51300, (0 missing)
+      Start  < 2     to the left,  improve=0.11610, (0 missing)
+      Number < 3.5   to the right, improve=0.04814, (0 missing)
+  Surrogate splits:
+      Start < 2     to the left,  agree=0.8182, (0 split)
+
+Node number 31: 11 observations
+  predicted class= present  expected loss= 0.1611 
+     class counts:  2 9 
+    probabilities:  0.1211 0.8789 
+
+Node number 60: 3 observations
+  predicted class= absent  expected loss= 0 
+     class counts:  3 0 
+    probabilities:  1 0 
+
+Node number 61: 8 observations
+  predicted class= present  expected loss= 0.3322 
+     class counts:  3 5 
+    probabilities:  0.2711 0.7289 
+
+> summary(residuals(c.fit))
+ Min. 1st Qu. Median   Mean 3rd Qu. Max. 
+    0       0      0 0.1481       0    1
+> apply(xpred.rpart(c.fit),2,table)
+$"0.719562095":
+  1 
+ 81
+
+$"0.233429948":
+  1  2 
+ 47 34
+
+$"0.075863405":
+  1  2 
+ 52 29
+
+$"0.038669902":
+  1  2 
+ 54 27
+
+$"0.024729503":
+  1  2 
+ 56 25
+
+$"0.014055902":
+  1  2 
+ 54 27
+
+$"0.002972161":
+  1  2 
+ 54 27
+
+> > > ######################################################################
+> 
+> .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
+> > # fit classification tree to data in stagec data frame
+> # method = "class"
+> 
+> c.fit2 <- rpart(factor(pgstat) ~  age + eet + g2+grade+gleason +ploidy,
++ 	        data=stagec)
+> > printcp(c.fit2)
+
+Classification tree:
+rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + ploidy, 
+	data = stagec)
+
+Variables actually used in tree construction:
+[1] age    g2     grade  ploidy
+
+Root node error: 54/146 = 0.36986
+
+        CP nsplit rel error  xerror    xstd 
+1 0.104938      0   1.00000 1.00000 0.10802
+2 0.055556      3   0.68519 1.05556 0.10916
+3 0.027778      4   0.62963 0.96296 0.10715
+4 0.018519      6   0.57407 0.92593 0.10618
+5 0.010000      7   0.55556 0.88889 0.10511
+> print(c.fit2)
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 146 54 0 ( 0.6301 0.3699 )  
+   2) grade<2.5 61  9 0 ( 0.8525 0.1475 ) *
+   3) grade>2.5 85 40 1 ( 0.4706 0.5294 )  
+     6) g2<13.2 40 17 0 ( 0.5750 0.4250 )  
+      12) ploidy:diploid,tetraploid 31 11 0 ( 0.6452 0.3548 )  
+        24) g2>11.845 7  1 0 ( 0.8571 0.1429 ) *
+        25) g2<11.845 24 10 0 ( 0.5833 0.4167 )  
+          50) g2<11.005 17  5 0 ( 0.7059 0.2941 ) *
+          51) g2>11.005 7  2 1 ( 0.2857 0.7143 ) *
+      13) ploidy:aneuploid 9  3 1 ( 0.3333 0.6667 ) *
+     7) g2>13.2 45 17 1 ( 0.3778 0.6222 )  
+      14) g2>17.91 22  8 0 ( 0.6364 0.3636 )  
+        28) age>62.5 15  4 0 ( 0.7333 0.2667 ) *
+        29) age<62.5 7  3 1 ( 0.4286 0.5714 ) *
+      15) g2<17.91 23  3 1 ( 0.1304 0.8696 ) *
+> summary(c.fit2)
+Call:
+rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + ploidy, 
+	data = stagec)
+
+       CP nsplit rel error xerror   xstd 
+1 0.10494      0    1.0000 1.0000 0.1080
+2 0.05556      3    0.6852 1.0556 0.1092
+3 0.02778      4    0.6296 0.9630 0.1072
+4 0.01852      6    0.5741 0.9259 0.1062
+5 0.01000      7    0.5556 0.8889 0.1051
+
+Node number 1: 146 observations,    complexity param=0.1049
+  predicted class= 0  expected loss= 0.3699 
+     class counts:  92 54 
+    probabilities:  0.6301 0.3699 
+  left son=2 (61 obs) right son=3 (85 obs)
+  Primary splits:
+      grade   < 2.5   to the left,  improve=10.360, (0 missing)
+      gleason < 5.5   to the left,  improve= 8.400, (3 missing)
+      ploidy  splits as  LRR, improve= 7.657, (0 missing)
+      g2      < 13.2  to the left,  improve= 7.187, (7 missing)
+      age     < 58.5  to the right, improve= 1.388, (0 missing)
+  Surrogate splits:
+      gleason < 5.5   to the left,  agree=0.8630, (0 split)
+      ploidy  splits as  LRR, agree=0.6438, (0 split)
+      g2      < 9.945 to the left,  agree=0.6301, (0 split)
+      age     < 66.5  to the right, agree=0.5890, (0 split)
+
+Node number 2: 61 observations
+  predicted class= 0  expected loss= 0.1475 
+     class counts:  52  9 
+    probabilities:  0.8525 0.1475 
+
+Node number 3: 85 observations,    complexity param=0.1049
+  predicted class= 1  expected loss= 0.4706 
+     class counts:  40 45 
+    probabilities:  0.4706 0.5294 
+  left son=6 (40 obs) right son=7 (45 obs)
+  Primary splits:
+      g2      < 13.2  to the left,  improve=2.1780, (6 missing)
+      ploidy  splits as  LRR, improve=1.9830, (0 missing)
+      age     < 56.5  to the right, improve=1.6600, (0 missing)
+      gleason < 8.5   to the left,  improve=1.6390, (0 missing)
+      eet     < 1.5   to the right, improve=0.1086, (1 missing)
+  Surrogate splits:
+      ploidy  splits as  LRL, agree=0.9620, (6 split)
+      age     < 68.5  to the right, agree=0.6076, (0 split)
+      gleason < 6.5   to the left,  agree=0.5823, (0 split)
+
+Node number 6: 40 observations,    complexity param=0.05556
+  predicted class= 0  expected loss= 0.425 
+     class counts:  23 17 
+    probabilities:  0.575 0.425 
+  left son=12 (31 obs) right son=13 (9 obs)
+  Primary splits:
+      ploidy  splits as  LLR, improve=1.3560, (0 missing)
+      g2      < 11.85 to the right, improve=1.1570, (5 missing)
+      gleason < 7.5   to the left,  improve=0.8595, (0 missing)
+      age     < 61.5  to the right, improve=0.5633, (0 missing)
+      eet     < 1.5   to the left,  improve=0.0500, (0 missing)
+  Surrogate splits:
+      g2 < 4.33  to the right, agree=0.8, (0 split)
+
+Node number 7: 45 observations,    complexity param=0.1049
+  predicted class= 1  expected loss= 0.3778 
+     class counts:  17 28 
+    probabilities:  0.3778 0.6222 
+  left son=14 (22 obs) right son=15 (23 obs)
+  Primary splits:
+      g2      < 17.91 to the right, improve=5.2410, (1 missing)
+      age     < 62.5  to the right, improve=0.8641, (0 missing)
+      gleason < 7.5   to the left,  improve=0.2116, (0 missing)
+      eet     < 1.5   to the right, improve=0.1280, (1 missing)
+  Surrogate splits:
+      age     < 61.5  to the right, agree=0.6136, (1 split)
+      eet     < 1.5   to the right, agree=0.5909, (0 split)
+      grade   < 3.5   to the right, agree=0.5455, (0 split)
+      gleason < 6.5   to the right, agree=0.5455, (0 split)
+
+Node number 12: 31 observations,    complexity param=0.02778
+  predicted class= 0  expected loss= 0.3548 
+     class counts:  20 11 
+    probabilities:  0.6452 0.3548 
+  left son=24 (7 obs) right son=25 (24 obs)
+  Primary splits:
+      g2      < 11.85 to the right, improve=0.8126, (0 missing)
+      gleason < 7.5   to the left,  improve=0.4544, (0 missing)
+      age     < 62.5  to the right, improve=0.1185, (0 missing)
+  Surrogate splits:
+      ploidy splits as  RL-, agree=0.8387, (0 split)
+
+Node number 13: 9 observations
+  predicted class= 1  expected loss= 0.3333 
+     class counts:  3 6 
+    probabilities:  0.3333 0.6667 
+
+Node number 14: 22 observations,    complexity param=0.01852
+  predicted class= 0  expected loss= 0.3636 
+     class counts:  14  8 
+    probabilities:  0.6364 0.3636 
+  left son=28 (15 obs) right son=29 (7 obs)
+  Primary splits:
+      age     < 62.5  to the right, improve=0.886600, (0 missing)
+      g2      < 23.48 to the right, improve=0.250200, (1 missing)
+      gleason < 7.5   to the left,  improve=0.003247, (0 missing)
+  Surrogate splits:
+      gleason < 6.5   to the right, agree=0.7727, (0 split)
+
+Node number 15: 23 observations
+  predicted class= 1  expected loss= 0.1304 
+     class counts:   3 20 
+    probabilities:  0.1304 0.8696 
+
+Node number 24: 7 observations
+  predicted class= 0  expected loss= 0.1429 
+     class counts:  6 1 
+    probabilities:  0.8571 0.1429 
+
+Node number 25: 24 observations,    complexity param=0.02778
+  predicted class= 0  expected loss= 0.4167 
+     class counts:  14 10 
+    probabilities:  0.5833 0.4167 
+  left son=50 (17 obs) right son=51 (7 obs)
+  Primary splits:
+      g2      < 11    to the left,  improve=1.7510, (0 missing)
+      age     < 60    to the left,  improve=0.3389, (0 missing)
+      gleason < 6.5   to the left,  improve=0.3389, (0 missing)
+  Surrogate splits:
+      age < 71.5  to the left,  agree=0.7917, (0 split)
+
+Node number 28: 15 observations
+  predicted class= 0  expected loss= 0.2667 
+     class counts:  11  4 
+    probabilities:  0.7333 0.2667 
+
+Node number 29: 7 observations
+  predicted class= 1  expected loss= 0.4286 
+     class counts:  3 4 
+    probabilities:  0.4286 0.5714 
+
+Node number 50: 17 observations
+  predicted class= 0  expected loss= 0.2941 
+     class counts:  12  5 
+    probabilities:  0.7059 0.2941 
+
+Node number 51: 7 observations
+  predicted class= 1  expected loss= 0.2857 
+     class counts:  2 5 
+    probabilities:  0.2857 0.7143 
+
+> summary(xpred.rpart(c.fit2))
+ Min. 1st Qu. Median  Mean 3rd Qu. Max. 
+    1       1      1 1.219       1    2
+> > c.fit3 <- rpart(factor(pgstat) ~  age + eet + g2+grade+gleason +ploidy,
++ 		stagec, parm=list(prior=c(.5,.5)))
+> > printcp(c.fit3)
+
+Classification tree:
+rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + ploidy, 
+	data = stagec, parms = list(prior = c(0.5, 0.5)))
+
+Variables actually used in tree construction:
+[1] age     g2      gleason grade   ploidy 
+
+Root node error: 73/146 = 0.5
+
+        CP nsplit rel error  xerror     xstd 
+1 0.398551      0   1.00000 1.15217 0.085180
+2 0.023349      1   0.60145 0.67110 0.075947
+3 0.018921      5   0.50926 0.87480 0.085926
+4 0.015298      7   0.47142 0.87480 0.085926
+5 0.010000      9   0.44082 0.86071 0.086829
+> print(c.fit3)
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 146 73.000 0 ( 0.5000 0.5000 )  
+   2) grade<2.5 61 12.170 0 ( 0.7723 0.2277 )  
+     4) g2<11.36 33  1.352 0 ( 0.9495 0.0505 ) *
+     5) g2>11.36 28 10.810 0 ( 0.5947 0.4053 )  
+      10) gleason<5.5 20  5.407 0 ( 0.7013 0.2987 ) *
+      11) gleason>5.5 8  3.174 1 ( 0.3699 0.6301 ) *
+   3) grade>2.5 85 31.740 1 ( 0.3429 0.6571 )  
+     6) g2<13.2 40 18.250 1 ( 0.4426 0.5574 )  
+      12) g2>11.845 7  1.352 0 ( 0.7788 0.2212 ) *
+      13) g2<11.845 33 13.490 1 ( 0.3841 0.6159 )  
+        26) g2<11.005 25 11.110 1 ( 0.4276 0.5724 )  
+          52) ploidy:diploid,tetraploid 17  6.759 0 ( 0.5848 0.4152 ) *
+          53) ploidy:aneuploid 8  1.587 1 ( 0.1636 0.8364 ) *
+        27) g2>11.005 8  2.380 1 ( 0.2605 0.7395 ) *
+     7) g2>13.2 45 13.490 1 ( 0.2627 0.7373 )  
+      14) g2>17.91 22 10.810 0 ( 0.5067 0.4933 )  
+        28) age>62.5 15  5.407 0 ( 0.6175 0.3825 ) *
+        29) age<62.5 7  2.380 1 ( 0.3057 0.6943 ) *
+      15) g2<17.91 23  2.380 1 ( 0.0809 0.9191 ) *
+> print(c.fit3,cp=.05)
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+1) root 146 73.00 0 ( 0.5000 0.5000 )  
+  2) grade<2.5 61 12.17 0 ( 0.7723 0.2277 ) *
+  3) grade>2.5 85 31.74 1 ( 0.3429 0.6571 ) *
+> summary(c.fit3)
+Call:
+rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + ploidy, 
+	data = stagec, parms = list(prior = c(0.5, 0.5)))
+
+       CP nsplit rel error xerror    xstd 
+1 0.39855      0    1.0000 1.1522 0.08518
+2 0.02335      1    0.6014 0.6711 0.07595
+3 0.01892      5    0.5093 0.8748 0.08593
+4 0.01530      7    0.4714 0.8748 0.08593
+5 0.01000      9    0.4408 0.8607 0.08683
+
+Node number 1: 146 observations,    complexity param=0.3986
+  predicted class= 0  expected loss= 0.5 
+     class counts:  92 54 
+    probabilities:  0.5 0.5 
+  left son=2 (61 obs) right son=3 (85 obs)
+  Primary splits:
+      grade   < 2.5   to the left,  improve=12.490, (0 missing)
+      gleason < 5.5   to the left,  improve=10.510, (3 missing)
+      ploidy  splits as  LRR, improve= 9.018, (0 missing)
+      g2      < 13.2  to the left,  improve= 8.281, (7 missing)
+      age     < 58.5  to the right, improve= 1.520, (0 missing)
+  Surrogate splits:
+      gleason < 5.5   to the left,  agree=0.8630, (0 split)
+      ploidy  splits as  LRR, agree=0.6438, (0 split)
+      g2      < 9.945 to the left,  agree=0.6301, (0 split)
+      age     < 66.5  to the right, agree=0.5890, (0 split)
+
+Node number 2: 61 observations,    complexity param=0.0153
+  predicted class= 0  expected loss= 0.1995 
+     class counts:  52  9 
+    probabilities:  0.7723 0.2277 
+  left son=4 (33 obs) right son=5 (28 obs)
+  Primary splits:
+      g2      < 11.36 to the left,  improve=3.5470, (1 missing)
+      ploidy  splits as  LRL, improve=3.2970, (0 missing)
+      age     < 68.5  to the right, improve=1.2020, (0 missing)
+      gleason < 5.5   to the left,  improve=0.6474, (3 missing)
+      eet     < 1.5   to the left,  improve=0.1910, (1 missing)
+  Surrogate splits:
+      ploidy splits as  LR-, agree=0.9167, (0 split)
+      age    < 65.5  to the left,  agree=0.6167, (1 split)
+
+Node number 3: 85 observations,    complexity param=0.02335
+  predicted class= 1  expected loss= 0.3734 
+     class counts:  40 45 
+    probabilities:  0.3429 0.6571 
+  left son=6 (40 obs) right son=7 (45 obs)
+  Primary splits:
+      g2      < 13.2  to the left,  improve=1.96800, (6 missing)
+      ploidy  splits as  LRR, improve=1.84100, (0 missing)
+      age     < 56.5  to the right, improve=1.32300, (0 missing)
+      gleason < 8.5   to the left,  improve=1.26900, (0 missing)
+      eet     < 1.5   to the right, improve=0.09632, (1 missing)
+  Surrogate splits:
+      ploidy  splits as  LRL, agree=0.9620, (6 split)
+      age     < 68.5  to the right, agree=0.6076, (0 split)
+      gleason < 6.5   to the left,  agree=0.5823, (0 split)
+
+Node number 4: 33 observations
+  predicted class= 0  expected loss= 0.04097 
+     class counts:  32  1 
+    probabilities:  0.9495 0.0505 
+
+Node number 5: 28 observations,    complexity param=0.0153
+  predicted class= 0  expected loss= 0.3862 
+     class counts:  20  8 
+    probabilities:  0.5947 0.4053 
+  left son=10 (20 obs) right son=11 (8 obs)
+  Primary splits:
+      gleason < 5.5   to the left,  improve=1.1580, (1 missing)
+      age     < 67.5  to the right, improve=1.1420, (0 missing)
+      g2      < 14.37 to the right, improve=0.8086, (1 missing)
+
+Node number 6: 40 observations,    complexity param=0.02335
+  predicted class= 1  expected loss= 0.4563 
+     class counts:  23 17 
+    probabilities:  0.4426 0.5574 
+  left son=12 (7 obs) right son=13 (33 obs)
+  Primary splits:
+      g2      < 11.85 to the right, improve=1.42400, (5 missing)
+      ploidy  splits as  LLR, improve=1.31000, (0 missing)
+      gleason < 7.5   to the left,  improve=0.86340, (0 missing)
+      age     < 61.5  to the right, improve=0.57940, (0 missing)
+      eet     < 1.5   to the left,  improve=0.05363, (0 missing)
+  Surrogate splits:
+      ploidy splits as  RLR, agree=0.8571, (5 split)
+
+Node number 7: 45 observations,    complexity param=0.02275
+  predicted class= 1  expected loss= 0.2998 
+     class counts:  17 28 
+    probabilities:  0.2627 0.7373 
+  left son=14 (22 obs) right son=15 (23 obs)
+  Primary splits:
+      g2      < 17.91 to the right, improve=4.07900, (1 missing)
+      age     < 62.5  to the right, improve=0.66100, (0 missing)
+      gleason < 7.5   to the left,  improve=0.16170, (0 missing)
+      eet     < 1.5   to the right, improve=0.09922, (1 missing)
+  Surrogate splits:
+      age     < 61.5  to the right, agree=0.6136, (1 split)
+      eet     < 1.5   to the right, agree=0.5909, (0 split)
+      grade   < 3.5   to the right, agree=0.5455, (0 split)
+      gleason < 6.5   to the right, agree=0.5455, (0 split)
+
+Node number 10: 20 observations
+  predicted class= 0  expected loss= 0.2704 
+     class counts:  16  4 
+    probabilities:  0.7013 0.2987 
+
+Node number 11: 8 observations
+  predicted class= 1  expected loss= 0.3967 
+     class counts:  4 4 
+    probabilities:  0.3699 0.6301 
+
+Node number 12: 7 observations
+  predicted class= 0  expected loss= 0.1931 
+     class counts:  6 1 
+    probabilities:  0.7788 0.2212 
+
+Node number 13: 33 observations,    complexity param=0.01892
+  predicted class= 1  expected loss= 0.4088 
+     class counts:  17 16 
+    probabilities:  0.3841 0.6159 
+  left son=26 (25 obs) right son=27 (8 obs)
+  Primary splits:
+      g2      < 11    to the left,  improve=1.06300, (5 missing)
+      ploidy  splits as  LLR, improve=0.73950, (0 missing)
+      gleason < 6.5   to the left,  improve=0.57220, (0 missing)
+      age     < 62.5  to the right, improve=0.13320, (0 missing)
+      eet     < 1.5   to the left,  improve=0.05492, (0 missing)
+  Surrogate splits:
+      age < 70.5  to the left,  agree=0.8214, (5 split)
+
+Node number 14: 22 observations,    complexity param=0.02275
+  predicted class= 0  expected loss= 0.4916 
+     class counts:  14  8 
+    probabilities:  0.5067 0.4933 
+  left son=28 (15 obs) right son=29 (7 obs)
+  Primary splits:
+      age     < 62.5  to the right, improve=0.976400, (0 missing)
+      g2      < 23.48 to the right, improve=0.284300, (1 missing)
+      gleason < 7.5   to the left,  improve=0.003765, (0 missing)
+  Surrogate splits:
+      gleason < 6.5   to the right, agree=0.7727, (0 split)
+
+Node number 15: 23 observations
+  predicted class= 1  expected loss= 0.1035 
+     class counts:   3 20 
+    probabilities:  0.0809 0.9191 
+
+Node number 26: 25 observations,    complexity param=0.01892
+  predicted class= 1  expected loss= 0.4443 
+     class counts:  14 11 
+    probabilities:  0.4276 0.5724 
+  left son=52 (17 obs) right son=53 (8 obs)
+  Primary splits:
+      ploidy  splits as  LLR, improve=2.157000, (0 missing)
+      gleason < 6.5   to the left,  improve=1.972000, (0 missing)
+      age     < 61.5  to the right, improve=0.971800, (0 missing)
+      g2      < 7.65  to the right, improve=0.404500, (4 missing)
+      eet     < 1.5   to the left,  improve=0.002614, (0 missing)
+  Surrogate splits:
+      eet < 1.5   to the right, agree=0.72, (0 split)
+      g2  < 4.33  to the right, agree=0.72, (0 split)
+
+Node number 27: 8 observations
+  predicted class= 1  expected loss= 0.2976 
+     class counts:  3 5 
+    probabilities:  0.2605 0.7395 
+
+Node number 28: 15 observations
+  predicted class= 0  expected loss= 0.3605 
+     class counts:  11  4 
+    probabilities:  0.6175 0.3825 
+
+Node number 29: 7 observations
+  predicted class= 1  expected loss= 0.3401 
+     class counts:  3 4 
+    probabilities:  0.3057 0.6943 
+
+Node number 52: 17 observations
+  predicted class= 0  expected loss= 0.3976 
+     class counts:  12  5 
+    probabilities:  0.5848 0.4152 
+
+Node number 53: 8 observations
+  predicted class= 1  expected loss= 0.1984 
+     class counts:  2 6 
+    probabilities:  0.1636 0.8364 
+
+> summary(c.fit3,cp=.05)
+Call:
+rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason + ploidy, 
+	data = stagec, parms = list(prior = c(0.5, 0.5)))
+
+       CP nsplit rel error xerror    xstd 
+1 0.39855      0    1.0000 1.1522 0.08518
+2 0.02335      1    0.6014 0.6711 0.07595
+3 0.01892      5    0.5093 0.8748 0.08593
+4 0.01530      7    0.4714 0.8748 0.08593
+5 0.01000      9    0.4408 0.8607 0.08683
+
+Node number 1: 146 observations,    complexity param=0.3986
+  predicted class= 0  expected loss= 0.5 
+     class counts:  92 54 
+    probabilities:  0.5 0.5 
+  left son=2 (61 obs) right son=3 (85 obs)
+  Primary splits:
+      grade   < 2.5   to the left,  improve=12.490, (0 missing)
+      gleason < 5.5   to the left,  improve=10.510, (3 missing)
+      ploidy  splits as  LRR, improve= 9.018, (0 missing)
+      g2      < 13.2  to the left,  improve= 8.281, (7 missing)
+      age     < 58.5  to the right, improve= 1.520, (0 missing)
+  Surrogate splits:
+      gleason < 5.5   to the left,  agree=0.8630, (0 split)
+      ploidy  splits as  LRR, agree=0.6438, (0 split)
+      g2      < 9.945 to the left,  agree=0.6301, (0 split)
+      age     < 66.5  to the right, agree=0.5890, (0 split)
+
+Node number 2: 61 observations
+  predicted class= 0  expected loss= 0.1995 
+     class counts:  52  9 
+    probabilities:  0.7723 0.2277 
+
+Node number 3: 85 observations
+  predicted class= 1  expected loss= 0.3734 
+     class counts:  40 45 
+    probabilities:  0.3429 0.6571 
+
+> > ######################################################################
+> 
+> .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
+> > # fit classification tree to data in cu.summary data frame
+> # method = "class" (multiple levels, endpoint is a factor)
+> 
+> ## NOTE: If you have a large dataset, turning the crossvalidation and surrogate
+> ##       splits off will speed things up.
+> 
+> c.fit4 <- rpart(Reliability ~ Price + Country + Mileage + Type, 
++ 		data=cu.summary, control=rpart.control(xval=0,maxsurrogate=0))
+> > printcp(c.fit4)
+
+Classification tree:
+rpart(formula = Reliability ~ Price + Country + Mileage + Type, data = 
+	cu.summary, control = rpart.control(xval = 0, maxsurrogate = 0))
+
+Variables actually used in tree construction:
+[1] Country Type   
+
+Root node error: 59/85 = 0.69412
+
+        CP nsplit rel error 
+1 0.305085      0   1.00000
+2 0.084746      1   0.69492
+3 0.050847      2   0.61017
+4 0.033898      3   0.55932
+5 0.010000      4   0.52542
+> print(c.fit4)
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 85 59 average ( 0.2118 0.1412 0.3059 0.0941 0.2471 )  
+   2) Country:Germany,Korea,Mexico,Sweden,USA 58 35 average ( 0.3103 0.2069 0.3966 0.0862 0.0000 )  
+     4) Type:Sporty 9  2 Much worse ( 0.7778 0.0000 0.2222 0.0000 0.0000 ) *
+     5) Type:Compact,Large,Medium,Small,Van 49 28 average ( 0.2245 0.2449 0.4286 0.1020 0.0000 )  
+      10) Type:Large,Medium,Van 27 11 average ( 0.2593 0.1481 0.5926 0.0000 0.0000 ) *
+      11) Type:Compact,Small 22 14 worse ( 0.1818 0.3636 0.2273 0.2273 0.0000 )  
+        22) Country:Korea,USA 14  8 worse ( 0.2857 0.4286 0.0714 0.2143 0.0000 ) *
+        23) Country:Germany,Mexico,Sweden 8  4 average ( 0.0000 0.2500 0.5000 0.2500 0.0000 ) *
+   3) Country:Japan,Japan/USA 27  6 Much better ( 0.0000 0.0000 0.1111 0.1111 0.7778 ) *
+> print(c.fit4,cp=.025)
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 85 59 average ( 0.2118 0.1412 0.3059 0.0941 0.2471 )  
+   2) Country:Germany,Korea,Mexico,Sweden,USA 58 35 average ( 0.3103 0.2069 0.3966 0.0862 0.0000 )  
+     4) Type:Sporty 9  2 Much worse ( 0.7778 0.0000 0.2222 0.0000 0.0000 ) *
+     5) Type:Compact,Large,Medium,Small,Van 49 28 average ( 0.2245 0.2449 0.4286 0.1020 0.0000 )  
+      10) Type:Large,Medium,Van 27 11 average ( 0.2593 0.1481 0.5926 0.0000 0.0000 ) *
+      11) Type:Compact,Small 22 14 worse ( 0.1818 0.3636 0.2273 0.2273 0.0000 )  
+        22) Country:Korea,USA 14  8 worse ( 0.2857 0.4286 0.0714 0.2143 0.0000 ) *
+        23) Country:Germany,Mexico,Sweden 8  4 average ( 0.0000 0.2500 0.5000 0.2500 0.0000 ) *
+   3) Country:Japan,Japan/USA 27  6 Much better ( 0.0000 0.0000 0.1111 0.1111 0.7778 ) *
+> summary(c.fit4)
+Call:
+rpart(formula = Reliability ~ Price + Country + Mileage + Type, data = 
+	cu.summary, control = rpart.control(xval = 0, maxsurrogate = 0))
+
+       CP nsplit rel error 
+1 0.30508      0    1.0000
+2 0.08475      1    0.6949
+3 0.05085      2    0.6102
+4 0.03390      3    0.5593
+5 0.01000      4    0.5254
+
+Node number 1: 85 observations,    complexity param=0.3051
+  predicted class= average  expected loss= 0.6941 
+     class counts:  18 12 26  8 21 
+    probabilities:  0.2118 0.1412 0.3059 0.0941 0.2471 
+  left son=2 (58 obs) right son=3 (27 obs)
+  Primary splits:
+      Country splits as  ---LRRLLLL, improve=15.220, (0 missing)
+      Type    splits as  RLLRLL, improve= 4.288, (0 missing)
+      Price   < 11970 to the right, improve= 3.200, (0 missing)
+      Mileage < 24.5  to the left,  improve= 2.476, (36 missing)
+
+Node number 2: 58 observations,    complexity param=0.08475
+  predicted class= average  expected loss= 0.6034 
+     class counts:  18 12 23  5  0 
+    probabilities:  0.3103 0.2069 0.3966 0.0862 0.0000 
+  left son=4 (9 obs) right son=5 (49 obs)
+  Primary splits:
+      Type    splits as  RRRRLR, improve=3.187, (0 missing)
+      Price   < 11230 to the left,  improve=2.564, (0 missing)
+      Mileage < 24.5  to the left,  improve=1.802, (30 missing)
+      Country splits as  ---L--RLRL, improve=1.329, (0 missing)
+
+Node number 3: 27 observations
+  predicted class= Much better  expected loss= 0.2222 
+     class counts:   0  0  3  3 21 
+    probabilities:  0.0000 0.0000 0.1111 0.1111 0.7778 
+
+Node number 4: 9 observations
+  predicted class= Much worse  expected loss= 0.2222 
+     class counts:  7 0 2 0 0 
+    probabilities:  0.7778 0.0000 0.2222 0.0000 0.0000 
+
+Node number 5: 49 observations,    complexity param=0.05085
+  predicted class= average  expected loss= 0.5714 
+     class counts:  11 12 21  5  0 
+    probabilities:  0.2245 0.2449 0.4286 0.1020 0.0000 
+  left son=10 (27 obs) right son=11 (22 obs)
+  Primary splits:
+      Type    splits as  RLLR-L, improve=2.880, (0 missing)
+      Mileage < 24.5  to the left,  improve=2.500, (25 missing)
+      Price   < 11470 to the right, improve=2.424, (0 missing)
+      Country splits as  ---R--LRLR, improve=1.027, (0 missing)
+
+Node number 10: 27 observations
+  predicted class= average  expected loss= 0.4074 
+     class counts:   7  4 16  0  0 
+    probabilities:  0.2593 0.1481 0.5926 0.0000 0.0000 
+
+Node number 11: 22 observations,    complexity param=0.0339
+  predicted class= worse  expected loss= 0.6364 
+     class counts:  4 8 5 5 0 
+    probabilities:  0.1818 0.3636 0.2273 0.2273 0.0000 
+  left son=22 (14 obs) right son=23 (8 obs)
+  Primary splits:
+      Country splits as  ---R--LRRL, improve=1.5190, (0 missing)
+      Price   < 8646  to the left,  improve=1.2720, (0 missing)
+      Type    splits as  L--R--, improve=0.1909, (0 missing)
+
+Node number 22: 14 observations
+  predicted class= worse  expected loss= 0.5714 
+     class counts:  4 6 1 3 0 
+    probabilities:  0.2857 0.4286 0.0714 0.2143 0.0000 
+
+Node number 23: 8 observations
+  predicted class= average  expected loss= 0.5 
+     class counts:  0 2 4 2 0 
+    probabilities:  0.00 0.25 0.50 0.25 0.00 
+
+> summary(c.fit4,cp=.025)
+Call:
+rpart(formula = Reliability ~ Price + Country + Mileage + Type, data = 
+	cu.summary, control = rpart.control(xval = 0, maxsurrogate = 0))
+
+       CP nsplit rel error 
+1 0.30508      0    1.0000
+2 0.08475      1    0.6949
+3 0.05085      2    0.6102
+4 0.03390      3    0.5593
+5 0.01000      4    0.5254
+
+Node number 1: 85 observations,    complexity param=0.3051
+  predicted class= average  expected loss= 0.6941 
+     class counts:  18 12 26  8 21 
+    probabilities:  0.2118 0.1412 0.3059 0.0941 0.2471 
+  left son=2 (58 obs) right son=3 (27 obs)
+  Primary splits:
+      Country splits as  ---LRRLLLL, improve=15.220, (0 missing)
+      Type    splits as  RLLRLL, improve= 4.288, (0 missing)
+      Price   < 11970 to the right, improve= 3.200, (0 missing)
+      Mileage < 24.5  to the left,  improve= 2.476, (36 missing)
+
+Node number 2: 58 observations,    complexity param=0.08475
+  predicted class= average  expected loss= 0.6034 
+     class counts:  18 12 23  5  0 
+    probabilities:  0.3103 0.2069 0.3966 0.0862 0.0000 
+  left son=4 (9 obs) right son=5 (49 obs)
+  Primary splits:
+      Type    splits as  RRRRLR, improve=3.187, (0 missing)
+      Price   < 11230 to the left,  improve=2.564, (0 missing)
+      Mileage < 24.5  to the left,  improve=1.802, (30 missing)
+      Country splits as  ---L--RLRL, improve=1.329, (0 missing)
+
+Node number 3: 27 observations
+  predicted class= Much better  expected loss= 0.2222 
+     class counts:   0  0  3  3 21 
+    probabilities:  0.0000 0.0000 0.1111 0.1111 0.7778 
+
+Node number 4: 9 observations
+  predicted class= Much worse  expected loss= 0.2222 
+     class counts:  7 0 2 0 0 
+    probabilities:  0.7778 0.0000 0.2222 0.0000 0.0000 
+
+Node number 5: 49 observations,    complexity param=0.05085
+  predicted class= average  expected loss= 0.5714 
+     class counts:  11 12 21  5  0 
+    probabilities:  0.2245 0.2449 0.4286 0.1020 0.0000 
+  left son=10 (27 obs) right son=11 (22 obs)
+  Primary splits:
+      Type    splits as  RLLR-L, improve=2.880, (0 missing)
+      Mileage < 24.5  to the left,  improve=2.500, (25 missing)
+      Price   < 11470 to the right, improve=2.424, (0 missing)
+      Country splits as  ---R--LRLR, improve=1.027, (0 missing)
+
+Node number 10: 27 observations
+  predicted class= average  expected loss= 0.4074 
+     class counts:   7  4 16  0  0 
+    probabilities:  0.2593 0.1481 0.5926 0.0000 0.0000 
+
+Node number 11: 22 observations,    complexity param=0.0339
+  predicted class= worse  expected loss= 0.6364 
+     class counts:  4 8 5 5 0 
+    probabilities:  0.1818 0.3636 0.2273 0.2273 0.0000 
+  left son=22 (14 obs) right son=23 (8 obs)
+  Primary splits:
+      Country splits as  ---R--LRRL, improve=1.5190, (0 missing)
+      Price   < 8646  to the left,  improve=1.2720, (0 missing)
+      Type    splits as  L--R--, improve=0.1909, (0 missing)
+
+Node number 22: 14 observations
+  predicted class= worse  expected loss= 0.5714 
+     class counts:  4 6 1 3 0 
+    probabilities:  0.2857 0.4286 0.0714 0.2143 0.0000 
+
+Node number 23: 8 observations
+  predicted class= average  expected loss= 0.5 
+     class counts:  0 2 4 2 0 
+    probabilities:  0.00 0.25 0.50 0.25 0.00 
+
+> summary(residuals(c.fit4))
+ Min. 1st Qu. Median   Mean 3rd Qu. Max. 
+    0       0      0 0.3647       1    1
+> table(xpred.rpart(c.fit4))
+  1  2   3   5 
+ 24 34 259 108
+> > ######################################################################
+> 
+> # fit regression tree to all variables
+> # method = "anova"
+> 
+> .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
+> a.fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel, 
++ 	       data=solder.balance, 
++ 	       control=rpart.control(xval=10))  
+> > printcp(a.fit)
+
+Regression tree:
+rpart(formula = skips ~ Opening + Solder + Mask + PadType + Panel, data = 
+	solder.balance, control = rpart.control(xval = 10))
+
+Variables actually used in tree construction:
+[1] Mask    Opening PadType Solder 
+
+Root node error: 4.8116e4/720 = 66.828
+
+         CP nsplit rel error  xerror     xstd 
+ 1 0.278909      0   1.00000 1.00398 0.117226
+ 2 0.212093      1   0.72109 0.72790 0.081433
+ 3 0.128391      2   0.50900 0.55200 0.054734
+ 4 0.079143      3   0.38061 0.46739 0.044029
+ 5 0.039903      4   0.30146 0.35756 0.033205
+ 6 0.028830      5   0.26156 0.32121 0.030861
+ 7 0.022986      6   0.23273 0.28067 0.028713
+ 8 0.020376      7   0.20974 0.26608 0.027797
+ 9 0.016311      8   0.18937 0.24313 0.026587
+10 0.011474      9   0.17306 0.23530 0.025411
+11 0.010000     11   0.15076 0.21507 0.023360
+> print(a.fit)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 720 48120.00  4.965  
+   2) Opening:M,L 480  4622.00  1.913  
+     4) Mask:A1.5,A3,B3 360   906.50  1.036 *
+     5) Mask:B6 120  2610.00  4.542  
+      10) Solder:Thick 60   351.00  1.683 *
+      11) Solder:Thin 60  1278.00  7.400  
+        22) PadType:D6,L6,L7,W9,L9 30   169.00  4.367 *
+        23) PadType:W4,D4,L4,D7,L8 30   557.40 10.430 *
+   3) Opening:S 240 30070.00 11.070  
+     6) Mask:A1.5,A3 120  2834.00  4.550  
+      12) Solder:Thick 60    75.65  1.150 *
+      13) Solder:Thin 60  1371.00  7.950 *
+     7) Mask:B3,B6 120 17030.00 17.590  
+      14) Solder:Thick 60  2737.00 10.420  
+        28) PadType:W4,D6,L6,W9,L9 30   666.80  6.800 *
+        29) PadType:D4,L4,D7,L7,L8 30  1285.00 14.030  
+          58) Mask:B3 15   161.70  9.867 *
+          59) Mask:B6 15   602.40 18.200 *
+      15) Solder:Thin 60  8121.00 24.770  
+        30) PadType:L6,L7,L8,W9,L9 30  1667.00 16.800 *
+        31) PadType:W4,D4,L4,D6,D7 30  2646.00 32.730  
+          62) Mask:B3 15   358.90 24.730 *
+          63) Mask:B6 15   366.90 40.730 *
+> print(a.fit,cp=.10)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 720 48120  4.965  
+   2) Opening:M,L 480  4622  1.913 *
+   3) Opening:S 240 30070 11.070  
+     6) Mask:A1.5,A3 120  2834  4.550 *
+     7) Mask:B3,B6 120 17030 17.590  
+      14) Solder:Thick 60  2737 10.420 *
+      15) Solder:Thin 60  8121 24.770 *
+> summary(a.fit)
+Call:
+rpart(formula = skips ~ Opening + Solder + Mask + PadType + Panel, data = 
+	solder.balance, control = rpart.control(xval = 10))
+
+        CP nsplit rel error xerror    xstd 
+ 1 0.27891      0    1.0000 1.0040 0.11723
+ 2 0.21209      1    0.7211 0.7279 0.08143
+ 3 0.12839      2    0.5090 0.5520 0.05473
+ 4 0.07914      3    0.3806 0.4674 0.04403
+ 5 0.03990      4    0.3015 0.3576 0.03321
+ 6 0.02883      5    0.2616 0.3212 0.03086
+ 7 0.02299      6    0.2327 0.2807 0.02871
+ 8 0.02038      7    0.2097 0.2661 0.02780
+ 9 0.01631      8    0.1894 0.2431 0.02659
+10 0.01147      9    0.1731 0.2353 0.02541
+11 0.01000     11    0.1508 0.2151 0.02336
+
+Node number 1: 720 observations,    complexity param=0.2789
+  mean=4.965 , SS/n=66.83
+  left son=2 (480 obs) right son=3 (240 obs)
+  Primary splits:
+      Opening splits as  RLL, improve=0.278900, (0 missing)
+      Mask    splits as  LLLR, improve=0.148200, (0 missing)
+      Solder  splits as  RL, improve=0.092380, (0 missing)
+      PadType splits as  RRRLLRLLLL, improve=0.034940, (0 missing)
+      Panel   splits as  LRR, improve=0.006382, (0 missing)
+
+Node number 2: 480 observations,    complexity param=0.02299
+  mean=1.913 , SS/n=9.63
+  left son=4 (360 obs) right son=5 (120 obs)
+  Primary splits:
+      Mask    splits as  LLLR, improve=0.239300, (0 missing)
+      Solder  splits as  RL, improve=0.121900, (0 missing)
+      PadType splits as  RRRLLRLRLL, improve=0.055210, (0 missing)
+      Panel   splits as  LRR, improve=0.017920, (0 missing)
+      Opening splits as  RRL, improve=0.006276, (0 missing)
+
+Node number 3: 240 observations,    complexity param=0.2121
+  mean=11.07 , SS/n=125.3
+  left son=6 (120 obs) right son=7 (120 obs)
+  Primary splits:
+      Mask    splits as  LLRR, improve=0.33930, (0 missing)
+      Solder  splits as  RL, improve=0.22310, (0 missing)
+      PadType splits as  RRRRLRLRLL, improve=0.08504, (0 missing)
+      Panel   splits as  LRR, improve=0.01016, (0 missing)
+
+Node number 4: 360 observations
+  mean=1.036 , SS/n=2.518
+
+Node number 5: 120 observations,    complexity param=0.02038
+  mean=4.542 , SS/n=21.75
+  left son=10 (60 obs) right son=11 (60 obs)
+  Primary splits:
+      Solder  splits as  RL, improve=0.37570, (0 missing)
+      PadType splits as  RRRLLRLRLL, improve=0.17940, (0 missing)
+      Panel   splits as  LRL, improve=0.02698, (0 missing)
+      Opening splits as  RRL, improve=0.01433, (0 missing)
+
+Node number 6: 120 observations,    complexity param=0.02883
+  mean=4.55 , SS/n=23.61
+  left son=12 (60 obs) right son=13 (60 obs)
+  Primary splits:
+      Solder  splits as  RL, improve=0.48950, (0 missing)
+      PadType splits as  LRRLLRLLLL, improve=0.10170, (0 missing)
+      Panel   splits as  LRR, improve=0.02117, (0 missing)
+      Mask    splits as  LR--, improve=0.01699, (0 missing)
+
+Node number 7: 120 observations,    complexity param=0.1284
+  mean=17.59 , SS/n=142
+  left son=14 (60 obs) right son=15 (60 obs)
+  Primary splits:
+      Solder  splits as  RL, improve=0.36260, (0 missing)
+      PadType splits as  RRRRLRLLLL, improve=0.19850, (0 missing)
+      Mask    splits as  --LR, improve=0.14740, (0 missing)
+      Panel   splits as  LRL, improve=0.01877, (0 missing)
+
+Node number 10: 60 observations
+  mean=1.683 , SS/n=5.85
+
+Node number 11: 60 observations,    complexity param=0.01147
+  mean=7.4 , SS/n=21.31
+  left son=22 (30 obs) right son=23 (30 obs)
+  Primary splits:
+      PadType splits as  RRRLLRLRLL, improve=0.431800, (0 missing)
+      Panel   splits as  LRR, improve=0.108500, (0 missing)
+      Opening splits as  RRL, improve=0.001877, (0 missing)
+
+Node number 12: 60 observations
+  mean=1.15 , SS/n=1.261
+
+Node number 13: 60 observations
+  mean=7.95 , SS/n=22.85
+
+Node number 14: 60 observations,    complexity param=0.01631
+  mean=10.42 , SS/n=45.61
+  left son=28 (30 obs) right son=29 (30 obs)
+  Primary splits:
+      PadType splits as  LRRLLRRRLL, improve=0.28680, (0 missing)
+      Mask    splits as  --LR, improve=0.28680, (0 missing)
+      Panel   splits as  LRR, improve=0.01247, (0 missing)
+
+Node number 15: 60 observations,    complexity param=0.07914
+  mean=24.77 , SS/n=135.3
+  left son=30 (30 obs) right son=31 (30 obs)
+  Primary splits:
+      PadType splits as  RRRRLRLLLL, improve=0.46890, (0 missing)
+      Mask    splits as  --LR, improve=0.22620, (0 missing)
+      Panel   splits as  LRL, improve=0.05715, (0 missing)
+
+Node number 22: 30 observations
+  mean=4.367 , SS/n=5.632
+
+Node number 23: 30 observations
+  mean=10.43 , SS/n=18.58
+
+Node number 28: 30 observations
+  mean=6.8 , SS/n=22.23
+
+Node number 29: 30 observations,    complexity param=0.01082
+  mean=14.03 , SS/n=42.83
+  left son=58 (15 obs) right son=59 (15 obs)
+  Primary splits:
+      Mask    splits as  --LR, improve=0.40530, (0 missing)
+      PadType splits as  -RR--LLL--, improve=0.15280, (0 missing)
+      Panel   splits as  LRR, improve=0.02075, (0 missing)
+
+Node number 30: 30 observations
+  mean=16.8 , SS/n=55.56
+
+Node number 31: 30 observations,    complexity param=0.0399
+  mean=32.73 , SS/n=88.2
+  left son=62 (15 obs) right son=63 (15 obs)
+  Primary splits:
+      Mask    splits as  --LR, improve=0.72570, (0 missing)
+      PadType splits as  RRRL-L----, improve=0.07902, (0 missing)
+      Panel   splits as  LRL, improve=0.06426, (0 missing)
+
+Node number 58: 15 observations
+  mean=9.867 , SS/n=10.78
+
+Node number 59: 15 observations
+  mean=18.2 , SS/n=40.16
+
+Node number 62: 15 observations
+  mean=24.73 , SS/n=23.93
+
+Node number 63: 15 observations
+  mean=40.73 , SS/n=24.46
+
+> summary(a.fit,cp=.10)
+Call:
+rpart(formula = skips ~ Opening + Solder + Mask + PadType + Panel, data = 
+	solder.balance, control = rpart.control(xval = 10))
+
+        CP nsplit rel error xerror    xstd 
+ 1 0.27891      0    1.0000 1.0040 0.11723
+ 2 0.21209      1    0.7211 0.7279 0.08143
+ 3 0.12839      2    0.5090 0.5520 0.05473
+ 4 0.07914      3    0.3806 0.4674 0.04403
+ 5 0.03990      4    0.3015 0.3576 0.03321
+ 6 0.02883      5    0.2616 0.3212 0.03086
+ 7 0.02299      6    0.2327 0.2807 0.02871
+ 8 0.02038      7    0.2097 0.2661 0.02780
+ 9 0.01631      8    0.1894 0.2431 0.02659
+10 0.01147      9    0.1731 0.2353 0.02541
+11 0.01000     11    0.1508 0.2151 0.02336
+
+Node number 1: 720 observations,    complexity param=0.2789
+  mean=4.965 , SS/n=66.83
+  left son=2 (480 obs) right son=3 (240 obs)
+  Primary splits:
+      Opening splits as  RLL, improve=0.278900, (0 missing)
+      Mask    splits as  LLLR, improve=0.148200, (0 missing)
+      Solder  splits as  RL, improve=0.092380, (0 missing)
+      PadType splits as  RRRLLRLLLL, improve=0.034940, (0 missing)
+      Panel   splits as  LRR, improve=0.006382, (0 missing)
+
+Node number 2: 480 observations
+  mean=1.913 , SS/n=9.63
+
+Node number 3: 240 observations,    complexity param=0.2121
+  mean=11.07 , SS/n=125.3
+  left son=6 (120 obs) right son=7 (120 obs)
+  Primary splits:
+      Mask    splits as  LLRR, improve=0.33930, (0 missing)
+      Solder  splits as  RL, improve=0.22310, (0 missing)
+      PadType splits as  RRRRLRLRLL, improve=0.08504, (0 missing)
+      Panel   splits as  LRR, improve=0.01016, (0 missing)
+
+Node number 6: 120 observations
+  mean=4.55 , SS/n=23.61
+
+Node number 7: 120 observations,    complexity param=0.1284
+  mean=17.59 , SS/n=142
+  left son=14 (60 obs) right son=15 (60 obs)
+  Primary splits:
+      Solder  splits as  RL, improve=0.36260, (0 missing)
+      PadType splits as  RRRRLRLLLL, improve=0.19850, (0 missing)
+      Mask    splits as  --LR, improve=0.14740, (0 missing)
+      Panel   splits as  LRL, improve=0.01877, (0 missing)
+
+Node number 14: 60 observations
+  mean=10.42 , SS/n=45.61
+
+Node number 15: 60 observations
+  mean=24.77 , SS/n=135.3
+
+> summary(residuals(a.fit))
+  Min. 1st Qu.  Median      Mean 3rd Qu. Max. 
+ -13.8  -1.036 -0.7083 2.023e-16  0.9639 16.2
+> > xmat <- xpred.rpart(a.fit)
+> xerr <- (xmat - solder.balance$skips)^2
+> xsum <- apply(xerr,2,sum)/var(solder.balance$skips)  
+> xsum/xsum[1]  ## compare to rel error from printcp(a.fit)
+ 0.52811814 0.24321729 0.16501770 0.10080315 0.05619688 0.03391794 0.02574287 
+          1  0.7259106  0.5752381  0.4759542  0.3709751  0.2915609  0.2632453
+ 0.02164168 0.01823043 0.01368010 0.01071150 
+  0.2526382  0.2369728  0.2245977  0.2131427
+> > > ## Does pruning work?
+> prune(a.fit, cp=.25)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+1) root 720 48120  4.965  
+  2) Opening:M,L 480  4622  1.913 *
+  3) Opening:S 240 30070 11.070 *
+> > ## Check predict function
+> summary(predict(a.fit))
+  Min. 1st Qu. Median  Mean 3rd Qu.  Max. 
+ 1.036   1.036  1.093 4.965   7.087 40.73
+> summary(solder.balance$skips)
+ Min. 1st Qu. Median  Mean 3rd Qu. Max. 
+    0       0      2 4.965       6   48
+> > summary(predict(a.fit,newdata=solder.balance[1,]))
+  Min. 1st Qu. Median  Mean 3rd Qu.  Max. 
+ 1.036   1.036  1.036 1.036   1.036 1.036
+> > ######################################################################
+> 
+> 
+> # fit poisson tree to all variables
+> # method = "poisson"
+> 
+> .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
+> p.fit <- rpart(cbind(time,status) ~ inst + age + sex + ph.ecog + ph.karno +
++ 	       pat.karno + meal.cal + wt.loss, method="poisson", data=lung)
+> > > printcp(p.fit)
+
+Rates regression tree:
+rpart(formula = cbind(time, status) ~ inst + age + sex + ph.ecog + ph.karno + 
+	pat.karno + meal.cal + wt.loss, data = lung, method = "poisson")
+
+Variables actually used in tree construction:
+[1] age       inst      pat.karno ph.ecog   sex       wt.loss  
+
+Root node error: 305.11/228 = 1.3382
+
+        CP nsplit rel error xerror    xstd 
+1 0.050469      0   1.00000 1.0120 0.10660
+2 0.022954      2   0.90292 1.0155 0.10999
+3 0.018598      3   0.87996 1.0272 0.11653
+4 0.014537      5   0.84277 1.0650 0.11970
+5 0.010536     10   0.77360 1.1448 0.12246
+> print(p.fit)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 228 305.100 0.005647  
+   2) ph.ecog<1.5 176 205.100 0.005114  
+     4) sex>1.5 69  62.480 0.004233 *
+     5) sex<1.5 107 135.600 0.005797  
+      10) pat.karno>65 98 125.100 0.005569  
+        20) age<60.5 37  31.790 0.004694  
+          40) ph.ecog<0.5 15   7.201 0.003662 *
+          41) ph.ecog>0.5 22  21.370 0.005696 *
+        21) age>60.5 61  89.790 0.006265  
+          42) inst>6.5 38  53.620 0.005478  
+            84) wt.loss<8.5 27  24.680 0.004699 *
+            85) wt.loss>8.5 11  23.610 0.008724 *
+          43) inst<6.5 23  32.300 0.008048  
+            86) wt.loss>9 15  24.520 0.006662 *
+            87) wt.loss<9 8   3.826 0.012150 *
+      11) pat.karno<65 9   6.117 0.009549 *
+   3) ph.ecog>1.5 52  84.580 0.008202  
+     6) wt.loss>21 15  17.100 0.004882 *
+     7) wt.loss<21 37  53.260 0.010870  
+      14) sex>1.5 16   7.983 0.008488 *
+      15) sex<1.5 21  41.520 0.013260  
+        30) age<69.5 11  10.970 0.009543 *
+        31) age>69.5 10  22.960 0.020810 *
+> summary(p.fit)
+Call:
+rpart(formula = cbind(time, status) ~ inst + age + sex + ph.ecog + ph.karno + 
+	pat.karno + meal.cal + wt.loss, data = lung, method = "poisson")
+
+       CP nsplit rel error xerror   xstd 
+1 0.05047      0    1.0000  1.012 0.1066
+2 0.02295      2    0.9029  1.015 0.1100
+3 0.01860      3    0.8800  1.027 0.1165
+4 0.01454      5    0.8428  1.065 0.1197
+5 0.01054     10    0.7736  1.145 0.1225
+
+Node number 1: 228 observations,    complexity param=0.05047
+  events=393,  estimated rate=0.005647 , deviance/n=1.338
+  left son=2 (176 obs) right son=3 (52 obs)
+  Primary splits:
+      ph.ecog   < 1.5   to the left,  improve=14.270, (1 missing)
+      pat.karno < 75    to the right, improve=11.860, (3 missing)
+      sex       < 1.5   to the right, improve= 9.006, (0 missing)
+      ph.karno  < 85    to the right, improve= 7.274, (1 missing)
+      age       < 75.5  to the left,  improve= 5.160, (0 missing)
+  Surrogate splits:
+      ph.karno  < 75    to the right, agree=0.9339, (1 split)
+      pat.karno < 65    to the right, agree=0.8238, (0 split)
+
+Node number 2: 176 observations,    complexity param=0.02295
+  events=295,  estimated rate=0.005114 , deviance/n=1.165
+  left son=4 (69 obs) right son=5 (107 obs)
+  Primary splits:
+      sex       < 1.5   to the right, improve=7.004, (0 missing)
+      pat.karno < 65    to the right, improve=5.397, (1 missing)
+      age       < 74.5  to the left,  improve=4.414, (0 missing)
+      ph.ecog   < 0.5   to the left,  improve=2.591, (0 missing)
+      wt.loss   < 9.5   to the left,  improve=1.924, (9 missing)
+  Surrogate splits:
+      inst < 24    to the right, agree=0.6534, (0 split)
+      age  < 59.5  to the left,  agree=0.6250, (0 split)
+
+Node number 3: 52 observations,    complexity param=0.04661
+  events=98,  estimated rate=0.008202 , deviance/n=1.627
+  left son=6 (15 obs) right son=7 (37 obs)
+  Primary splits:
+      wt.loss  < 21    to the right, improve=14.840, (5 missing)
+      inst     < 14.5  to the right, improve= 6.749, (1 missing)
+      age      < 62.5  to the right, improve= 4.556, (0 missing)
+      sex      < 1.5   to the right, improve= 2.371, (0 missing)
+      meal.cal < 759   to the left,  improve= 2.176, (7 missing)
+  Surrogate splits:
+      ph.karno < 55    to the left,  agree=0.7447, (4 split)
+
+Node number 4: 69 observations
+  events=106,  estimated rate=0.004233 , deviance/n=0.9055
+
+Node number 5: 107 observations,    complexity param=0.01454
+  events=189,  estimated rate=0.005797 , deviance/n=1.268
+  left son=10 (98 obs) right son=11 (9 obs)
+  Primary splits:
+      pat.karno < 65    to the right, improve=4.623, (1 missing)
+      ph.ecog   < 0.5   to the left,  improve=3.471, (0 missing)
+      age       < 60.5  to the left,  improve=3.225, (0 missing)
+      wt.loss   < -0.5  to the left,  improve=2.456, (7 missing)
+      ph.karno  < 95    to the right, improve=1.936, (0 missing)
+
+Node number 6: 15 observations
+  events=26,  estimated rate=0.004882 , deviance/n=1.14
+
+Node number 7: 37 observations,    complexity param=0.0186
+  events=72,  estimated rate=0.01087 , deviance/n=1.439
+  left son=14 (16 obs) right son=15 (21 obs)
+  Primary splits:
+      sex       < 1.5   to the right, improve=3.799, (0 missing)
+      meal.cal  < 425.5 to the right, improve=3.783, (4 missing)
+      inst      < 2.5   to the right, improve=3.720, (1 missing)
+      pat.karno < 75    to the right, improve=2.197, (1 missing)
+      age       < 71.5  to the left,  improve=1.562, (0 missing)
+  Surrogate splits:
+      age      < 74.5  to the right, agree=0.5946, (0 split)
+      ph.karno < 65    to the left,  agree=0.5946, (0 split)
+      meal.cal < 650   to the left,  agree=0.5946, (0 split)
+
+Node number 10: 98 observations,    complexity param=0.01388
+  events=172,  estimated rate=0.005569 , deviance/n=1.276
+  left son=20 (37 obs) right son=21 (61 obs)
+  Primary splits:
+      age      < 60.5  to the left,  improve=3.511, (0 missing)
+      wt.loss  < -0.5  to the left,  improve=2.425, (7 missing)
+      ph.ecog  < 0.5   to the left,  improve=2.132, (0 missing)
+      meal.cal < 950   to the right, improve=1.882, (19 missing)
+      inst     < 2.5   to the right, improve=1.348, (0 missing)
+  Surrogate splits:
+      ph.karno < 95    to the right, agree=0.6531, (0 split)
+
+Node number 11: 9 observations
+  events=17,  estimated rate=0.009549 , deviance/n=0.6796
+
+Node number 14: 16 observations
+  events=30,  estimated rate=0.008488 , deviance/n=0.4989
+
+Node number 15: 21 observations,    complexity param=0.0186
+  events=42,  estimated rate=0.01326 , deviance/n=1.977
+  left son=30 (11 obs) right son=31 (10 obs)
+  Primary splits:
+      age       < 69.5  to the left,  improve=7.9650, (0 missing)
+      inst      < 6     to the right, improve=4.3760, (1 missing)
+      meal.cal  < 796.5 to the right, improve=1.4630, (3 missing)
+      wt.loss   < 9     to the left,  improve=0.8927, (3 missing)
+      pat.karno < 65    to the right, improve=0.1260, (0 missing)
+  Surrogate splits:
+      inst      < 2     to the right, agree=0.6190, (0 split)
+      pat.karno < 75    to the right, agree=0.6190, (0 split)
+      meal.cal  < 544   to the right, agree=0.5714, (0 split)
+
+Node number 20: 37 observations,    complexity param=0.01054
+  events=64,  estimated rate=0.004694 , deviance/n=0.8591
+  left son=40 (15 obs) right son=41 (22 obs)
+  Primary splits:
+      ph.ecog  < 0.5   to the left,  improve=3.219, (0 missing)
+      age      < 55.5  to the right, improve=3.065, (0 missing)
+      inst     < 11.5  to the left,  improve=2.470, (0 missing)
+      meal.cal < 1100  to the left,  improve=2.027, (7 missing)
+      wt.loss  < 2     to the left,  improve=1.131, (2 missing)
+  Surrogate splits:
+      pat.karno < 85    to the right, agree=0.8378, (0 split)
+      ph.karno  < 95    to the right, agree=0.8108, (0 split)
+      age       < 57.5  to the right, agree=0.7568, (0 split)
+      inst      < 5.5   to the left,  agree=0.6757, (0 split)
+      wt.loss   < 10    to the left,  agree=0.6216, (0 split)
+
+Node number 21: 61 observations,    complexity param=0.01388
+  events=108,  estimated rate=0.006265 , deviance/n=1.472
+  left son=42 (38 obs) right son=43 (23 obs)
+  Primary splits:
+      inst     < 6.5   to the right, improve=3.87300, (0 missing)
+      wt.loss  < 7.5   to the left,  improve=3.18400, (5 missing)
+      meal.cal < 1125  to the right, improve=3.08700, (12 missing)
+      age      < 69.5  to the right, improve=1.29400, (0 missing)
+      ph.ecog  < 0.5   to the left,  improve=0.03835, (0 missing)
+  Surrogate splits:
+      wt.loss < 14.5  to the left,  agree=0.6721, (0 split)
+
+Node number 30: 11 observations
+  events=22,  estimated rate=0.009543 , deviance/n=0.9973
+
+Node number 31: 10 observations
+  events=20,  estimated rate=0.02081 , deviance/n=2.296
+
+Node number 40: 15 observations
+  events=24,  estimated rate=0.003662 , deviance/n=0.4801
+
+Node number 41: 22 observations
+  events=40,  estimated rate=0.005696 , deviance/n=0.9715
+
+Node number 42: 38 observations,    complexity param=0.01388
+  events=66,  estimated rate=0.005478 , deviance/n=1.411
+  left son=84 (27 obs) right son=85 (11 obs)
+  Primary splits:
+      wt.loss  < 8.5   to the left,  improve=5.6490, (2 missing)
+      meal.cal < 1112  to the right, improve=1.8520, (8 missing)
+      age      < 72.5  to the right, improve=0.8806, (0 missing)
+      inst     < 15.5  to the left,  improve=0.8714, (0 missing)
+      ph.karno < 85    to the right, improve=0.6533, (0 missing)
+  Surrogate splits:
+      age      < 77.5  to the left,  agree=0.7222, (2 split)
+      ph.karno < 85    to the right, agree=0.7222, (0 split)
+
+Node number 43: 23 observations,    complexity param=0.01297
+  events=42,  estimated rate=0.008048 , deviance/n=1.404
+  left son=86 (15 obs) right son=87 (8 obs)
+  Primary splits:
+      wt.loss   < 9     to the right, improve=3.4330, (3 missing)
+      meal.cal  < 900   to the right, improve=1.8790, (4 missing)
+      pat.karno < 75    to the left,  improve=1.3320, (1 missing)
+      age       < 67.5  to the right, improve=1.3060, (0 missing)
+      ph.karno  < 85    to the left,  improve=0.9392, (0 missing)
+  Surrogate splits:
+      age  < 66.5  to the right, agree=0.80, (3 split)
+      inst < 4     to the left,  agree=0.75, (0 split)
+
+Node number 84: 27 observations
+  events=46,  estimated rate=0.004699 , deviance/n=0.914
+
+Node number 85: 11 observations
+  events=20,  estimated rate=0.008724 , deviance/n=2.147
+
+Node number 86: 15 observations
+  events=27,  estimated rate=0.006662 , deviance/n=1.634
+
+Node number 87: 8 observations
+  events=15,  estimated rate=0.01215 , deviance/n=0.4783
+
+> summary(p.fit,cp=.025)
+Call:
+rpart(formula = cbind(time, status) ~ inst + age + sex + ph.ecog + ph.karno + 
+	pat.karno + meal.cal + wt.loss, data = lung, method = "poisson")
+
+       CP nsplit rel error xerror   xstd 
+1 0.05047      0    1.0000  1.012 0.1066
+2 0.02295      2    0.9029  1.015 0.1100
+3 0.01860      3    0.8800  1.027 0.1165
+4 0.01454      5    0.8428  1.065 0.1197
+5 0.01054     10    0.7736  1.145 0.1225
+
+Node number 1: 228 observations,    complexity param=0.05047
+  events=393,  estimated rate=0.005647 , deviance/n=1.338
+  left son=2 (176 obs) right son=3 (52 obs)
+  Primary splits:
+      ph.ecog   < 1.5   to the left,  improve=14.270, (1 missing)
+      pat.karno < 75    to the right, improve=11.860, (3 missing)
+      sex       < 1.5   to the right, improve= 9.006, (0 missing)
+      ph.karno  < 85    to the right, improve= 7.274, (1 missing)
+      age       < 75.5  to the left,  improve= 5.160, (0 missing)
+  Surrogate splits:
+      ph.karno  < 75    to the right, agree=0.9339, (1 split)
+      pat.karno < 65    to the right, agree=0.8238, (0 split)
+
+Node number 2: 176 observations
+  events=295,  estimated rate=0.005114 , deviance/n=1.165
+
+Node number 3: 52 observations,    complexity param=0.04661
+  events=98,  estimated rate=0.008202 , deviance/n=1.627
+  left son=6 (15 obs) right son=7 (37 obs)
+  Primary splits:
+      wt.loss  < 21    to the right, improve=14.840, (5 missing)
+      inst     < 14.5  to the right, improve= 6.749, (1 missing)
+      age      < 62.5  to the right, improve= 4.556, (0 missing)
+      sex      < 1.5   to the right, improve= 2.371, (0 missing)
+      meal.cal < 759   to the left,  improve= 2.176, (7 missing)
+  Surrogate splits:
+      ph.karno < 55    to the left,  agree=0.7447, (4 split)
+
+Node number 6: 15 observations
+  events=26,  estimated rate=0.004882 , deviance/n=1.14
+
+Node number 7: 37 observations
+  events=72,  estimated rate=0.01087 , deviance/n=1.439
+
+> summary(residuals(p.fit))
+   Min. 1st Qu.  Median   Mean 3rd Qu.  Max. 
+ -2.114 -0.5083 0.07697 0.1982  0.8074 3.773
+> apply(xpred.rpart(p.fit),2,summary)
+        0.22465411 0.03403645 0.02066174 0.01644252 0.01237543 
+   Min.   0.005524   0.004652   0.003941   0.003035   0.003035
+1st Qu.   0.005574   0.004975   0.004692   0.004267   0.004222
+ Median   0.005639   0.005077   0.005185   0.005334   0.005207
+   Mean   0.005648   0.005818   0.006038   0.006041   0.006238
+3rd Qu.   0.005747   0.005234   0.005671   0.006139   0.007987
+   Max.   0.005798   0.011520   0.016010   0.016010   0.016010
+> > ######################################################################
+> 
+> 
+> # fit poisson tree to all variables rescaling time 
+> # (more like survival results)
+> # method = "exp"
+> 
+> .Random.seed <- c(17, 30, 53, 49, 12,  2, 22, 34, 23, 61, 29,  2)
+> > e.fit <- rpart(Surv(time,status) ~ inst + age + sex + ph.ecog + ph.karno +
++ 	       pat.karno + meal.cal + wt.loss, method="exp", data=lung)
+> > printcp(e.fit)
+
+Survival regression tree:
+rpart(formula = Surv(time, status) ~ inst + age + sex + ph.ecog + ph.karno + 
+	pat.karno + meal.cal + wt.loss, data = lung, method = "exp")
+
+Variables actually used in tree construction:
+[1] age       inst      pat.karno ph.ecog   sex       wt.loss  
+
+Root node error: 307.84/228 = 1.3502
+
+        CP nsplit rel error xerror     xstd 
+1 0.047011      0   1.00000 1.0111 0.075030
+2 0.029182      2   0.90975 1.0185 0.078632
+3 0.020406      3   0.88057 1.0048 0.080649
+4 0.013335      4   0.86016 1.0799 0.090731
+5 0.011402      9   0.79599 1.1068 0.093056
+6 0.010000     10   0.78459 1.1307 0.095205
+> print(e.fit)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 228 307.800 1.0000  
+   2) ph.ecog<1.5 176 223.100 0.8607  
+     4) sex>1.5 69  79.670 0.6067  
+       8) inst>24 9   1.727 0.1366 *
+       9) inst<24 60  71.660 0.6748 *
+     5) sex<1.5 107 134.400 1.0670  
+      10) pat.karno>65 98 123.300 1.0090  
+        20) age<64.5 53  64.050 0.8417  
+          40) ph.ecog<0.5 20  22.050 0.5997 *
+          41) ph.ecog>0.5 33  38.490 1.0840 *
+        21) age>64.5 45  55.960 1.2750  
+          42) wt.loss<7.5 21  18.230 0.8933 *
+          43) wt.loss>7.5 24  32.660 1.8170 *
+      11) pat.karno<65 9   7.162 2.0300 *
+   3) ph.ecog>1.5 52  70.310 1.7040  
+     6) wt.loss>21 15  18.090 0.8364 *
+     7) wt.loss<21 37  38.900 2.5290  
+      14) sex>1.5 16   8.883 1.8420 *
+      15) sex<1.5 21  27.490 3.1030  
+        30) age<59 7   4.587 1.7380 *
+        31) age>59 14  17.990 4.3010 *
+> print(e.fit,cp=.025)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+1) root 228 307.80 1.0000  
+  2) ph.ecog<1.5 176 223.10 0.8607  
+    4) sex>1.5 69  79.67 0.6067 *
+    5) sex<1.5 107 134.40 1.0670 *
+  3) ph.ecog>1.5 52  70.31 1.7040  
+    6) wt.loss>21 15  18.09 0.8364 *
+    7) wt.loss<21 37  38.90 2.5290 *
+> summary(e.fit)
+Call:
+rpart(formula = Surv(time, status) ~ inst + age + sex + ph.ecog + ph.karno + 
+	pat.karno + meal.cal + wt.loss, data = lung, method = "exp")
+
+       CP nsplit rel error xerror    xstd 
+1 0.04701      0    1.0000  1.011 0.07503
+2 0.02918      2    0.9097  1.018 0.07863
+3 0.02041      3    0.8806  1.005 0.08065
+4 0.01333      4    0.8602  1.080 0.09073
+5 0.01140      9    0.7960  1.107 0.09306
+6 0.01000     10    0.7846  1.131 0.09520
+
+Node number 1: 228 observations,    complexity param=0.04701
+  events=165,  estimated rate=1 , deviance/n=1.35
+  left son=2 (176 obs) right son=3 (52 obs)
+  Primary splits:
+      ph.ecog   < 1.5   to the left,  improve=13.540, (1 missing)
+      pat.karno < 65    to the right, improve=10.930, (3 missing)
+      sex       < 1.5   to the right, improve=10.580, (0 missing)
+      ph.karno  < 85    to the right, improve= 7.746, (1 missing)
+      age       < 45.5  to the left,  improve= 4.338, (0 missing)
+  Surrogate splits:
+      ph.karno  < 75    to the right, agree=0.9339, (1 split)
+      pat.karno < 65    to the right, agree=0.8238, (0 split)
+
+Node number 2: 176 observations,    complexity param=0.02918
+  events=119,  estimated rate=0.8607 , deviance/n=1.267
+  left son=4 (69 obs) right son=5 (107 obs)
+  Primary splits:
+      sex       < 1.5   to the right, improve=8.988, (0 missing)
+      inst      < 24    to the right, improve=5.954, (0 missing)
+      pat.karno < 65    to the right, improve=5.346, (1 missing)
+      age       < 64.5  to the left,  improve=4.158, (0 missing)
+      ph.ecog   < 0.5   to the left,  improve=3.474, (0 missing)
+  Surrogate splits:
+      inst < 24    to the right, agree=0.6534, (0 split)
+      age  < 59.5  to the left,  agree=0.6250, (0 split)
+
+Node number 3: 52 observations,    complexity param=0.04324
+  events=46,  estimated rate=1.704 , deviance/n=1.352
+  left son=6 (15 obs) right son=7 (37 obs)
+  Primary splits:
+      wt.loss  < 21    to the right, improve=13.690, (5 missing)
+      inst     < 14.5  to the right, improve= 5.913, (1 missing)
+      age      < 62.5  to the right, improve= 5.840, (0 missing)
+      meal.cal < 759   to the left,  improve= 2.160, (7 missing)
+      sex      < 1.5   to the right, improve= 1.795, (0 missing)
+  Surrogate splits:
+      ph.karno < 55    to the left,  agree=0.7447, (4 split)
+
+Node number 4: 69 observations,    complexity param=0.02041
+  events=37,  estimated rate=0.6067 , deviance/n=1.155
+  left son=8 (9 obs) right son=9 (60 obs)
+  Primary splits:
+      inst      < 24    to the right, improve=8.0070, (0 missing)
+      pat.karno < 85    to the right, improve=2.1560, (0 missing)
+      meal.cal  < 563   to the right, improve=1.9930, (20 missing)
+      ph.ecog   < 0.5   to the left,  improve=1.8070, (0 missing)
+      wt.loss   < -0.5  to the right, improve=0.6696, (2 missing)
+
+Node number 5: 107 observations,    complexity param=0.01333
+  events=82,  estimated rate=1.067 , deviance/n=1.256
+  left son=10 (98 obs) right son=11 (9 obs)
+  Primary splits:
+      pat.karno < 65    to the right, improve=4.173, (1 missing)
+      age       < 64.5  to the left,  improve=2.874, (0 missing)
+      ph.ecog   < 0.5   to the left,  improve=2.772, (0 missing)
+      wt.loss   < 7.5   to the left,  improve=2.214, (7 missing)
+      ph.karno  < 95    to the right, improve=1.180, (0 missing)
+
+Node number 6: 15 observations
+  events=11,  estimated rate=0.8364 , deviance/n=1.206
+
+Node number 7: 37 observations,    complexity param=0.01208
+  events=35,  estimated rate=2.529 , deviance/n=1.051
+  left son=14 (16 obs) right son=15 (21 obs)
+  Primary splits:
+      sex       < 1.5   to the right, improve=2.7450, (0 missing)
+      inst      < 2.5   to the right, improve=2.7420, (1 missing)
+      pat.karno < 75    to the right, improve=1.6030, (1 missing)
+      meal.cal  < 425.5 to the right, improve=1.4060, (4 missing)
+      wt.loss   < 14.5  to the left,  improve=0.9325, (4 missing)
+  Surrogate splits:
+      age      < 74.5  to the right, agree=0.5946, (0 split)
+      ph.karno < 65    to the left,  agree=0.5946, (0 split)
+      meal.cal < 650   to the left,  agree=0.5946, (0 split)
+
+Node number 8: 9 observations
+  events=0,  estimated rate=0.1366 , deviance/n=0.1919
+
+Node number 9: 60 observations
+  events=37,  estimated rate=0.6748 , deviance/n=1.194
+
+Node number 10: 98 observations,    complexity param=0.01333
+  events=74,  estimated rate=1.009 , deviance/n=1.258
+  left son=20 (53 obs) right son=21 (45 obs)
+  Primary splits:
+      age      < 64.5  to the left,  improve=3.332, (0 missing)
+      wt.loss  < 2.5   to the left,  improve=1.863, (7 missing)
+      ph.ecog  < 0.5   to the left,  improve=1.627, (0 missing)
+      meal.cal < 950   to the right, improve=1.226, (19 missing)
+      inst     < 2.5   to the right, improve=1.144, (0 missing)
+  Surrogate splits:
+      inst      < 21.5  to the left,  agree=0.5816, (0 split)
+      wt.loss   < 16.5  to the left,  agree=0.5714, (0 split)
+      ph.karno  < 65    to the right, agree=0.5612, (0 split)
+      pat.karno < 75    to the right, agree=0.5612, (0 split)
+
+Node number 11: 9 observations
+  events=8,  estimated rate=2.03 , deviance/n=0.7958
+
+Node number 14: 16 observations
+  events=14,  estimated rate=1.842 , deviance/n=0.5552
+
+Node number 15: 21 observations,    complexity param=0.01208
+  events=21,  estimated rate=3.103 , deviance/n=1.309
+  left son=30 (7 obs) right son=31 (14 obs)
+  Primary splits:
+      age       < 59    to the left,  improve=5.6900, (0 missing)
+      inst      < 6     to the right, improve=2.8990, (1 missing)
+      wt.loss   < 9     to the left,  improve=0.8146, (3 missing)
+      meal.cal  < 867.5 to the right, improve=0.5833, (3 missing)
+      pat.karno < 65    to the right, improve=0.1146, (0 missing)
+
+Node number 20: 53 observations,    complexity param=0.0114
+  events=38,  estimated rate=0.8417 , deviance/n=1.208
+  left son=40 (20 obs) right son=41 (33 obs)
+  Primary splits:
+      ph.ecog   < 0.5   to the left,  improve=3.5220, (0 missing)
+      pat.karno < 85    to the right, improve=2.1620, (0 missing)
+      age       < 55.5  to the right, improve=1.3690, (0 missing)
+      inst      < 4.5   to the left,  improve=1.3000, (0 missing)
+      wt.loss   < -0.5  to the left,  improve=0.9869, (3 missing)
+  Surrogate splits:
+      ph.karno  < 95    to the right, agree=0.8113, (0 split)
+      pat.karno < 85    to the right, agree=0.7547, (0 split)
+      inst      < 5.5   to the left,  agree=0.6604, (0 split)
+      age       < 39.5  to the left,  agree=0.6604, (0 split)
+
+Node number 21: 45 observations,    complexity param=0.01333
+  events=36,  estimated rate=1.275 , deviance/n=1.243
+  left son=42 (21 obs) right son=43 (24 obs)
+  Primary splits:
+      wt.loss   < 7.5   to the left,  improve=4.507, (4 missing)
+      age       < 67.5  to the right, improve=2.433, (0 missing)
+      inst      < 5.5   to the right, improve=1.870, (0 missing)
+      meal.cal  < 1034  to the right, improve=1.769, (9 missing)
+      pat.karno < 85    to the left,  improve=1.290, (1 missing)
+  Surrogate splits:
+      inst      < 11.5  to the right, agree=0.7073, (4 split)
+      ph.karno  < 85    to the right, agree=0.6585, (0 split)
+      pat.karno < 95    to the right, agree=0.6098, (0 split)
+      meal.cal  < 975   to the right, agree=0.6098, (0 split)
+      age       < 67.5  to the right, agree=0.5854, (0 split)
+
+Node number 30: 7 observations
+  events=7,  estimated rate=1.738 , deviance/n=0.6554
+
+Node number 31: 14 observations
+  events=14,  estimated rate=4.301 , deviance/n=1.285
+
+Node number 40: 20 observations
+  events=13,  estimated rate=0.5997 , deviance/n=1.102
+
+Node number 41: 33 observations
+  events=25,  estimated rate=1.084 , deviance/n=1.166
+
+Node number 42: 21 observations
+  events=15,  estimated rate=0.8933 , deviance/n=0.868
+
+Node number 43: 24 observations
+  events=21,  estimated rate=1.817 , deviance/n=1.361
+
+> summary(e.fit,cp=.025)
+Call:
+rpart(formula = Surv(time, status) ~ inst + age + sex + ph.ecog + ph.karno + 
+	pat.karno + meal.cal + wt.loss, data = lung, method = "exp")
+
+       CP nsplit rel error xerror    xstd 
+1 0.04701      0    1.0000  1.011 0.07503
+2 0.02918      2    0.9097  1.018 0.07863
+3 0.02041      3    0.8806  1.005 0.08065
+4 0.01333      4    0.8602  1.080 0.09073
+5 0.01140      9    0.7960  1.107 0.09306
+6 0.01000     10    0.7846  1.131 0.09520
+
+Node number 1: 228 observations,    complexity param=0.04701
+  events=165,  estimated rate=1 , deviance/n=1.35
+  left son=2 (176 obs) right son=3 (52 obs)
+  Primary splits:
+      ph.ecog   < 1.5   to the left,  improve=13.540, (1 missing)
+      pat.karno < 65    to the right, improve=10.930, (3 missing)
+      sex       < 1.5   to the right, improve=10.580, (0 missing)
+      ph.karno  < 85    to the right, improve= 7.746, (1 missing)
+      age       < 45.5  to the left,  improve= 4.338, (0 missing)
+  Surrogate splits:
+      ph.karno  < 75    to the right, agree=0.9339, (1 split)
+      pat.karno < 65    to the right, agree=0.8238, (0 split)
+
+Node number 2: 176 observations,    complexity param=0.02918
+  events=119,  estimated rate=0.8607 , deviance/n=1.267
+  left son=4 (69 obs) right son=5 (107 obs)
+  Primary splits:
+      sex       < 1.5   to the right, improve=8.988, (0 missing)
+      inst      < 24    to the right, improve=5.954, (0 missing)
+      pat.karno < 65    to the right, improve=5.346, (1 missing)
+      age       < 64.5  to the left,  improve=4.158, (0 missing)
+      ph.ecog   < 0.5   to the left,  improve=3.474, (0 missing)
+  Surrogate splits:
+      inst < 24    to the right, agree=0.6534, (0 split)
+      age  < 59.5  to the left,  agree=0.6250, (0 split)
+
+Node number 3: 52 observations,    complexity param=0.04324
+  events=46,  estimated rate=1.704 , deviance/n=1.352
+  left son=6 (15 obs) right son=7 (37 obs)
+  Primary splits:
+      wt.loss  < 21    to the right, improve=13.690, (5 missing)
+      inst     < 14.5  to the right, improve= 5.913, (1 missing)
+      age      < 62.5  to the right, improve= 5.840, (0 missing)
+      meal.cal < 759   to the left,  improve= 2.160, (7 missing)
+      sex      < 1.5   to the right, improve= 1.795, (0 missing)
+  Surrogate splits:
+      ph.karno < 55    to the left,  agree=0.7447, (4 split)
+
+Node number 4: 69 observations
+  events=37,  estimated rate=0.6067 , deviance/n=1.155
+
+Node number 5: 107 observations
+  events=82,  estimated rate=1.067 , deviance/n=1.256
+
+Node number 6: 15 observations
+  events=11,  estimated rate=0.8364 , deviance/n=1.206
+
+Node number 7: 37 observations
+  events=35,  estimated rate=2.529 , deviance/n=1.051
+
+> summary(residuals(e.fit))
+   Min. 1st Qu. Median   Mean 3rd Qu.  Max. 
+ -2.363 -0.7269  0.104 0.1134  0.9047 3.107
+> apply(xpred.rpart(e.fit),2,mean)
+ 0.21682106 0.03703912 0.02440289 0.01649586 0.01233062 0.01067805 
+   1.000344   1.055529   1.068175   1.174124   1.229585   1.247138
+> > ######################################################################
+> 
+> # fit poisson tree to all variables rescaling time 
+> # (more like survival results) Example #2
+> # method = "exp" and method="poisson"
+> 
+> 
+> fit1 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
++ 		data=stagec, control=rpart.control(usesurrogate=0, cp=0),
++ 		method="poisson")
+> > printcp(fit1)
+
+Rates regression tree:
+rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + 
+	ploidy, data = stagec, method = "poisson", control = rpart.control(
+	usesurrogate = 0, cp = 0))
+
+Variables actually used in tree construction:
+[1] age     g2      gleason grade  
+
+Root node error: 193.46/146 = 1.3251
+
+         CP nsplit rel error  xerror     xstd 
+1 0.1281382      0   1.00000 1.02567 0.064412
+2 0.0521550      1   0.87186 0.92688 0.072808
+3 0.0456150      3   0.76755 0.92541 0.079222
+4 0.0262710      4   0.72194 0.93991 0.083465
+5 0.0179655      5   0.69567 0.96236 0.093589
+6 0.0090595      6   0.67770 0.97724 0.094602
+7 0.0081323      7   0.66864 0.99778 0.095046
+8 0.0063836      8   0.66051 0.99825 0.095053
+9 0.0000000      9   0.65412 0.99030 0.093173
+> print(fit1)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+  1) root 146 193.500 0.058500  
+    2) grade<2.5 61  46.090 0.021290  
+      4) g2<11.36 33   9.325 0.007180  
+        8) g2>6.545 26   1.847 0.004466 *
+        9) g2<6.545 7   5.904 0.027880 *
+      5) g2>11.36 27  27.940 0.044910  
+       10) g2>14.37 15  12.460 0.030970 *
+       11) g2<14.37 12  13.730 0.067920 *
+    3) grade>2.5 85 122.600 0.094370  
+      6) age>56.5 75 104.300 0.082810  
+       12) g2>22.765 12  14.840 0.039570 *
+       13) g2<22.765 57  75.780 0.100200  
+         26) gleason<7.5 41  55.530 0.076840  
+           52) g2<13.475 23  26.750 0.050850  
+            104) g2>11.52 7   5.309 0.030860 *
+            105) g2<11.52 16  20.210 0.063860 *
+           53) g2>13.475 18  25.300 0.112100 *
+         27) gleason>7.5 16  15.170 0.163900 *
+      7) age<56.5 10  11.780 0.197100 *
+> summary(fit1,cp=.05)
+Call:
+rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + 
+	ploidy, data = stagec, method = "poisson", control = rpart.control(
+	usesurrogate = 0, cp = 0))
+
+        CP nsplit rel error xerror    xstd 
+1 0.128138      0    1.0000 1.0257 0.06441
+2 0.052155      1    0.8719 0.9269 0.07281
+3 0.045615      3    0.7676 0.9254 0.07922
+4 0.026271      4    0.7219 0.9399 0.08346
+5 0.017966      5    0.6957 0.9624 0.09359
+6 0.009059      6    0.6777 0.9772 0.09460
+7 0.008132      7    0.6686 0.9978 0.09505
+8 0.006384      8    0.6605 0.9982 0.09505
+9 0.000000      9    0.6541 0.9903 0.09317
+
+Node number 1: 146 observations,    complexity param=0.1281
+  events=54,  estimated rate=0.0585 , deviance/n=1.325
+  left son=2 (61 obs) right son=3 (85 obs)
+  Primary splits:
+      grade   < 2.5   to the left,  improve=24.840, (0 missing)
+      gleason < 5.5   to the left,  improve=21.620, (3 missing)
+      ploidy  splits as  LRR, improve=13.000, (0 missing)
+      g2      < 13.2  to the left,  improve=11.440, (7 missing)
+      age     < 53.5  to the right, improve= 2.482, (0 missing)
+  Surrogate splits:
+      gleason < 5.5   to the left,  agree=0.8630, (0 split)
+      ploidy  splits as  LRR, agree=0.6438, (0 split)
+      g2      < 9.945 to the left,  agree=0.6301, (0 split)
+      age     < 66.5  to the right, agree=0.5890, (0 split)
+
+Node number 2: 61 observations
+  events=9,  estimated rate=0.02129 , deviance/n=0.7556
+
+Node number 3: 85 observations,    complexity param=0.05215
+  events=45,  estimated rate=0.09437 , deviance/n=1.442
+  left son=6 (75 obs) right son=7 (10 obs)
+  Primary splits:
+      age     < 56.5  to the right, improve=7.3330, (0 missing)
+      g2      < 22.76 to the right, improve=6.8130, (6 missing)
+      gleason < 8.5   to the left,  improve=4.8430, (0 missing)
+      ploidy  splits as  LLR, improve=1.7270, (0 missing)
+      eet     < 1.5   to the right, improve=0.9572, (1 missing)
+
+Node number 6: 75 observations,    complexity param=0.05215
+  events=37,  estimated rate=0.08281 , deviance/n=1.391
+  left son=12 (12 obs) right son=13 (57 obs), 6 observations remain
+  Primary splits:
+      g2      < 22.76 to the right, improve=4.8340, (6 missing)
+      gleason < 7.5   to the left,  improve=4.0830, (0 missing)
+      age     < 69.5  to the left,  improve=2.7450, (0 missing)
+      ploidy  splits as  LRR, improve=0.7867, (0 missing)
+      eet     < 1.5   to the right, improve=0.1978, (1 missing)
+
+Node number 7: 10 observations
+  events=8,  estimated rate=0.1971 , deviance/n=1.178
+
+Node number 12: 12 observations
+  events=4,  estimated rate=0.03957 , deviance/n=1.236
+
+Node number 13: 57 observations
+  events=30,  estimated rate=0.1002 , deviance/n=1.33
+
+> > > fit2 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
++ 		data=stagec, control=rpart.control(usesurrogate=1, cp=.001))
+> > printcp(fit2)
+
+Survival regression tree:
+rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + 
+	ploidy, data = stagec, control = rpart.control(usesurrogate = 1, cp = 
+	0.001))
+
+Variables actually used in tree construction:
+[1] age     g2      gleason grade  
+
+Root node error: 195.33/146 = 1.3378
+
+         CP nsplit rel error  xerror     xstd 
+1 0.1291261      0   1.00000 1.00495 0.073681
+2 0.0416886      1   0.87087 0.92603 0.080814
+3 0.0288034      2   0.82919 0.92069 0.081659
+4 0.0171953      3   0.80038 0.92676 0.084726
+5 0.0151806      4   0.78319 0.97471 0.088750
+6 0.0135140      5   0.76801 0.98088 0.090169
+7 0.0096068      8   0.72908 0.97767 0.090282
+8 0.0010000     10   0.71051 0.99077 0.090855
+> print(fit2)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 146 195.300 1.00000  
+   2) grade<2.5 61  44.980 0.36170  
+     4) g2<11.36 33   9.130 0.12200  
+       8) g2>6.545 26   1.851 0.07451 *
+       9) g2<6.545 7   5.529 0.50410 *
+     5) g2>11.36 28  27.700 0.73410  
+      10) gleason<5.5 19  13.910 0.55210 *
+      11) gleason>5.5 8  11.160 1.31400 *
+   3) grade>2.5 85 125.100 1.62300  
+     6) age>56.5 75 104.000 1.43200  
+      12) gleason<7.5 50  66.490 1.14900  
+        24) g2<13.475 25  29.100 0.88170  
+          48) g2>11.52 8   5.317 0.47490 *
+          49) g2<11.52 17  21.910 1.14400 *
+        25) g2>13.475 25  36.050 1.40800  
+          50) g2>17.915 14  18.720 0.87950 *
+          51) g2<17.915 11  13.700 2.18300 *
+      13) gleason>7.5 25  34.130 2.02800  
+        26) g2>15.29 10  11.810 1.21400 *
+        27) g2<15.29 15  19.360 2.70200 *
+     7) age<56.5 10  15.520 3.19800 *
+> print(fit2,cp=.01)
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 146 195.30 1.0000  
+   2) grade<2.5 61  44.98 0.3617  
+     4) g2<11.36 33   9.13 0.1220 *
+     5) g2>11.36 28  27.70 0.7341  
+      10) gleason<5.5 19  13.91 0.5521 *
+      11) gleason>5.5 8  11.16 1.3140 *
+   3) grade>2.5 85 125.10 1.6230  
+     6) age>56.5 75 104.00 1.4320  
+      12) gleason<7.5 50  66.49 1.1490  
+        24) g2<13.475 25  29.10 0.8817 *
+        25) g2>13.475 25  36.05 1.4080  
+          50) g2>17.915 14  18.72 0.8795 *
+          51) g2<17.915 11  13.70 2.1830 *
+      13) gleason>7.5 25  34.13 2.0280  
+        26) g2>15.29 10  11.81 1.2140 *
+        27) g2<15.29 15  19.36 2.7020 *
+     7) age<56.5 10  15.52 3.1980 *
+> summary(fit2,cp=.025)
+Call:
+rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + 
+	ploidy, data = stagec, control = rpart.control(usesurrogate = 1, cp = 
+	0.001))
+
+        CP nsplit rel error xerror    xstd 
+1 0.129126      0    1.0000 1.0050 0.07368
+2 0.041689      1    0.8709 0.9260 0.08081
+3 0.028803      2    0.8292 0.9207 0.08166
+4 0.017195      3    0.8004 0.9268 0.08473
+5 0.015181      4    0.7832 0.9747 0.08875
+6 0.013514      5    0.7680 0.9809 0.09017
+7 0.009607      8    0.7291 0.9777 0.09028
+8 0.001000     10    0.7105 0.9908 0.09085
+
+Node number 1: 146 observations,    complexity param=0.1291
+  events=54,  estimated rate=1 , deviance/n=1.338
+  left son=2 (61 obs) right son=3 (85 obs)
+  Primary splits:
+      grade   < 2.5   to the left,  improve=25.270, (0 missing)
+      gleason < 5.5   to the left,  improve=21.630, (3 missing)
+      ploidy  splits as  LRR, improve=14.020, (0 missing)
+      g2      < 13.2  to the left,  improve=12.580, (7 missing)
+      age     < 58.5  to the right, improve= 2.796, (0 missing)
+  Surrogate splits:
+      gleason < 5.5   to the left,  agree=0.8630, (0 split)
+      ploidy  splits as  LRR, agree=0.6438, (0 split)
+      g2      < 9.945 to the left,  agree=0.6301, (0 split)
+      age     < 66.5  to the right, agree=0.5890, (0 split)
+
+Node number 2: 61 observations,    complexity param=0.04169
+  events=9,  estimated rate=0.3617 , deviance/n=0.7373
+  left son=4 (33 obs) right son=5 (28 obs)
+  Primary splits:
+      g2      < 11.36 to the left,  improve=9.0400, (1 missing)
+      ploidy  splits as  LRL, improve=7.6600, (0 missing)
+      age     < 68.5  to the right, improve=4.1550, (0 missing)
+      gleason < 5.5   to the left,  improve=1.6610, (3 missing)
+      eet     < 1.5   to the left,  improve=0.6096, (1 missing)
+  Surrogate splits:
+      ploidy splits as  LR-, agree=0.9167, (0 split)
+      age    < 65.5  to the left,  agree=0.6167, (1 split)
+
+Node number 3: 85 observations,    complexity param=0.0288
+  events=45,  estimated rate=1.623 , deviance/n=1.472
+  left son=6 (75 obs) right son=7 (10 obs)
+  Primary splits:
+      age     < 56.5  to the right, improve=6.3660, (0 missing)
+      g2      < 23.48 to the right, improve=4.6720, (6 missing)
+      gleason < 8.5   to the left,  improve=4.2320, (0 missing)
+      ploidy  splits as  LRR, improve=1.5970, (0 missing)
+      eet     < 1.5   to the right, improve=0.8234, (1 missing)
+
+Node number 4: 33 observations
+  events=1,  estimated rate=0.122 , deviance/n=0.2767
+
+Node number 5: 28 observations
+  events=8,  estimated rate=0.7341 , deviance/n=0.9894
+
+Node number 6: 75 observations
+  events=37,  estimated rate=1.432 , deviance/n=1.386
+
+Node number 7: 10 observations
+  events=8,  estimated rate=3.198 , deviance/n=1.552
+
+> > > > ###########################################################################
+> 
+> 
+> if(F) {
++ 
++ ### the following code shows various ways to plot your results
++ 
++ plot(c.fit);+ text(c.fit);+ 
++ plot(c.fit2);+ text(c.fit2,use.n=T);+ 
++ plot(c.fit4,uniform=T);+ text(c.fit4,use.n=T);+ 
++ plot(a.fit,uniform=T);+ text(a.fit,use.n=T,all=T);+ 
++ plot(p.fit,branch=.5,compress=T,uniform=T);+ text(p.fit,digits=2,use.n=T);+ 
++ plot(e.fit,compress=T);+ text(e.fit,digits=2);+ 
++ par(mfrow=c(2,1));+ rsq.rpart(a.fit);+ par(mfrow=c(1,1));+ 
++ ## post.rpart creates a postscript file with a nicer looking tree
++  
++ post.rpart(p.fit,file="",use.n=F) ;+ post.rpart(a.fit,file="",use.n=T) ;+ post.rpart(c.fit,title=" ",file="",use.n=T);+ post(c.fit4,file="");+ post.rpart(e.fit,file="",use.n=T);+ 
++ ## create a trimmed tree using snip.rpart 
++ ##  (double click on left mouse button to remove branch, 
++ ##   click on middle button to end trimming)
++ 
++ plot(p.fit);+ text(p.fit);+ p2.fit <- snip.rpart(p.fit);+ summary(p2.fit);+ plot(p2.fit);+ text(p2.fit,use.n=T);+ 
++ ## look at some other plotting functions ...
++ 
++ meanvar(a.fit);+ plot(predict(a.fit),residuals(a.fit));+ abline(h=0,lty=2);+ 
++ }
+NULL
+> > rm(a.fit,p.fit,e.fit,c.fit,c.fit2,c.fit3,c.fit4,fit1,fit2,xmat,xerr,xsum)
+> > 
+Goodbye ! 

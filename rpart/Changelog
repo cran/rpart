@@ -1,0 +1,74 @@
+4/22/97: in nodesplit.c  int *which,   to  int *which;
+                             **sorts;	   long **sorts;
+                                    
+5/15/97: in post.rpart.s  printit=F to print.it=F
+5/27/97: fixed more int <--) long problems in the following:
+	 choose_surg.c gini.c graycode.c mysort.c pred_rpart.c 
+	 rpart.c rpart.h rpart.s rpcountup.c rplabel.c rpmatrix.c
+	 s_to_rp.c s_xpred.c surrogate.c xval.c
+
+6/12/97: fix bug with csplit, line 57
+6/20/97: small changes to help files (`quotes')
+7/15/97: small changes to Install, First.lib.S
+8/28/97: small changes to help files
+9/3/97:  update tech report, add in shorter version of tech report.
+         made small changes to help files, modified functions per
+	 B. Ripley suggestions, including fix to predict.rpart.
+
+10/16/97:fixed new bug in snip.rpart with csplit 
+
+11/21/97:fixed bugs in insert_split.c, mysort.c. Problem found by 
+	 A. Prasad - endless loop when all of a group except 1 have 
+	 the same value 
+
+2/98:    Many changes prompted by helpful comments/critique of Brian Ripley.
+
+1. All routines that call "S_alloc" now include rpartS.h.  The lines in this
+   file differ between versions of S (Bell version 4 is the odd one at present).
+
+2. The C code has all been converted to ANSI prototypes.  This helps with
+   argument checking, and besides, it was about time to upgrade.
+
+   The include file rpartproto.h contains prototypes of all of the central
+   functions, i.e., not  anova, gini, or poisson.
+
+   Also, remove the "register" declarations.  Modern compilers are
+   smart enough without my help (and likely smarter) about registers.
+
+3. Add an argument to free_tree.  If the second arg is 1, then free the
+   node, all children, and all contents, if 0 free the children.  Now it can
+   be called from rpart as well, for the inital parent node.
+
+4. Fix bugs in pred_rpart.c and partition.c pointed out by Brian Ripley.
+
+5. Change the dummy args in post and prune, per Brian Ripley.  This also
+   affects prune.rpart.
+
+6. Small improvement in predict.rpart.s, per Brian.
+
+7. Changes in post.rpart.
+   a. Agree with Brian, put args in the same order as post.tree (as much as
+      possible). 
+   b. Add a little trickery so that the arg can be "title" without getting
+      a warning message from the title function.
+   c. There are differences in the postscript functions between platforms!
+      Rather than have two post.rpart functions, just drop the args that were
+      causing problems and add a "...".  
+
+8. Summary.rpart has changes needed in Splus 4.0, contributed by Brian.
+
+9. The plotcp function was contributed by Brian.
+
+10. Add in ordered factors.  Treat them as continuous vars for splitting
+    purposes, then change the output structure so that they print as factor
+    variables would.
+    a. Essentially Brian's code, with some fixes.  (He ignored the case where
+       there are ordered factors but no unordered ones, some things
+       are then missing).
+    b. Does have one problem: missing categories print as L/R rather than "-"
+       This is a nice peice of information lost, but the resulting 
+       prediction may be more consistent than if I did it the other way.
+
+11. Several changes to the .d files, compliments of Brian.
+
+12. The path.rpart function was contributed by Anantha Prasad (see path.tree)

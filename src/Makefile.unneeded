@@ -1,0 +1,16 @@
+LIBNAME=rpart
+LD=ld
+
+OBJS= anova.o anovapred.o branch.o bsplit.o choose_surg.o fix_cp.o \
+free_tree.o gini.o graycode.o insert_split.o make_cp_list.o \
+make_cp_table.o mysort.o nodesplit.o partition.o poisson.o \
+poissonpred.o pred_rpart.o rpart.o rpcountup.o rplabel.o \
+rpmatrix.o rundown.o rundown2.o s_to_rp.o s_xpred.o surrogate.o xval.o
+
+$(LIBNAME).so:	$(OBJS)
+	@$(LD) $(SHLIBLDFLAGS) -o $(LIBNAME).so $(OBJS)
+
+clean:
+	@rm -f *.o *.so
+
+realclean: clean

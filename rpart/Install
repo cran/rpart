@@ -1,0 +1,75 @@
+There are no guarantees that this will work for all installations or
+machines.  The instructions below work here, on our machines.  We're
+willing to give help if these don't work for you, but there are no
+promises about the efficacy of the same.
+
+-----------------------------
+
+Dynamic loading:
+
+     0. Make a directory SHOME/library/rpart, and place the source there.
+		cd SHOME/library/rpart
+		mv /wherever_you_have_put_it/src/*  .
+
+        "SHOME" refers to the S home directory.  This is where you
+         want to install things so that all S users can see them.
+
+        If you don't have the necessary permissions, you can create
+        the directory elsewhere, but will need to type it's explicit
+        path when you load the rpart routines within S.
+
+     1. In that directory:
+		mkdir .Data
+		mkdir .Data/.Help
+		touch .Data/.Audit
+		chmod a-w .Data/.Audit
+
+The two lines about the .Audit file are optional-- but I assume that you
+don't want to waste a bunch of space with an audit file of the installation
+process.
+
+    2. If you are running Splus:
+
+	    a. Type "Splus CHAPTER *.c *.d *.s" to create a Makefile
+	       that is optimized for your machine.
+
+	    b. If you are in subdirectory "xxx" then this new Makefile
+	       will create an object xxx_l.o.  Note that CHAPTER will
+	       fail if your directory name has punctuation marks in it
+	       (like ".").  (This may be fixed in later versions of
+	       Splus).
+
+	    c. READ the first portion of the new Makefile.  Be very
+	       careful before making any changes, however, as it has
+	       some lines that are over 255 characters long.  Some
+	       editors, e.g. vi, can't deal with this and will corrupt
+	       the file. You'll probably want to use dyn.load instead
+	       of static.load (see first few lines of Makefile). 
+
+	    d. See the manual page for "library" for further instructions.
+
+	    e. type "make install"
+		    "make dyn.load"
+
+               The order in which you do these is important.
+
+
+     3. Anyone who want to use the code will have to type the following
+	lines, every time they use S:
+
+		library(rpart)
+
+	 If the program is not in the S library area, the argument will
+	 need to be the full path name of the directory
+
+
+     4. Perform the tests provided.  The file 'tests.S' is written so
+        as to work from the source directory so you may need to modify
+	it if you are working from another directory.  
+
+	Splus BATCH tests.S testout.new
+	diff testout.new testout.save
+
+	Diff should show no differences, other than those caused by
+	platform or Splus version identifiers. (Remember to wait for
+	the BATCH job to run before doing the diff).

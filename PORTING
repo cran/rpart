@@ -1,0 +1,30 @@
+src/*.{h,c} single -> double
+man/*.Rd  convert *.d by Sd2Rd
+
+
+R/labels.rpart.s	replace call to prlabel by S code.
+R/model.frame.rpart.s 	deparse calls
+R/na.rpart.s		as x has no attributes in R, redesign
+R/plot.rpart.s 		change frame=0 to .GlobalEnv
+R/post.rpart.s		change `title' trickery
+R/print.rpart.s		remove nsmall in call to format
+			attr(x, 'levels') not 'level'
+R/rpart.class.s		remove exclude=NA in call to table
+R/rpart.matrix.s	a data.frame is not a list, so redesign
+R/rpart.s		single -> double
+			sys.parent() -> sys.frame(sys.parent())
+R/rpartco.s		remove frame=0 several times
+R/snip.rpart.s		add a drop=F on x$csplit
+R/summary.rpart.s	remove justify="left" in format
+			remove comma in paste(... ,,collapse ...)
+R/text.rpart.s		text.default prints "NA", so remove these
+			no par("cxy") so work around
+			remove density=0 in calls to polygon
+R/xpred.rpart.s		single -> double
+			sys.parent() -> sys.frame(sys.parent())
+R/zzz.R			a few missing functions. Make labels() generic.
+
+src/Makefile		simple Makefile.
+
+At present post.rpart does not work very well as text has problems
+with multi-line text.

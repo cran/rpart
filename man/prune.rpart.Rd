@@ -1,0 +1,40 @@
+\name{prune.rpart}
+\alias{prune.rpart}
+\title{
+Cost-complexity Pruning of an Rpart Object
+}
+\description{
+Determines a nested sequence of subtrees of the supplied \code{rpart} object
+by recursively \code{snipping} off the least important splits, based on the
+complexity parameter (\code{cp}).
+}
+\usage{
+prune.rpart(tree, cp)
+}
+\arguments{
+\item{tree}{
+fitted model object of class \code{rpart}.  This is assumed to be the result
+of some function that produces an object with the same named
+components as that returned by the \code{rpart} function.
+}
+\item{cp}{
+Complexity parameter to which the \code{rpart} object will be trimmed.
+}}
+\value{
+A new \code{rpart} object that is trimmed to the value \code{cp}.
+}
+\seealso{
+\code{\link{rpart}}
+}
+\examples{
+data(car.test.frame)
+z.auto <- rpart(Mileage ~ Weight, car.test.frame)
+zp <- prune.rpart(z.auto)
+plot(zp) #plot smaller rpart object
+}
+\keyword{rpart}
+% Converted by Sd2Rd version 0.3-1.
+
+
+
+

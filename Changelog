@@ -1,0 +1,18 @@
+1999 Apr	1.0-6	Add index of (test) datasets.
+1999 Feb 24	1.0-5	Correct rpart.branch.s to get(parms, inherits=TRUE).
+			Add tolerance to tree.depth, needed for the Windows 
+			version.
+1999 Jan 06	1.0-4	Remove model.frame.rp, which was no longer needed
+			now model.frame.default uses xlevels.
+			Modified rpart.matrix to allow - in model formulae.
+			Examples are now all executable (or commented out).
+1998 Jul 24  	1.0-3	Added identify.rpart to work around R's limited
+			identify.
+			text is now generic in R, so removed from zzz.R.
+			levels is now generic in R, so removed from zzz.R.
+			Manual pages re-converted with Sd2Rd version 0.3-1.
+			predict now uses xlevels to force agreement of
+			levels of factors in newdata.
+1998 Jun 22  	1.0-2	Manual pages converted with Details section
+			snip.rpart implemented.
+1998 Jun 16  	1.0-1	Original port

@@ -1,0 +1,102 @@
+#############################################################################
+
+Initial Date: 4/15/97
+Update: 2/23/98
+
+This is the first release (with fixes of bugs) of the rpart package for Splus.
+
+Terry M Therneau
+Beth Atkinson
+Mayo Clinic
+
+Copyright Mayo Foundation for Medical Education and Research 1997, all
+rights reserved.  Permission is granted for unlimited distribution for
+noncommercial use.
+
+
+Problems/comments/suggestions should be reported to atkinson@mayo.edu
+
+#############################################################################
+
+
+### What it does:
+
+    Splitting rules -- Class: for classification, with priors and losses
+	                      - specify 'gini' or 'information' 
+	    	       Anova: identical to the 'regression' of tree()
+		       Poisson: good for events/person-years data
+		       Exp: best choice for survival data
+
+    Surrogate splits -- in the full generality of the CART book.  This means
+		        that the code can deal with missing X values.
+
+    Provides a full, detailed listing that includes competitor splits,
+		surrogate splits, sizes, improvements, complexity
+		parameter, etc.  Looks a lot like CART output.
+
+    Built-in cross-validation code -- This makes it faster.
+    NOTE: If you have a large dataset you may want to turn the 
+	  cross-validation and surrogate options off !!
+    
+
+    Functions similar to tree() -- Most methods are implimented.
+               Tree functions that DON'T currently work include:
+
+		 burl.tree
+		 cv.tree
+		 data.tree
+		 hist.tree
+		 rug.tree
+		 tile.tree
+               
+               unless you use as.tree() first (transforms rpart object
+	       variables to tree object variables with appropriate
+	       names). 
+
+    List of functions that are most useful --
+
+    rpart            - main function call, using Splus modelling language
+    print.rpart	     - print a short summary of the rpart fit (tree) 
+    summary.rpart    - prints a detailed summary of the rpart fit
+    printcp          - prints summary table of cross-validation
+    predict.rpart    - calculates predicted values based on rpart fit
+    residuals.rpart  - calculates residuals from rpart fit 
+    xpred.rpart	     - cross-validation for each split 
+		              
+    plot.rpart       - create a tree plot on current graphical device
+    text.rpart	     - add text labels to the tree plot
+    prune.rpart      - prune off specified subtrees from given rpart object
+    post.rpart	     - create a postscript file containing a 'pretty' tree 
+    meanvar.rpart    - plots the mean variance of each node 
+    rsq.rpart        - plot of the rsquare improvement for each split
+    snip.rpart       - prune a tree located on current graphical device
+    plotcp           - visual representation of cross-validation results
+
+
+### Stability: The C code has been available for 4+ years now on
+    statlib (see the 'rpart' package from 'general').  This stands for
+    Recursive PARTioning, as the word CART has been copyrighted.
+
+    The Splus code has been in use here at Mayo for 3+ years and is
+    quite solid.
+
+
+### Adaptability: The underlying C code was built with extensions in
+    mind.  It's relatively easy to add a new method.
+
+
+### Installation: Read the file Install, which installs rpart as 
+    a library
+
+### Version Bug: If you fit a model with a character variable as one
+    of the independent variables and there are missing values, rpart
+    will give you an error message.  This problem has been fixed in
+    version 3.4 (something to do with is.na.data.frame).  If you are
+    running a lower version, create a numeric variable based on your
+    character variable. 
+
+### Further information: A 50+ page technical report (stored as
+    postscript) is included in the directory Manuscript).  It shows
+    examples and explains in detail some of the features of rpart
+    (techrep.ps). A condensed version (just examples and description
+    of functions) is included as well (minitech.ps)
