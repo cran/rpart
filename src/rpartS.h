@@ -12,13 +12,14 @@
 **   with only this file "survS.h" changed.
 */
 #define time timexxx
-#include "S.h"
+#include "R.h"
 #undef time
+#undef error
 
 /*
 ** Memory defined with S_alloc is removed automatically
 **  That with "CALLOC" I have to remove myself.  Use the
-**  latter for objects that need to to persist between the 
+**  latter for objects that need to persist between the 
 **  s_to_rp1 and s_to_rp2 calls
 */
 

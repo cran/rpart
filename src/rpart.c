@@ -48,7 +48,7 @@ int rpart(int n,         int nvarx,      int *ncat,     int method,
 	  struct node **tree,            char **error,   int *which,
 	  int xvals,     int *x_grp,    double *wt,     int surragree)
     {
-    int i,j,k;
+    int i,k;
     int maxcat;
     double temp;
 

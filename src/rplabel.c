@@ -9,7 +9,9 @@
 */
 #include "rpart.h"
 #include "rpartproto.h"
-static char *strdup();
+#include <stdlib.h>
+#include <stdio.h>
+static char *Rp_strdup();
 
 void rplabel(int *nsplit,   int *index,   double *splits, 
              int *ncat,     int *csplit,  char   **cutleft, char **cutright)
@@ -33,38 +35,36 @@ void rplabel(int *nsplit,   int *index,   double *splits,
 	    for (jj=0; jj< k; jj++)
 		if      (csplit[jj*nc +ccol] == LEFT)  buf[ii++] = 'a' + jj;
 	    buf[ii] = '\0';
-	    cutleft[i] = strdup(buf);
+	    cutleft[i] = Rp_strdup(buf);
 
 	    buf[0] = ':';
 	    ii =1;
 	    for (jj=0; jj< k; jj++)
 		if      (csplit[jj*nc + ccol] == RIGHT)  buf[ii++] = 'a' + jj;
 	    buf[ii] = '\0';
-	    cutright[i] = strdup(buf);
+	    cutright[i] = Rp_strdup(buf);
 	    }
 
 	else {  /* continuous */
 	    if (k == LEFT) {
 		sprintf(buf, "<%.6g", splits[nn +j]);
-		cutleft[i] = strdup(buf);
+		cutleft[i] = Rp_strdup(buf);
 		sprintf(buf, ">%.6g", splits[nn +j]);
-		cutright[i] = strdup(buf);
+		cutright[i] = Rp_strdup(buf);
 		}
 	    else {
 		sprintf(buf, ">%.6g", splits[nn +j]);
-		cutleft[i] = strdup(buf);
+		cutleft[i] = Rp_strdup(buf);
 		sprintf(buf, "<%.6g", splits[nn +j]);
-		cutright[i] = strdup(buf);
+		cutright[i] = Rp_strdup(buf);
 		}
 	    }
 	j++;
 	}
     }
 
-static char *strdup(s)
+static char *Rp_strdup(s)
 char *s;
 {
-	char *strcpy(), *malloc();
-	int strlen();
 	return(strcpy(malloc(strlen(s)+1), s));
 }

@@ -40,8 +40,8 @@ default (\code{T}) indicates the maximum possible abbreviation.
 }
 \item{use.n}{
 Logical.  If \code{TRUE} (default), adds to label 
-(#events level1/ #events level2/etc. for method \code{class}, \code{n} for 
-method \code{anova}, and # events/n for methods \code{poisson} and \code{exp}).
+(\#events level1/ \#events level2/etc. for method \code{class}, \code{n} for 
+method \code{anova}, and \#events/n for methods \code{poisson} and \code{exp}).
 }
 \item{horizontal}{
 Logical.  If \code{TRUE} (default), plot is horizontal. If \code{FALSE}, plot

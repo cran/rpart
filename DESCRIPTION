@@ -1,7 +1,8 @@
 Package: rpart
-Version: 1.1-1
+Version: 1.1-2
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.
         R port by Brian Ripley <ripley@stats.ox.ac.uk>.
 Description: Recursive partitioning and regression trees
-Depends: survival5 if survival models are to be used.
+Title: Recursive partitioning
+Depends: R (>= 0.99), survival5 if survival models are to be used.
 License: Unlimited distribution for noncommercial use
