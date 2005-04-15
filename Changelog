@@ -1,3 +1,5 @@
+2005 Apr 15	3.1-23	Use xpd=NA in example(rpart)
+
 2005 Feb 01	3.1.22	Improve error messages for possible translation.
 
 2004 Nov 17     3.1-21  Change logic for setting params on a device 
