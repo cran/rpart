@@ -1,7 +1,9 @@
 ## SCCS @(#)predict.rpart.s	1.11 06/03/01
 predict.rpart <-
 function(object, newdata = list(),
-	 type = c("vector", "prob", "class", "matrix"), ...) {
+	 type = c("vector", "prob", "class", "matrix"), na.action = na.pass,
+         ...)
+{
     if(!inherits(object, "rpart"))
 	stop("Not legitimate tree")
     mtype <- missing(type)
@@ -11,9 +13,7 @@ function(object, newdata = list(),
     else {
 	if(is.null(attr(newdata, "terms"))) {
 	    Terms <- delete.response(object$terms)
-	    act <- (object$call)$na.action
-	    if (is.null(act)) act<- na.rpart
-	    newdata <- model.frame(Terms, newdata, na.action = act,
+	    newdata <- model.frame(Terms, newdata, na.action = na.action,
                                       xlev=attr(object, "xlevels"))
             if (!is.null(cl <- attr(Terms, "dataClasses")) &&
                 exists(".checkMFClasses", envir=NULL))

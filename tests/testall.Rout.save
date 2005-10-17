@@ -1,13 +1,15 @@
 
-R : Copyright 2003, The R Development Core Team
-Version 1.8.0 Under development (unstable) (2003-08-02)
+R : Copyright 2005, The R Foundation for Statistical Computing
+Version 2.3.0 Under development (unstable) (2005-10-17 r35923)
+ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
 
 R is a collaborative project with many contributors.
-Type 'contributors()' for more information.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for a HTML browser interface to help.
@@ -16,13 +18,14 @@ Type 'q()' to quit R.
 > # Any necessary setup
 > library(rpart)
 > library(survival)
+Loading required package: splines
 > data(state)
 > data(cu.summary)
 > data(kyphosis)
 > options(na.action="na.omit")
 > options(digits=4) # to match earlier output
 > RNGversion("1.6.2")
-Warning message: 
+Warning message:
 Buggy version of Kinderman-Ramage generator used. in: RNGkind("Marsaglia-Multicarry", "Buggy Kinderman-Ramage") 
 > set.seed(1234)
 > #
@@ -211,7 +214,7 @@ Node number 26: 41 observations,    complexity param=0.01797
   events=18,  estimated rate=0.07684 , mean deviance=1.354 
   left son=52 (23 obs) right son=53 (18 obs)
   Primary splits:
-      g2      < 13.48 to the left,  improve=3.55300, (0 missing)
+      g2      < 13.47 to the left,  improve=3.55300, (0 missing)
       ploidy  splits as  LRR,       improve=3.04200, (0 missing)
       age     < 65.5  to the left,  improve=0.67910, (0 missing)
       eet     < 1.5   to the left,  improve=0.09085, (0 missing)
@@ -358,7 +361,7 @@ Node number 12: 50 observations,    complexity param=0.01979
   mean=0.05706, MSE=0.3681 
   left son=24 (25 obs) right son=25 (25 obs)
   Primary splits:
-      g2      < 13.48 to the left,  improve=4.238e-02, (3 missing)
+      g2      < 13.47 to the left,  improve=4.238e-02, (3 missing)
       ploidy  splits as  LRR,       improve=3.143e-02, (0 missing)
       age     < 62.5  to the right, improve=1.709e-02, (0 missing)
       gleason < 6.5   to the left,  improve=5.610e-04, (0 missing)
@@ -373,7 +376,7 @@ Node number 13: 25 observations,    complexity param=0.01899
   mean=0.3436, MSE=0.3727 
   left son=26 (9 obs) right son=27 (16 obs)
   Primary splits:
-      g2     < 17.01 to the right, improve=1.562e-01, (3 missing)
+      g2     < 17    to the right, improve=1.562e-01, (3 missing)
       age    < 61.5  to the right, improve=5.841e-02, (0 missing)
       ploidy splits as  RLR,       improve=1.562e-02, (0 missing)
       eet    < 1.5   to the right, improve=2.882e-05, (1 missing)
@@ -387,7 +390,7 @@ Node number 25: 25 observations,    complexity param=0.01979
   mean=0.1612, MSE=0.4055 
   left son=50 (14 obs) right son=51 (11 obs)
   Primary splits:
-      g2      < 17.92 to the right, improve=0.1271000, (1 missing)
+      g2      < 17.91 to the right, improve=0.1271000, (1 missing)
       eet     < 1.5   to the right, improve=0.0309400, (0 missing)
       age     < 64.5  to the left,  improve=0.0241800, (0 missing)
       gleason < 6.5   to the right, improve=0.0003038, (0 missing)
@@ -527,7 +530,7 @@ Node number 12: 50 observations,    complexity param=0.01271
   events=21,  estimated rate=1.149 , mean deviance=1.33 
   left son=24 (25 obs) right son=25 (25 obs)
   Primary splits:
-      g2      < 13.48 to the left,  improve=1.94600, (3 missing)
+      g2      < 13.47 to the left,  improve=1.94600, (3 missing)
       ploidy  splits as  LRR,       improve=1.49100, (0 missing)
       age     < 62.5  to the right, improve=0.80830, (0 missing)
       gleason < 6.5   to the left,  improve=0.02956, (0 missing)
@@ -567,7 +570,7 @@ Node number 25: 25 observations,    complexity param=0.01271
   events=13,  estimated rate=1.408 , mean deviance=1.442 
   left son=50 (14 obs) right son=51 (11 obs)
   Primary splits:
-      g2      < 17.92 to the right, improve=3.122000, (1 missing)
+      g2      < 17.91 to the right, improve=3.122000, (1 missing)
       eet     < 1.5   to the right, improve=1.212000, (0 missing)
       age     < 64.5  to the left,  improve=0.633000, (0 missing)
       gleason < 6.5   to the right, improve=0.001267, (0 missing)
@@ -659,7 +662,7 @@ Node number 3: 40 observations,    complexity param=0.1351
   mean=4635, MSE=2.477e+05 
   left son=6 (34 obs) right son=7 (6 obs)
   Primary splits:
-      life       < 70.26 to the right, improve=0.25230, (0 missing)
+      life       < 70.25 to the right, improve=0.25230, (0 missing)
       murder     < 10    to the left,  improve=0.16790, (0 missing)
       hs.grad    < 60.95 to the left,  improve=0.12350, (0 missing)
       illiteracy < 0.75  to the left,  improve=0.11520, (0 missing)
@@ -712,7 +715,7 @@ Node number 13: 22 observations,    complexity param=0.05346
   Primary splits:
       hs.grad    < 52.05 to the left,  improve=0.44500, (0 missing)
       region     splits as  RLLR,      improve=0.35050, (0 missing)
-      life       < 71.57 to the left,  improve=0.12220, (0 missing)
+      life       < 71.56 to the left,  improve=0.12220, (0 missing)
       murder     < 5.65  to the right, improve=0.10520, (0 missing)
       population < 2981  to the left,  improve=0.06276, (0 missing)
   Surrogate splits:
@@ -907,7 +910,7 @@ Node number 6: 40 observations,    complexity param=0.02335
    probabilities: 0.443 0.557 
   left son=12 (7 obs) right son=13 (33 obs)
   Primary splits:
-      g2      < 11.85 to the right, improve=1.42400, (5 missing)
+      g2      < 11.84 to the right, improve=1.42400, (5 missing)
       ploidy  splits as  LLR,       improve=1.31000, (0 missing)
       gleason < 7.5   to the left,  improve=0.86340, (0 missing)
       age     < 61.5  to the right, improve=0.57940, (0 missing)
@@ -952,7 +955,7 @@ Node number 13: 33 observations,    complexity param=0.01892
    probabilities: 0.384 0.616 
   left son=26 (25 obs) right son=27 (8 obs)
   Primary splits:
-      g2      < 11.01 to the left,  improve=1.06300, (5 missing)
+      g2      < 11    to the left,  improve=1.06300, (5 missing)
       ploidy  splits as  L-R,       improve=0.73950, (0 missing)
       gleason < 6.5   to the left,  improve=0.57220, (0 missing)
       age     < 62.5  to the right, improve=0.13320, (0 missing)
@@ -1166,17 +1169,9 @@ Node number 23: 8 observations
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] "Lengths: 196, 192"                                                                             
-[2] "Attributes: < Component 1: Mean relative  difference: 0.02041 >"                               
-[3] "Attributes: < Component 2: Component 1: Lengths (49, 48) differ (string compare on first 48) >"
-[4] "Attributes: < Component 2: Component 1: 24 string mismatches >"                                
-[5] "Numeric: lengths (196, 192) differ"                                                            
+[1] "Numeric: lengths (196, 192) differ"
 > all.equal(fit2$splits[-24,-1],fit2b$splits[-24,-1]) #ok
-[1] "Lengths: 192, 188"                                                                             
-[2] "Attributes: < Component 1: Mean relative  difference: 0.02083 >"                               
-[3] "Attributes: < Component 2: Component 1: Lengths (48, 47) differ (string compare on first 47) >"
-[4] "Attributes: < Component 2: Component 1: 24 string mismatches >"                                
-[5] "Numeric: lengths (192, 188) differ"                                                            
+[1] "Numeric: lengths (192, 188) differ"
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
 > # Line 24 is a surrogate split in a group whose 2 smallest ages are
@@ -1483,8 +1478,7 @@ Node number 13: 20 observations
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-[1] "Attributes: < Component 2: Component 1: 2 string mismatches >"
-[2] "Mean relative  difference: 0.8952"                            
+[1] "Mean relative  difference: 0.8952"
 > all.equal(fit2$csplit,    fit2b$csplit)
 [1] TRUE
 > 

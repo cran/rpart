@@ -1,7 +1,7 @@
 Package: rpart
 Priority: recommended
-Version: 3.1-23
-Date: March 2002 version of rpart, R version 2005-04-15
+Version: 3.1-24
+Date: March 2002 version of rpart, R version 2005-10-17
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.
         R port by Brian Ripley <ripley@stats.ox.ac.uk>.
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
@@ -11,5 +11,5 @@ Depends: R (>= 2.0.0)
 Suggests: survival
 License: use under GPL2, or see file LICENCE
 LazyData: yes
-URL: S-PLUS 6.x original at http://www.mayo.edu/hsr/Sfunc.html
-Packaged: Tue Apr 19 11:21:21 2005; ripley
+URL: S-PLUS 6.x original at http://mayoresearch.mayo.edu/mayo/research/biostat/splusfunctions.cfm
+Packaged: Fri Oct 28 08:36:18 2005; ripley

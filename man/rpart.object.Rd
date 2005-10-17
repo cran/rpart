@@ -58,8 +58,8 @@ subset \code{x < cutpoint} or \code{x > cutpoint} is sent to the left.
 }
 \item{csplit}{
 this will be present only if one of the split variables is a factor. There
-is one row for each such split, and column \code{i = -1} if this level of the
-factor goes to the left, \code{+1} if it goes to the right, and 0 if that level
+is one row for each such split, and column \code{i = 1} if this level of the
+factor goes to the left, \code{3} if it goes to the right, and 2 if that level
 is not present at this node of the tree.
 For an ordered categorical variable all levels are marked as \code{R/L}, 
 including levels that are not present.

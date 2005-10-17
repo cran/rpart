@@ -21,6 +21,6 @@ na.rpart <- function(x){
 	names(temp) <- row.names(x)[!keep]
 	#the methods for this group are all the same as for na.omit
 	class(temp) <- c("na.rpart", "omit")
-	structure(x[keep,], na.action=temp)
+	structure(x[keep,,drop=FALSE], na.action=temp)
 	}
     }

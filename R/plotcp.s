@@ -2,8 +2,9 @@
 # Contributed by B.D. Ripley 97/07/17
 #
 plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
-		   upper = c("size", "splits", "none"), ylim, ...)
+		   upper = c("size", "splits", "none"), ...)
 {
+  dots <- list(...)
   if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
   upper <- match.arg(upper)
   p.rpart <- x$cptable
@@ -15,8 +16,8 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
   ns <- seq(along=nsplit)
   cp0 <- p.rpart[ ,1]
   cp <- sqrt(cp0 * c(Inf, cp0[-length(cp0)]))
-  if(missing(ylim))
-      ylim <- c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)
+  ylim <- if("ylim" %in% names(dots)) dots$ylim else
+      c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)
   plot(ns, xerror, axes = FALSE, xlab = "cp", ylab =
        "X-val Relative Error", ylim = ylim, type = "o", ...)
   box()

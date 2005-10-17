@@ -8,7 +8,8 @@
 }
 \usage{
 \method{predict}{rpart}(object, newdata = list(),
-       type = c("vector", "prob", "class", "matrix"), ...)
+       type = c("vector", "prob", "class", "matrix"),
+       na.action = na.pass, \dots)
 }
 \arguments{
   \item{object}{
@@ -30,7 +31,14 @@
     default behavior of \code{\link[tree]{tree}}).  Otherwise, a vector
     result is returned.
   }
-  \item{\dots}{further arguments passed to or from other methods.}
+  \item{na.action}{a function to determine what should be done with
+    missing values in \code{newdata}.  The default is to pass them down
+    the tree using surrogates in the way selected when the model was built.
+    Other possibilities are \code{\link{na.omit}} and \code{\link{na.fail}}.
+  }
+  \item{\dots}{
+    further arguments passed to or from other methods.
+  }
 }
 \value{
   A new object is obtained by
@@ -43,7 +51,7 @@
   vector of predicted responses.
   For regression trees this is the mean response at the node, for Poisson
   trees it is the estimated response rate, and for classification trees
-  it is the predicted class.
+  it is the predicted class (as a number).
   
   If \code{type="prob"}:\cr
   (for a classification tree) a matrix of class probabilities.

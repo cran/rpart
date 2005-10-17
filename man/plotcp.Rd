@@ -11,10 +11,6 @@ Gives a visual representation of the cross-validation results in an
 plotcp(x, minline = TRUE, lty = 3, col = 1,
        upper = c("size", "splits", "none"), \dots)
 }
-\synopsis{
-plotcp(x, minline = TRUE, lty = 3, col = 1,
-       upper = c("size", "splits", "none"), ylim, ...)
-}
 \arguments{
 \item{x}{
 an object of class \code{rpart} 

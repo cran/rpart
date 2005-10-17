@@ -1,3 +1,8 @@
+2005 Oct 17	3.1-24  Add missing drop=FALSE in na.rpart.
+			Clarify predict.rpart.Rd and rpart.object.Rd.
+			Add na.action arg to predict.rpart (instead of
+			using the na.action used during fitting).
+
 2005 Apr 15	3.1-23	Use xpd=NA in example(rpart)
 
 2005 Feb 01	3.1.22	Improve error messages for possible translation.
