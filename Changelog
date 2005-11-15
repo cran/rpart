@@ -1,3 +1,7 @@
+2006 Nov 15	3.1-16	Add back entry-point registration.
+
+2006 Nov 09	3.1-25	Drop obselete test for existence of .checkMFClasses
+
 2005 Oct 17	3.1-24  Add missing drop=FALSE in na.rpart.
 			Clarify predict.rpart.Rd and rpart.object.Rd.
 			Add na.action arg to predict.rpart (instead of

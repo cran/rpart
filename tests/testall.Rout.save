@@ -19,9 +19,6 @@ Type 'q()' to quit R.
 > library(rpart)
 > library(survival)
 Loading required package: splines
-> data(state)
-> data(cu.summary)
-> data(kyphosis)
 > options(na.action="na.omit")
 > options(digits=4) # to match earlier output
 > RNGversion("1.6.2")
@@ -1486,7 +1483,6 @@ Node number 13: 20 observations
 > #
 > # Check out using costs
 > #
-> data(lung)
 > fit1 <- rpart(Surv(time, status) ~ age + sex + ph.ecog + ph.karno + pat.karno
 + 	      + meal.cal + wt.loss, data=lung,
 + 	      maxdepth=1, maxcompete=6, xval=0)

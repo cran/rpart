@@ -1,9 +1,6 @@
 # Any necessary setup
 library(rpart)
 library(survival)
-data(state)
-data(cu.summary)
-data(kyphosis)
 options(na.action="na.omit")
 options(digits=4) # to match earlier output
 RNGversion("1.6.2")
@@ -311,7 +308,6 @@ all.equal(fit2$csplit,    fit2b$csplit)
 #
 # Check out using costs
 #
-data(lung)
 fit1 <- rpart(Surv(time, status) ~ age + sex + ph.ecog + ph.karno + pat.karno
 	      + meal.cal + wt.loss, data=lung,
 	      maxdepth=1, maxcompete=6, xval=0)

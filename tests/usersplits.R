@@ -1,6 +1,5 @@
 # Any necessary setup
 library(rpart)
-data(state)
 options(na.action="na.omit")
 options(digits=4) # to match earlier output
 set.seed(1234)

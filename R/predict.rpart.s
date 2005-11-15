@@ -15,8 +15,7 @@ function(object, newdata = list(),
 	    Terms <- delete.response(object$terms)
 	    newdata <- model.frame(Terms, newdata, na.action = na.action,
                                       xlev=attr(object, "xlevels"))
-            if (!is.null(cl <- attr(Terms, "dataClasses")) &&
-                exists(".checkMFClasses", envir=NULL))
+            if (!is.null(cl <- attr(Terms, "dataClasses")))
                 .checkMFClasses(cl, newdata, TRUE)
         }
 	where <- pred.rpart(object, rpart.matrix(newdata))
