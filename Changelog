@@ -1,4 +1,6 @@
-2006 Nov 15	3.1-16	Add back entry-point registration.
+2006 Dec 09	3.1-27	Add French and en@quot translations.
+
+2006 Nov 15	3.1-26	Add back entry-point registration.
 
 2006 Nov 09	3.1-25	Drop obselete test for existence of .checkMFClasses
 
