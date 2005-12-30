@@ -101,7 +101,7 @@ xpred.rpart <- function(fit, xval=10, cp)
         keep <- rpartcallback(mlist, nobs, init)
     }
 
-    rpfit <- .C("s_xpred",
+    rpfit <- .C(C_s_xpred,
                 n = as.integer(nobs),
                 nvarx = as.integer(nvar),
                 ncat = as.integer(cats * !fit$ordered),
@@ -120,7 +120,7 @@ xpred.rpart <- function(fit, xval=10, cp)
                 wt = as.double(wt),
                 as.integer(numy),
                 as.double(costs),
-                NAOK=TRUE, PACKAGE = "rpart")
+                NAOK=TRUE)
     if (rpfit$n == -1)  stop(rpfit$error)
 
     matrix(rpfit$pred, ncol=ncp, byrow=TRUE,

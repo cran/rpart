@@ -111,7 +111,7 @@ rpartcallback <- function(mlist, nobs, init)
     assign("numy", numy, envir = rho)
     assign("numresp", numresp, envir = rho)
     assign("parms", parms, envir = rho)
-    .Call("init_rpcallback", rho, as.integer(numy), as.integer(numresp),
-          expr1, expr2, PACKAGE = "rpart")
+    .Call(C_init_rpcallback, rho, as.integer(numy), as.integer(numresp),
+          expr1, expr2)
     list(expr1 = expr1, expr2 = expr2, rho = rho)
 }

@@ -14,7 +14,7 @@ pred.rpart <- function(fit, x) {
         vnum <- match(dimnames(fit$split)[[1]], dimnames(x)[[2]])
         if (any(is.na(vnum)))
             stop("Tree has variables not found in new data")
-        temp <- .C("pred_rpart",
+        temp <- .C(C_pred_rpart,
                         as.integer(dim(x)),
                         as.integer(dim(frame)[1]),
                         as.integer(dim(fit$splits)),
@@ -30,7 +30,7 @@ pred.rpart <- function(fit, x) {
                         as.double(x),
                         as.integer(is.na(x)),
                         where = integer(dim(x)[1]),
-                        NAOK = TRUE, PACKAGE = "rpart")
+                        NAOK = TRUE)
         temp <- temp$where
     }
     names(temp) <- rownames(x)

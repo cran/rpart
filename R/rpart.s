@@ -135,7 +135,7 @@ rpart <- function(formula, data, weights, subset,
 	else is.ordered(x)
 	}
     isord <- unlist(lapply(m[attr(Terms, 'term.labels')], tfun))
-    rpfit <- .C("s_to_rp",
+    rpfit <- .C(C_s_to_rp,
 		    n = as.integer(nobs),
 		    nvarx = as.integer(nvar),
 		    ncat = as.integer(cats* !isord),
@@ -151,7 +151,7 @@ rpart <- function(formula, data, weights, subset,
 		    wt = as.double(wt),
 		    as.integer(init$numy),
 		    as.double(cost),
-		    NAOK=TRUE, PACKAGE = "rpart")
+		    NAOK=TRUE)
     if (rpfit$n == -1)  stop(rpfit$error)
 
     # rpfit$newX[1:n] contains the final sorted order of the observations
@@ -166,7 +166,7 @@ rpart <- function(formula, data, weights, subset,
     if (ncat==0) catmat <- 0
     else         catmat <- matrix(integer(1), ncat, max(cats))
 
-    rp    <- .C("s_to_rp2",
+    rp    <- .C(C_s_to_rp2,
 		       as.integer(nobs),
 		       as.integer(nsplit),
 		       as.integer(nodes),
@@ -180,8 +180,7 @@ rpart <- function(formula, data, weights, subset,
 		       isplit =  matrix(integer(1), nsplit,3),
 		       csplit =  catmat,
 		       dnode  =  matrix(double(1),  nodes, 3+numresp),
-		       inode  =  matrix(integer(1), nodes, 6),
-                       PACKAGE = "rpart")
+		       inode  =  matrix(integer(1), nodes, 6))
     tname <- c("<leaf>", dimnames(X)[[2]])
 
     if (cpcol==3) temp <- c("CP", "nsplit", "rel error")

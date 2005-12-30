@@ -1,4 +1,4 @@
-useDynLib(rpart)
+useDynLib(rpart, .registration = TRUE, .fixes = "C_")
 
 export(meanvar, na.rpart, path.rpart, plotcp, post,
        printcp, prune, prune.rpart, rpart, rpart.control, rpconvert,

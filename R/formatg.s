@@ -17,10 +17,10 @@ formatg <- function(x, digits= unlist(options('digits')),
     #   assume that digits =4,  -0.dddde+104 is a worst case, where
     #   dddd are the 4 significant digits.
     dummy  <- paste(rep(" ", digits+8), collapse='')
-    temp <- .C("formatg", as.integer(n),
+    temp <- .C(C_formatg, as.integer(n),
 	                  as.double(x),
                           rep(format,n),
-                          out= rep(dummy, n), NAOK=TRUE, PACKAGE="rpart")$out
+                          out= rep(dummy, n), NAOK=TRUE)$out
     if (is.matrix(x)) matrix(temp, nrow=nrow(x))
     else temp
     }
