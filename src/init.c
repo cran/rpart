@@ -11,7 +11,7 @@ void formatg( Sint *n, double *x, char **format, char **out);
 
 
 
-R_CMethodDef CEntries[] = {
+static const R_CMethodDef CEntries[] = {
     {"formatg", (DL_FUNC) &formatg, 4},
     {"pred_rpart", (DL_FUNC) &pred_rpart, 13},
     {"rpartexp2", (DL_FUNC) &rpartexp2, 4},
@@ -21,7 +21,7 @@ R_CMethodDef CEntries[] = {
     {NULL, NULL, 0}
 };
 
-R_CallMethodDef CallEntries[] = {
+static const R_CallMethodDef CallEntries[] = {
     {"init_rpcallback", (DL_FUNC) &init_rpcallback, 5},
     {NULL, NULL, 0}
 };

@@ -1,8 +1,12 @@
-2006 Dec 09	3.1-27	Add French and en@quot translations.
+2006 Apr 13	3.1-29  Update tests output for changes in all.equal
 
-2006 Nov 15	3.1-26	Add back entry-point registration.
+2005 Dec 30	3.1-28	Use registered symbols in .C/.Call
 
-2006 Nov 09	3.1-25	Drop obselete test for existence of .checkMFClasses
+2005 Dec 09	3.1-27	Add French and en@quot translations.
+
+2005 Nov 15	3.1-26	Add back entry-point registration.
+
+2005 Nov 09	3.1-25	Drop obselete test for existence of .checkMFClasses
 
 2005 Oct 17	3.1-24  Add missing drop=FALSE in na.rpart.
 			Clarify predict.rpart.Rd and rpart.object.Rd.

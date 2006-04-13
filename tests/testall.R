@@ -165,8 +165,9 @@ fit2b<- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
 
 all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
 all.equal(fit2$cptable,    fit2b$cptable)
-all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
-all.equal(fit2$splits[-24,-1],fit2b$splits[-24,-1]) #ok
+# next two depend on how ties are resolved, so platform-dependent
+# all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
+# all.equal(fit2$splits[-24,-1],fit2b$splits[-24,-1]) #ok
 all.equal(fit2$csplit,    fit2b$csplit)
 # Line 24 is a surrogate split in a group whose 2 smallest ages are
 #  47 and 48.  The weighted fit won't split there because it wants to
@@ -299,9 +300,9 @@ fit2b <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
                parms=list(prior=c(.7,.3),
                           loss=matrix(c(0,1,2,0),nrow=2,ncol=2)))
 
-all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
+# all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
 all.equal(fit2$cptable,    fit2b$cptable)
-all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
+# all.equal(fit2$splits[,-1],fit2b$splits[,-1]) #fails
 all.equal(fit2$csplit,    fit2b$csplit)
 
 
