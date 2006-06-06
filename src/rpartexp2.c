@@ -11,7 +11,7 @@
 #include "rpart.h"
 #include "rpartproto.h"
 
-void rpartexp2(Sint *n2, double *y, double *eps, long *keep) {
+void rpartexp2(Sint *n2, double *y, double *eps, int *keep) {
     int n;
     double delta;
     int i, j;

@@ -1,4 +1,7 @@
-2004 Mar 14	3.1-15	Changes for R 1.9.0.
+2004 Jun 06     3.1-16  Replace long* by int* in rpartexp2.c
+
+2003 Dec 08     3.1-15  Update NAMESPACE for R 1.9.0
+	                Capitalization issues in DESCRIPTION file
 
 2003 Nov 18     3.1-14  Test newdata types in predict.rpart
 	                Correct documentation for `y' in rpart.Rd
