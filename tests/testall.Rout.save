@@ -58,7 +58,7 @@ grade             1.7289     5.634   0.3369  5.132 2.9e-07
 ploidytetraploid  1.0444     2.842   0.4225  2.472 1.3e-02
 ploidyaneuploid   1.1490     3.155   0.6611  1.738 8.2e-02
 
-Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted due to missing)
+Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted due to missingness)
 > 
 > fit1 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
 + 		stagec, control=rpart.control(usesurrogate=0, cp=0),
@@ -1031,7 +1031,7 @@ Node number 53: 8 observations
 Call:
 rpart(formula = Reliability ~ Price + Country + Mileage + Type, 
     data = cu.summary, method = "class")
-  n=85 (32 observations deleted due to missing)
+  n=85 (32 observations deleted due to missingness)
 
        CP nsplit rel error xerror    xstd
 1 0.30508      0    1.0000 1.0000 0.07200
