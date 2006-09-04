@@ -1,4 +1,6 @@
-2006 ??? ??	3.1-30  Update output for R 2.4.0's naprint
+2006 Sep 04	3.1-31	Add depends on standard packages.
+
+2006 Jul 05	3.1-30  Update output for R 2.4.0's naprint
 			Expand the LICENCE, and install it
 			Update cu.summary.rda
 
