@@ -248,13 +248,13 @@ rpart <- function(formula, data, weights, subset,
         # The "pmax" one line down is for the case of a factor y which has
         #   no one at all in one of its classes.  Both the prior and the
         #   count will be zero, which led to a 0/0.
-        temp <- rp$dnode[,-(1:4)] %*% diag(init$parms$prior*
+        temp <- rp$dnode[,-(1:4), drop = FALSE] %*% diag(init$parms$prior*
                                            sum(init$counts)/pmax(1,init$counts))
         yprob <- temp /rowSums(temp)   #necessary with altered priors
         yval2 <- matrix(rp$dnode[, -(1:3)], ncol=numclass+1)
 	frame$yval2 <- cbind(yval2, yprob)
 	}
-    else if (init$numresp >1) frame$yval2 <- rp$dnode[,-(1:3)]
+    else if (init$numresp >1) frame$yval2 <- rp$dnode[,-(1:3), drop = FALSE]
 
     if (is.null(init$summary))
 	    stop("Initialization routine is missing the summary function")

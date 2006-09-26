@@ -1,3 +1,5 @@
+2006 Sep 26	3.1-32	Missing 'drop=FALSE' in rpart, add tests/surv_test.R
+
 2006 Sep 04	3.1-31	Add depends on standard packages.
 
 2006 Jul 05	3.1-30  Update output for R 2.4.0's naprint
