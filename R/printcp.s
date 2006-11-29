@@ -10,7 +10,7 @@ printcp <- function(x, digits=getOption("digits")-2)
         )
 
     if(!is.null(cl <- x$call)) {
-	dput(cl)
+	dput(cl, control=NULL)
 	cat("\n")
     }
     frame <- x$frame

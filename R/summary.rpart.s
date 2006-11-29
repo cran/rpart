@@ -15,7 +15,7 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
 
     if(!is.null(x$call)) {
         cat("Call:\n")
-        dput(x$call)
+        dput(x$call, control=NULL)
         }
 
     omit <- x$na.action
