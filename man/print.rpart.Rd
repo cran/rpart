@@ -37,7 +37,7 @@ the number of digits of numbers to print.
   printed.  Indentation is used to convey the tree topology.
   Information for each node includes the node number, split, size,
   deviance, and fitted value.  For the \code{"class"} method, the
-  class probabilties are also printed. 
+  class probabilities are also printed. 
 }
 \details{
   This function is a method for the generic function \code{print} for class 

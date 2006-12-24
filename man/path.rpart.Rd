@@ -49,10 +49,10 @@ path.rpart(tree, nodes, pretty=0, print.it=TRUE)
   The function has a required argument as an \code{rpart} object  and
   a list of nodes as optional arguments.  Omitting a list of
   nodes will cause the function to  wait  for  the  user  to
-  select  nodes  from the dendogram.  It will return a list,
+  select  nodes  from the dendrogram.  It will return a list,
   with one component for each node  specified  or  selected.
   The  component  contains the sequence of splits leading to
-  that node.  In the graphical  interation,  the  individual
+  that node.  In the graphical  interaction,  the  individual
   paths are printed out as nodes are selected.
 }
 \references{

@@ -36,7 +36,7 @@ If \code{method} is missing then the routine tries to make an intellegent guess.
 If \code{y} is a survival object, then \code{method="exp"} is assumed,
 if \code{y} has 2 columns then \code{method="poisson"} is assumed,
 if \code{y} is a factor then \code{method="class"} is assumed, otherwise \code{method="anova"}
-is assumed.  It is wisest to specifiy the method directly, especially as
+is assumed.  It is wisest to specify the method directly, especially as
 more criteria are added to the function.
 
 Alternatively, \code{method} can be a list of functions named
@@ -65,7 +65,7 @@ For classification splitting, the list can contain any of:
 the vector of prior probabilities (component \code{prior}), the loss matrix
 (component \code{loss}) or the splitting index (component \code{split}).  The
 priors must be positive and sum to 1.  The loss matrix must have zeros
-on the diagnoal and positive off-diagonal elements.  The splitting
+on the diagonal and positive off-diagonal elements.  The splitting
 index can be \code{gini} or \code{information}.  The default priors are
 proportional to the data counts, the losses default to 1,
 and the split defaults to \code{gini}.

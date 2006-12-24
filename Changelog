@@ -1,3 +1,5 @@
+2006 Dec 24	3.1-34	Spelling corrections
+
 2006 Nov 29	3.1-33	Use control=NULL in deparsed calls
 
 2006 Sep 26	3.1-32	Missing 'drop=FALSE' in rpart, add tests/surv_test.R

@@ -21,7 +21,7 @@
   \code{user} method trees as well.
 
   For classification trees the \code{usual} residuals
-  are the missclassification losses L(actual, predicted) where L is the
+  are the misclassification losses L(actual, predicted) where L is the
   loss matrix.  With default losses this residual is
   0/1 for correct/incorrect classification.
   The \code{pearson} residual is 
