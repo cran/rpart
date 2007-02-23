@@ -108,7 +108,7 @@ rpart.exp <- function(y, offset, parms, wt) {
     cumhaz <- cumsum(c(0, rate*diff(itable)))
     newy <- approx(itable, cumhaz, time)$y
     if (ny==3) {
-	newy <- newy - approx(itable, cumhaz, stime)$y
+	newy <- newy - approx(itable, cumhaz, y[,1])$y
 	}
 
     if (length(offset)==n)  newy <- newy * exp(offset)

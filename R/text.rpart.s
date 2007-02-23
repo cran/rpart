@@ -4,7 +4,7 @@
 #
 
 text.rpart <-
-    function(x, splits = TRUE, label = "yval", FUN = text, all=FALSE,
+    function(x, splits = TRUE, label, FUN = text, all=FALSE,
              pretty = NULL, digits = getOption("digits") - 3,
              use.n=FALSE, fancy=FALSE, fwidth=.8, fheight =.8, ...)
 {
@@ -14,13 +14,14 @@ text.rpart <-
         stop("fit is not a tree, just a root")
 
     frame <- x$frame
-    col <- names(frame)
-    ylevels <- attr(x,'ylevels')
-    if(!is.null(ylevels <- attr(x, "ylevels")))
-        col <- c(col, ylevels)
-    if(is.na(match(label, col)))
-        stop("Label must be a column label of the frame component of the tree"
-             )
+    # col <- names(frame)
+    # ylevels <- attr(x,'ylevels')
+    # if(!is.null(ylevels <- attr(x, "ylevels")))
+    #    col <- c(col, ylevels)
+    # if(is.na(match(label, col)))
+    #    stop("Label must be a column label of the frame component of the tree")
+    if(!missing(label))
+        warning("argument 'label' is currently unused")
     cxy <- par("cxy")                   #character width and height
     if(!is.null(srt <- list(...)$srt) && srt == 90)
         cxy <- rev(cxy)
@@ -57,18 +58,19 @@ text.rpart <-
     }
     leaves <- if(all) rep(TRUE, nrow(frame)) else frame$var == "<leaf>"
 
-    if (is.null(frame$yval2))
-        stat <- x$functions$text(yval=frame$yval[leaves],
-                                 dev=frame$dev[leaves],
-                                 wt=frame$wt[leaves],
-                                 ylevel=ylevels, digits=digits,
-                                 n=frame$n[leaves], use.n=use.n)
+    ylevels <- attr(x,'ylevels')
+    stat <- if (is.null(frame$yval2))
+        x$functions$text(yval=frame$yval[leaves],
+                         dev=frame$dev[leaves],
+                         wt=frame$wt[leaves],
+                         ylevel=ylevels, digits=digits,
+                         n=frame$n[leaves], use.n=use.n)
     else
-        stat <- x$functions$text(yval=frame$yval2[leaves,],
-                                 dev=frame$dev[leaves],
-                                 wt=frame$wt[leaves],
-                                 ylevel=ylevels, digits=digits,
-                                 n=frame$n[leaves], use.n=use.n)
+        x$functions$text(yval=frame$yval2[leaves,],
+                         dev=frame$dev[leaves],
+                         wt=frame$wt[leaves],
+                         ylevel=ylevels, digits=digits,
+                         n=frame$n[leaves], use.n=use.n)
 
 
     oval <- function(middlex,middley,a,b) {

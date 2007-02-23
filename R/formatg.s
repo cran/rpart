@@ -16,11 +16,12 @@ formatg <- function(x, digits= unlist(options('digits')),
     # the resultant strings could be up to 8 characters longer,
     #   assume that digits =4,  -0.dddde+104 is a worst case, where
     #   dddd are the 4 significant digits.
-    dummy  <- paste(rep(" ", digits+8), collapse='')
-    temp <- .C(C_formatg, as.integer(n),
-	                  as.double(x),
-                          rep(format,n),
-                          out= rep(dummy, n), NAOK=TRUE)$out
+##     dummy  <- paste(rep(" ", digits+8), collapse='')
+##     temp <- .C(C_formatg, as.integer(n),
+## 	                  as.double(x),
+##                           rep(format,n),
+##                           out= rep(dummy, n), NAOK=TRUE)$out
+    temp <- sprintf(format, x)
     if (is.matrix(x)) matrix(temp, nrow=nrow(x))
     else temp
     }

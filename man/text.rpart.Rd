@@ -7,7 +7,7 @@
   Labels the current plot of the tree dendrogram with text.
 }
 \usage{
-\method{text}{rpart}(x, splits=TRUE, label="yval", FUN=text, all=FALSE,
+\method{text}{rpart}(x, splits=TRUE, label, FUN=text, all=FALSE,
      pretty=NULL, digits=getOption("digits") - 3, use.n=FALSE,
      fancy=FALSE, fwidth=0.8, fheight=0.8, \dots)
 }
@@ -22,12 +22,14 @@
   labeled with the criterion for the split.
 }
 \item{label}{
-a column name of \code{x$frame};  values of this
-will label the nodes.  For the \code{"class"} method,
-\code{label="yval"} results in the factor levels
-being used, \code{"yprob"} results in the probability of the winning factor
-level being used, and \sQuote{specific yval level} results in the probability
-of that factor level.   
+% a column name of \code{x$frame};  values of this
+% will label the nodes.  For the \code{"class"} method,
+% \code{label="yval"} results in the factor levels
+% being used, \code{"yprob"} results in the probability of the winning factor
+% level being used, and \sQuote{specific yval level} results in the probability
+% of that factor level.
+For compatibililty with \code{rpart2}, ignored in this version (with
+a warning).
 }
 \item{FUN}{
   the name of a labeling function, e.g. \code{text}.  
