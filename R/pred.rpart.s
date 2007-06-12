@@ -11,7 +11,7 @@ pred.rpart <- function(fit, x) {
         frame$index <- 1 + c(0, cumsum((frame$var != "<leaf>") +
                                        nc[[1]] + nc[[2]]))[-(nrow(frame)+1)]
         frame$index[frame$var == "<leaf>"] <- 0
-        vnum <- match(dimnames(fit$split)[[1]], dimnames(x)[[2]])
+        vnum <- match(dimnames(fit$splits)[[1]], dimnames(x)[[2]])
         if (any(is.na(vnum)))
             stop("Tree has variables not found in new data")
         temp <- .C(C_pred_rpart,

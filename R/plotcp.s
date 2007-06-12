@@ -13,7 +13,7 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
   xstd <- p.rpart[, 5]
   xerror <- p.rpart[, 4]
   nsplit <- p.rpart[, 2]
-  ns <- seq(along=nsplit)
+  ns <- seq_along(nsplit)
   cp0 <- p.rpart[ ,1]
   cp <- sqrt(cp0 * c(Inf, cp0[-length(cp0)]))
   ylim <- if("ylim" %in% names(dots)) dots$ylim else
@@ -33,7 +33,7 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
            axis(3, at = ns, lab = as.character(nsplit), ...)
            mtext("number of splits", side=3, line=3)
 	 },)
-  minpos <- min(seq(along=xerror)[xerror==min(xerror)])
+  minpos <- min(seq_along(xerror)[xerror==min(xerror)])
   if(minline) abline(h=(xerror+xstd)[minpos], lty=lty, col=col)
   invisible()
 }

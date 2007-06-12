@@ -1,6 +1,6 @@
 
-R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 RC (2006-04-17 r37797)
+R version 2.6.0 Under development (unstable) (2007-05-29 r41742)
+Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -23,7 +23,8 @@ Loading required package: splines
 > options(digits=4) # to match earlier output
 > RNGversion("1.6.2")
 Warning message:
-Buggy version of Kinderman-Ramage generator used. in: RNGkind("Marsaglia-Multicarry", "Buggy Kinderman-Ramage") 
+In RNGkind("Marsaglia-Multicarry", "Buggy Kinderman-Ramage") :
+  Buggy version of Kinderman-Ramage generator used.
 > set.seed(1234)
 > #
 > # Read the data

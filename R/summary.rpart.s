@@ -82,8 +82,8 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
 	    else if (j==1) cat(", 1 observation remains\n")
 	    else     cat("\n")
 	    cat("  Primary splits:\n")
-	    j <- seq(index[i], length=1+ff$ncompete[i])
-	    if (all(nchar(cuts[j]) < 25))
+	    j <- seq(index[i], length.out=1+ff$ncompete[i])
+	    if (all(nchar(cuts[j], "w") < 25))
                 temp <- format(cuts[j], justify="left")
 	    else  temp <- cuts[j]
 	    cat(paste("      ", format(sname[j], justify="left"), " ", temp,
@@ -92,9 +92,9 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
                 sep="\n")
 	    if (ff$nsurrogate[i] >0) {
 		cat("  Surrogate splits:\n")
-		j <- seq(1 +index[i] + ff$ncompete[i], length=ff$nsurrogate[i])
+		j <- seq(1 +index[i] + ff$ncompete[i], length.out=ff$nsurrogate[i])
 		agree <- x$splits[j,3]
-		if (all(nchar(cuts[j]) < 25))
+		if (all(nchar(cuts[j], "w") < 25))
                     temp <- format(cuts[j], justify="left")
 		else  temp <- cuts[j]
 		if (ncol(x$splits)==5) {

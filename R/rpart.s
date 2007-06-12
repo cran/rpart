@@ -12,7 +12,7 @@ rpart <- function(formula, data, weights, subset,
 	model <- FALSE
 	}
     else {
-	m <- match.call(expand=FALSE)
+	m <- match.call(expand.dots=FALSE)
 	m$model <- m$method <- m$control<- NULL
 	m$x <- m$y <- m$parms <- m$... <- NULL
 	m$cost <- NULL

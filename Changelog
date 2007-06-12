@@ -1,3 +1,7 @@
+2007 May 29	3.1.36	Qualify nchar() where needed
+			Update tests/testall.Rout.save for 2.6.x
+			Add reference to usersplits.R in ?rpart.
+
 2007 Feb 23	3.1-35	Correct 'label' in text.rpart
 	 		C-level formatg is replaced by sprintf.
 

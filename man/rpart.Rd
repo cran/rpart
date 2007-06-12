@@ -40,7 +40,8 @@ is assumed.  It is wisest to specify the method directly, especially as
 more criteria are added to the function.
 
 Alternatively, \code{method} can be a list of functions named
-\code{init}, \code{split} and \code{eval}.
+\code{init}, \code{split} and \code{eval}.  Examples are given in
+the file \file{tests/usersplits.R} in the sources.
 }
 \item{model}{
   if logical: keep a copy of the model frame in the result?  If the input

@@ -58,7 +58,7 @@ labels.rpart <- function(object, digits=4, minlength=1, pretty,
 	# crow the row number in "csplit"
 	# and cindex the index on the "xlevels" list
 	#
-	jrow <- (seq(along=ncat))[ncat>1]
+	jrow <- (seq_along(ncat))[ncat>1]
 	crow <- object$splits[irow[ncat>1],4]    #row number in csplit
 	cindex <- (match(vnames, names(xlevels)))[ncat >1]
 
