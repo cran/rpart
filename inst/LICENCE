@@ -12,7 +12,7 @@ License: Copyright 2000 Mayo Foundation for Medical Education and
 	paragraph (copyright notice and no warranty) are reproduced 
 	with the software.
 
-	Modifications for use with R (c) 1998-2001 B.D. Ripley under the
+	Modifications for use with R (c) 1998-2007 B.D. Ripley under the
 	same conditions.
 
 
@@ -28,11 +28,6 @@ For use under the GPL version 2 the following applies:
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301
-    USA.
-
 The file COPYING in the R top-level directory or the doc/ directory of
 the R sources or installation is a copy of the 'GNU General Public License'.
-
+It can also be obtained at http://www.r-project.org/Licenses/ .

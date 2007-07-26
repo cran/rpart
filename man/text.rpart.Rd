@@ -28,7 +28,7 @@
 % being used, \code{"yprob"} results in the probability of the winning factor
 % level being used, and \sQuote{specific yval level} results in the probability
 % of that factor level.
-For compatibililty with \code{rpart2}, ignored in this version (with
+For compatibility with \code{rpart2}, ignored in this version (with
 a warning).
 }
 \item{FUN}{
@@ -60,7 +60,7 @@ a warning).
 \item{fwidth}{
   Relates to option \code{fancy} and the width of the ellipses and rectangles.
   If \code{fwidth < 1} then it is a scaling factor (default = 0.8).  If 
-  \code{fwidth > 1} then it representes the number of character widths 
+  \code{fwidth > 1} then it represents the number of character widths 
   (for current graphical device) to use.
 }
 \item{fheight}{

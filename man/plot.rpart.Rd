@@ -28,7 +28,7 @@ shouldered branches, a value of 0 give V shaped branches,
 with other values being intermediate.
 }
 \item{compress}{
-if \code{FALSE}, the leaf nodes will be at the horzontal plot coordinates of
+if \code{FALSE}, the leaf nodes will be at the horizontal plot coordinates of
 \code{1:nleaves}.  
 If \code{TRUE}, the routine attempts a more compact arrangement of
 the tree.

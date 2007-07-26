@@ -61,7 +61,7 @@
   otherwise \code{frame$yval}).
   For regression trees, this is the mean response, for Poisson trees it
   is the response rate and the number of events at that node in the fitted
-  tree, and for classification trees it is the concatonation of the
+  tree, and for classification trees it is the concatenation of the
   predicted class, the class counts at that node in the fitted tree, and
   the class probabilities.
 

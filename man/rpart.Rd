@@ -32,7 +32,7 @@ but keeps those in which one or more predictors are missing.
 }
 \item{method}{
 one of \code{"anova"}, \code{"poisson"}, \code{"class"} or \code{"exp"}.
-If \code{method} is missing then the routine tries to make an intellegent guess.
+If \code{method} is missing then the routine tries to make an intelligent guess.
 If \code{y} is a survival object, then \code{method="exp"} is assumed,
 if \code{y} has 2 columns then \code{method="poisson"} is assumed,
 if \code{y} is a factor then \code{method="class"} is assumed, otherwise \code{method="anova"}
