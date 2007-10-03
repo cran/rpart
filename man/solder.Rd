@@ -1,6 +1,5 @@
 \name{solder}
 \alias{solder}
-\non_function{}
 \title{Soldering of Components on Printed-Circuit Boards}
 \description{
   The \code{solder} data frame has 720 rows and 6 columns, representing

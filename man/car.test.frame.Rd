@@ -1,6 +1,5 @@
 \name{car.test.frame}
 \alias{car.test.frame}
-\non_function{}
 \title{Automobile Data from 'Consumer Reports' 1990}
 \description{
   The \code{car.test.frame} data frame has 60 rows and 8 columns,

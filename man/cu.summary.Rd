@@ -1,6 +1,5 @@
 \name{cu.summary}
 \alias{cu.summary}
-\non_function{}
 \title{Automobile Data from 'Consumer Reports' 1990}
 \description{
   The \code{cu.summary} data frame has 117 rows and 5 columns,

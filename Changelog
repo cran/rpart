@@ -1,3 +1,5 @@
+2007 Oct 03	3.1.38	Remove obsolete \non_function{} notation.
+
 2007 Jul 26	3.1.37	Correct spelling errors in man pages
 			DESCRIPTION: GPL-2 only
 			point to www.r-project.org for GPL-2.

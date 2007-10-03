@@ -1,6 +1,5 @@
 \name{kyphosis}
 \alias{kyphosis}
-\non_function{}
 \title{Data on Children who have had Corrective Spinal Surgery}
 \description{
   The \code{kyphosis} data frame has 81 rows and 4 columns.
