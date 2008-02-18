@@ -20,7 +20,7 @@ void free_tree(struct node *node,  int freenode);
 void graycode_init0( int maxcat);
 void graycode_init1( int numcat, int *count);
 void graycode_init2( int numcat, int *count, double *val);
-int  graycode();
+int  graycode(void);
 
 struct split *insert_split(struct split **listhead, int ncat, 
 			   double improve,          int max);

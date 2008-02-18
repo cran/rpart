@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 2.3.0\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
-"POT-Creation-Date: 2005-12-08 20:40\n"
+"POT-Creation-Date: 2007-12-16 11:46\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,13 +197,16 @@ msgstr ""
 msgid "are not in this tree"
 msgstr ""
 
-msgid "Label must be a column label of the frame component of the tree"
+msgid "argument 'label' is currently unused"
 msgstr ""
 
 msgid "Invalid fit object"
 msgstr ""
 
 msgid "supplied nodes"
+msgstr ""
+
+msgid ","
 msgstr ""
 
 msgid "are leaves"
