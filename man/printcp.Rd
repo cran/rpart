@@ -43,5 +43,3 @@ Root node error: 1354.6/60 = 22.576
 4 0.010000      3   0.25729 0.44826 0.076998
 }}
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

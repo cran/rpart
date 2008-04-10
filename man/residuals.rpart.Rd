@@ -52,5 +52,3 @@ summary(residuals(fit))
 plot(predict(fit),residuals(fit))
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

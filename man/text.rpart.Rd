@@ -87,5 +87,3 @@ plot(freen.tr)
 text(freen.tr, use.n=TRUE, all=TRUE)
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

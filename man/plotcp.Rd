@@ -52,5 +52,3 @@ leftmost value for which the mean lies below the horizontal line.
 \code{\link{rpart}},  \code{\link{printcp}},  \code{\link{rpart.object}}   
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

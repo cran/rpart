@@ -23,4 +23,3 @@ an updated object
 \code{rpart}
 }
 \keyword{tree}
-% docclass is function

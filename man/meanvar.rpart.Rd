@@ -54,5 +54,3 @@ z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 meanvar(z.auto, log='xy')
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

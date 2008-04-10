@@ -37,5 +37,3 @@ zp <- prune(z.auto, cp=0.1)
 plot(zp) #plot smaller rpart object
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

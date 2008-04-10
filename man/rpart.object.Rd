@@ -88,5 +88,3 @@ response variable (\code{y}) used to construct the \code{rpart} object.
 }
 \keyword{tree}
 \keyword{methods}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

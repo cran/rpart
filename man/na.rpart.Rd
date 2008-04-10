@@ -18,5 +18,3 @@ na.rpart(x)
   function \code{rpart}.
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

@@ -64,4 +64,3 @@ z.auto
    3) Weight<2567.5 15  186.93330 30.93333 *
 }}
 \keyword{tree}
-% docclass is function

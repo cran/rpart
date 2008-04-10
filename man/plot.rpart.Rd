@@ -77,5 +77,3 @@ plot(fit, compress=TRUE)
 text(fit, use.n=TRUE)
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

@@ -94,5 +94,3 @@ fit
 table(predict(fit, iris[-sub,], type="class"), iris[-sub, "Species"])
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

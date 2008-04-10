@@ -65,5 +65,3 @@ directly by the users.
 \code{\link{abbreviate}} 
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

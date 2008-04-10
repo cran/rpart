@@ -49,5 +49,3 @@ apply(xerr, 2, sum)/var(car.test.frame$Mileage)
 printcp(fit)
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.

@@ -42,5 +42,3 @@ z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 summary(z.auto)
 }
 \keyword{tree}
-% docclass is function
-% Converted by Sd2Rd version 1.20.
