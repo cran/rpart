@@ -23,7 +23,7 @@ function(object, newdata = list(),
     frame <- object$frame
     ylevels <- attr(object, "ylevels")
     nclass <- length(ylevels)
-    if(mtype && nclass > 0) type <- "prob"
+    if(mtype && nclass > 0L) type <- "prob"
     if(type == "vector" || (type=="matrix" && is.null(frame$yval2))) {
 	pred <- frame$yval[where]
 	names(pred) <- names(where)
@@ -32,12 +32,12 @@ function(object, newdata = list(),
 	pred <- frame$yval2[where,]
 	dimnames(pred) <- list(names(where), NULL)
     }
-    else if(type == "class" && nclass > 0) {
+    else if(type == "class" && nclass > 0L) {
 	pred <- factor(ylevels[frame$yval[where]], levels=ylevels)
 	names(pred) <- names(where)
     }
-    else if (type == "prob" && nclass > 0) {
-	pred <- frame$yval2[where, 1 + nclass + 1:nclass, drop = FALSE]
+    else if (type == "prob" && nclass > 0L) {
+	pred <- frame$yval2[where, 1L + nclass + 1L:nclass, drop = FALSE]
 	dimnames(pred) <- list(names(where), ylevels)
     }
     else stop("Invalid prediction for rpart object")

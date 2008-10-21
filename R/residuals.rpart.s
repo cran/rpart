@@ -20,7 +20,7 @@ residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"), ..
 		loss <- object$parms$loss
 		}
         else {
-	    yprob <- frame$yval2[object$where, 1 + nclass + 1:nclass]
+	    yprob <- frame$yval2[object$where, 1L + nclass + 1L:nclass]
 	    yhat <- yprob[cbind(seq(y), unclass(y))]
 	    }
         resid  <- switch(type,
@@ -31,8 +31,8 @@ residuals.rpart <- function(object, type = c("usual", "pearson", "deviance"), ..
 
     else if (object$method=='poisson' || object$method=='exp') {
 	lambda <- (object$frame$yval)[object$where]
-	time   <- y[,1]  # observation time in new data
-	events <- y[,2]  # number of events, in new data
+	time   <- y[,1L]  # observation time in new data
+	events <- y[,2L]  # number of events, in new data
 	expect <- lambda * time #expected number of events
 	temp <- ifelse(expect==0, .0001, 0)  #failsafe for log(0)
 

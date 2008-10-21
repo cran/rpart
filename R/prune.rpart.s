@@ -9,10 +9,10 @@ prune.rpart <- function(tree, cp, ...)
     newx <- snip.rpart(tree, toss)
 
     ## Now cut down the CP table
-    temp <- pmax(tree$cptable[,1], cp)
+    temp <- pmax(tree$cptable[,1L], cp)
     keep <- match(unique(temp), temp)
     newx$cptable <- tree$cptable[keep,,drop=FALSE]
-    newx$cptable[max(keep),1] <- cp
+    newx$cptable[max(keep),1L] <- cp
 
     newx
 }

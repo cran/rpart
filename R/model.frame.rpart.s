@@ -5,7 +5,7 @@ model.frame.rpart <- function(formula, ...)
 	if(!is.null(m))
 		return(m)
 	oc <- formula$call
-	if(substring(deparse(oc[[1]]), 1, 7) == "predict") {
+	if(substring(deparse(oc[[1]]), 1L, 7L) == "predict") {
 		m <- eval(oc$newdata)
 		if(is.null(attr(m, "terms"))) {
 			object <- eval(oc$object)
@@ -13,7 +13,7 @@ model.frame.rpart <- function(formula, ...)
 		}
 		return(m)
 	}
-	while(deparse(oc[[1]]) != "rpart") oc <- eval(oc[[2]])$call
+	while(deparse(oc[[1L]]) != "rpart") oc <- eval(oc[[2]])$call
 	oc$subset <- names(formula$where)
 	oc$method <- formula$method
 	eval(oc)

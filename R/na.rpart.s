@@ -1,8 +1,8 @@
 #SCCS  @(#)na.rpart.s	1.5 12/13/99
 na.rpart <- function(x){
     Terms <- attr(x, 'terms')
-    if(!is.null(Terms)) yvar <- attr(Terms, "response") else yvar <- 0
-    if (yvar==0) {
+    if(!is.null(Terms)) yvar <- attr(Terms, "response") else yvar <- 0L
+    if (yvar==0L) {
 	xmiss <- is.na(x)
 	keep <-  (xmiss %*% rep(1,ncol(xmiss))) < ncol(xmiss)
 	}

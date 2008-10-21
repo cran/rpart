@@ -5,9 +5,9 @@
 snip.rpart <- function(x, toss) {
     if (!inherits(x, 'rpart')) stop("Not an rpart object")
 
-    if (missing(toss) || length(toss)==0) {
+    if (missing(toss) || length(toss)==0L) {
         toss <- snip.rpart.mouse(x)
-	if (length(toss)==0) return(x)
+	if (length(toss)==0L) return(x)
 	}
 
     ff   <- x$frame
@@ -16,10 +16,10 @@ snip.rpart <- function(x, toss) {
 
     toss <- unique(toss)
     toss.idx <- match(toss, id, nomatch=0) #the rows of the named nodes
-    if (any(toss.idx ==0)) {
-	warning("Nodes ", toss[toss.idx==0], " are not in this tree")
-	toss <- toss[toss.idx>0]
-        toss.idx <- toss.idx[toss.idx>0]
+    if (any(toss.idx ==0L)) {
+	warning("Nodes ", toss[toss.idx==0L], " are not in this tree")
+	toss <- toss[toss.idx>0L]
+        toss.idx <- toss.idx[toss.idx>0L]
         }
 
 #    if (any(toss==1))  {
@@ -48,19 +48,19 @@ snip.rpart <- function(x, toss) {
 
     # Compute the parent row for each row in the splits structure
     #  Then "thin out" the splits and csplit components
-    n.split <- rep((1:ff.n), ff$ncompete + ff$nsurrogate+ 1*(ff$var!='<leaf>'))
+    n.split <- rep((1L:ff.n), ff$ncompete + ff$nsurrogate+ 1*(ff$var!='<leaf>'))
     split <- x$splits[match(n.split, keepit, nomatch=0) >0, ,drop=FALSE]
-    temp <- split[,2] >1      #which rows point to categoricals?
+    temp <- split[,2L] >1      #which rows point to categoricals?
     if (any(temp)) {
-        x$csplit <- x$csplit[split[temp,4], , drop=FALSE]
+        x$csplit <- x$csplit[split[temp,4L], , drop=FALSE]
 	split[temp,4] <- 1
-        if(is.matrix(x$csplit)) split[temp,4] <- 1:nrow(x$csplit)
+        if(is.matrix(x$csplit)) split[temp,4L] <- 1L:nrow(x$csplit)
 	}
     else x$csplit <- NULL
     x$splits <- split
 
     # Thin out unneeded rows in the frame component
-    ff$ncompete[newleaf] <- ff$nsurrogate[newleaf] <- 0
+    ff$ncompete[newleaf] <- ff$nsurrogate[newleaf] <- 0L
     ff$var[newleaf]     <- "<leaf>"
     x$frame <- ff[sort(c(keepit, newleaf)),]
 
@@ -78,4 +78,4 @@ snip.rpart <- function(x, toss) {
     x$where <- match(id2, id3)
 
     x
-    }
+}

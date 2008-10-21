@@ -12,9 +12,9 @@ rpart.class <- function(y, offset, parms, wt) {
 		      split=1)
     else if (is.list(parms)) {
 	if (is.null(names(parms))) stop("The parms list must have names")
-	temp <- pmatch(names(parms), c("prior", "loss", "split"), nomatch=0)
-	if (any(temp==0))
-	    stop("'parms' component not matched: ", names(parms)[temp==0])
+	temp <- pmatch(names(parms), c("prior", "loss", "split"), nomatch=0L)
+	if (any(temp==0L))
+	    stop("'parms' component not matched: ", names(parms)[temp==0L])
 	names(parms) <- c("prior", "loss", "split")[temp]
 
 	if (is.null(parms$prior)) temp <- c(counts/sum(counts))
@@ -39,7 +39,7 @@ rpart.class <- function(y, offset, parms, wt) {
 			stop("Loss matrix has a row of zeros")
 	    }
 
-	if (is.null(parms$split)) temp3 <- 1
+	if (is.null(parms$split)) temp3 <- 1L
  	    else {
 		temp3 <- pmatch(parms$split, c("gini", "information"))
 		if (is.null(temp3)) stop("Invalid splitting rule")
@@ -48,32 +48,32 @@ rpart.class <- function(y, offset, parms, wt) {
 	}
     else stop("Parameter argument must be a list")
 
-    list(y=y, parms=parms, numresp=numclass+1, counts=counts,
-	 ylevels= levels(fy), numy=1,
+    list(y=y, parms=parms, numresp=numclass+1L, counts=counts,
+	 ylevels= levels(fy), numy=1L,
 	 print = function(yval, ylevel, digits) {
 	     if (is.null(ylevel))
-		     temp <- as.character(yval[,1])
-	     else    temp <- ylevel[yval[,1]]
+		     temp <- as.character(yval[,1L])
+	     else    temp <- ylevel[yval[,1L]]
 
-	     nclass <- (ncol(yval) -1)/2
+	     nclass <- (ncol(yval) -1L)/2
 	     if (nclass <5) {
-		 yprob <- format(yval[, 1+nclass + 1:nclass],
+		 yprob <- format(yval[, 1L+nclass + 1L:nclass],
 				 digits=digits,nsmall=digits)
 		 }
-	     else yprob <- formatg(yval[, 1+nclass + 1:nclass], digits=2)
+	     else yprob <- formatg(yval[, 1L+nclass + 1L:nclass], digits=2)
              if(is.null(dim(yprob))) # yprob is a vector
                      yprob <- matrix(yprob, ncol=length(yprob))
-	     temp <- paste(temp, ' (', yprob[,1], sep='')
-	     for(i in 2:ncol(yprob))
+	     temp <- paste(temp, ' (', yprob[,1L], sep='')
+	     for(i in 2L:ncol(yprob))
 		     temp  <- paste(temp, yprob[, i], sep=' ')
 	     temp <- paste(temp, ")", sep="")
 	     temp
 	     },
 	 summary= function(yval, dev, wt, ylevel, digits) {
-	     nclass <- (ncol(yval)-1) /2
+	     nclass <- (ncol(yval)-1L) /2
 	     group <- yval[, 1]
-	     counts <- yval[, 1+ (1:nclass)]
-	     yprob  <- yval[, 1+nclass + 1:nclass]
+	     counts <- yval[, 1L+ (1L:nclass)]
+	     yprob  <- yval[, 1L+nclass + 1L:nclass]
 	     if(!is.null(ylevel)) group <- ylevel[group]
 
 	     temp1 <- formatg(counts, format="%5g")
@@ -92,9 +92,9 @@ rpart.class <- function(y, offset, parms, wt) {
 	     },
 	 text= function(yval, dev, wt, ylevel, digits, n, use.n) {
 
-	     nclass <- (ncol(yval)-1) /2
-	     group <- yval[, 1]
-	     counts <- yval[, 1+ (1:nclass)]
+	     nclass <- (ncol(yval)-1L) /2
+	     group <- yval[, 1L]
+	     counts <- yval[, 1L+ (1L:nclass)]
 	     if(!is.null(ylevel)) group <- ylevel[group]
 
 	     temp1 <- formatg(counts, digits)

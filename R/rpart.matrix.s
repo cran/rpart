@@ -12,9 +12,9 @@ rpart.matrix <- function(frame)
     if(is.null(terms)) predictors <- names(frame)
     else {
 	a <- attributes(terms)
-	predictors <- as.character(a$variables)[-1] # R change
+	predictors <- as.character(a$variables)[-1L] # R change
 	removals <- NULL
-	if((TT <- a$response) > 0) {
+	if((TT <- a$response) > 0L) {
 	    removals <- TT
 	    frame[[predictors[TT]]] <- NULL
 	    }

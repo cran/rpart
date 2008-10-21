@@ -17,16 +17,16 @@ rpart <- function(formula, data, weights, subset,
 	m$x <- m$y <- m$parms <- m$... <- NULL
 	m$cost <- NULL
 	m$na.action <- na.action
-	m[[1]] <- as.name("model.frame")
+	m[[1L]] <- as.name("model.frame")
 	m <- eval(m, parent.frame())
 	}
     Terms <- attr(m, "terms")
-    if(any(attr(Terms, "order") > 1))
+    if(any(attr(Terms, "order") > 1L))
 	stop("Trees cannot handle interaction terms")
 
     Y <- model.extract(m, "response")
     wt <- model.extract(m, "weights")
-    if(length(wt)==0) wt <- rep(1.0, nrow(m))
+    if(length(wt)==0L) wt <- rep(1.0, nrow(m))
     offset <- attr(Terms, "offset")
     X <- rpart.matrix(m)
     nobs <- nrow(X)
@@ -47,7 +47,7 @@ rpart <- function(formula, data, weights, subset,
 	if (missing(parms)) init <- mlist$init(Y, offset, wt=wt)
 	else                init <- mlist$init(Y, offset, parms, wt)
 
-	method.int <- 4      #the fourth entry in func_table.h
+	method.int <- 4L     #the fourth entry in func_table.h
 
         ## assign this to avoid garbage collection
         keep <- rpartcallback(mlist, nobs, init)
@@ -56,7 +56,7 @@ rpart <- function(formula, data, weights, subset,
 	method.int <- pmatch(method, c("anova", "poisson", "class", "exp"))
 	if (is.na(method.int)) stop("Invalid method")
 	method <- c("anova", "poisson", "class", "exp")[method.int]
-	if (method.int==4) method.int <- 2
+	if (method.int==4L) method.int <- 2L
 
 	if (missing(parms))
 	  init <- (get(paste("rpart", method, sep='.')))(Y,offset, ,wt)
@@ -88,11 +88,11 @@ rpart <- function(formula, data, weights, subset,
     if (!missing(control)) controls[names(control)] <- control
 
     xval <- controls$xval
-    if (is.null(xval) || (length(xval)==1 && xval==0) || method=='user') {
+    if (is.null(xval) || (length(xval)==1L && xval==0) || method=='user') {
 	xgroups <-0
 	xval <- 0
 	}
-    else if (length(xval)==1) {
+    else if (length(xval)==1L) {
 	# make random groups
         xgroups <- sample(rep(1:xval, length=nobs), nobs, replace=FALSE)
 	}
@@ -162,7 +162,7 @@ rpart <- function(formula, data, weights, subset,
     numresp<- init$numresp    # length of the response vector
 
     if (nsplit == 0) xval <- 0
-    cpcol <- if (xval>0 && nsplit>0) 5 else 3
+    cpcol <- if (xval>0 && nsplit>0) 5L else 3L
     if (ncat==0) catmat <- 0
     else         catmat <- matrix(integer(1), ncat, max(cats))
 
@@ -185,31 +185,31 @@ rpart <- function(formula, data, weights, subset,
 
     if (cpcol==3) temp <- c("CP", "nsplit", "rel error")
     else          temp <- c("CP", "nsplit", "rel error", "xerror", "xstd")
-    dimnames(rp$cptable) <- list(temp, 1:numcp)
+    dimnames(rp$cptable) <- list(temp, 1L:numcp)
 
     # R change for empty-vector calculations.
-    dn1 <- if(nsplit == 0) character(0) else tname[rp$isplit[,1]+1]
-    splits<- matrix(c(rp$isplit[,2:3], rp$dsplit), ncol=5,
+    dn1 <- if(nsplit == 0L) character(0L) else tname[rp$isplit[,1L]+1L]
+    splits<- matrix(c(rp$isplit[,2L:3L], rp$dsplit), ncol=5L,
                     dimnames = list(dn1,
                     c("count", "ncat", "improve", "index", "adj")))
     index <- rp$inode[,2]  #points to the first split for each node
 
     # Now, make ordered categories look like categories again (a printout
     #  choice)
-    nadd <- sum(isord[rp$isplit[,1]])
+    nadd <- sum(isord[rp$isplit[,1L]])
     if (nadd >0) {
 	newc <- matrix(integer(1), nadd, max(cats))
-	cvar <- rp$isplit[,1]
+	cvar <- rp$isplit[,1L]
 	indx <- isord[cvar]		     # vector of T/F
-	cdir <- splits[indx,2]               # which direction splits went
-	ccut <- floor(splits[indx,4])        # cut point
-	splits[indx,2] <- cats[cvar[indx]]   #Now, # of categories instead
-	splits[indx,4] <- ncat + 1:nadd      # rows to contain the splits
+	cdir <- splits[indx,2L]               # which direction splits went
+	ccut <- floor(splits[indx,4L])        # cut point
+	splits[indx,2L] <- cats[cvar[indx]]   #Now, # of categories instead
+	splits[indx,4L] <- ncat + 1L:nadd      # rows to contain the splits
 
 	# Next 4 lines can be done without a loop, but become indecipherable
-	for (i in 1:nadd) {
-	    newc[i, 1:(cats[(cvar[indx])[i]])] <- -1*as.integer(cdir[i])
-	    newc[i, 1:ccut[i]] <- as.integer(cdir[i])
+	for (i in 1L:nadd) {
+	    newc[i, 1L:(cats[(cvar[indx])[i]])] <- -1*as.integer(cdir[i])
+	    newc[i, 1L:ccut[i]] <- as.integer(cdir[i])
 	    }
 	if (ncat==0) catmat <- newc
 	else         catmat <- rbind(rp$csplit, newc)
@@ -220,41 +220,41 @@ rpart <- function(formula, data, weights, subset,
     if (nsplit==0) {  #tree with no splits
 	frame <- data.frame(row.names=1,
 			    var=  "<leaf>",
-			    n =   rp$inode[,5],
-			    wt=   rp$dnode[,3],
-			    dev=  rp$dnode[,1],
-			    yval= rp$dnode[,4],
-			    complexity=rp$dnode[,2],
-			    ncompete  = pmax(0, rp$inode[,3]-1),
-			    nsurrogate=rp$inode[,4])
+			    n =   rp$inode[,5L],
+			    wt=   rp$dnode[,3L],
+			    dev=  rp$dnode[,1L],
+			    yval= rp$dnode[,4L],
+			    complexity=rp$dnode[,2L],
+			    ncompete  = pmax(0L, rp$inode[,3L] - 1L),
+			    nsurrogate=rp$inode[,4L])
 	}
     else {
 	temp <- ifelse(index==0, 1, index)
-	svar <- ifelse(index==0, 0, rp$isplit[temp,1]) #var number
-	frame <- data.frame(row.names=rp$inode[,1],
+	svar <- ifelse(index==0, 0, rp$isplit[temp,1L]) #var number
+	frame <- data.frame(row.names=rp$inode[,1L],
 			    var=  factor(svar, 0:ncol(X), tname),
-			    n =   rp$inode[,5],
-			    wt=   rp$dnode[,3],
-			    dev=  rp$dnode[,1],
-			    yval= rp$dnode[,4],
-			    complexity=rp$dnode[,2],
-			    ncompete  = pmax(0, rp$inode[,3]-1),
-			    nsurrogate=rp$inode[,4])
+			    n =   rp$inode[,5L],
+			    wt=   rp$dnode[,3L],
+			    dev=  rp$dnode[,1L],
+			    yval= rp$dnode[,4L],
+			    complexity=rp$dnode[,2L],
+			    ncompete  = pmax(0L, rp$inode[,3L] - 1L),
+			    nsurrogate=rp$inode[,4L])
 	}
-    if (method.int ==3 ) {
-        numclass <- init$numresp -1
+    if (method.int == 3L) {
+        numclass <- init$numresp -1L
         # Create the class probability vector from the class counts, and
         #   add it to the results
         # The "pmax" one line down is for the case of a factor y which has
         #   no one at all in one of its classes.  Both the prior and the
         #   count will be zero, which led to a 0/0.
-        temp <- rp$dnode[,-(1:4), drop = FALSE] %*% diag(init$parms$prior*
+        temp <- rp$dnode[,-(1L:4L), drop = FALSE] %*% diag(init$parms$prior*
                                            sum(init$counts)/pmax(1,init$counts))
         yprob <- temp /rowSums(temp)   #necessary with altered priors
-        yval2 <- matrix(rp$dnode[, -(1:3)], ncol=numclass+1)
+        yval2 <- matrix(rp$dnode[, -(1L:3L)], ncol=numclass+1)
 	frame$yval2 <- cbind(yval2, yprob)
 	}
-    else if (init$numresp >1) frame$yval2 <- rp$dnode[,-(1:3), drop = FALSE]
+    else if (init$numresp >1L) frame$yval2 <- rp$dnode[,-(1L:3L), drop = FALSE]
 
     if (is.null(init$summary))
 	    stop("Initialization routine is missing the summary function")
@@ -267,7 +267,7 @@ rpart <- function(formula, data, weights, subset,
     where <- rp$which
     names(where) <- row.names(m)
 
-    if (nsplit ==0) {  # no 'splits' component
+    if (nsplit ==0L) {  # no 'splits' component
 	ans <- list(frame = frame,
 		    where = where,
 		    call=call, terms=Terms,
@@ -288,7 +288,7 @@ rpart <- function(formula, data, weights, subset,
 		    control= controls,
 		    functions= functions)
 	}
-    if (ncat>0) ans$csplit <- catmat +2
+    if (ncat>0) ans$csplit <- catmat + 2L
     if (model) {
 	ans$model <- m
 	if (missing(y)) y <- FALSE

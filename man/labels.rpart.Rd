@@ -8,7 +8,7 @@ This function provides labels for the branches of an
  \code{rpart} tree.
 }
 \usage{
-\method{labels}{rpart}(object, digits=4, minlength=1, pretty, collapse=TRUE, ...)
+\method{labels}{rpart}(object, digits=4, minlength=1L, pretty, collapse=TRUE, ...)
 }
 \arguments{
 \item{object}{

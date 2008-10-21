@@ -47,7 +47,7 @@ snip.rpart.mouse <- function(tree,
 		id2[temp] <- 0
 		}
 	    temp <- match(id, node[ff$var != '<leaf>'], nomatch=0)
-	    lines(c(draw$x[,temp]), c(draw$y[,temp]), col=0)
+	    lines(c(draw$x[,temp]), c(draw$y[,temp]), col=0L)
 	    toss <- c(toss, node[choose])
 	    }
 	}

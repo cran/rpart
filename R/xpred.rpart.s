@@ -7,7 +7,7 @@ xpred.rpart <- function(fit, xval=10, cp)
 
     method <- fit$method
     method.int <- pmatch(method, c("anova", "poisson", "class", "user", "exp"))
-    if (method.int==5) method.int <- 2
+    if (method.int==5L) method.int <- 2L
     Terms <- fit$terms
 
     Y <- fit$y
@@ -59,13 +59,13 @@ xpred.rpart <- function(fit, xval=10, cp)
 
     controls <- fit$control
     if (missing(cp)) {
-	cp<- fit$cptable[,1]
+	cp<- fit$cptable[,1L]
 	cp <- sqrt(cp * c(10, cp[-length(cp)]))
 	cp[1] <- (1+fit$cptable[1,1])/2
     }
     ncp <- length(cp)
 
-    if (length(xval)==1) {
+    if (length(xval)==1L) {
                                         # make random groups
 	xgroups <- sample(rep(1:xval, length=nobs), nobs, replace=FALSE)
     }
@@ -94,8 +94,8 @@ xpred.rpart <- function(fit, xval=10, cp)
     parms <- fit$parms
     if (method=="user") {
 	mlist <- fit$functions
-	if (length(parms)==0) init <- mlist$init(Y, offset, wt=wt)
-	else                  init <- mlist$init(Y, offset, parms, wt)
+	if (length(parms)==0L) init <- mlist$init(Y, offset, wt=wt)
+	else                   init <- mlist$init(Y, offset, parms, wt)
 
         ## assign this to avoid garbage collection
         keep <- rpartcallback(mlist, nobs, init)
@@ -124,5 +124,5 @@ xpred.rpart <- function(fit, xval=10, cp)
     if (rpfit$n == -1)  stop(rpfit$error)
 
     matrix(rpfit$pred, ncol=ncp, byrow=TRUE,
-           dimnames=list(dimnames(X)[[1]], format(cp)) )
+           dimnames=list(dimnames(X)[[1L]], format(cp)) )
 }

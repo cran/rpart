@@ -1,7 +1,7 @@
 Package: rpart
 Priority: recommended
-Version: 3.1-41
-Date: 2008-04-10
+Version: 3.1-42
+Date: 2008-10-21
 DateNote: March 2002 version of rpart
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.
         R port by Brian Ripley.
@@ -14,4 +14,4 @@ License: GPL-2 | file LICENCE
 LazyLoad: yes
 LazyData: yes
 URL: http://mayoresearch.mayo.edu/mayo/research/biostat/splusfunctions.cfm
-Packaged: Thu Apr 10 06:54:35 2008; ripley
+Packaged: Mon Oct 20 07:00:52 2008; ripley

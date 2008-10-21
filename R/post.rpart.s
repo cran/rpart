@@ -19,7 +19,7 @@ post.rpart <- function(tree, title.,
     text(tree, all=TRUE, use.n=use.n, fancy=TRUE, digits=digits, pretty=pretty)
 
     if(missing(title.)) {
-        temp  <- attr(tree$terms,'variables')[2]
+        temp  <- attr(tree$terms,'variables')[2L]
         title(paste("Endpoint =",temp),cex=.8)
     } else if (title. !="") title(title.,cex=.8)
 }

@@ -24,7 +24,7 @@ Loading required package: splines
 > RNGversion("1.6.2")
 Warning message:
 In RNGkind("Marsaglia-Multicarry", "Buggy Kinderman-Ramage") :
-  Buggy version of Kinderman-Ramage generator used.
+  Buggy version of Kinderman-Ramage generator used
 > set.seed(1234)
 > #
 > # Read the data

@@ -24,17 +24,17 @@ printcp <- function(x, digits=getOption("digits")-2)
     }
 
 
-    cat("Root node error: ", format(frame$dev[1], digits=digits), '/',
+    cat("Root node error: ", format(frame$dev[1L], digits=digits), '/',
         frame$n[1], ' = ',
-        format(frame$dev[1]/frame$n[1], digits=digits),
+        format(frame$dev[1L]/frame$n[1L], digits=digits),
         '\n\n', sep='')
 
 
     n <- x$frame$n
     omit <- x$na.action
     if (length(omit))
-    cat("n=", n[1], " (", naprint(omit), ")\n\n", sep="")
-    else cat("n=", n[1], "\n\n")
+    cat("n=", n[1L], " (", naprint(omit), ")\n\n", sep="")
+    else cat("n=", n[1L], "\n\n")
 
     print (x$cptable, digits=digits)
     invisible(x$cptable)

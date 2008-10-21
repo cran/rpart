@@ -43,18 +43,18 @@ text.rpart <-
             ## put split labels on branches instead of nodes
 
             xytmp <- rpart.branch(x=xy$x,y=xy$y,node=node)
-            leftptx <- (xytmp$x[2,]+xytmp$x[1,])/2
-            leftpty <- (xytmp$y[2,]+xytmp$y[1,])/2
-            rightptx <- (xytmp$x[3,]+xytmp$x[4,])/2
-            rightpty <- (xytmp$y[3,]+xytmp$y[4,])/2
+            leftptx <- (xytmp$x[2L,]+xytmp$x[1L,])/2
+            leftpty <- (xytmp$y[2L,]+xytmp$y[1L,])/2
+            rightptx <- (xytmp$x[3L,]+xytmp$x[4,])/2
+            rightpty <- (xytmp$y[3L,]+xytmp$y[4L,])/2
 
-            FUN(leftptx,leftpty+.52*cxy[2],
+            FUN(leftptx,leftpty+.52*cxy[2L],
                 rows[left.child[!is.na(left.child)]],...)
-            FUN(rightptx,rightpty-.52*cxy[2],
+            FUN(rightptx,rightpty-.52*cxy[2L],
                 rows[right.child[!is.na(right.child)]],...)
         }
 
-        else FUN(xy$x, xy$y + 0.5 * cxy[2], rows[left.child], ...)
+        else FUN(xy$x, xy$y + 0.5 * cxy[2L], rows[left.child], ...)
     }
     leaves <- if(all) rep(TRUE, nrow(frame)) else frame$var == "<leaf>"
 
@@ -95,14 +95,14 @@ text.rpart <-
     if(fancy) {
 
         ## find maximum length of stat
-        maxlen <- max(string.bounding.box(stat)$columns) + 1
-        maxht <- max(string.bounding.box(stat)$rows) +1
+        maxlen <- max(string.bounding.box(stat)$columns) + 1L
+        maxht <- max(string.bounding.box(stat)$rows) + 1L
 
-        if(fwidth<1)  a.length <- fwidth*cxy[1]*maxlen
-        else a.length <- fwidth*cxy[1]
+        if(fwidth<1)  a.length <- fwidth*cxy[1L]*maxlen
+        else a.length <- fwidth*cxy[1L]
 
-        if(fheight<1) b.length <- fheight*cxy[2]*maxht
-        else b.length <- fheight*cxy[2]
+        if(fheight<1) b.length <- fheight*cxy[2L]*maxht
+        else b.length <- fheight*cxy[2L]
 
 ### create ovals and rectangles here
         ## sqrt(2) creates the smallest oval that fits around the

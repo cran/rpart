@@ -9,10 +9,10 @@ print.rpart <- function(x, minlength=0, spaces=2, cp,
     ylevel <- attr(x, "ylevels")
     node <- as.numeric(row.names(frame))
     depth <- tree.depth(node)
-    indent <- paste(rep(" ", spaces * 32), collapse = "")
+    indent <- paste(rep(" ", spaces * 32L), collapse = "")
     #32 is the maximal depth
     if(length(node) > 1) {
-        indent <- substring(indent, 1, spaces * seq(depth))
+        indent <- substring(indent, 1L, spaces * seq(depth))
         indent <- paste(c("", indent[depth]), format(node), ")", sep = "")
     }
     else indent <- paste(format(node), ")", sep = "")
@@ -33,8 +33,8 @@ print.rpart <- function(x, minlength=0, spaces=2, cp,
 
     omit <- x$na.action
     if (length(omit))
-    cat("n=", n[1], " (", naprint(omit), ")\n\n", sep="")
-    else cat("n=", n[1], "\n\n")
+    cat("n=", n[1L], " (", naprint(omit), ")\n\n", sep="")
+    else cat("n=", n[1L], "\n\n")
 
     #This is stolen, unabashedly, from print.tree
     if (x$method=="class")

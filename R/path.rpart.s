@@ -12,7 +12,7 @@ path.rpart <- function(tree, nodes, pretty = 0, print.it = TRUE)
         path <- list()
         if(missing(nodes)) {
                 xy <- rpartco(tree)
-                while(length(i <- identify(xy, n = 1, plot = FALSE)) > 0) {
+                while(length(i <- identify(xy, n = 1L, plot = FALSE)) > 0L) {
                         path[[n[i]]] <- path.i <- splits[which[, i]]
                         if(print.it) {
                                 cat("\n", "node number:", n[i], "\n")
@@ -22,7 +22,7 @@ path.rpart <- function(tree, nodes, pretty = 0, print.it = TRUE)
         }
         else {
 
-                if(length(nodes <- node.match(nodes, node)) == 0)
+                if(length(nodes <- node.match(nodes, node)) == 0L)
                         return(invisible())
                 for(i in nodes)
                        { path[[n[i]]] <- path.i <- splits[which[, i]]

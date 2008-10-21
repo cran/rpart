@@ -17,7 +17,7 @@ the data used to fit the \code{rpart} object.
 data frame with one row for each node in the tree.
 The \code{row.names} of \code{frame} contain the (unique) node numbers that
 follow a binary ordering indexed by node depth.
-Elements of \code{frame} include \code{var},
+Elements of \code{frame} include \code{var}, a factor giving
 the variable used in the split at each node
 (leaf nodes are denoted by the string \code{<leaf>}), \code{n}, the size of each node,
 \code{wt}, the sum of case weights for the node,
@@ -36,12 +36,12 @@ the number of competitor splits retained, and \code{nsurrogate}, the
 number of surrogate splits retained.
 }
 \item{where}{
-vector, the same length as the number of observations in the root node, 
+integer vector, the same length as the number of observations in the root node, 
 containing the row number of \code{frame} corresponding to the leaf node 
 that each observation falls into. 
 }
 \item{splits}{
-a matrix describing the splits.  The row label is the name of the split
+a numeric matrix describing the splits.  The row label is the name of the split
 variable, and columns are \code{count}, the number of observations sent left
 or right by the split (for competitor splits this is the number that
 would have been sent left or right had this split been used, for surrogate

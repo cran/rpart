@@ -4,21 +4,21 @@
 pred.rpart <- function(fit, x) {
 
     frame <- fit$frame
-    if(nrow(frame) == 1) { # handle root-only tree separately
+    if(nrow(frame) == 1L) { # handle root-only tree separately
         temp <- rep(1, nrow(x))
     } else {
         nc <- frame[, c('ncompete', 'nsurrogate')]
         frame$index <- 1 + c(0, cumsum((frame$var != "<leaf>") +
-                                       nc[[1]] + nc[[2]]))[-(nrow(frame)+1)]
+                                       nc[[1L]] + nc[[2L]]))[-(nrow(frame)+1L)]
         frame$index[frame$var == "<leaf>"] <- 0
-        vnum <- match(dimnames(fit$splits)[[1]], dimnames(x)[[2]])
+        vnum <- match(dimnames(fit$splits)[[1L]], dimnames(x)[[2L]])
         if (any(is.na(vnum)))
             stop("Tree has variables not found in new data")
         temp <- .C(C_pred_rpart,
                         as.integer(dim(x)),
                         as.integer(dim(frame)[1]),
                         as.integer(dim(fit$splits)),
-                        as.integer(if(is.null(fit$csplit)) rep(0,2)
+                        as.integer(if(is.null(fit$csplit)) rep(0L, 2)
                                    else dim(fit$csplit)),
                         as.integer(row.names(frame)),
                         as.integer(unlist(frame[,

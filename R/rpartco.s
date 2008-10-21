@@ -27,7 +27,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
         sibling <- match(ifelse(node %% 2, node - 1, node + 1), node)
 
 	# assign the depths
-        for(i in temp[-1]) {
+        for(i in temp[-1L]) {
 	    temp2 <- dev[parent[i]] - (dev[i] + dev[sibling[i]])
             y[i] <- y[parent[i]] - temp2
 	    }
@@ -37,7 +37,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	# Hence the "fudge" factor of  .3* the average step
 	#
 	fudge <-  minbranch * diff(range(y)) / max(depth)
-        for(i in temp[-1]) {
+        for(i in temp[-1L]) {
 	    temp2 <- dev[parent[i]] - (dev[i] + dev[sibling[i]])
 	    haskids <- !(is.leaf[i] & is.leaf[sibling[i]])
 	    y[i] <- y[parent[i]] - ifelse(temp2<=fudge & haskids, fudge, temp2)
@@ -93,7 +93,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 						depth=depth+1, sons=lson)
         else               left <- compress(me+1, depth+1)
 
-        rson <- me + 1 + length(left$sons)        #index of right son
+        rson <- me + 1L + length(left$sons)        #index of right son
 	if (is.leaf[rson]) right<- list(left=x[rson], right=x[rson],
 						depth=depth+1, sons=rson)
 	else               right<- compress(rson, depth+1)
@@ -104,10 +104,10 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	# Find the smallest distance between the two subtrees
 	#   But only over depths that they have in common
 	# 1 is a minimum distance allowed
-	slide <- min(right$left[1:mind] - left$right[1:mind]) -1
+	slide <- min(right$left[1L:mind] - left$right[1L:mind]) -1
 	if (slide >0) { # slide the right hand node to the left
 	    x[right$sons] <- x[right$sons] - slide;
-	    x[me] <- (x[right$sons[1]] + x[left$sons[1]])/2
+	    x[me] <- (x[right$sons[1L]] + x[left$sons[1L]])/2
 #	    assign("x", x)
             x <<- x
 	    }
@@ -117,12 +117,12 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
         if (left$depth > right$depth) {
 	    templ <- left$left
             tempr <- left$right
-            tempr[1:mind] <- pmax(tempr[1:mind], right$right -slide)
+            tempr[1L:mind] <- pmax(tempr[1L:mind], right$right -slide)
 	    }
         else {
 	    templ <- right$left  - slide
 	    tempr <- right$right - slide
-	    templ[1:mind] <- pmin(templ[1:mind], left$left)
+	    templ[1L:mind] <- pmin(templ[1L:mind], left$left)
 	    }
 
 	list(left = c(x[me]- nspace*(x[me] -x[lson]), templ),

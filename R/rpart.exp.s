@@ -19,9 +19,9 @@ rpart.exp <- function(y, offset, parms, wt) {
     n  <- nrow(y)
 
     status <- y[,ny]
-    if (any(y[,1]<=0)) stop("Observation time must be >0")
+    if (any(y[,1L]<=0)) stop("Observation time must be >0")
     if (all(status==0)) stop("No deaths in data set")
-    time <- y[ ,ny-1]
+    time <- y[ , ny-1L]
 
     # Make my table of time intervals.  The first goes from 0 to the first
     #   death, the next from death 2 to death 3, ..., and the last from
@@ -55,7 +55,7 @@ rpart.exp <- function(y, offset, parms, wt) {
 	# How to tell -- list the pyears function, and see whether it's
 	#  call to pyears2 has weights in the argument list.
 	#
-	time <- y[, ny-1]
+	time <- y[, ny-1L]
 	status <- y[,ny]
 	ilength <- diff(itable)                   #lengths of intervals
 	ngrp <- length(ilength)                   #number of intervals
@@ -68,11 +68,11 @@ rpart.exp <- function(y, offset, parms, wt) {
 	#  interval, which is of course somewhat less than ilength.
 	index <- unclass(cut(time, itable, include.lowest=TRUE))
 	itime <- time - itable[index]
-	if (ny ==3) {
+	if (ny ==3L) {
 	    # there is both a start time and a stop time
 	    #  compute the amount of time NOT spent in the interval that
 	    #  the start time lies in.
-	    stime <- y[,1]   #start time for each interval
+	    stime <- y[,1L]   #start time for each interval
 	    index2<- unclass(cut(stime, itable, include.lowest=TRUE))
 	    itime2<- stime - itable[index2]
 	    }
@@ -85,8 +85,8 @@ rpart.exp <- function(y, offset, parms, wt) {
 	#  intervals, so tab1 is of a determined length
 	tab1 <- table(index)
 	temp <- rev(cumsum(rev(tab1)))  #cumsum, counting from the right
-	pyears <- ilength * c(temp[-1], 0) +	 tapply(itime, index, sum)
-	if (ny==3) {
+	pyears <- ilength * c(temp[-1L], 0) +	 tapply(itime, index, sum)
+	if (ny==3L) {
 	    #subtract off the time before "start"
 	    tab2 <- table(index2, levels=1:ngrp) #force the length of tab2
 	    temp <- rev(cumsum(rev(tab2)))
@@ -107,33 +107,33 @@ rpart.exp <- function(y, offset, parms, wt) {
     rate <- drate2(n, ny, y, wt, itable)
     cumhaz <- cumsum(c(0, rate*diff(itable)))
     newy <- approx(itable, cumhaz, time)$y
-    if (ny==3) {
-	newy <- newy - approx(itable, cumhaz, y[,1])$y
+    if (ny==3L) {
+	newy <- newy - approx(itable, cumhaz, y[,1L])$y
 	}
 
     if (length(offset)==n)  newy <- newy * exp(offset)
 
-    if (missing(parms)) parms <- c(shrink=1, method=1)
+    if (missing(parms)) parms <- c(shrink=1L, method=1L)
     else {
 	parms <- as.list(parms)
         if(is.null(names(parms))) stop("You must input a named list for parms")
         parmsNames <- c("method", "shrink")
-        indx <- pmatch(names(parms), parmsNames, nomatch= 0)
-        if (any(indx==0))
-            stop("'parms' component not matched: ", names(parms)[indx==0])
+        indx <- pmatch(names(parms), parmsNames, nomatch= 0L)
+        if (any(indx==0L))
+            stop("'parms' component not matched: ", names(parms)[indx==0L])
 	else names(parms) <- parmsNames[indx]
 
-	if (is.null(parms$method)) method <- 1
+	if (is.null(parms$method)) method <- 1L
 	else method <- pmatch(parms$method, c("deviance", "sqrt"))
 	if (is.na(method)) stop("Invalid error method for Poisson")
 
-	if (is.null(parms$shrink)) shrink <- 2-method
+	if (is.null(parms$shrink)) shrink <- 2L-method
 	else shrink <- parms$shrink
-	if (!is.numeric(shrink) || shrink < 0)
+	if (!is.numeric(shrink) || shrink < 0L)
 		stop("Invalid shrinkage value")
 	parms <- c(shrink=shrink, method=method)
 	}
-    list(y=cbind(newy, y[,2]), parms=parms, numresp=2, numy=2,
+    list(y=cbind(newy, y[,2L]), parms=parms, numresp=2L, numy=2L,
 	 summary= function(yval, dev, wt, ylevel, digits) {
 	     paste("  events=", formatg(yval[,2]),
 		",  estimated rate=" , formatg(yval[,1], digits),
@@ -141,8 +141,8 @@ rpart.exp <- function(y, offset, parms, wt) {
 		sep = "")
 	     },
 	 text= function(yval, dev, wt, ylevel, digits, n, use.n) {
-	     if(use.n) {paste(formatg(yval[,1],digits),"\n",
-				formatg(yval[,2]),"/",n,sep="")} else
-		    {paste(formatg(yval[,1],digits))}
+	     if(use.n) {paste(formatg(yval[,1L],digits),"\n",
+				formatg(yval[,2L]),"/",n,sep="")} else
+		    {paste(formatg(yval[,1L],digits))}
 	     })
     }

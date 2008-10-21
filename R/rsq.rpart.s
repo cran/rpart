@@ -8,10 +8,10 @@ rsq.rpart <- function(x) {
   if(!inherits(x,'rpart')) stop("Not legitimate rpart")
 
   p.rpart <- printcp(x)
-  xstd <- p.rpart[,5]
-  xerror <- p.rpart[,4]
-  rel.error <- p.rpart[,3]
-  nsplit <- p.rpart[,2]
+  xstd <- p.rpart[,5L]
+  xerror <- p.rpart[,4L]
+  rel.error <- p.rpart[,3L]
+  nsplit <- p.rpart[,2L]
   method <- x$method
 
   if(!method=='anova') cat("May not be applicable for this method\n")

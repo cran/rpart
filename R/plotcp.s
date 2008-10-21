@@ -8,13 +8,13 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
   if(!inherits(x, "rpart")) stop("Not legitimate rpart object")
   upper <- match.arg(upper)
   p.rpart <- x$cptable
-  if(ncol(p.rpart) < 5)
+  if(ncol(p.rpart) < 5L)
     stop("cptable does not contain cross-validation results")
-  xstd <- p.rpart[, 5]
-  xerror <- p.rpart[, 4]
-  nsplit <- p.rpart[, 2]
+  xstd <- p.rpart[, 5L]
+  xerror <- p.rpart[, 4L]
+  nsplit <- p.rpart[, 2L]
   ns <- seq_along(nsplit)
-  cp0 <- p.rpart[ ,1]
+  cp0 <- p.rpart[ , 1L]
   cp <- sqrt(cp0 * c(Inf, cp0[-length(cp0)]))
   ylim <- if("ylim" %in% names(dots)) dots$ylim else
       c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)
@@ -23,14 +23,14 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
   box()
   axis(2, ...)
   segments(ns, xerror - xstd, ns, xerror + xstd)
-  axis(1, at = ns, lab = as.character(signif(cp, 2)), ...)
+  axis(1L, at = ns, lab = as.character(signif(cp, 2L)), ...)
   switch(upper,
 	 size = {
-           axis(3, at = ns, lab = as.character(nsplit+1), ...)
+           axis(3L, at = ns, lab = as.character(nsplit+1), ...)
            mtext("size of tree", side=3, line=3)
 	 },
 	 splits = {
-           axis(3, at = ns, lab = as.character(nsplit), ...)
+           axis(3L, at = ns, lab = as.character(nsplit), ...)
            mtext("number of splits", side=3, line=3)
 	 },)
   minpos <- min(seq_along(xerror)[xerror==min(xerror)])

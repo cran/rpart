@@ -4,7 +4,7 @@
 #
 rpartcallback <- function(mlist, nobs, init)
 {
-    if (length(mlist) < 3)
+    if (length(mlist) < 3L)
         stop("User written methods must have 3 functions")
     if (is.null(mlist$init) || typeof(mlist$init) != 'closure')
         stop("User written method does not contain an init function")
@@ -30,32 +30,32 @@ rpartcallback <- function(mlist, nobs, init)
     #  much of the vector is actually being used on this particular
     #  callback.
     #
-    if (numy==1) {
+    if (numy==1L) {
         expr2 <- quote({
             temp <- user.eval(yback[1:nback], wback[1:nback], parms)
             if (length(temp$label) != numresp)
                 stop("User eval function returned invalid label")
-            if (length(temp$deviance) !=1)
+            if (length(temp$deviance) !=1L)
                 stop("User eval function returned invalid deviance")
             as.numeric(as.vector(c(temp$deviance, temp$label)))
         })
         expr1 <- quote({
             if (nback <0) { #categorical variable
                 n2 <- -1*nback
-                temp  <- user.split(yback[1:n2], wback[1:n2],
-                                    xback[1:n2], parms, FALSE)
-                ncat <- length(unique(xback[1:n2]))
-                if (length(temp$goodness) != ncat-1 ||
+                temp  <- user.split(yback[1L:n2], wback[1L:n2],
+                                    xback[1L:n2], parms, FALSE)
+                ncat <- length(unique(xback[1L:n2]))
+                if (length(temp$goodness) != ncat-1L ||
                     length(temp$direction) != ncat)
                     stop("Invalid return from categorical split fcn")
             }
 
             else {
-                temp <- user.split(yback[1:nback], wback[1:nback],
-                                   xback[1:nback], parms, TRUE)
-                if (length(temp$goodness) != (nback-1))
+                temp <- user.split(yback[1L:nback], wback[1L:nback],
+                                   xback[1L:nback], parms, TRUE)
+                if (length(temp$goodness) != (nback-1L))
                     stop("User split function returned invalid goodness")
-                if (length(temp$direction) != (nback-1))
+                if (length(temp$direction) != (nback-1L))
                     stop("User split function returned invalid direction")
             }
             as.numeric(as.vector(c(temp$goodness, temp$direction)))
@@ -63,32 +63,32 @@ rpartcallback <- function(mlist, nobs, init)
     }
     else {
         expr2 <- quote({
-            tempy <- matrix(yback[1:(nback*numy)], ncol=numy)
-            temp <- user.eval(tempy, wback[1:nback], parms)
+            tempy <- matrix(yback[1L:(nback*numy)], ncol=numy)
+            temp <- user.eval(tempy, wback[1L:nback], parms)
             if (length(temp$label) != numresp)
                 stop("User eval function returned invalid label")
-            if (length(temp$deviance) != 1)
+            if (length(temp$deviance) != 1L)
                 stop("User eval function returned invalid deviance")
             as.numeric(as.vector(c(temp$deviance, temp$label)))
         })
         expr1 <- quote({
-            if (nback <0) { #categorical variable
+            if (nback <0L) { #categorical variable
                 n2 <- -1*nback
-                tempy <- matrix(yback[1:(n2*numy)], ncol=numy)
-                temp  <- user.split(tempy, wback[1:n2], xback[1:n2],
+                tempy <- matrix(yback[1L:(n2*numy)], ncol=numy)
+                temp  <- user.split(tempy, wback[1L:n2], xback[1L:n2],
                                     parms, FALSE)
-                ncat <- length(unique(xback[1:n2]))
-                if (length(temp$goodness) != ncat-1 ||
+                ncat <- length(unique(xback[1L:n2]))
+                if (length(temp$goodness) != ncat-1L ||
                     length(temp$direction) != ncat)
                     stop("Invalid return from categorical split fcn")
             }
             else {
-                tempy <- matrix(yback[1:(nback*numy)], ncol=numy)
-                temp <- user.split(tempy, wback[1:nback],xback[1:nback],
+                tempy <- matrix(yback[1L:(nback*numy)], ncol=numy)
+                temp <- user.split(tempy, wback[1:nback],xback[1L:nback],
                                    parms, TRUE)
-                if (length(temp$goodness) != (nback-1))
+                if (length(temp$goodness) != (nback-1L))
                     stop("User split function returned invalid goodness")
-                if (length(temp$direction) != (nback-1))
+                if (length(temp$direction) != (nback-1L))
                     stop("User split function returned invalid direction")
             }
             as.numeric(as.vector(c(temp$goodness, temp$direction)))

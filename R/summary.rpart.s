@@ -21,8 +21,8 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
     omit <- x$na.action
     n <- x$frame$n
     if (length(omit))
-          cat("  n=", n[1], " (", naprint(omit), ")\n\n", sep="")
-    else cat("  n=", n[1], "\n\n")
+          cat("  n=", n[1L], " (", naprint(omit), ")\n\n", sep="")
+    else cat("  n=", n[1L], "\n\n")
 
     print(x$cptable, digits=digits)
     ff <- x$frame
@@ -30,23 +30,23 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
     id <- as.integer(row.names(ff))
     parent.id <- ifelse(id==1,1, floor(id/2))
     parent.cp <- ff$complexity[match(parent.id, id)]
-    rows <- (1:length(id))[parent.cp > cp]
+    rows <- (1L:length(id))[parent.cp > cp]
     if (length(rows)>0) rows <- rows[order(id[rows])]
-    else rows <- 1
+    else rows <- 1L
     is.leaf <- (ff$var=='<leaf>')
     index <- cumsum(c(1, ff$ncompete + ff$nsurrogate + 1*(!is.leaf)))
 
     if(!all(is.leaf)) {  #skip these lines for a "no splits" tree
-        sname <- dimnames(x$splits)[[1]]
+        sname <- dimnames(x$splits)[[1L]]
         cuts <- vector(mode='character', length=nrow(x$splits))
-        temp <- x$splits[ ,2]
-        for (i in 1:length(cuts)) {
-            if (temp[i] == -1)
+        temp <- x$splits[ ,2L]
+        for (i in 1L:length(cuts)) {
+            if (temp[i] == -1L)
                 cuts[i] <-paste("<", format(signif(x$splits[i,4], digits=digits)))
-            else if (temp[i] ==1)
+            else if (temp[i] ==1L)
                 cuts[i] <-paste("<", format(signif(x$splits[i,4], digits=digits)))
             else cuts[i]<- paste("splits as ",
-                                 paste(c("L", "-", "R")[x$csplit[x$splits[i,4], 1:temp[i]]],
+                                 paste(c("L", "-", "R")[x$csplit[x$splits[i,4], 1L:temp[i]]],
                                        collapse='', sep=''), collapse='')
         }
     # S-PLUS 4.0 can't handle null vectors here
@@ -63,7 +63,7 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
         tprint <- x$functions$summary(ff$yval2[rows,,drop=TRUE], ff$dev[rows],
                                       ff$wt[rows], ylevel, digits)
 
-    for (ii in 1:length(rows)) {
+    for (ii in 1L:length(rows)) {
 	i <- rows[ii]
 	nn <- ff$n[i]
 	cat("\nNode number ", id[i], ": ", nn, " observations", sep='')
@@ -75,42 +75,42 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
 	if (ff$complexity[i] > cp && !is.leaf[i] ){
 	    sons <- 2*id[i] + c(0,1)
 	    sons.n <- ff$n[match(sons, id)]
-	    cat("  left son=", sons[1], " (", sons.n[1], " obs)",
-		" right son=", sons[2], " (", sons.n[2], " obs)", sep='')
-	    j <- nn - (sons.n[1] + sons.n[2])
-	    if (j>1) cat(", ", j, " observations remain\n", sep='')
-	    else if (j==1) cat(", 1 observation remains\n")
+	    cat("  left son=", sons[1L], " (", sons.n[1L], " obs)",
+		" right son=", sons[2L], " (", sons.n[2L], " obs)", sep='')
+	    j <- nn - (sons.n[1L] + sons.n[2L])
+	    if (j>1L) cat(", ", j, " observations remain\n", sep='')
+	    else if (j==1L) cat(", 1 observation remains\n")
 	    else     cat("\n")
 	    cat("  Primary splits:\n")
-	    j <- seq(index[i], length.out=1+ff$ncompete[i])
+	    j <- seq(index[i], length.out=1L+ff$ncompete[i])
 	    if (all(nchar(cuts[j], "w") < 25))
                 temp <- format(cuts[j], justify="left")
 	    else  temp <- cuts[j]
 	    cat(paste("      ", format(sname[j], justify="left"), " ", temp,
 		      " improve=", format(signif(x$splits[j,3], digits)),
-		      ", (", nn - x$splits[j,1], " missing)", sep=''),
+		      ", (", nn - x$splits[j,1L], " missing)", sep=''),
                 sep="\n")
-	    if (ff$nsurrogate[i] >0) {
+	    if (ff$nsurrogate[i] >0L) {
 		cat("  Surrogate splits:\n")
 		j <- seq(1 +index[i] + ff$ncompete[i], length.out=ff$nsurrogate[i])
-		agree <- x$splits[j,3]
+		agree <- x$splits[j,3L]
 		if (all(nchar(cuts[j], "w") < 25))
                     temp <- format(cuts[j], justify="left")
 		else  temp <- cuts[j]
 		if (ncol(x$splits)==5) {
-		    adj   <- x$splits[j,5]
+		    adj   <- x$splits[j,5L]
 		    cat(paste("      ", format(sname[j], justify="left"), " ",
 			      temp,
 			      " agree=", format(round(agree, 3)),
 			      ", adj=" , format(round(adj, 3)),
-			      ", (", x$splits[j,1], " split)", sep=''),
+			      ", (", x$splits[j,1L], " split)", sep=''),
 			sep="\n")
                 }
 		else {                  #an older style rpart object -- no adj value present
 		    cat(paste("      ", format(sname[j], justify="left"), " ",
 			      temp,
 			      " agree=", format(round(agree, 3)),
-			      ", (", x$splits[j,1], " split)", sep=''),
+			      ", (", x$splits[j,1L], " split)", sep=''),
 			sep="\n")
                 }
             }
