@@ -16,10 +16,10 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
   ns <- seq_along(nsplit)
   cp0 <- p.rpart[ , 1L]
   cp <- sqrt(cp0 * c(Inf, cp0[-length(cp0)]))
-  ylim <- if("ylim" %in% names(dots)) dots$ylim else
+  if(! "ylim" %in% names(dots)) dots$ylim <-
       c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)
-  plot(ns, xerror, axes = FALSE, xlab = "cp", ylab =
-       "X-val Relative Error", ylim = ylim, type = "o", ...)
+  do.call(plot, c(list(ns, xerror, axes = FALSE, xlab = "cp", ylab =
+                       "X-val Relative Error", type = "o"), dots))
   box()
   axis(2, ...)
   segments(ns, xerror - xstd, ns, xerror + xstd)

@@ -1,6 +1,11 @@
-2008 Oct 21	3.1.42	Make use of 1L etc, update plot.rpart to use dev.new
+2009 Mar 09	3.1-43	Spelling in man/snip.rpart.Rd.
+			Spacing issue in tests/testall.Rout.save
+			Remove environments from fit$functions if basic
+	                plotcp() allows 'ylim' to be passed in
 
-2008 Apr 10	3.1.41	Add Russian translations
+2008 Oct 21	3.1-42	Make use of 1L etc, update plot.rpart to use dev.new
+
+2008 Apr 10	3.1-41	Add Russian translations
 
 2008 Mar 28	3.1-40	cosmetics on .Rd files, Date: field in DESCRIPTION
 

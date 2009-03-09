@@ -59,10 +59,16 @@ rpart <- function(formula, data, weights, subset,
 	if (method.int==4L) method.int <- 2L
 
 	if (missing(parms))
-	  init <- (get(paste("rpart", method, sep='.')))(Y,offset, ,wt)
+	  init <- (get(paste("rpart", method, sep='.')))(Y, offset, ,wt)
 	else
-	  init <- (get(paste("rpart", method, sep='.')))(Y,offset, parms, wt)
-	}
+	  init <- (get(paste("rpart", method, sep='.')))(Y, offset, parms, wt)
+
+        ns <- asNamespace("rpart")
+        if(!is.null(init$print)) environment(init$print) <- ns
+        if(!is.null(init$summary)) environment(init$summary) <- ns
+        if(!is.null(init$text)) environment(init$text) <- ns
+    }
+
 
     Y <- init$y
 

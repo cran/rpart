@@ -1163,7 +1163,7 @@ Node number 23: 8 observations
 + 	      data=stagec, method='poisson', weight=wts)
 > 
 > all.equal(fit2$frame[-2],  fit2b$frame[-2])  # the "n" component won't match
-[1] "Component 7: Mean relative  difference: 0.5"
+[1] "Component 7: Mean relative difference: 0.5"
 > all.equal(fit2$cptable,    fit2b$cptable)
 [1] TRUE
 > # next two depend on how ties are resolved, so platform-dependent

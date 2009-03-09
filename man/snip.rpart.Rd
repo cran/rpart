@@ -6,7 +6,7 @@
 \description{
   Creates a "snipped" rpart object, containing the nodes that remain
   after selected subtrees have been snipped off.  The user can snip
-  nodes using the toss arguement, or interactively by clicking the mouse
+  nodes using the toss argument, or interactively by clicking the mouse
   button on specified nodes within the graphics window.
 }
 \usage{
