@@ -19,7 +19,7 @@ rpart.exp <- function(y, offset, parms, wt) {
     n  <- nrow(y)
 
     status <- y[,ny]
-    if (any(y[,1L]<=0)) stop("Observation time must be >0")
+    if (any(y[,1L]<=0)) stop("Observation time must be > 0")
     if (all(status==0)) stop("No deaths in data set")
     time <- y[ , ny-1L]
 
