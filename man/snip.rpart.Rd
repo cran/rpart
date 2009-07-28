@@ -31,7 +31,7 @@ snip.rpart(x, toss)
   A dendrogram of \code{rpart} is expected to be visible on the graphics
   device, and a graphics input device (e.g., a mouse) is required.  Clicking
   (the selection button) on a node displays the node number, sample
-  size, response yvalue, and Error (dev). Clicking a second time on the
+  size, response y-value, and Error (dev). Clicking a second time on the
   same node snips that subtree off and visually erases the subtree.
   This process may be repeated an number of times.  Warnings result from
   selecting the root or leaf nodes.  Clicking the exit button will stop

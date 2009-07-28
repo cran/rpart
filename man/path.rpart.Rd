@@ -38,12 +38,12 @@ path.rpart(tree, nodes, pretty=0, print.it=TRUE)
   selected nodes.
 }
 \section{Graphical Interaction}{
-  A dendrogram of the \code{rpart} object is expected to be visible 
-  on the graphics  device, and a graphics input device (eg a mouse)
-  is required.  Clicking (the selection button)  on  a  node
-  selects  that  node.   This  process  may  be repeated any
-  number of times.  Clicking the exit button will  stop  the
-  selection process and return the list of paths.
+  A dendrogram of the \code{rpart} object is expected to be visible on
+  the graphics device, and a graphics input device (e.g. a mouse) is
+  required.  Clicking (the selection button) on a node selects that
+  node.  This process may be repeated any number of times.  Clicking the
+  exit button will stop the selection process and return the list of
+  paths.
 }
 \details{
   The function has a required argument as an \code{rpart} object  and
