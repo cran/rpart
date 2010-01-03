@@ -17,7 +17,7 @@ an \code{rpart} object
 }
 }
 \value{
-an updated object
+An updated object
 }
 \seealso{
 \code{rpart}

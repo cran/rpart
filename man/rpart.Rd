@@ -86,7 +86,7 @@ arguments to \code{rpart.control} may also be specified in the call to
 }
 }
 \value{
-an object of class \code{rpart}, a superset of class \code{tree}.
+An object of class \code{rpart}, a superset of class \code{tree}.
 }
 \details{
 This differs from the \code{tree} function mainly in its handling of surrogate

@@ -1,14 +1,14 @@
 # Translation of R-rpart.pot to German
-# Copyright (C) 2007 The R Foundation
+# Copyright (C) 2007-2009 The R Foundation
 # This file is distributed under the same license as the rpart package.
 # Chris Leick <c.leick@vollbio.de>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: rpart 3.1.44\n"
+"Project-Id-Version: R-2.10.0 / rpart 3.1-45\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
 "POT-Creation-Date: 2007-12-16 11:46\n"
-"PO-Revision-Date: 2009-05-04 14:38+0100\n"
+"PO-Revision-Date: 2009-10-11 14:14+0200\n"
 "Last-Translator: Chris Leick <c.leick@vollbio.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"

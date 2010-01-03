@@ -1,5 +1,5 @@
 
-R version 2.9.1 beta (2009-06-16 r48788)
+R version 2.10.1 (2009-12-14)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -17,79 +17,14 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> ### * <HEADER>
-> ###
-> attach(NULL, name = "CheckExEnv")
-> assign("nameEx",
-+        local({
-+ 	   s <- "__{must remake R-ex/*.R}__"
-+            function(new) {
-+                if(!missing(new)) s <<- new else s
-+            }
-+        }),
-+        pos = "CheckExEnv")
-> ## Add some hooks to label plot pages for base and grid graphics
-> assign("base_plot_hook",
-+        function() {
-+            pp <- par(c("mfg","mfcol","oma","mar"))
-+            if(all(pp$mfg[1:2] == c(1, pp$mfcol[2]))) {
-+                outer <- (oma4 <- pp$oma[4]) > 0; mar4 <- pp$mar[4]
-+                mtext(sprintf("help(\"%s\")", nameEx()), side = 4,
-+                      line = if(outer)max(1, oma4 - 1) else min(1, mar4 - 1),
-+                outer = outer, adj = 1, cex = .8, col = "orchid", las=3)
-+            }
-+        },
-+        pos = "CheckExEnv")
-> assign("grid_plot_hook",
-+        function() {
-+            grid::pushViewport(grid::viewport(width=grid::unit(1, "npc") -
-+                               grid::unit(1, "lines"), x=0, just="left"))
-+            grid::grid.text(sprintf("help(\"%s\")", nameEx()),
-+                            x=grid::unit(1, "npc") + grid::unit(0.5, "lines"),
-+                            y=grid::unit(0.8, "npc"), rot=90,
-+                            gp=grid::gpar(col="orchid"))
-+        },
-+        pos = "CheckExEnv")
-> setHook("plot.new",     get("base_plot_hook", pos = "CheckExEnv"))
-> setHook("persp",        get("base_plot_hook", pos = "CheckExEnv"))
-> setHook("grid.newpage", get("grid_plot_hook", pos = "CheckExEnv"))
-> assign("cleanEx",
-+        function(env = .GlobalEnv) {
-+ 	   rm(list = ls(envir = env, all.names = TRUE), envir = env)
-+            RNGkind("default", "default")
-+ 	   set.seed(1)
-+    	   options(warn = 1)
-+ 	   .CheckExEnv <- as.environment("CheckExEnv")
-+ 	   delayedAssign("T", stop("T used instead of TRUE"),
-+ 		  assign.env = .CheckExEnv)
-+ 	   delayedAssign("F", stop("F used instead of FALSE"),
-+ 		  assign.env = .CheckExEnv)
-+ 	   sch <- search()
-+ 	   newitems <- sch[! sch %in% .oldSearch]
-+ 	   for(item in rev(newitems))
-+                eval(substitute(detach(item), list(item=item)))
-+ 	   missitems <- .oldSearch[! .oldSearch %in% sch]
-+ 	   if(length(missitems))
-+ 	       warning("items ", paste(missitems, collapse=", "),
-+ 		       " have been removed from the search path")
-+        },
-+        pos = "CheckExEnv")
-> assign("ptime", proc.time(), pos = "CheckExEnv")
-> ## at least one package changes these via ps.options(), so do this
-> ## before loading the package.
-> ## Use postscript as incomplete files may be viewable, unlike PDF.
-> ## Choose a size that is close to on-screen devices, fix paper
-> grDevices::ps.options(width = 7, height = 7, paper = "a4", reset = TRUE)
-> grDevices::postscript("rpart-Ex.ps")
-> 
-> assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
-> options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
+> pkgname <- "rpart"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
 > library('rpart')
 > 
 > assign(".oldSearch", search(), pos = 'CheckExEnv')
-> assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
-> cleanEx(); nameEx("car.test.frame")
+> cleanEx()
+> nameEx("car.test.frame")
 > ### * car.test.frame
 > 
 > flush(stderr()); flush(stdout())
@@ -146,7 +81,8 @@ Node number 11: 8 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("cu.summary")
+> cleanEx()
+> nameEx("cu.summary")
 > ### * cu.summary
 > 
 > flush(stderr()); flush(stdout())
@@ -164,7 +100,8 @@ Node number 11: 8 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("kyphosis")
+> cleanEx()
+> nameEx("kyphosis")
 > ### * kyphosis
 > 
 > flush(stderr()); flush(stdout())
@@ -190,7 +127,8 @@ Node number 11: 8 observations
 > 
 > 
 > graphics::par(get("par.postscript", pos = 'CheckExEnv'))
-> cleanEx(); nameEx("meanvar.rpart")
+> cleanEx()
+> nameEx("meanvar.rpart")
 > ### * meanvar.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -207,7 +145,8 @@ Node number 11: 8 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("path.rpart")
+> cleanEx()
+> nameEx("path.rpart")
 > ### * path.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -320,7 +259,8 @@ Node number 23: 7 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("plot.rpart")
+> cleanEx()
+> nameEx("plot.rpart")
 > ### * plot.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -338,7 +278,8 @@ Node number 23: 7 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("post.rpart")
+> cleanEx()
+> nameEx("post.rpart")
 > ### * post.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -360,7 +301,8 @@ Node number 23: 7 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("predict.rpart")
+> cleanEx()
+> nameEx("predict.rpart")
 > ### * predict.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -654,7 +596,8 @@ node), split, n, loss, yval, (yprob)
 > 
 > 
 > 
-> cleanEx(); nameEx("print.rpart")
+> cleanEx()
+> nameEx("print.rpart")
 > ### * print.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -680,7 +623,8 @@ node), split, n, deviance, yval
       10) Weight>=2747.5 15   60.40000 23.80000 *
       11) Weight< 2747.5 8   39.87500 25.62500 *
    3) Weight< 2567.5 15  186.93330 30.93333 *
-> ## Not run: node), split, n, deviance, yval
+> ## Not run: 
+> ##D node), split, n, deviance, yval
 > ##D       * denotes terminal node
 > ##D 
 > ##D  1) root 60 1354.58300 24.58333  
@@ -693,7 +637,8 @@ node), split, n, deviance, yval
 > ## End(Not run)
 > 
 > 
-> cleanEx(); nameEx("printcp")
+> cleanEx()
+> nameEx("printcp")
 > ### * printcp
 > 
 > flush(stderr()); flush(stdout())
@@ -740,7 +685,8 @@ n= 60
 > ## End(Not run)
 > 
 > 
-> cleanEx(); nameEx("prune.rpart")
+> cleanEx()
+> nameEx("prune.rpart")
 > ### * prune.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -758,7 +704,8 @@ n= 60
 > 
 > 
 > 
-> cleanEx(); nameEx("residuals.rpart")
+> cleanEx()
+> nameEx("residuals.rpart")
 > ### * residuals.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -779,7 +726,8 @@ n= 60
 > 
 > 
 > 
-> cleanEx(); nameEx("rpart")
+> cleanEx()
+> nameEx("rpart")
 > ### * rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -805,7 +753,8 @@ n= 60
 > 
 > 
 > graphics::par(get("par.postscript", pos = 'CheckExEnv'))
-> cleanEx(); nameEx("rsq.rpart")
+> cleanEx()
+> nameEx("rsq.rpart")
 > ### * rsq.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -838,7 +787,8 @@ n= 60
 > 
 > 
 > 
-> cleanEx(); nameEx("snip.rpart")
+> cleanEx()
+> nameEx("snip.rpart")
 > ### * snip.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -862,7 +812,8 @@ n= 60
 > ## End(Not run)
 > 
 > 
-> cleanEx(); nameEx("solder")
+> cleanEx()
+> nameEx("solder")
 > ### * solder
 > 
 > flush(stderr()); flush(stdout())
@@ -883,7 +834,8 @@ n= 60
 > 
 > 
 > 
-> cleanEx(); nameEx("summary.rpart")
+> cleanEx()
+> nameEx("summary.rpart")
 > ### * summary.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -940,7 +892,8 @@ Node number 11: 8 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("text.rpart")
+> cleanEx()
+> nameEx("text.rpart")
 > ### * text.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -958,7 +911,8 @@ Node number 11: 8 observations
 > 
 > 
 > 
-> cleanEx(); nameEx("xpred.rpart")
+> cleanEx()
+> nameEx("xpred.rpart")
 > ### * xpred.rpart
 > 
 > flush(stderr()); flush(stdout())
@@ -1004,7 +958,7 @@ n= 60
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.61 0.025 0.637 0 0 
+Time elapsed:  0.313 0.017 0.331 0 0 
 > grDevices::dev.off()
 null device 
           1 

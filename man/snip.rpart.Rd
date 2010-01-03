@@ -24,7 +24,7 @@ snip.rpart(x, toss)
   described below.
 }}
 \value{
-  a \code{rpart} object containing the nodes that remain after specified or
+  A \code{rpart} object containing the nodes that remain after specified or
   selected subtrees have been snipped off.  
 }
 \details{

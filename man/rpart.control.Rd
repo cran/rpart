@@ -75,7 +75,7 @@ number of cross-validations
 }
 }
 \value{
-  a list containing the options.
+  A list containing the options.
 }
 \seealso{
 \code{\link{rpart}}

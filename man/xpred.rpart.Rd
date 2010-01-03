@@ -23,7 +23,7 @@ a \code{rpart} object.
   \code{cptable} component of the fit.
 }}
 \value{
-  a matrix with one row for each observation and one column for each complexity
+  A matrix with one row for each observation and one column for each complexity
   value.
 }
 \details{

@@ -57,11 +57,11 @@ leaves no room to squeeze in node labels.
   arguments to be passed to or from other methods.
 }}
 \value{
-the coordinates of the nodes are returned as a list, with
+The coordinates of the nodes are returned as a list, with
 components \code{x} and \code{y}.
 }
 \section{Side Effects}{
-an unlabeled plot is produced on the current graphics device.
+An unlabeled plot is produced on the current graphics device.
 }
 \details{
 This function is a method for the generic function \code{plot}, for objects

@@ -38,7 +38,7 @@
 
 }
 \value{
-vector of residuals of type \code{type} from a fitted \code{rpart} object. 
+  Vector of residuals of type \code{type} from a fitted \code{rpart} object. 
 }
 \references{
   McCullagh P. and Nelder, J. A. (1989)
