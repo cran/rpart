@@ -1,7 +1,8 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.13.0 Under development (unstable) (2010-10-15 r53335)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i386-apple-darwin9.8.0/i386 (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -720,8 +721,8 @@ n= 60
 > fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
 +        data=solder, method='anova')
 > summary(residuals(fit))
-      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
--1.380e+01 -1.036e+00 -6.833e-01 -1.082e-16  9.639e-01  1.620e+01 
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-13.8000  -1.0360  -0.6833   0.0000   0.9639  16.2000 
 > plot(predict(fit),residuals(fit))
 > 
 > 
@@ -828,8 +829,8 @@ n= 60
 > fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
 +        data=solder, method='anova')
 > summary(residuals(fit))
-      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
--1.380e+01 -1.036e+00 -6.833e-01 -1.082e-16  9.639e-01  1.620e+01 
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-13.8000  -1.0360  -0.6833   0.0000   0.9639  16.2000 
 > plot(predict(fit),residuals(fit))
 > 
 > 
@@ -958,7 +959,7 @@ n= 60
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.313 0.017 0.331 0 0 
+Time elapsed:  1.27 0.053 1.327 0 0 
 > grDevices::dev.off()
 null device 
           1 
