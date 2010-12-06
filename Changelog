@@ -1,3 +1,8 @@
+2010 Dec 08	3.1-48	Avoid partial match to args, unnecessary as.vector
+			Update reference output for survival change.
+			Correction to plot.rpart(compress = TRUE) from
+			Stephen Milborrow.
+
 2010 Nov 03	3.1-47	Update rpart-Ex.Rout.save for 2.12.x
 
 2010 Jan 03	3.1-46	Update rpart-Ex.Rout.save

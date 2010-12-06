@@ -1,7 +1,7 @@
 #SCCS @(#)rpartco.s	1.7 02/07/00
 # Compute the x-y coordinates for a tree
 rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
-    {
+{
 
     frame <- tree$frame
     node <- as.numeric(row.names(frame))
@@ -12,14 +12,14 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	uniform <- parms$uniform
 	nspace <-parms$nspace
 	minbranch <- parms$minbranch
-	}
-    else {
+    } else {
 	uniform <- FALSE
 	nspace <- -1
 	minbranch <- .3
-        }
+    }
 
-    if(uniform) y <- (1 + max(depth) -depth) / max(depth,4)
+    if(uniform)
+        y <- (1 + max(depth) -depth) / max(depth,4)
     else {                    #make y- (parent y) = change in deviance
 	y <- dev <- frame$dev
         temp <- split(seq(node), depth)     #depth 0 nodes, then 1, then ...
@@ -30,7 +30,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
         for(i in temp[-1L]) {
 	    temp2 <- dev[parent[i]] - (dev[i] + dev[sibling[i]])
             y[i] <- y[parent[i]] - temp2
-	    }
+        }
 	#
 	# For some problems, classification & loss matrices in particular
 	#   the gain from a split may be 0.  This is ugly on the plot.
@@ -41,9 +41,9 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	    temp2 <- dev[parent[i]] - (dev[i] + dev[sibling[i]])
 	    haskids <- !(is.leaf[i] & is.leaf[sibling[i]])
 	    y[i] <- y[parent[i]] - ifelse(temp2<=fudge & haskids, fudge, temp2)
-	    }
-	y <- y / (max(y))
         }
+	y <- y / (max(y))
+    }
 
     # Now compute the x coordinates, by spacing out the leaves and then
     #   filling in
@@ -55,7 +55,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     # temp is a list of non-is.leaf, by depth
     temp <- split(seq(node)[!is.leaf], depth[!is.leaf])
     for(i in rev(temp))
-            x[i] <- 0.5 * (x[left.child[i]] + x[right.child[i]])
+        x[i] <- 0.5 * (x[left.child[i]] + x[right.child[i]])
 
     if (nspace < 0) return(list(x=x, y=y))
 
@@ -83,20 +83,23 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     #    used by the arcs from this node to its children.  For
     #    horseshoe connections nspace usually is 1.
     #
-    #  To make it global for a recursive function, the x coordinate list
-    #    is written into frame 0.
-    #
-    compress <- function(me, depth) {
-        lson <- me +1
-	x <- x
+    compress <- function(x, me, depth)
+    {
+        lson <- me + 1L
 	if (is.leaf[lson]) left <- list(left=x[lson], right=x[lson],
-						depth=depth+1, sons=lson)
-        else               left <- compress(me+1, depth+1)
+                                        depth=depth+1L, sons=lson)
+        else {
+            left <- compress(x, me+1L, depth+1L)
+            x <- left$x
+        }
 
-        rson <- me + 1L + length(left$sons)        #index of right son
-	if (is.leaf[rson]) right<- list(left=x[rson], right=x[rson],
-						depth=depth+1, sons=rson)
-	else               right<- compress(rson, depth+1)
+        rson <- me + 1L + length(left$sons)
+	if (is.leaf[rson]) right <- list(left=x[rson], right=x[rson],
+                                         depth=depth+1L, sons=rson)
+	else {
+            right <- compress(x, rson, depth+1L)
+            x <- right$x
+        }
 
 	maxd <- max(left$depth, right$depth) - depth
         mind <- min(left$depth, right$depth) - depth
@@ -104,40 +107,29 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	# Find the smallest distance between the two subtrees
 	#   But only over depths that they have in common
 	# 1 is a minimum distance allowed
-	slide <- min(right$left[1L:mind] - left$right[1L:mind]) -1
-	if (slide >0) { # slide the right hand node to the left
+	slide <- min(right$left[1L:mind] - left$right[1L:mind]) - 1L
+	if (slide > 0) { # slide the right hand node to the left
 	    x[right$sons] <- x[right$sons] - slide;
 	    x[me] <- (x[right$sons[1L]] + x[left$sons[1L]])/2
-#	    assign("x", x)
-            x <<- x
-	    }
-	else slide <- 0
+        } else slide <- 0
 
 	# report back
         if (left$depth > right$depth) {
 	    templ <- left$left
             tempr <- left$right
-            tempr[1L:mind] <- pmax(tempr[1L:mind], right$right -slide)
-	    }
-        else {
+            tempr[1L:mind] <- pmax(tempr[1L:mind], right$right - slide)
+        } else {
 	    templ <- right$left  - slide
 	    tempr <- right$right - slide
 	    templ[1L:mind] <- pmin(templ[1L:mind], left$left)
-	    }
+        }
 
-	list(left = c(x[me]- nspace*(x[me] -x[lson]), templ),
-	     right= c(x[me]- nspace*(x[me] -x[rson]), tempr),
-	     depth= maxd+ depth, sons=c(me, left$sons, right$sons))
-	}
-#    assign('compress', compress)
-#    assign('x', x)
-#    assign('is.leaf', is.leaf)
-#    assign('nspace', nspace)
-
-#    temp <-
-    compress(1, 1)
-#    x <- get('x')
-#    remove(c('compress', 'x', 'is.leaf', 'nspace'))
+	list(x = x,
+             left = c(x[me]- nspace*(x[me] -x[lson]), templ),
+	     right = c(x[me]- nspace*(x[me] -x[rson]), tempr),
+	     depth = maxd+ depth, sons=c(me, left$sons, right$sons))
+    }
+    x <- compress(x, 1L, 1L)$x
     list(x = x, y = y)
 }
 

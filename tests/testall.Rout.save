@@ -1,7 +1,8 @@
 
-R version 2.6.0 Under development (unstable) (2007-05-29 r41742)
-Copyright (C) 2007 The R Foundation for Statistical Computing
+R version 2.12.1 beta (2010-12-07 r53813)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: x86_64-unknown-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -59,7 +60,8 @@ grade             1.7289     5.634   0.3369  5.132 2.9e-07
 ploidytetraploid  1.0444     2.842   0.4225  2.472 1.3e-02
 ploidyaneuploid   1.1490     3.155   0.6611  1.738 8.2e-02
 
-Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n=137 (9 observations deleted due to missingness)
+Likelihood ratio test=48.6  on 6 df, p=8.92e-09  n= 137, number of events= 49 
+   (9 observations deleted due to missingness)
 > 
 > fit1 <- rpart(Surv(pgtime, pgstat) ~ age + eet + g2+grade+gleason +ploidy,
 + 		stagec, control=rpart.control(usesurrogate=0, cp=0),

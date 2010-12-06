@@ -23,14 +23,14 @@ plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
   box()
   axis(2, ...)
   segments(ns, xerror - xstd, ns, xerror + xstd)
-  axis(1L, at = ns, lab = as.character(signif(cp, 2L)), ...)
+  axis(1L, at = ns, labels = as.character(signif(cp, 2L)), ...)
   switch(upper,
 	 size = {
-           axis(3L, at = ns, lab = as.character(nsplit+1), ...)
+           axis(3L, at = ns, labels = as.character(nsplit+1), ...)
            mtext("size of tree", side=3, line=3)
 	 },
 	 splits = {
-           axis(3L, at = ns, lab = as.character(nsplit), ...)
+           axis(3L, at = ns, labels = as.character(nsplit), ...)
            mtext("number of splits", side=3, line=3)
 	 },)
   minpos <- min(seq_along(xerror)[xerror==min(xerror)])
