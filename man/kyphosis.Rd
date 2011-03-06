@@ -29,20 +29,20 @@ the number of the first (topmost) vertebra operated on.
 }
 }}
 \source{
-  John M. Chambers and Trevor J. Hastie eds. (1992)
+   John M. Chambers and Trevor J. Hastie eds. (1992)
   \emph{Statistical Models in S}, Wadsworth and Brooks/Cole,
-  Pacific Grove, CA.
+  Pacific Grove, CA 1992.
 }
 \examples{
-fit <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
-fit2 <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis,
-              parms = list(prior = c(0.65, 0.35), split = "information"))
+fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
+fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
+              parms=list(prior=c(.65,.35), split='information'))
 fit3 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
-              control = rpart.control(cp = 0.05))
-par(mfrow = c(1,2), xpd = TRUE)
+              control=rpart.control(cp=.05))
+par(mfrow=c(1,2))
 plot(fit)
-text(fit, use.n = TRUE)
+text(fit, use.n=TRUE)
 plot(fit2)
-text(fit2, use.n = TRUE)
+text(fit2, use.n=TRUE)
 }
 \keyword{datasets}

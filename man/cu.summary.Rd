@@ -17,20 +17,20 @@ cu.summary
     }
     \item{\code{Country}}{
       of origin, a factor with levels
-      \samp{Brazil},
-      \samp{England},
-      \samp{France},
-      \samp{Germany},
-      \samp{Japan},
-      \samp{Japan/USA},
-      \samp{Korea},
-      \samp{Mexico},
-      \samp{Sweden} and
-      \samp{USA}
+      \code{Brazil}
+      \code{England}
+      \code{France}
+      \code{Germany}
+      \code{Japan}
+      \code{Japan/USA}
+      \code{Korea}
+      \code{Mexico}
+      \code{Sweden}
+      \code{USA}
     }
     \item{\code{Reliability}}{
       an ordered factor with levels
-      \samp{Much worse} < \samp{worse} < \samp{average} < \samp{better} < \samp{Much better}
+      \code{Much worse} < \code{worse} < \code{average} < \code{better} < \code{Much better}
     }
     \item{\code{Mileage}}{
       fuel consumption miles per US gallon, as tested.
@@ -51,16 +51,12 @@ cu.summary
 
   John M. Chambers and Trevor J. Hastie eds. (1992)
   \emph{Statistical Models in S}, Wadsworth and Brooks/Cole,
-  Pacific Grove, CA, pp. 46--47.
+  Pacific Grove, CA 1992, pp. 46--47.
 }
-\seealso{
-  \code{\link{car.test.frame}},
-  \code{\link{car90}}
-}
+\seealso{\code{\link{car.test.frame}}}
 \examples{
 fit <- rpart(Price ~ Mileage + Type + Country, cu.summary)
-par(xpd = TRUE)
-plot(fit, compress = TRUE)
-text(fit, use.n = TRUE)
+plot(fit, compress=TRUE)
+text(fit, use.n=TRUE)
 }
 \keyword{datasets}

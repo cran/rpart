@@ -7,13 +7,12 @@ Plot an Rpart Object
 Plots an rpart object on the current graphics device.
 }
 \usage{
-\method{plot}{rpart}(x, uniform = FALSE, branch = 1, compress = FALSE, nspace,
-     margin = 0, minbranch = 0.3, branch.col = 1, branch.lty = 1, 
-     branch.lwd = 1, \dots)
+\method{plot}{rpart}(x, uniform=FALSE, branch=1, compress=FALSE, nspace,
+     margin=0, minbranch=.3, \dots)
 }
 \arguments{
 \item{x}{
-  a fitted object of class \code{"rpart"}, containing a classification,
+  a fitted object of class \code{rpart}, containing a classification,
   regression, or rate tree.
 }
 \item{uniform}{
@@ -43,7 +42,7 @@ Applies to compressed trees only.  The default is the value of
 \code{branch}.
 }
 \item{margin}{
-an extra fraction of white space to leave around the borders of the tree.
+an extra percentage of white space to leave around the borders of the tree.
 (Long labels sometimes get cut off by the default computation).
 }
 \item{minbranch}{
@@ -54,15 +53,6 @@ the classification case) no improvement at all.
 A tree with branch lengths strictly proportional to improvement
 leaves no room to squeeze in node labels.
 }
-\item{branch.col}{
-set the color of the branches.
-}
-\item{branch.lty}{
-set the line type of the branches.
-}
-\item{branch.lwd}{
-set the line width of the branches.
-}
 \item{\dots}{
   arguments to be passed to or from other methods.
 }}
@@ -71,12 +61,7 @@ The coordinates of the nodes are returned as a list, with
 components \code{x} and \code{y}.
 }
 \section{Side Effects}{
-An unlabeled plot is produced on the current graphics device: one being
-opened if needed.
-
-In order to build up a plot in the usual S style, e.g., a separate
-\code{text} command for adding labels, some extra information about the
-plot needs be retained.  This is kept in an environment in the package.
+An unlabeled plot is produced on the current graphics device.
 }
 \details{
 This function is a method for the generic function \code{plot}, for objects
@@ -88,8 +73,7 @@ The y-coordinate of the top node of the tree will always be 1.
 }
 \examples{
 fit <- rpart(Price ~ Mileage + Type + Country, cu.summary)
-par(xpd = TRUE)
-plot(fit, compress = TRUE)
-text(fit, use.n = TRUE)
+plot(fit, compress=TRUE)
+text(fit, use.n=TRUE)
 }
 \keyword{tree}
