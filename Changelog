@@ -1,4 +1,9 @@
-2010 Dec 08	3.1-48	Avoid partial match to args, unnecessary as.vector
+2011 Apr 09	3.1-50	Change licence to GPL-2 | GPL-3
+	                Remove set-but-unused variable in src/xval.c
+
+2011 Mar 06	3.1-49	Update testall.Rout.save for R 2.13.0
+
+2010 Dec 08	3.1-48	Avoid partial match to args, unnecessary as.vector.
 			Update reference output for survival change.
 			Correction to plot.rpart(compress = TRUE) from
 			Stephen Milborrow.

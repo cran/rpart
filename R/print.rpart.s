@@ -11,7 +11,7 @@ print.rpart <- function(x, minlength=0, spaces=2, cp,
     depth <- tree.depth(node)
     indent <- paste(rep(" ", spaces * 32L), collapse = "")
     #32 is the maximal depth
-    if(length(node) > 1) {
+    if(length(node) > 1L) {
         indent <- substring(indent, 1L, spaces * seq(depth))
         indent <- paste(c("", indent[depth]), format(node), ")", sep = "")
     }

@@ -45,7 +45,7 @@ void xval(int n_xval,  struct cptable *cptable_head,  Sint *x_grp,
     struct node *xtree;
     struct cptable *cplist;
     double temp;
-    double old_n, old_wt, total_wt;
+    double old_wt, total_wt;
     int *which;
 
     alphasave = rp.alpha;
@@ -68,7 +68,6 @@ void xval(int n_xval,  struct cptable *cptable_head,  Sint *x_grp,
 	cp[i] = sqrt(cplist->cp * (cplist->forward)->cp);
 	i++;
 	}
-    old_n =rp.n;
     total_wt =0;
     for (i=0; i<rp.n; i++) total_wt += rp.wt[i];
     old_wt = total_wt;
