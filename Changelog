@@ -1,3 +1,6 @@
+2012 Jan ??	3.1-51	Change description of 'margin' in ?plot.rpart
+			as suggested by Bill Venables.
+
 2011 Apr 09	3.1-50	Change licence to GPL-2 | GPL-3
 	                Remove set-but-unused variable in src/xval.c
 
@@ -27,7 +30,7 @@
 
 2008 Mar 28	3.1-40	cosmetics on .Rd files, Date: field in DESCRIPTION
 
-2008 Feb 18	3.1-39	summary.rpart was missing a drop=TRUE.
+2008 Feb 18	3.1-39	summary.rpart was missing a drop=FALSE.
 
 2007 Oct 03	3.1-38	Remove obsolete \non_function{} notation.
 
