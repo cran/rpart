@@ -1,7 +1,7 @@
 Package: rpart
 Priority: recommended
-Version: 3.1-51
-Date: 2012-01-11
+Version: 3.1-52
+Date: 2012-03-04
 DateNote: March 2002 version of rpart
 Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.  R port
         by Brian Ripley.  Note that maintainers are not available to
@@ -9,13 +9,13 @@ Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>.  R port
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Description: Recursive partitioning and regression trees
 Title: Recursive Partitioning
-Depends: R (>= 2.13.0), graphics, stats, grDevices
+Depends: R (>= 2.14.0), graphics, stats, grDevices
 Suggests: survival
 License: GPL-2 | GPL-3
 LazyLoad: yes
 LazyData: yes
 URL:
         http://mayoresearch.mayo.edu/mayo/research/biostat/splusfunctions.cfm
-Packaged: 2012-02-28 08:04:49 UTC; ripley
+Packaged: 2012-03-04 13:56:21 UTC; ripley
 Repository: CRAN
-Date/Publication: 2012-02-28 08:39:14
+Date/Publication: 2012-03-04 13:59:47

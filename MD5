@@ -1,5 +1,5 @@
-0757577e0dfcfec217ad26d9e3b5840c *ChangeLog
-721349d65021ac6bb427ca6dbc35d6e2 *DESCRIPTION
+882bf242e05e37fe3dacb267e920b6c5 *ChangeLog
+80e57771d652dadf9f33af4563865f4d *DESCRIPTION
 6d32834bc4a753d86c9a6bd85c3688a0 *INDEX
 6ce8e260466f9c56fd05d030b173fa9d *NAMESPACE
 63fbade7d5b393e3107669ae0b1bd8b0 *PORTING
@@ -121,7 +121,7 @@ f1535181b826231325ae68549dcde39c *src/rundown2.c
 d5bca4c1e9a35db65cc0c6010599073d *src/s_xpred.c
 ac6853fd47bc7addad262e408209cc9e *src/surrogate.c
 2cbfa4049e316fdb64f862fbc71afbc4 *src/usersplit.c
-e12e9090f997672e2c9a1a1660cdffef *src/xval.c
+e8e56cb91cbd05866e94830a0402c7d4 *src/xval.c
 91cc31bac119cbf241ad50106e747502 *tests/Examples/rpart-Ex.Rout.save
 147bd7a75b6159f73762a034b106c82a *tests/data.stagec
 821047b91148404a4a9c54d02c6a8d21 *tests/rpartco.R

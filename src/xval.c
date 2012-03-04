@@ -28,8 +28,11 @@
 #include "rpartproto.h"
 
 #define DEBUG 0
+#if DEBUG
 static int debug =0;    /*if it is odd, print out every tree */
                         /*if >= 2, print out every risk value we see */
+#endif
+
 /* Next line only if mainline version */
 #ifdef MAIN
 extern char *xname[];
