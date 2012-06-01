@@ -1,5 +1,5 @@
-882bf242e05e37fe3dacb267e920b6c5 *ChangeLog
-80e57771d652dadf9f33af4563865f4d *DESCRIPTION
+f423ab52675501eef901f7206f29c744 *ChangeLog
+fe9a398aac588fb271588f096e5a9012 *DESCRIPTION
 6d32834bc4a753d86c9a6bd85c3688a0 *INDEX
 6ce8e260466f9c56fd05d030b173fa9d *NAMESPACE
 63fbade7d5b393e3107669ae0b1bd8b0 *PORTING
@@ -25,9 +25,9 @@ cb9435b80af3f00dbce092640913e5f5 *R/rpart.anova.s
 b12c4564625e908bb72fc0a3710406c4 *R/rpart.class.s
 d6799e50ce325bb1a6cd6889c8ed8784 *R/rpart.control.s
 6e913b3090158b147f6137632462106e *R/rpart.exp.s
-69db77e04833ee3355080944b2d1f202 *R/rpart.matrix.s
+723f08707b9dff12b767a8c22c8cf8a8 *R/rpart.matrix.s
 b3ef39dff5e7d74d0efeeeb312634a23 *R/rpart.poisson.s
-e75b08d71e2637d1d40f8ef4d0178543 *R/rpart.s
+86b160ccdb1c58783f05ecd39f337bcf *R/rpart.s
 02134ee65c0c8e6412d6a7a5417d994d *R/rpartcallback.s
 8f190af2af054eae76bdd3351043c899 *R/rpartco.s
 3a1b537d6e226f08f86bb52b0639cfcc *R/rpconvert.s
@@ -39,10 +39,10 @@ c80c0f93dc8e81aea70f841a0716114f *R/text.rpart.s
 3033eb9cf1ee2ba82f95de23b87d90a4 *R/xpred.rpart.s
 6188853c97e9f97f0e1b82538ed8b8e4 *R/zzz.R
 7c09b1d715f6a0fbdfc907ba8c916f28 *Readme
-4b0ae609eb33f1bd6de3e82f55083d3b *data/car.test.frame.csv
+0f8bf0d3f740520a1571d801cee66473 *data/car.test.frame.csv.gz
 7a3c271c4f6c1f77d49c2ba30d47dc4d *data/cu.summary.rda
-42f93ae222abf09b8e71cf5539ce7c90 *data/kyphosis.tab
-95269649f48538935dc555bb01f9575f *data/solder.tab
+520b195a5570c9ebc60879f2be9465cd *data/kyphosis.tab.gz
+7899e7aec3f3f2bbde9f2b750f914404 *data/solder.tab.gz
 8898ac2e42b646752863c6062025a6a0 *inst/po/de/LC_MESSAGES/R-rpart.mo
 8570891caba75f590ebc17f80afdf6e8 *inst/po/de/LC_MESSAGES/rpart.mo
 a2fccef7ce138d29a08be823701c6ec3 *inst/po/en@quot/LC_MESSAGES/R-rpart.mo
@@ -123,6 +123,7 @@ ac6853fd47bc7addad262e408209cc9e *src/surrogate.c
 2cbfa4049e316fdb64f862fbc71afbc4 *src/usersplit.c
 e8e56cb91cbd05866e94830a0402c7d4 *src/xval.c
 91cc31bac119cbf241ad50106e747502 *tests/Examples/rpart-Ex.Rout.save
+34b3b4e1f6cf35314967af2d1768fb29 *tests/backticks.R
 147bd7a75b6159f73762a034b106c82a *tests/data.stagec
 821047b91148404a4a9c54d02c6a8d21 *tests/rpartco.R
 20cfc4827b107513d30c6bbd0a7ecd82 *tests/surv_test.R

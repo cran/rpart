@@ -1,4 +1,7 @@
-2012 Mar ??	3.1-52	src/xval.c: ensure unused code is not compiled in.
+2012 Jun 01	3.1-53	rpart, rpart.matrix: allow backticks in formulae.
+	                tests/backtick.R: regession test
+
+2012 Mar 04	3.1-52	src/xval.c: ensure unused code is not compiled in.
 
 2012 Jan 11	3.1-51	Change description of 'margin' in ?plot.rpart
 			as suggested by Bill Venables.
