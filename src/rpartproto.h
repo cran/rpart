@@ -1,5 +1,4 @@
 /*
-**  SCCS  @(#)rpartproto.h	1.5 06/06/01
 ** prototypes for all of the rpart functions
 **   This helps the ansi compiler do tight checking.
 **

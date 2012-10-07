@@ -1,4 +1,3 @@
-/* SCCS @(#)choose_surg.c	1.6 06/06/01  */
 /*
 ** A particular split routine, optimized for the surrogate variable
 **  search.  The "goodness" of a split is the total weights of concordant

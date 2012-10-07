@@ -22,12 +22,12 @@ node.match <- function(nodes, nodelist, leaves, print.it = TRUE)
     node.index <- match(nodes, nodelist, nomatch = 0)
     bad <- nodes[node.index == 0]
     if(length(bad) > 0 & print.it)
-        warning("supplied nodes ", paste(bad, collapse = ","),
-                " are not in this tree")
+        warning(gettextf("supplied nodes %s are not in this tree",
+                         paste(bad, collapse = ",")), domain = NA)
     good <- nodes[node.index > 0]
     if(!missing(leaves) && any(leaves <- leaves[node.index])) {
-        warning("supplied nodes ",
-                paste(good[leaves], collapse = ","), " are leaves")
+        warning(gettextf("supplied nodes %s are leaves",
+                paste(good[leaves], collapse = ",")), domain = NA)
         node.index[node.index > 0][!leaves]
     }
     else node.index[node.index > 0]

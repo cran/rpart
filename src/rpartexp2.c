@@ -1,4 +1,3 @@
-/* SCCS @(#)rpartexp2.c	1.1 07/05/01  */
 /*
 **   Cut down a list of death times, to avoid ones that differ by
 **    very, very little.

@@ -1,4 +1,3 @@
-/* SCCS @(#)fix_cp.c	1.2 02/08/98 */
 /*
 ** When partition is done, each node is labeled with the complexity
 **  appropriate if it were the top of the tree.  Actually, the complexity

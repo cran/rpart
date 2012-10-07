@@ -1,4 +1,3 @@
-/* SCCS @(#)rundown2.c	@(#)rundown2.c	1.5 12/13/99 */
 /*
 ** Run an observation down the tree, and return the predicted value,
 **    for several CP values at once.

@@ -1,5 +1,4 @@
 /*
-**  SCCS @(#)rpart_callback.c	1.4 08/13/01
 ** callback routines for "user" splitting functions in rpart
 */
 #include <R.h>

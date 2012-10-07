@@ -1,4 +1,3 @@
-/* SCCS  @(#)nodesplit.c	1.5 06/06/01 */
 /*
 ** nodesplit -- Split the node in two, and keep a count as we do of how
 **  many splits are determined by each surrogate variable.

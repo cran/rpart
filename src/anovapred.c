@@ -1,4 +1,3 @@
-/* SCCS @(#)anovapred.c	1.3  02/08/98 */
 /*
 ** The error function for anova splitting
 */

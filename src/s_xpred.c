@@ -1,5 +1,4 @@
 /*
-**  SCCS  @(#)s_xpred.c	1.16 06/06/01
 ** An S interface to "cross validated predictions"
 **    99% of this routine is a copy of s_to_rp and rpart.c
 */

@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: R 2.7.0\n"
-"Report-Msgid-Bugs-To: bugs@R-project.org\n"
-"POT-Creation-Date: 2012-06-27 09:22+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-03 11:42+0100\n"
 "PO-Revision-Date: 2008-04-06 23:54-0500\n"
 "Last-Translator: Alexey Shipunov <dactylorhiza at gmail>\n"
 "Language-Team: Russian\n"
@@ -26,47 +26,47 @@ msgstr ""
 msgid "Out of memory"
 msgstr "Не хватает памяти"
 
-#: poisson.c:41
+#: poisson.c:40
 msgid "Invalid time point"
 msgstr "Неправильная временнАя точка"
 
-#: poisson.c:45
+#: poisson.c:44
 msgid "Invalid event count"
 msgstr "Неправильный счетчик событий"
 
-#: rpart_callback.c:47
+#: rpart_callback.c:46
 msgid "'yback' not found"
 msgstr "'yback' не найден"
 
-#: rpart_callback.c:50
+#: rpart_callback.c:49
 msgid "'wback' not found"
 msgstr "'wback' не найден"
 
-#: rpart_callback.c:53
+#: rpart_callback.c:52
 msgid "'xback' not found"
 msgstr "'xback' не найден"
 
-#: rpart_callback.c:56
+#: rpart_callback.c:55
 msgid "'nback' not found"
 msgstr "'nback' не найден"
 
-#: rpart_callback.c:102
+#: rpart_callback.c:101
 msgid "return value not a vector"
 msgstr "возвращенное значение -- не вектор"
 
-#: rpart_callback.c:105
+#: rpart_callback.c:104
 msgid "returned value is the wrong length"
 msgstr "возвращенное значение -- неправильной длины"
 
-#: rpart_callback.c:140
+#: rpart_callback.c:139
 msgid "the expression expr1 did not return a vector!"
 msgstr "выражение expr1 не вернуло вектор!"
 
-#: rpart_callback.c:148
+#: rpart_callback.c:147
 #, c-format
 msgid "the expression expr1 returned a list of %d elements, %d required"
 msgstr "выражение expr1 вернуло список из %d элементов, а надо %d"
 
-#: s_xpred.c:38
+#: s_xpred.c:37
 msgid "invalid value for 'method'"
 msgstr "неправильное значение 'method'"

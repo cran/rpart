@@ -1,4 +1,3 @@
-/* SCCS @(#)mysort.c	1.6 12/13/99 */
 /*
 ** quick sort routine : sort a vector of floats, and carry along an int
 **

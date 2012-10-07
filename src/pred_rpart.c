@@ -1,4 +1,3 @@
-/*  SCCS @(#)pred_rpart.c	1.6  06/06/01 */
 /*
 **  Do rpart predictions given the matrix form of the tree.
 **

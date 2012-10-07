@@ -52,7 +52,8 @@ rpart.control(minsplit = 20, minbucket = round(minsplit/3), cp = 0.01,
     if all surrogates are missing the observation is not split.  For value
     \code{2} ,if all surrogates are missing, then send the observation in
     the majority direction.  A value of \code{0} corresponds to the action
-    of \code{tree}, and \code{2} to the recommendations of Breiman et.al.
+    of \code{tree}, and \code{2} to the recommendations of Breiman
+    \emph{et.al} (1984).
   }
   \item{xval}{
     number of cross-validations.

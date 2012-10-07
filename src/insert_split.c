@@ -1,4 +1,3 @@
-/* SCCS 06/06/01 @(#)insert_split.c	1.5 */
 /*
 ** sort a new split into a linked list, based on its "improvement"
 **

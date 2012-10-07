@@ -1,4 +1,4 @@
-/*   @(#)gini.c	1.13 11/08/01    
+/*
 ** The routines for gini-classification
 */
 #include <math.h>

@@ -1,4 +1,3 @@
-/* SCCS  @(#)xval.c	1.9 06/06/01 */
 /*
 ** Cross validate a model.  This routine is responsible for filling in
 **  two vectors -- xrisk = cross-validated risk estimate

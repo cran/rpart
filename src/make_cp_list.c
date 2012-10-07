@@ -1,4 +1,3 @@
-/* SCCS @(#)make_cp_list.c	1.4 07/26/00 */
 /*
 ** This routine creates the list of unique complexity parameters.
 ** The list is maintained in sorted order.  If two parameters are within

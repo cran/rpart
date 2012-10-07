@@ -1,4 +1,3 @@
-/* SCCS @(#)bsplit.c	1.6 06/06/01 */
 /*
 ** The routine which will find the best split for a node
 **

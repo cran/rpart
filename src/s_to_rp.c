@@ -1,4 +1,3 @@
-/* SCCS @(#)s_to_rp.c	1.17 06/06/01  */
 /*
 ** An S interface to the the recursive partitioning routines.
 */

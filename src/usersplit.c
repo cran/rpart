@@ -1,4 +1,3 @@
-/* SCCS @(#)usersplit.c	1.4 06/06/01  */
 /*
 ** These routines interface via the rpart_callback routine to
 **   provide for user-written split functions

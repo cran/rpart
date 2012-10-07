@@ -1,4 +1,3 @@
-/* SCCS @(#)make_cp_table.c	1.2 02/08/98 */
 /*
 ** Given a cptable list already initialized with the unique cp's in it,
 **  fill in the columns for risk and number of splits.

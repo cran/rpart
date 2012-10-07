@@ -1,4 +1,3 @@
-/* SCCS @(#)func_table.h	1.5 06/06/01  */
 /*
 ** The table of implimented splitting functions
 **

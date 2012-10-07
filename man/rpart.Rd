@@ -1,6 +1,6 @@
 \name{rpart}
 \alias{rpart}
-\alias{rpartcallback}
+%\alias{rpartcallback}
 \title{
   Recursive Partitioning and Regression Trees
 }
@@ -12,7 +12,10 @@ rpart(formula, data, weights, subset, na.action = na.rpart, method,
       model = FALSE, x = FALSE, y = TRUE, parms, control, cost, \dots)
 }
 \arguments{
-  \item{formula}{a \link{formula}, with a response but no interaction terms.}
+  \item{formula}{a \link{formula}, with a response but no interaction
+    terms.  If this a a data frome, that is taken as the model frame
+    (see \code{\link{model.frame}).}
+  }
   
   \item{data}{an optional data frame in which to interpret the variables
     named in the formula.} 
@@ -81,7 +84,7 @@ rpart(formula, data, weights, subset, na.action = na.rpart, method,
 \details{
   This differs from the \code{tree} function in S mainly in its handling
   of surrogate variables.  In most details it follows Breiman
-  et. al. quite closely.  \R package \pkg{tree} provides a
+  \emph{et. al} (1984) quite closely.  \R package \pkg{tree} provides a
   re-implementation of \code{tree}.
 }
 
@@ -90,7 +93,7 @@ rpart(formula, data, weights, subset, na.action = na.rpart, method,
 }
 
 \references{
-  Breiman, Friedman, Olshen, and Stone. (1984)
+  Breiman L., Friedman J. H., Olshen R. A., and Stone, C. J. (1984)
   \emph{Classification and Regression Trees.}
   Wadsworth.
 }

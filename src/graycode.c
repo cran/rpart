@@ -1,4 +1,3 @@
-/* SCCS @(#)graycode.c	1.6 11/08/01 */
 /*
 ** Walk through subsets in an ordered way.
 **   For all subsets, this is the classic gray code.

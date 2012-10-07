@@ -1,4 +1,3 @@
-/* SCCS @(#)free_tree.c	1.2 02/08/98 */
 /*
 ** free up all of the memory associated with a tree
 */

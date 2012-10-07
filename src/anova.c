@@ -1,4 +1,3 @@
-/* SCCS @(#)anova.c	1.8 08/13/01  */
 /*
 ** The four routines for anova splitting
 */

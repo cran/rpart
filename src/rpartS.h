@@ -1,4 +1,3 @@
-/* SCCS @(#)rpartS.h	1.6 02/24/00 */
 /*
 **   The S.h file defines a few things that I need, and hundreds that I don't.
 ** In particular, on some architectures, it defines a variable "time"

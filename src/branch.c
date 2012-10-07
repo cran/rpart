@@ -1,4 +1,3 @@
-/* SCCS  @(#)branch.c	1.5 06/06/01 */
 /*
 ** Walk an observation 'one more split' down the tree.  If there are no
 **   more splits, return 0, otherwise return the address of the new node.

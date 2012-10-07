@@ -1,4 +1,3 @@
-/* SCCS  @(#)partition.c	1.5 01/06/00 */
 /*
 ** The main workhorse of the recursive partitioning module.  When called
 **   with a node, it partitions it and then calls itself to partition the

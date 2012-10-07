@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR The R Foundation
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: bugs@R-project.org\n"
-"POT-Creation-Date: 2012-06-27 09:22+0100\n"
+"Project-Id-Version: rpart 3.1-55\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-03 11:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,47 +21,47 @@ msgstr ""
 msgid "Out of memory"
 msgstr ""
 
-#: poisson.c:41
+#: poisson.c:40
 msgid "Invalid time point"
 msgstr ""
 
-#: poisson.c:45
+#: poisson.c:44
 msgid "Invalid event count"
 msgstr ""
 
-#: rpart_callback.c:47
+#: rpart_callback.c:46
 msgid "'yback' not found"
 msgstr ""
 
-#: rpart_callback.c:50
+#: rpart_callback.c:49
 msgid "'wback' not found"
 msgstr ""
 
-#: rpart_callback.c:53
+#: rpart_callback.c:52
 msgid "'xback' not found"
 msgstr ""
 
-#: rpart_callback.c:56
+#: rpart_callback.c:55
 msgid "'nback' not found"
 msgstr ""
 
-#: rpart_callback.c:102
+#: rpart_callback.c:101
 msgid "return value not a vector"
 msgstr ""
 
-#: rpart_callback.c:105
+#: rpart_callback.c:104
 msgid "returned value is the wrong length"
 msgstr ""
 
-#: rpart_callback.c:140
+#: rpart_callback.c:139
 msgid "the expression expr1 did not return a vector!"
 msgstr ""
 
-#: rpart_callback.c:148
+#: rpart_callback.c:147
 #, c-format
 msgid "the expression expr1 returned a list of %d elements, %d required"
 msgstr ""
 
-#: s_xpred.c:38
+#: s_xpred.c:37
 msgid "invalid value for 'method'"
 msgstr ""

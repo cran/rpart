@@ -1,4 +1,3 @@
-/* SCCS @(#)rpart.h	1.10 06/06/01   */
 /*
 ** commom variables for the rpart routine
 */

@@ -1,4 +1,3 @@
-/* SCCS @(#)surrogate.c	1.8 06/06/01 */
 /*
 ** Calculate the surrogate splits for a node and its primary
 **    (This routine is an awful lot like bsplit)

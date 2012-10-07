@@ -1,4 +1,3 @@
-/* SCCS @(#)node.h	1.3 12/13/99 */
 /*
 ** definition of a node in the tree
 */

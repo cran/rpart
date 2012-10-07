@@ -735,7 +735,7 @@ n= 60
 > 
 > ### Name: rpart
 > ### Title: Recursive Partitioning and Regression Trees
-> ### Aliases: rpart rpartcallback
+> ### Aliases: rpart
 > ### Keywords: tree
 > 
 > ### ** Examples
