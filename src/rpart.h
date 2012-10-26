@@ -1,7 +1,10 @@
 /*
 ** commom variables for the rpart routine
+**
+** Start with things that depend on R.h
 */
 #include <R.h>
+#include <Rinternals.h>
 #undef error
 
 #ifdef ENABLE_NLS
@@ -11,11 +14,17 @@
 #define _(String) (String)
 #endif
 
-#ifndef FLOAT
-#define FLOAT double    /*so I can easily change 'x' to double at some later
-			 date, with all the consequences thereof.  Also see
-		         node.h  */
-#endif
+/*
+** Memory defined with S_alloc is removed automatically
+**  That with "CALLOC" I have to remove myself.  Use the
+**  latter for objects that need to persist between the 
+**  s_to_rp1 and s_to_rp2 calls
+*/
+#define ALLOC(a,b)  R_alloc(a,b)
+#define CALLOC(a,b) R_chk_calloc((size_t)(a), b)
+#define RPARTNA(a) ISNAN(a)
+
+/* done with the R internals */
 #define LEFT  (-1)     /*used for the variable "extra" in nodes */
 #define RIGHT  1
 #define MISSING 0
@@ -25,6 +34,7 @@
 #else
 #define EXTERN extern
 #endif
+
 /* As a sop to S, I need to keep the total number of external symbols
 **  somewhat smaller.  So, pack most of them all into a structure.
 */
@@ -33,16 +43,16 @@ EXTERN struct {
     double alpha;
     double iscale;         /* used to check improvement==0, with error */
     double **ydata;
-    FLOAT  **xdata;
-    FLOAT  *xtemp;
+    double **xdata;
+    double *xtemp;
     double *wt;
     double **ytemp;
     double *wtemp;          /* temp vector of weights */
     double *lwt;
     double *rwt;            /*scratch double vectors, of length ncat */
     double *vcost;          /* variable costs */
-    Sint    *numcat;        /* variable type: 0=cont, 1+  =#categories */
-    Sint   **sorts;             /* allocated on the fly */
+    int    *numcat;        /* variable type: 0=cont, 1+  =#categories */
+    int   **sorts;          /* matrix of sort indices */
     int    n;              /* total number of subjects  */
     int    num_y;          /* number of y variables */
     int    nvar;           /* number of predictors */
@@ -60,13 +70,14 @@ EXTERN struct {
     int    *csplit;
     int    *left;
     int    *right;
-    }  rp;
+}  rp;
 
 EXTERN struct cptable *cptable_tail;
 EXTERN int  (*rp_init)();    /*called to initialize a splitting function */
 EXTERN void (*rp_choose)();  /*set to the splitting function */
 EXTERN void (*rp_eval)() ;   /*set to the evaluation routine */
 EXTERN double (*rp_error)();     /*set to the prediction error routine */
+EXTERN int nodesize;
 
 /*
 ** The user inputs his complexity parameter as a percentage. and the

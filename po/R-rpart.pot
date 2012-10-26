@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rpart 3.1-55\n"
-"POT-Creation-Date: 2012-10-03 15:19\n"
+"Project-Id-Version: rpart 4.0-0\n"
+"POT-Creation-Date: 2012-10-05 09:17\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,9 @@ msgstr ""
 msgid "Tree has variables not found in new data"
 msgstr ""
 
+msgid "type 'class' is only appropriate for classification"
+msgstr ""
+
 msgid "Invalid prediction for \"rpart\" object"
 msgstr ""
 
@@ -38,6 +41,12 @@ msgid "'x' must be an \"rpart\" object"
 msgstr ""
 
 msgid "Invalid type of residual"
+msgstr ""
+
+msgid "Not legitimate \"rpart\" tree and endpoint not a 2 level-factor"
+msgstr ""
+
+msgid "a 'formula' argument is required"
 msgstr ""
 
 msgid "Trees cannot handle interaction terms"
@@ -164,6 +173,9 @@ msgid "User 'split' function returned invalid goodness"
 msgstr ""
 
 msgid "User 'split' function returned invalid direction"
+msgstr ""
+
+msgid "no information available on parameters from previous call to plot()"
 msgstr ""
 
 msgid "x does not appear to be an \"rpart\" object"

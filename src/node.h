@@ -1,25 +1,15 @@
 /*
 ** definition of a node in the tree
 */
-#ifndef FLOAT
-#define FLOAT float   /*see comments in rpart.h */
-#endif
-
-#ifdef MAINRP
-#define EXTERN
-#else
-#define EXTERN extern
-#endif
-
 struct split {
     double improve;
     double adj;           /* for surrogates only, adjusted agreement */
-    FLOAT spoint;    /*only used if it is continuous */
+    double spoint;    /*only used if it is continuous */
     struct split *nextsplit;
     int var_num;
     int count;
     int csplit[2];     /*the actual length will be longer for a categorical */
-    };                 /*   predictor with >2 levels */
+};                 /*   predictor with >2 levels */
 
 struct node {
     double  risk;       /*risk for the node */
@@ -32,8 +22,7 @@ struct node {
     int num_obs;
     int lastsurrogate;
     double response_est[2];  /*actual length depends on splitting rule */
-    };
-EXTERN int nodesize;
+};
 
 struct cptable {
     double cp;
@@ -43,7 +32,7 @@ struct cptable {
     int nsplit;
     struct cptable *forward;
     struct cptable *back;
-    }  ;
+};
 
 /**************************************************************************
 **

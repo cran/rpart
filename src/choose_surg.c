@@ -5,28 +5,27 @@
 **  Note that the CART folks use the %concordance, which factors missing
 **  values into the equations somewhat differently.
 **
-**  y is coded as  +1=left, -1=right, 0=missing 
-** 
+**  y is coded as  +1=left, -1=right, 0=missing
+**
 */
 #include "rpart.h"
 #include "rpartproto.h"
 
-void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order, 
-		 int ncat,    double *agreement, FLOAT *split, int *csplit,
+void choose_surg(int n1, int n2, int *y,         double *x,     int *order,
+		 int ncat,    double *agreement, double *split, int *csplit,
 		 double tleft,double tright,     double *adj)
-    {
-    int i,j;
+{
+    int i,j, k;
     int agree;
     int lcount, rcount;
     int ll, lr, rr, rl;
     double llwt, lrwt, rrwt, rlwt;   /* sum of weights for each */
     int defdir;
-    FLOAT lastx = 0.0;
-    int  *which, *left, *right;
+    double lastx =0.0;
+    int  *left, *right;
     double *lwt, *rwt;
     double majority, total_wt;
 
-    which = rp.which;
     left = rp.left;
     right =rp.right;
     lwt   =rp.lwt;
@@ -47,25 +46,26 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 	*/
 	ll = rl =0;
 	llwt =0; rlwt =0;
-	for (i=rp.n-1; i>=0; i--) { /*start with me sending all to the left */
+	for (i=n2-1; i>=n1; i--) { /*start with me sending all to the left */
 	    j = order[i];
-	    if (j>=0 &&  which[j]==nodenum) {  
-		lastx = x[i];        /*this is why I ran the loop backwards*/
+	    if (j>=0) {
+		lastx = x[j];        /*this is why I run the loop backwards*/
 		switch( y[j]) {
-		    case LEFT : ll++;
-			        llwt += rp.wt[j];
-				break;
-		    case RIGHT: rl++;
-			        rlwt += rp.wt[j];
-				break;
-		    default   :;
-		    }
+		case LEFT : ll++;
+		    llwt += rp.wt[j];
+		    break;
+		case RIGHT: rl++;
+		    rlwt += rp.wt[j];
+		    break;
+		default   :;
 		}
 	    }
+	}
+
 	lr = rr =0;
 	lrwt =0; rrwt=0;
-	if (llwt > rlwt) agree = llwt;
-	else             agree = rlwt;
+	if (llwt > rlwt) agree = (int)llwt;
+	else             agree = (int)rlwt;
 
 	majority   = agree;             /*worst possible agreement */
 	total_wt  = llwt + rlwt;
@@ -74,38 +74,38 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 	**    the "lastx" code is caring for ties in the x var
 	**    (The loop above sets it to the first unique x value).
 	*/
-	for (i=0; (ll+rl)>=2; i++) {
+	for (i=n1; (ll+rl)>=2; i++) {
 	    j = order[i];
-	    if (j >=0 &&  which[j]==nodenum) {       /* obs is in this node */
-		if ((lr+rr)>=2  &&  x[i] != lastx) {
+	    if (j >=0) {       /* not a missing value */
+		if ((lr+rr)>=2  &&  x[j] != lastx) {
 		    /* new x found, evaluate the split */
 		    if ((llwt +rrwt) > agree) {
-			agree = llwt + rrwt;
+			agree = (int)(llwt + rrwt);
 			csplit[0] = RIGHT;       /* < goes to the right */
-			*split = (x[i] + lastx)/2;
-			}
-		    else if ((lrwt +rlwt) > agree) {
-			agree = lrwt + rlwt;
-			csplit[0] = LEFT;
-			*split = (x[i] + lastx)/2;
-			}
+			*split = (x[j] + lastx)/2;
 		    }
+		    else if ((lrwt +rlwt) > agree) {
+			agree = (int)(lrwt + rlwt);
+			csplit[0] = LEFT;
+			*split = (x[j] + lastx)/2;
+		    }
+		}
 
 		switch (y[j]) {    /* update numbers */
-		    case LEFT : ll--; lr++;
-			        llwt -= rp.wt[j];
-				lrwt += rp.wt[j];
-				break;
-		    case RIGHT: rl--; rr++;
-			        rlwt -= rp.wt[j];
-				rrwt += rp.wt[j];
-				break;
-		    default   : ;         /*ignore missing y's */
-		    }
-		lastx = x[i];
+		case LEFT : ll--; lr++;
+		    llwt -= rp.wt[j];
+		    lrwt += rp.wt[j];
+		    break;
+		case RIGHT: rl--; rr++;
+		    rlwt -= rp.wt[j];
+		    rrwt += rp.wt[j];
+		    break;
+		default   : ;         /*ignore missing y's */
 		}
+		lastx = x[j];
 	    }
 	}
+    }
 
     else {     /* categorical predictor */
 	for (i=0; i<ncat; i++) {
@@ -113,27 +113,28 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 	    right[i]=0;
 	    lwt[i] = 0;
 	    rwt[i] = 0;
-	    }
+	}
 
 	/* First step:
 	**  left = table(x[y goes left]), right= table(x[y goes right])
 	**  so left[2] will be the number of x==2's that went left,
 	**  and lwt[2] the sum of the weights for those observations.
 	*/
-	for (i=0; i<rp.n; i++) {
-	    if (which[i] == nodenum &&  order[i]>=0) {
-		j = (int)x[i] -1;
-		switch( y[i]) {
-		    case LEFT : left[j]++;
-			        lwt[j] += rp.wt[i];
-				break;
-		    case RIGHT: right[j]++;
-			        rwt[j] += rp.wt[i];
-				break;
-		    default:;
-		    }
+	for (i=n1; i<n2; i++) {
+	    j = order[i];
+	    if (j >=0) {
+		k = (int)x[j] -1;
+		switch( y[j]) {
+		case LEFT : left[k]++;
+		    lwt[k] += rp.wt[j];
+		    break;
+		case RIGHT: right[k]++;
+		    rwt[k] += rp.wt[j];
+		    break;
+		default:;
 		}
 	    }
+	}
 
 	/*
 	**  Compute which is better: everyone to the right, or all go left
@@ -145,18 +146,18 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 	    rcount += right[i];
 	    llwt += lwt[i];
 	    rrwt += rwt[i];
-	    }
+	}
 	if (llwt > rrwt) {
 	    defdir= LEFT;
 	    majority= llwt;
-	    }
+	}
 	else {
-            defdir= RIGHT;
+	    defdir= RIGHT;
 	    majority =rrwt;
-	    }
+	}
 	total_wt  = llwt + rrwt;
 
-	/* 
+	/*
 	** We can calculate the best split category by category--- send each
 	**  x value individually to its better direction
 	*/
@@ -167,28 +168,29 @@ void choose_surg(int nodenum,    int *y,         FLOAT *x,     Sint *order,
 		if (lwt[i]< rwt[i] || (lwt[i]==rwt[i] && defdir==RIGHT)) {
 		    agree+= rwt[i];
 		    csplit[i] = RIGHT;
-		    }
+		}
 		else {
 		    agree += lwt[i];
 		    csplit[i] = LEFT;
-		    }
 		}
 	    }
 	}
+    }
 
     /*
     **  Now we have the total agreement.  Calculate the %agreement and
     **    the adjusted agreement
     **  For both, do I use the total y vector as my denominator (my
-    **    preference), or only the y's for non-missing x (CART book).
+    **    preference), or only the y's for non-missing x (CART book)?
+    **    If the former, need to reset some totals.
     */
     if (rp.sur_agree ==0) { /* use total table */
 	total_wt = tleft + tright;
 	if (tleft > tright) majority=tleft;
 	else                majority=tright;
-	}
+    }
 
     *agreement = agree/ total_wt;
     majority /= total_wt;
     *adj = (*agreement -majority)/ (1-majority);
-    }
+}

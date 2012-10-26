@@ -1,9 +1,13 @@
+2012 Oct ??	4.0-?	Merge in updates from TMT: see inst/NEWS.Rd 
+	                and Changelog.TMT.
+	                Use .Call for all C code.
+	                Use an environment in the package for parms from
+	                plot.rpart().
+
 2012 Oct 03	3.1-55	Force use of registered symbols in R >= 2.16.0
 	                Update Polish translations.
 	                Work on message formats.
 	                text(fancy = TRUE) gains a 'bg' argument.
-	                Specifying 'label' to text() (which has long been
-	                unused) is now an error.
 
 2012 Jun 27	3.1-54	Add Polish tranlations.
 

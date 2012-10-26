@@ -1,14 +1,13 @@
-predict.rpart <-
-function(object, newdata = list(),
-	 type = c("vector", "prob", "class", "matrix"), na.action = na.pass,
-         ...)
+predict.rpart <- function(object, newdata,
+	 type = c("vector", "prob", "class", "matrix"),
+         na.action=na.pass, ...)
 {
     if(!inherits(object, "rpart")) stop("Not a legitimate \"rpart\" object")
 
     mtype <- missing(type)
     type <- match.arg(type)
     if(missing(newdata))
-	where <- object$where
+        where <- object$where
     else {
 	if(is.null(attr(newdata, "terms"))) {
 	    Terms <- delete.response(object$terms)
@@ -20,7 +19,7 @@ function(object, newdata = list(),
 	where <- pred.rpart(object, rpart.matrix(newdata))
     }
     frame <- object$frame
-    ylevels <- attr(object, "ylevels")
+    ylevels <- attr(object,"ylevels")
     nclass <- length(ylevels)
     if(mtype && nclass > 0L) type <- "prob"
     if(type == "vector" || (type=="matrix" && is.null(frame$yval2))) {
@@ -31,7 +30,9 @@ function(object, newdata = list(),
 	pred <- frame$yval2[where,]
 	dimnames(pred) <- list(names(where), NULL)
     }
-    else if(type == "class" && nclass > 0L) {
+    else if(type == "class" && nclass >0L) {
+	if(length(ylevels) == 0L)
+            stop("type 'class' is only appropriate for classification")
 	pred <- factor(ylevels[frame$yval[where]], levels=ylevels)
 	names(pred) <- names(where)
     }

@@ -3,12 +3,11 @@
 */
 #include <math.h>
 #include "rpart.h"
-#include "rpartS.h"
 
 static double exp_alpha,
 	      exp_beta;
 static double *death,
-              *wtime, 
+	      *wtime,
 	      *rate;
 static int    *countn,
 	      *order,
@@ -17,9 +16,9 @@ static int    which_pred;
 /*
 ** initialize the necessary common variables for poisson fits
 */
-int poissoninit(int n,         double *y[], int maxcat, char **error, 
+int poissoninit(int n,         double *y[], int maxcat, char **error,
 		double *param, int *size,   int who,    double *wt)
-    {
+{
     int i;
     double event, time;
 
@@ -31,7 +30,7 @@ int poissoninit(int n,         double *y[], int maxcat, char **error,
 	order = (int *) ALLOC(3*maxcat, sizeof(int));
 	order2= order +maxcat;
 	countn= order2 + maxcat;
-	}
+    }
 
     /* check data */
     if (who==1) {
@@ -39,13 +38,13 @@ int poissoninit(int n,         double *y[], int maxcat, char **error,
 	    if (y[i][0] <=0) {
 		*error =  _("Invalid time point");
 		return(1);
-		}
+	    }
 	    if (y[i][1] < 0) {
 		*error = _("Invalid event count");
 		return(1);
-		}
 	    }
 	}
+    }
 
     /* compute the overall hazard rate */
     event=0;
@@ -53,7 +52,7 @@ int poissoninit(int n,         double *y[], int maxcat, char **error,
     for (i=0; i<n; i++) {
 	event += y[i][1] * wt[i];
 	time  += y[i][0] * wt[i];
-	}
+    }
 
     /*
     ** Param[0] will contain the desired CV.  If is is <=0, no shrinking
@@ -63,28 +62,29 @@ int poissoninit(int n,         double *y[], int maxcat, char **error,
     if (param[0] <=0) {
 	exp_alpha =0;
 	exp_beta  =0;
-	}
+    }
     else {
 	exp_alpha =  1/(param[0]*param[0]);
 	exp_beta =  exp_alpha /(event/time);
-	}
+    }
     /*
     ** Param[1] contains the xval rule:  1=deviance, 2=square root
     */
-    which_pred = param[1];
+    which_pred = (int) param[1];
     if (param[1] !=1 && param[1] !=2) {
 	*error = "Invalid error rule";
 	return(1);
-	}
+    }
 
     *size =2;
     return(0);
-    }
+}
 
 /*
 **  Compute the error of prediction
 */
-double poissonpred(double *y, double *lambda) {
+double poissonpred(double *y, double *lambda)
+{
     double temp, dev;
 
     if (which_pred==1) {
@@ -92,9 +92,9 @@ double poissonpred(double *y, double *lambda) {
 	dev  = temp - *lambda*y[0];
 	if (temp>0)
 	    dev += temp * log(*lambda * y[0] / temp);
-	
+
 	return(-2*dev);
-	}
+    }
     else {
 	/*
 	** A version based on square roots, which is the
@@ -102,8 +102,8 @@ double poissonpred(double *y, double *lambda) {
 	*/
 	temp = sqrt(y[1]) - sqrt(*lambda * y[0]); /*sqrt(obs) - sqrt(exp) */
 	return(temp*temp);
-	}	
     }
+}
 
 /*
 ** Compute the predicted response rate (empirical Bayes) and the
@@ -112,7 +112,7 @@ double poissonpred(double *y, double *lambda) {
 **   where p_i = predicted # events = \lambda t_i
 */
 void poissondev(int n, double **y, double *value, double *risk, double *wt)
-    {
+{
     int i;
     double  death, time;
     double lambda, dev;
@@ -127,7 +127,7 @@ void poissondev(int n, double **y, double *value, double *risk, double *wt)
     for (i=0; i<n; i++) {
 	death += y[i][1] * wt[i];
 	time  += y[i][0] * wt[i];
-	}
+    }
     lambda = (death + exp_alpha) / (time + exp_beta);
 
     dev =0;
@@ -136,29 +136,29 @@ void poissondev(int n, double **y, double *value, double *risk, double *wt)
 	dev -= (lambda*y[i][0] - temp) * wt[i];
 	if (temp>0)
 	    dev += (temp * log(lambda * y[i][0] / temp)) * wt[i];
-	}
+    }
 
     value[0] = lambda;
     value[1] = death;
     *risk  = -2 * dev;
-    }
+}
 
 /*
 ** The poisson splitting function.  Find that split point in x such that
 **  the dev within the two groups is decreased as much
 **  as possible.  It is not necessary to actually calculate the devs,
 **  as nearly everything cancels.  The search for a split does not use the
-**  Bayes estimate, for speed reasons.  
+**  Bayes estimate, for speed reasons.
 ** With \hat\lambda = (\sum w_i d_i) / (\sum w_i t_i)
 **  we have  deviance(total) - [ deviance(left son) + deviance(right son)]
 **              =  d_l \lambda_l +  d_r \lambda_r -  d_t \lambda_t,
-**   where d_l = weigthed sum of deaths for the left son, d_r = right, 
+**   where d_l = weigthed sum of deaths for the left son, d_r = right,
 **   d_t = total, and lambda_l etc are the estimated response rates
 */
-void poisson(int n,       double **y,      FLOAT *x,     int nclass, 
-	     int edge,    double *improve, FLOAT *split,
+void poisson(int n,       double **y,      double *x,     int nclass,
+	     int edge,    double *improve, double *split,
 	     int *csplit, double my_risk,  double *wt)
-    {
+{
     int i,j;
     int    left_n, right_n;
     double left_time, right_time;
@@ -166,8 +166,8 @@ void poisson(int n,       double **y,      FLOAT *x,     int nclass,
     double dev;      /*dev of the parent node (me) */
     double lambda1, lambda2;
     double best, temp;
-    int direction = LEFT;
-    int where = 0;
+    int direction= LEFT;
+    int where =0;
     int ncat;
 
     /*
@@ -179,7 +179,7 @@ void poisson(int n,       double **y,      FLOAT *x,     int nclass,
     for (i=0; i<n; i++) {
 	right_d += y[i][1] * wt[i];
 	right_time += y[i][0] * wt[i];
-	}
+    }
 
     /*
     ** Compute the overall lambda and dev
@@ -188,7 +188,7 @@ void poisson(int n,       double **y,      FLOAT *x,     int nclass,
     if (lambda2 ==0) {
 	*improve=0;         /*no deaths to split! */
 	return;
-	}
+    }
     dev = right_d*log(lambda2);
 
     /*
@@ -216,16 +216,16 @@ void poisson(int n,       double **y,      FLOAT *x,     int nclass,
 		best=temp;
 		where =i;
 		if (lambda1  < lambda2) direction = LEFT;
-				else    direction = RIGHT;
-		}
+		else    direction = RIGHT;
 	    }
 	}
+    }
 
     *improve =  -2*(dev - best) ;
     if (where >= 0 ) {   /* found something */
 	csplit[0] = direction;
 	*split = (x[where] + x[where+1]) /2;
-	}
+    }
     return;
 
 categorical:;
@@ -233,14 +233,14 @@ categorical:;
 	wtime[i] =0;
 	death[i] =0;
 	countn[i]=0;
-	}
+    }
 
     for (i=0; i<n; i++) {
-	j = x[i] -1;
+	j = (int)(x[i] - 1);
 	countn[j]++;		        /* number per group */
 	death[j]+= y[i][1] * wt[i];
 	wtime[j] += y[i][0] * wt[i];     /*sum of time */
-	}
+    }
 
     /*
     ** Rank the rates  - each is scored as the number of others that it
@@ -255,17 +255,17 @@ categorical:;
 	    for (j=i-1; j>=0; j--) {
 		if (countn[j] >0) {
 		    if (rate[i]>rate[j])  order[j]++;
-			else              order[i]++;
-		    }
+		    else              order[i]++;
 		}
 	    }
 	}
+    }
     /*
     ** order2 will point to the largest, second largest, etc
     */
     for (i=0; i<nclass; i++) {
 	if (countn[i]>0) order2[order[i]]=i;
-	}
+    }
 
     /*
     ** Now find the split that we want
@@ -294,10 +294,10 @@ categorical:;
 		best=temp;
 		where =i;
 		if (lambda1  < lambda2) direction = LEFT;
-				else    direction = RIGHT;
-		}
+		else    direction = RIGHT;
 	    }
 	}
+    }
 
     *improve =  -2*(dev - best) ;
 
@@ -306,4 +306,4 @@ categorical:;
     for (i=0; i<=where; i++)  csplit[order2[i]] = direction ;
     for (   ; i<ncat; i++)    csplit[order2[i]] =  -direction;
 
-    }
+}

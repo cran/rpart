@@ -1,20 +1,25 @@
-# Compute the x-y coordinates for a tree
-rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
+## Compute the x-y coordinates for a tree
+rpartco <- function(tree, parms)
 {
+    if (missing(parms)) {
+        pn <- paste0("device", dev.cur())
+        if (!exists(pn, envir = rpart_env, inherits = FALSE))
+            stop("no information available on parameters from previous call to plot()")
+        parms <- get(pn, envir = rpart_env, inherits = FALSE)
+    }
 
     frame <- tree$frame
     node <- as.numeric(row.names(frame))
     depth <- tree.depth(node)
     is.leaf <- (frame$var == '<leaf>')
-    if (exists(parms, envir=.GlobalEnv)) {
-	parms <- get(parms, envir=.GlobalEnv)
+    if (length(parms)) {
 	uniform <- parms$uniform
 	nspace <-parms$nspace
 	minbranch <- parms$minbranch
     } else {
 	uniform <- FALSE
 	nspace <- -1
-	minbranch <- .3
+	minbranch <- 0.3
     }
 
     if(uniform)
@@ -25,7 +30,7 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
         parent <- match(floor(node/2), node)
         sibling <- match(ifelse(node %% 2, node - 1, node + 1), node)
 
-	## assign the depths
+        ## assign the depths
         for(i in temp[-1L]) {
 	    temp2 <- dev[parent[i]] - (dev[i] + dev[sibling[i]])
             y[i] <- y[parent[i]] - temp2
@@ -33,30 +38,30 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	##
 	## For some problems, classification & loss matrices in particular
 	##   the gain from a split may be 0.  This is ugly on the plot.
-	## Hence the "fudge" factor of  .3* the average step
+	## Hence the "fudge" factor of  0.3 * the average step
 	##
 	fudge <-  minbranch * diff(range(y)) / max(depth)
         for(i in temp[-1L]) {
 	    temp2 <- dev[parent[i]] - (dev[i] + dev[sibling[i]])
 	    haskids <- !(is.leaf[i] & is.leaf[sibling[i]])
-	    y[i] <- y[parent[i]] - ifelse(temp2<=fudge & haskids, fudge, temp2)
+	    y[i] <- y[parent[i]] - ifelse(temp2 <= fudge & haskids, fudge, temp2)
         }
 	y <- y / (max(y))
     }
 
-    ## Now compute the x coordinates, by spacing out the leaves and then
-    ##   filling in
+    # Now compute the x coordinates, by spacing out the leaves and then
+    #   filling in
     x   <-  double(length(node))         #allocate, then fill it in below
     x[is.leaf] <- seq(sum(is.leaf))      # leaves at 1, 2, 3, ....
-    left.child <- match(node * 2, node)
-    right.child <- match(node * 2 + 1, node)
+    left.child <- match(node * 2L, node)
+    right.child <- match(node * 2L + 1L, node)
 
     ## temp is a list of non-is.leaf, by depth
     temp <- split(seq(node)[!is.leaf], depth[!is.leaf])
     for(i in rev(temp))
         x[i] <- 0.5 * (x[left.child[i]] + x[right.child[i]])
 
-    if (nspace < 0) return(list(x=x, y=y))
+    if (nspace < 0) return(list(x = x, y = y))
 
     ##
     ## Now we get fancy, and try to do overlapping
@@ -92,9 +97,9 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
             x <- left$x
         }
 
-        rson <- me + 1L + length(left$sons)
-	if (is.leaf[rson]) right <- list(left=x[rson], right=x[rson],
-                                         depth=depth+1L, sons=rson)
+        rson <- me + 1L + length(left$sons) #index of right son
+	if (is.leaf[rson]) right<- list(left=x[rson], right=x[rson],
+                                        depth=depth+1L, sons=rson)
 	else {
             right <- compress(x, rson, depth+1L)
             x <- right$x
@@ -103,16 +108,17 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
 	maxd <- max(left$depth, right$depth) - depth
         mind <- min(left$depth, right$depth) - depth
 
-	## Find the smallest distance between the two subtrees
-	##   But only over depths that they have in common
-	## 1 is a minimum distance allowed
+        ## Find the smallest distance between the two subtrees
+        ##   But only over depths that they have in common
+        ## 1 is a minimum distance allowed
 	slide <- min(right$left[1L:mind] - left$right[1L:mind]) - 1L
-	if (slide > 0) { # slide the right hand node to the left
+	if (slide >0) {        # slide the right hand node to the left
 	    x[right$sons] <- x[right$sons] - slide
 	    x[me] <- (x[right$sons[1L]] + x[left$sons[1L]])/2
-        } else slide <- 0
+        }
+	else slide <- 0
 
-	## report back
+        ## report back
         if (left$depth > right$depth) {
 	    templ <- left$left
             tempr <- left$right
@@ -131,4 +137,3 @@ rpartco <- function(tree, parms =  paste(".rpart.parms", dev.cur(), sep = "."))
     x <- compress(x, 1L, 1L)$x
     list(x = x, y = y)
 }
-

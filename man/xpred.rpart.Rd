@@ -8,7 +8,7 @@
   cross validation, for a set of complexity parameter values.
 }
 \usage{
-xpred.rpart(fit, xval=10, cp)
+xpred.rpart(fit, xval=10, cp, return.all=FALSE)
 }
 \arguments{
 \item{fit}{
@@ -21,10 +21,19 @@ a \code{rpart} object.
 \item{cp}{
   the desired list of complexity values.  By default it is taken from the
   \code{cptable} component of the fit.
-}}
+}
+\item{return.all}{
+  if FALSE return only the first element of the prediction}
+}
 \value{
   A matrix with one row for each observation and one column for each complexity
-  value.
+  value.  If \code{return.all} is TRUE and the prediction for each node
+  is a vector, then the result will be an array containing all of the
+  predictions.  When the response is categorical, for instance, the
+  result contains the predicted class followed by the class
+  probabilities of the selected terminal node;
+  \code{result[1,,]} will be the matrix of predicted classes,
+  \code{result[2,,]} the matrix of class 1 probabilities, etc.
 }
 \details{
   Complexity penalties are actually ranges, not values.  If the

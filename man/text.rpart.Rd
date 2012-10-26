@@ -1,7 +1,7 @@
 \name{text.rpart}
 \alias{text.rpart}
 \title{
-  Place Text on a Dendrogram 
+  Place Text on a Dendrogram Plot
 }
 \description{
   Labels the current plot of the tree dendrogram with text.

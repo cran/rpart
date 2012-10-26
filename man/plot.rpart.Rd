@@ -62,6 +62,11 @@ components \code{x} and \code{y}.
 }
 \section{Side Effects}{
 An unlabeled plot is produced on the current graphics device.
+
+In order to build up a plot in the usual S style, e.g., a separate \code{text}
+command for adding labels, some extra information about the plot needs
+be retained.  This is kept in \code{options("rpartplot")}; there is no need
+for this option to be retained from one R session to another, however.
 }
 \details{
 This function is a method for the generic function \code{plot}, for objects

@@ -40,4 +40,3 @@ printcp <- function(x, digits=getOption("digits")-2)
     invisible(x$cptable)
 }
 
-

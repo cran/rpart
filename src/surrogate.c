@@ -16,24 +16,22 @@
 #include "node.h"
 #include "rpartproto.h"
 
-void surrogate(struct node *me, int nodenum)
-    {
+void surrogate(struct node *me, int n1, int n2)
+{
     int i, j, k;
     int var;   /* the primary split variable */
-    FLOAT split;
+    double split;
     double improve;
     double lcount, rcount;    /* weight sent left and right by primary */
     int extra;
     struct split *ss;
     int  *index;
-    int  *which,
-	 *tempy;
-    Sint **sorts;
-    FLOAT **xdata;
+    int  *tempy;
+    int **sorts;
+    double **xdata;
     int ncat;
     double adj_agree;
 
-    which = rp.which;
     tempy = rp.tempvec;
     sorts = rp.sorts;
     xdata = rp.xdata;
@@ -47,39 +45,44 @@ void surrogate(struct node *me, int nodenum)
     if (rp.numcat[var]==0)  {  /* continuous variable */
 	split = (me->primary)->spoint;
 	extra = (me->primary)->csplit[0];
-	for (i=0; i<rp.n; i++) {
+	for (i=n1; i<n2; i++) {
 	    j = sorts[var][i];
 	    if (j<0) tempy[-(j+1)]=0;
-	    else if (which[j] == nodenum) {
-		if (xdata[var][i] < split)
-			 tempy[j] = extra;
+	    else {
+		if (xdata[var][j] < split)
+		    tempy[j] = extra;
 		else
-			 tempy[j] =  -extra;
-		}
+		    tempy[j] =  -extra;
 	    }
 	}
+    }
 
     else {  /* categorical variable */
 	index = (me->primary)->csplit;
-	for (i=0; i<rp.n; i++) {
-	    if (which[i] != nodenum) continue;
-	    if (sorts[var][i]<0) tempy[i] =0;
-	    else        tempy[i] = index[(int)xdata[var][i] -1];
-	    }
+	for (i=n1; i<n2; i++) {
+	    j = sorts[var][i];
+	    if (j<0)    tempy[-(j+1)] =0;
+	    else        tempy[j] = index[(int)xdata[var][j] -1];
 	}
+    }
 
+    /* count the total number sent left and right */
     lcount=0; rcount=0;
-    for (i=0; i<rp.n; i++) {
-	if (which[i] != nodenum) continue;
-	switch(tempy[i]) {
-	    case LEFT : lcount += rp.wt[i];  break;
-	    case RIGHT: rcount += rp.wt[i];  break;
-	    default: break;
-	    }
+    for (i=n1; i<n2; i++) {
+	j = sorts[var][i];
+	if (j <0) j= -(1+j);
+	switch(tempy[j]) {
+	case LEFT : lcount += rp.wt[j];  break;
+	case RIGHT: rcount += rp.wt[j];  break;
+	default: break;
 	}
+    }
 
-    if (lcount < rcount) me->lastsurrogate = RIGHT;
-    else                 me->lastsurrogate = LEFT;
+    if (lcount < rcount)     me->lastsurrogate = RIGHT;
+    else {
+	if (lcount > rcount) me->lastsurrogate = LEFT;
+	else		     me->lastsurrogate =0 ;  /* no default */
+    }
 
     /*
     ** Now walk through the variables
@@ -89,9 +92,10 @@ void surrogate(struct node *me, int nodenum)
 	if (var == i) continue;
 	ncat = rp.numcat[i];
 
-	choose_surg(nodenum, tempy, xdata[i], sorts[i], ncat,
-		       &improve, &split, rp.csplit,   lcount, rcount,
-		       &adj_agree);
+	choose_surg(n1, n2, tempy, xdata[i], sorts[i], ncat,
+		    &improve, &split, rp.csplit,   lcount, rcount,
+		    &adj_agree);
+
 	if (adj_agree <=0) continue;  /*no better than default */
 
 	/*  sort it onto the list of surrogates */
@@ -104,8 +108,8 @@ void surrogate(struct node *me, int nodenum)
 	    if (rp.numcat[i]==0) {
 		ss->spoint    = split;
 		ss->csplit[0] = rp.csplit[0];
-		}
-	    else for (k=0; k<rp.numcat[i]; k++) ss->csplit[k] = rp.csplit[k];
 	    }
+	    else for (k=0; k<rp.numcat[i]; k++) ss->csplit[k] = rp.csplit[k];
 	}
     }
+}

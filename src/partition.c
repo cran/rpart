@@ -6,59 +6,66 @@
 **   it simply returns.  The routine may not be able to discover that the
 **   complexity is too small until after the children have been partitioned,
 **   so it needs to check this at the end.
+** The vector who[n] indexes which observations are in this node, to speed
+**   up the routine.
 */
-#include <stdio.h>
 #include "rpart.h"
 #include "node.h"
 #include "rpartproto.h"
-#include "rpartS.h"
 
-int partition(int nodenum, struct node *splitnode, double *sumrisk)
-    {
+int partition(int nodenum, struct node *splitnode, double *sumrisk,
+	      int n1, int n2)
+{
     struct node *me;
     double tempcp;
-    int i,j;
+    int i,j, k;
     double tempcp2;
     double left_risk, right_risk;
     int left_split, right_split;
     double twt;
+    int nleft, nright;
+    int n;
 
     me = splitnode;
+    n = n2 - n1;  /* total number of observations */
+
     if (nodenum >1) {
-	j=0;
 	twt =0;
-	for (i=0; i<rp.n; i++)
-	    if (rp.which[i] == nodenum) {
-		rp.wtemp[j]   = rp.wt[i];
-		rp.ytemp[j++] = rp.ydata[i];
-		twt += rp.wt[i];
-		}
-	(*rp_eval)(j, rp.ytemp, me->response_est, &(me->risk), rp.wtemp);
-	me -> num_obs = j;
+	k=0;
+	for (i=n1; i<n2; i++) {
+	    j = rp.sorts[0][i];     /* any variable would do, use first */
+	    if (j<0) j = -(1+j);    /* if missing, value = -(1+ true index) */
+	    rp.wtemp[k]   = rp.wt[j];
+	    rp.ytemp[k] = rp.ydata[j];
+	    twt += rp.wt[j];
+	    k++;
+	}
+	(*rp_eval)(n, rp.ytemp, me->response_est, &(me->risk), rp.wtemp);
+	me -> num_obs = n;
 	me -> sum_wt  = twt;
 	tempcp = me->risk;
 	if (tempcp > me->complexity)  tempcp = me->complexity;
-	}
+    }
     else {
 	tempcp = me->risk;
-	}
+    }
 
     /*
     ** Can I quit now ?
     */
-    if (me->num_obs < rp.min_split  ||  tempcp <= rp.alpha  || 
+    if (me->num_obs < rp.min_split  ||  tempcp <= rp.alpha  ||
 	nodenum > rp.maxnode) {
 	me->complexity =  rp.alpha;
 	me->leftson = (struct node *)0;
 	me->rightson= (struct node *)0;
 	*sumrisk = me->risk;
 	return(0);
-	}
+    }
 
     /*
     ** Guess I have to do the split
     */
-    bsplit(me, nodenum);
+    bsplit(me, n1, n2);
     if (me->primary ==0) {
 	/*
 	** This is rather rare -- but I couldn't find a split worth doing
@@ -68,18 +75,18 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
 	me->rightson= (struct node *)0;
 	*sumrisk = me->risk;
 	return(0);
-	}
+    }
 
-    if (rp.maxsur>0) (void)surrogate(me, nodenum);
+    if (rp.maxsur>0) (void)surrogate(me, n1, n2);
     else  me->surrogate =0;
-    nodesplit(me, nodenum);
+    nodesplit(me, nodenum, n1, n2, &nleft, &nright);
 
     /*
     ** split the leftson
     */
     me->leftson = (struct node *)CALLOC(1, nodesize);
     (me->leftson)->complexity = tempcp - rp.alpha;
-    left_split = partition(2*nodenum, me->leftson, &left_risk);
+    left_split = partition(2*nodenum, me->leftson, &left_risk, n1, n1+ nleft);
 
     /*
     ** Update my estimate of cp, and split the right son.
@@ -91,7 +98,8 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
 
     me->rightson = (struct node *) CALLOC(1, nodesize);
     (me->rightson)->complexity = tempcp - rp.alpha;
-    right_split = partition(1+2*nodenum, me->rightson, &right_risk);
+    right_split = partition(1+2*nodenum, me->rightson, &right_risk,
+			    n1+nleft, n1+nleft+nright);
 
     /*
     ** Now calculate my actual C.P., which depends on children nodes, and
@@ -100,7 +108,7 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
     **  whole tree, an assumption to be fixed up later.
     */
     tempcp = (me->risk - (left_risk + right_risk))/
-		    (left_split + right_split +1);
+	(left_split + right_split +1);
 
     /* Who goes first -- minimum of tempcp, leftson, and rightson */
     if ( (me->rightson)->complexity  > (me->leftson)->complexity ) {
@@ -110,14 +118,14 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
 	    left_split =0;
 
 	    tempcp = (me->risk - (left_risk + right_risk)) /
-			    (left_split + right_split +1);
+		(left_split + right_split +1);
 	    if (tempcp > (me->rightson)->complexity) {
 		/* right one goes too */
 		right_risk = (me->rightson)->risk;
 		right_split=0;
-		}
 	    }
 	}
+    }
 
     else if (tempcp > (me->rightson)->complexity) {
 	/*right hand child goes first */
@@ -125,16 +133,16 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
 	right_risk = (me->rightson)->risk;
 
 	tempcp = (me->risk - (left_risk + right_risk)) /
-			(left_split + right_split +1);
+	    (left_split + right_split +1);
 	if (tempcp > (me->leftson)->complexity) {
 	    /* left one goes too */
 	    left_risk = (me->leftson)->risk;
 	    left_split=0;
-	    }
 	}
+    }
 
     me->complexity= (me->risk - (left_risk + right_risk))/
-			(left_split + right_split +1);
+	(left_split + right_split +1);
 
     if (me->complexity <= rp.alpha ) {
 	/*
@@ -145,10 +153,15 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk)
 	me->leftson = (struct node *)0;
 	me->rightson= (struct node *)0;
 	*sumrisk = me->risk;
-	return(0);             /*return # of splits */
+	for (i=n1; i<n2; i++) {
+	    j = rp.sorts[0][i];
+	    if (j<0)  j= -(1+j);
+	    rp.which[j] = nodenum; /*revert to the old nodenumber */
 	}
+	return(0);             /*return # of splits */
+    }
     else {
 	*sumrisk = left_risk + right_risk;
 	return(left_split +right_split +1);
-	}
-   }
+    }
+}

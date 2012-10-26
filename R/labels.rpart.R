@@ -42,7 +42,7 @@ labels.rpart <- function(object, digits=4, minlength=1L, pretty,
     ##
     lsplit <- rsplit <- vector(mode='character', length= length(irow))
 
-    if (any(ncat < 2L)) {                # any continuous vars ?
+    if (any(ncat < 2L)) {               # any continuous vars ?
 	jrow <- irow[ncat <2L]
 	cutpoint <- formatg(object$splits[jrow,4L], digits)
 	temp1 <- (ifelse(ncat<0, "< ", ">="))[ncat <2L]
@@ -73,7 +73,7 @@ labels.rpart <- function(object, digits=4, minlength=1L, pretty,
                                   c(letters, LETTERS)[k]
                               })
         }
-	else if (minlength > 1L)
+	else if (minlength >1L)
 	    xlevels <- lapply(xlevels, abbreviate, minlength, ...)
 
 	## Now tuck in the labels

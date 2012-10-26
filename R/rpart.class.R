@@ -7,6 +7,7 @@ rpart.class <- function(y, offset, parms, wt)
     numclass <- max(y[!is.na(y)])
     counts <- tapply(wt, factor(y, levels=1:numclass), sum)
     counts <- ifelse(is.na(counts), 0, counts) #in case of an empty class
+
     if (missing(parms) || is.null(parms))
 	parms <- list(prior=counts/sum(counts),
 		      loss=matrix(rep(1,numclass^2)-diag(numclass),numclass),
@@ -50,32 +51,33 @@ rpart.class <- function(y, offset, parms, wt)
     }
     else stop("Parameter argument must be a list")
 
-    list(y=y, parms=parms, numresp=numclass+1L, counts=counts,
+    list(y=y, parms=parms, numresp=numclass+2L, counts=counts,
 	 ylevels= levels(fy), numy=1L,
 	 print = function(yval, ylevel, digits) {
 	     if (is.null(ylevel))
                  temp <- as.character(yval[,1L])
 	     else    temp <- ylevel[yval[,1L]]
 
-	     nclass <- (ncol(yval) -1L)/2
+	     nclass <- (ncol(yval) - 2L)/2
 	     if (nclass <5) {
-		 yprob <- format(yval[, 1L+nclass + 1L:nclass],
-				 digits=digits,nsmall=digits)
+		 yprob <- format(yval[, 1L + nclass + 1L:nclass],
+				 digits = digits, nsmall = digits)
              }
-	     else yprob <- formatg(yval[, 1L+nclass + 1L:nclass], digits=2)
-             if(is.null(dim(yprob)))    # yprob is a vector
-                 yprob <- matrix(yprob, ncol=length(yprob))
-	     temp <- paste(temp, ' (', yprob[,1L], sep='')
+	     else yprob <- formatg(yval[, 1L + nclass + 1L:nclass], digits = 2L)
+	     if (!is.matrix(yprob)) #this case only occurs for no split trees
+                 yprob <- matrix(yprob, nrow=1L)
+	     temp <- paste(temp, ' (', yprob[, 1L], sep='')
 	     for(i in 2L:ncol(yprob))
                  temp  <- paste(temp, yprob[, i], sep=' ')
 	     temp <- paste(temp, ")", sep="")
 	     temp
          },
-	 summary= function(yval, dev, wt, ylevel, digits) {
-	     nclass <- (ncol(yval)-1L) /2
+	 summary = function(yval, dev, wt, ylevel, digits) {
+	     nclass <- (ncol(yval) - 2L) /2
 	     group <- yval[, 1L]
-	     counts <- yval[, 1L+ (1L:nclass)]
-	     yprob  <- yval[, 1L+nclass + 1L:nclass]
+	     counts <- yval[, 1L + (1L:nclass)]
+	     yprob  <- yval[, 1L + nclass + 1L:nclass]
+             nodeprob <- yval[, 2L*nclass + 2L]
 	     if(!is.null(ylevel)) group <- ylevel[group]
 
 	     temp1 <- formatg(counts, format="%5g")
@@ -86,15 +88,17 @@ rpart.class <- function(y, offset, parms, wt)
 		 temp2 <- apply(matrix(temp2, ncol=nclass), 1L,
                                 paste, collapse=' ')
              }
+             dev <- dev/(wt[1L]*nodeprob)
 	     paste("  predicted class=", format(group, justify='left'),
-		   "  expected loss=", formatg(dev/wt, digits),"\n",
+		   "  expected loss=", formatg(dev, digits),
+                   "  P(node) =", formatg(nodeprob, digits), "\n",
 		   "    class counts: ", temp1,"\n",
 		   "   probabilities: ", temp2,
 		   sep='')
          },
 	 text= function(yval, dev, wt, ylevel, digits, n, use.n) {
 
-	     nclass <- (ncol(yval)-1L) /2
+	     nclass <- (ncol(yval)-2) /2
 	     group <- yval[, 1L]
 	     counts <- yval[, 1L+ (1L:nclass)]
 	     if(!is.null(ylevel)) group <- ylevel[group]
@@ -112,4 +116,3 @@ rpart.class <- function(y, offset, parms, wt)
              return(out)
          })
 }
-

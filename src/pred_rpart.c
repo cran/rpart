@@ -23,15 +23,15 @@
 **  Output
 **      where       : the "final" row in nodes for each observation
 */
-#include "rpartS.h"
 #include "rpart.h"
 #include "rpartproto.h"
 
-void pred_rpart(Sint *dimx,	Sint *nnode, 	Sint *nsplit, 	Sint *dimc, 
-		Sint *nnum,  	Sint *nodes2,   Sint *vnum,     double *split2,
-		Sint *csplit2,  Sint *usesur,   double *xdata2, 
-		Sint *xmiss2,   Sint *where)
-    {
+static void
+pred_rpart0(const int *dimx,  int nnode, int nsplit, const int *dimc,
+	    const int *nnum, const int *nodes2, const int *vnum,
+	    const double *split2, const int *csplit2, const int *usesur,
+	    const double *xdata2, const int *xmiss2, int *where)
+{
     int i,j;
     int n;
     int ncat;
@@ -39,80 +39,92 @@ void pred_rpart(Sint *dimx,	Sint *nnode, 	Sint *nsplit, 	Sint *dimc,
     int lcount, rcount;
     int npos;
     double temp;
-    Sint   *nodes[4];
-    double *split[4];
-    Sint   **csplit = NULL,
-	   **xmiss;
-    double **xdata;
+    const int   *nodes[4];
+    const double *split[4];
+    const int   **csplit = NULL, **xmiss;
+    const double **xdata;
 
     n = dimx[0];
-    for (i=0; i<4; i++) {
-	nodes[i] = &(nodes2[*nnode *i]);
-	split[i] = &(split2[*nsplit*i]);
-	}
+    for (i = 0; i < 4; i++) {
+	nodes[i] = &(nodes2[nnode *i]);
+	split[i] = &(split2[nsplit * i]);
+    }
 
     if (dimc[1] > 0) {
-	csplit = (Sint **)  ALLOC((int)dimc[1], sizeof(int*));
+	csplit = (const int **)  ALLOC((int)dimc[1], sizeof(int*));
 	for (i=0; i<dimc[1]; i++)  csplit[i] = &(csplit2[i * dimc[0]]);
-	}    
-    xmiss =  (Sint **)  ALLOC((int)dimx[1], sizeof(int*));
-    xdata = (double **) ALLOC((int)dimx[1], sizeof(double*));
-    for (i=0; i<dimx[1]; i++) {
+    }
+    xmiss =  (const int **)  ALLOC((int)dimx[1], sizeof(int*));
+    xdata = (const double **) ALLOC((int)dimx[1], sizeof(double*));
+    for (i = 0; i < dimx[1]; i++) {
 	xmiss[i] = &(xmiss2[i * dimx[0]]);
 	xdata[i] = &(xdata2[i * dimx[0]]);
-	}
+    }
 
-    for (i=0; i<n; i++) {
-	node =1;   /*current node of the tree */
-next:   for (npos=0; nnum[npos]!=node; npos++);  /*position of the node */
+    for (i = 0; i < n; i++) {
+	node = 1;   /*current node of the tree */
+    next:   for (npos=0; nnum[npos]!=node; npos++);  /*position of the node */
 	/* walk down the tree */
 	nspl = nodes[3][npos] -1;  /*index of primary split */
-	if (nspl >=0) {            /* not a leaf node */
+	if (nspl >= 0) {            /* not a leaf node */
 	    var  = vnum[nspl] -1;
 	    if (xmiss[var][i]==0) {     /* primary var not missing */
-		ncat = split[1][nspl];
+		ncat = (int) split[1][nspl];
 		temp = split[3][nspl];
 		if (ncat >=2) dir = csplit[(int)xdata[var][i] -1][(int)temp-1];
 		else if (xdata[var][i] < temp) dir=ncat;
-		     else                      dir= -ncat;
-		if (dir!=0) {
-		    if (dir== -1) node = 2*node;
-		    else          node = 2*node +1;
+		else                      dir= -ncat;
+		if (dir != 0) {
+		    if (dir == -1) node = 2*node; else  node = 2*node + 1;
 		    goto next;
-		    }
 		}
+	    }
 
-	    if (*usesur >0 ) {
-		for (j=0; j<nodes[2][npos]; j++) {
+	    if (*usesur > 0 ) {
+		for (j = 0; j < nodes[2][npos]; j++) {
 		    nspl = nodes[1][npos] + nodes[3][npos] + j;
 		    var  = vnum[nspl] -1;
 		    if (xmiss[var][i]==0) {     /* surrogate not missing */
-			ncat = split[1][nspl];
+			ncat = (int)split[1][nspl];
 			temp = split[3][nspl];
 			if (ncat >=2) dir = csplit[(int)xdata[var][i] -1][(int)temp-1];
 			else if (xdata[var][i] < temp) dir=ncat;
-			     else                      dir= -ncat;
-			if (dir!=0) {
-			    if (dir== -1) node = 2*node;
-			    else          node = 2*node +1;
+			else                      dir= -ncat;
+			if (dir != 0) {
+			    if (dir == -1) node = 2*node; else node = 2*node + 1;
 			    goto next;
-			    }
 			}
 		    }
 		}
+	    }
 
-	    if (*usesur >1) { /* go with the majority */
-		for (j=0; nnum[j]!= (2*node); j++);
-		    lcount = nodes[0][j];
-		for (j=0; nnum[j]!= (1+ 2*node); j++);
-		    rcount = nodes[0][j];
+	    if (*usesur > 1) { /* go with the majority */
+		for (j = 0; nnum[j] != (2*node); j++);
+		lcount = nodes[0][j];
+		for (j = 0; nnum[j] != (1+ 2*node); j++);
+		rcount = nodes[0][j];
 		if (lcount != rcount) {
-		    if (lcount > rcount) node = 2*node;
-		    else                 node = 2*node +1;
+		    if (lcount > rcount) node = 2*node; else node = 2*node + 1;
 		    goto next;
-		    }
 		}
 	    }
-	where[i] = npos +1;
 	}
+	where[i] = npos + 1;
     }
+}
+
+#include <Rinternals.h>
+
+SEXP pred_rpart(SEXP dimx, SEXP nnode,	SEXP nsplit, SEXP dimc,
+		 SEXP nnum,  SEXP nodes2, SEXP vnum,  SEXP split2,
+		 SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2)
+{
+    int n = asInteger(dimx);
+    SEXP where = PROTECT(allocVector(INTSXP, n));
+    pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), 
+		INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum),
+		REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2),
+		INTEGER(xmiss2), INTEGER(where));
+    UNPROTECT(1);
+    return where;
+}

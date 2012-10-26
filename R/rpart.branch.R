@@ -4,12 +4,9 @@
 rpart.branch <- function(x, y, node, branch)
 {
     if (missing(branch)) {
-	if (exists(parms <-paste(".rpart.parms", dev.cur(), sep="." ),
-                   envir=.GlobalEnv)) {
-#	    parms <- get(parms, frame=0)
-            parms <- get(parms, envir=.GlobalEnv)
-            branch <- parms$branch
-	    }
+        rpartplot <- getOption("rpartplot")
+        temp <- rpartplot[[paste("device", dev.cur())]]
+        if (!is.null(temp)) branch <- temp$branch
 	else branch <- 0
     }
 

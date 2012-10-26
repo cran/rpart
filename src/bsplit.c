@@ -10,23 +10,21 @@
 */
 #include "rpart.h"
 #include "node.h"
-#include <stdio.h>
 #include "rpartproto.h"
 
-void bsplit(struct node *me, int nodenum)
-    {
+void bsplit(struct node *me, int n1, int n2)
+{
     int i, j, k;
+    int kk;
     int nc;
     double improve;
-    FLOAT split = 0.0; /* in case choose does not set it */
+    double split = 0.0;
     struct split *tsplit;
-    Sint *index;
-    int  *which;
-    FLOAT *xtemp;  /*these 3 because I got tired of typeing "rp.xtemp", etc*/
+    int *index;
+    double *xtemp;  /*these 3 because I got tired of typeing "rp.xtemp", etc*/
     double **ytemp;
-    double *wtemp;  
+    double *wtemp;
 
-    which = rp.which;
     xtemp = rp.xtemp;
     ytemp = rp.ytemp;
     wtemp = rp.wtemp;
@@ -39,19 +37,22 @@ void bsplit(struct node *me, int nodenum)
 	index = rp.sorts[i];
 	nc = rp.numcat[i];
 	/* extract x and y data */
-	k=0;
-	for (j=0; j<rp.n; j++)
-	    if (index[j] >=0 && which[index[j]]== nodenum) {
-		xtemp[k] = rp.xdata[i][j];
-		ytemp[k] = rp.ydata[index[j]];
-		wtemp[k] = rp.wt[index[j]];
+	k =0;
+	for (j=n1; j<n2; j++) {
+	    kk = index[j];
+	    if (kk >=0) {  /* x data not missing */
+		xtemp[k] = rp.xdata[i][kk];
+		ytemp[k] = rp.ydata[kk];
+		wtemp[k] = rp.wt[kk];
 		k++;
-		}
+	    }
+	}
+
 	if (k==0 ||
-	  (nc==0 &&  xtemp[0]==xtemp[k-1])) continue;  /*no place to split */
+	    (nc==0 &&  xtemp[0]==xtemp[k-1])) continue;  /*no place to split */
 
 	(*rp_choose)(k, ytemp, xtemp, nc, rp.min_node, &improve,
-			     &split, rp.csplit, me->risk, wtemp);
+		     &split, rp.csplit, me->risk, wtemp);
 
 	/*
 	** Originally, this just said "if (improve >0)", but rounding
@@ -70,9 +71,9 @@ void bsplit(struct node *me, int nodenum)
 		if (nc ==0) {
 		    tsplit->spoint = split;
 		    tsplit->csplit[0]= rp.csplit[0];
-		    }
-		else for (k=0; k<nc; k++) tsplit->csplit[k] = rp.csplit[k];
 		}
+		else for (k=0; k<nc; k++) tsplit->csplit[k] = rp.csplit[k];
 	    }
 	}
     }
+}

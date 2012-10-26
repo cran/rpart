@@ -42,8 +42,11 @@ rpart.poisson <- function(y, offset, parms, wt)
                    sep = "")
          },
 	 text = function(yval, dev, wt, ylevel, digits, n, use.n) {
-	     if(use.n) paste(formatg(yval[, 1L], digits), "\n",
-                              formatg(yval[, 2L]), "/", n, sep = "")
+             ## fix for when there are no splits
+             if(!is.matrix(yval)) yval <- matrix(yval, nrow = 1L)
+
+             if(use.n) paste(formatg(yval[, 1L], digits),"\n",
+                             formatg(yval[, 2L]), "/", n, sep="")
              else paste(formatg(yval[, 1L], digits))
          })
 }

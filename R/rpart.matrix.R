@@ -10,7 +10,7 @@ rpart.matrix <- function(frame)
     if(is.null(terms)) predictors <- names(frame)
     else {
 	a <- attributes(terms)
-	predictors <- as.character(a$variables)[-1L] # R change
+	predictors <- as.character(a$variables)[-1L]
         ## and this might include backquotes
         predictors <- sub("^`(.*)`$", "\\1", predictors)
 	removals <- NULL

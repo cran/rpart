@@ -40,7 +40,7 @@ rpconvert <- function(x)
 	x$functions <- list(summary=temp$summary, text = temp$text)
     }
 
-    else {  # either exp or poisson (they have the same summary/text pair)
+    else { # either exp or poisson (they have the same summary/text pair)
 	ff$yval2 <- cbind(ff$yval, ff$yval2)
 	x$frame <- ff
 

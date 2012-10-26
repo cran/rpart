@@ -3,14 +3,13 @@
 **    for several CP values at once.
 ** (A subset of rundown.c, which also returns the prediction error).
 */
-#include <stdio.h>
-#include "rpart.h"
 #include "node.h"
+#include "rpart.h"
 #include "rpartproto.h"
 
-void rundown2(struct node *tree, int obs, double *cp, double *xpred)
-    {
-    int i;
+void rundown2(struct node *tree, int obs, double *cp, double *xpred, int nresp)
+{
+    int i,j,k;
     struct node *otree;
 
     /*
@@ -20,28 +19,33 @@ void rundown2(struct node *tree, int obs, double *cp, double *xpred)
     **   predictor.
     */
     otree = tree;
+    k=0;
     for (i=0; i<rp.num_unique_cp; i++) {
 	while ( cp[i] < tree->complexity) {
 	    tree = branch(tree, obs);
 	    if (tree ==0) goto oops;
 	    otree = tree;
-	    }
-	xpred[i] =  tree->response_est[0];
 	}
+	for (j=0; j<nresp; j++) {
+	    xpred[k++] =  tree->response_est[j];
+	}
+    }
 
     return;
 
 oops:;
     if (rp.usesurrogate <2) { /*must have hit a missing value */
-	for (; i<rp.num_unique_cp; i++)
-	    xpred[i] = otree->response_est[0];
-	return;
+	for (; i<rp.num_unique_cp; i++) {
+	    for (j=0; j<nresp; j++)
+		xpred[k++] =  otree->response_est[j];
 	}
+	return;
+    }
     /*
     ** I never really expect to get to this code.  It can only happen if
     **  the last cp on my list is smaller than the terminal cp of the
     **  xval tree just built.  This is impossible (I think).  But just in
     **  case I put a message here.
     */
-    REprintf("Warning message--see rundown2.c\n");
-    }
+    warning("Warning message--see rundown2.c");
+}

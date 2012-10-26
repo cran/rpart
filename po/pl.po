@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rpart 3.1-53\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-03 11:42+0100\n"
+"POT-Creation-Date: 2012-10-04 13:11+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
 "Language-Team: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
@@ -15,61 +15,61 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2)\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 
-#: gini.c:57 gini.c:59 gini.c:66
+#: gini.c:55 gini.c:57 gini.c:64
 msgid "Out of memory"
 msgstr "Brak pamięci"
 
 # Recommended/rpart/src/poisson.c: 41
 #  _("Invalid time point")
-#: poisson.c:40
+#: poisson.c:39
 msgid "Invalid time point"
 msgstr "Niepoprawny punkt czasowy"
 
 # Recommended/rpart/src/poisson.c: 45
 #  _("Invalid event count")
-#: poisson.c:44
+#: poisson.c:43
 msgid "Invalid event count"
 msgstr "błędne zliczenia zdarzenia"
 
 # Recommended/rpart/src/rpart_callback.c: 47
 # error(_("'yback' not found"))
-#: rpart_callback.c:46
+#: rpart_callback.c:47
 msgid "'yback' not found"
 msgstr "nie znaleziono 'yback'"
 
 # Recommended/rpart/src/rpart_callback.c: 50
 # error(_("'wback' not found"))
-#: rpart_callback.c:49
+#: rpart_callback.c:50
 msgid "'wback' not found"
 msgstr "nie znaleziono 'wback'"
 
 # Recommended/rpart/src/rpart_callback.c: 53
 # error(_("'xback' not found"))
-#: rpart_callback.c:52
+#: rpart_callback.c:53
 msgid "'xback' not found"
 msgstr "nie znaleziono 'xback'"
 
 # Recommended/rpart/src/rpart_callback.c: 56
 # error(_("'nback' not found"))
-#: rpart_callback.c:55
+#: rpart_callback.c:56
 msgid "'nback' not found"
 msgstr "nie znaleziono 'nback'"
 
 # Recommended/rpart/src/rpart_callback.c: 102
 # error(_("return value not a vector"))
-#: rpart_callback.c:101
+#: rpart_callback.c:102
 msgid "return value not a vector"
 msgstr "zwrócona wartość nie jest wektorem"
 
 # Recommended/rpart/src/rpart_callback.c: 105
 # error(_("returned value is the wrong length"))
-#: rpart_callback.c:104
+#: rpart_callback.c:105
 msgid "returned value is the wrong length"
 msgstr "zwrócona wartość ma błędną długość"
 
 # Recommended/rpart/src/rpart_callback.c: 140
 # error(_("the expression expr1 did not return a vector!"))
-#: rpart_callback.c:139
+#: rpart_callback.c:140
 msgid "the expression expr1 did not return a vector!"
 msgstr "wyrażenie 'expr1' nie zwróciło wektora!"
 
@@ -77,13 +77,14 @@ msgstr "wyrażenie 'expr1' nie zwróciło wektora!"
 # error(
 # 		_("the expression expr1 returned a list of %d elements, %d required"),
 # 		j, 2*(n-1))
-#: rpart_callback.c:147
+#: rpart_callback.c:148
 #, c-format
 msgid "the expression expr1 returned a list of %d elements, %d required"
 msgstr "wyrażenie 'expr1' zwróciło listę złożoną z %d elementów, wymagano %d"
 
 # Recommended/rpart/src/s_xpred.c: 38
 #  _("invalid value for 'method'")
-#: s_xpred.c:37
-msgid "invalid value for 'method'"
+#: s_xpred.c:45
+#, fuzzy
+msgid "Invalid value for 'method'"
 msgstr "niepoprawna wartość dla 'method'"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 2.7.0\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
-"POT-Creation-Date: 2012-10-03 15:19\n"
+"POT-Creation-Date: 2012-10-05 09:17\n"
 "PO-Revision-Date: 2008-04-06 23:54-0500\n"
 "Last-Translator: Alexey Shipunov <dactylorhiza at gmail>\n"
 "Language-Team: Russian\n"
@@ -42,6 +42,9 @@ msgstr "'cptable' не содержит результатов перекрестной проверки"
 msgid "Tree has variables not found in new data"
 msgstr "У дерева есть переменные, не найденные в данных"
 
+msgid "type 'class' is only appropriate for classification"
+msgstr ""
+
 msgid "Invalid prediction for \"rpart\" object"
 msgstr "Неправильное предсказание для \"rpart\" объекта"
 
@@ -51,6 +54,12 @@ msgstr "Не объект rpart"
 
 msgid "Invalid type of residual"
 msgstr "Не знаю о таком типе остатков"
+
+msgid "Not legitimate \"rpart\" tree and endpoint not a 2 level-factor"
+msgstr ""
+
+msgid "a 'formula' argument is required"
+msgstr ""
 
 msgid "Trees cannot handle interaction terms"
 msgstr "Деревья не переносят терминов взаимодействия"
@@ -186,6 +195,9 @@ msgstr ""
 
 msgid "User 'split' function returned invalid direction"
 msgstr "Пользовательская функция 'split' вернула неправильное направление"
+
+msgid "no information available on parameters from previous call to plot()"
+msgstr ""
 
 msgid "x does not appear to be an \"rpart\" object"
 msgstr "похоже, что x -- не \"rpart\"-объект"

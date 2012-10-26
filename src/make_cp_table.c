@@ -1,3 +1,4 @@
+/*  $Id$  */
 /*
 ** Given a cptable list already initialized with the unique cp's in it,
 **  fill in the columns for risk and number of splits.
@@ -16,7 +17,7 @@
 #include "rpartproto.h"
 
 struct cptable *make_cp_table(struct node *me, double parent, int nsplit)
-    {
+{
     struct cptable *cplist;
 
     if (me->leftson) {  /* if there are splits below */
@@ -29,14 +30,14 @@ struct cptable *make_cp_table(struct node *me, double parent, int nsplit)
 	*/
 	make_cp_table(me->leftson, me->complexity, 0);
 	cplist = make_cp_table(me->rightson, me->complexity, nsplit+1);
-	}
+    }
     else cplist = cptable_tail;
 
     while (cplist->cp < parent) {
 	cplist->risk += me->risk;
 	cplist->nsplit += nsplit;
 	cplist = cplist->back;
-	}
+    }
 
     return(cplist);
-    }
+}

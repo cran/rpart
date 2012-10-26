@@ -7,7 +7,7 @@
   Returns a vector of predicted responses from a fitted \code{rpart} object. 
 }
 \usage{
-\method{predict}{rpart}(object, newdata = list(),
+\method{predict}{rpart}(object, newdata,
        type = c("vector", "prob", "class", "matrix"),
        na.action = na.pass, \dots)
 }

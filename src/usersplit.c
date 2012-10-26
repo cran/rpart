@@ -2,17 +2,15 @@
 ** These routines interface via the rpart_callback routine to
 **   provide for user-written split functions
 */
-#include <stdio.h>
 #include "rpart.h"
-#include "rpartS.h"
-#include "node.h"
 #include "rpartproto.h"
 
 static int n_return;     /* number of return values from the eval fcn */
 static double *uscratch; /* variously used scratch vector */
 
 int usersplit_init(int n,  double *y[],  int maxcat, char **error,
-		   double *parm, int *size,    int who,    double *wt) {
+		   double *parm, int *size,    int who,    double *wt)
+{
     if (who==1) {
 	/* If who==0 we are being called internally via xval, and don't
 	**   need to rerun the initialization.
@@ -23,38 +21,41 @@ int usersplit_init(int n,  double *y[],  int maxcat, char **error,
 	rpart_callback0(&n_return);
 
 	if ((n_return+1) > 2*n)
-	     uscratch = (double *) ALLOC(n_return +1, sizeof(double));
+	    uscratch = (double *) ALLOC(n_return +1, sizeof(double));
 	else uscratch = (double *) ALLOC(2*n, sizeof(double));
-	}
+    }
     *size = n_return;
     return(0);
-    }
+}
 /*
 ** The user evaluation function
 */
 void usersplit_eval(int n, double *y[], double *value, double *risk,
-		    double *wt) {
+		    double *wt)
+{
     int i;
 
     rpart_callback1(n, y, wt, uscratch);
     *risk = uscratch[0];
-    for (i=0; i< n_return; i++) value[i] = uscratch[i+1];
+    for (i=0; i< n_return; i++) {
+	value[i] = uscratch[i+1];
     }
+}
 
 /*
 ** Call the user-supplied splitting function.
 */
-void usersplit(int n,    double *y[],     FLOAT *x,     int nclass,
-	       int edge, double *improve, FLOAT *split, int *csplit,
-	       double myrisk,             double *wt) {
-
+void usersplit(int n,    double *y[],     double *x,     int nclass,
+	       int edge, double *improve, double *split, int *csplit,
+	       double myrisk,             double *wt)
+{
     int i, j, k;
     int m;
     int left_n,  right_n;
     int where=0;
     double best;
     double *dscratch;
-    FLOAT ftemp;
+    double ftemp;
 
     /*
     ** If it's categorical, and all are tied, don't bother to callback.
@@ -68,8 +69,8 @@ void usersplit(int n,    double *y[],     FLOAT *x,     int nclass,
 	if (i ==n) {
 	    *improve =0.0;
 	    return;
-	    }
 	}
+    }
 
 
     /*
@@ -95,14 +96,14 @@ void usersplit(int n,    double *y[],     FLOAT *x,     int nclass,
 	    if ((x[i]< x[i+1]) && (uscratch[i] > best)) {
 		best = uscratch[i];
 		where =i;
-		}
-	    }
-
-	if (best>0) {   /* found something */
-	    csplit[0] = dscratch[where];
-	    *split = (x[where] + x[where+1]) /2;
 	    }
 	}
+
+	if (best>0) {   /* found something */
+	    csplit[0] = (int) dscratch[where];
+	    *split = (x[where] + x[where+1]) /2;
+	}
+    }
 
     else {
 	/*
@@ -115,21 +116,21 @@ void usersplit(int n,    double *y[],     FLOAT *x,     int nclass,
 	*/
 	for (i=0; i<nclass; i++) csplit[i] =0;
 	best =0;
-	m = uscratch[0];
+	m = (int) uscratch[0];
 	dscratch = uscratch + m;
 
 	where = -1;
 	left_n = 0;
 	for (i=1; i< m; i++){
-	    k = dscratch[i-1];   /* the next group of interest */
+	    k = (int)dscratch[i-1];   /* the next group of interest */
 	    for (j=0; j<n; j++) if(x[j]==k) left_n++;
 	    right_n = n - left_n;
 	    if (right_n < edge) break;
 	    if (where<0 || uscratch[i] > best) {
 		best = uscratch[i];
 		where =i;
-		}
 	    }
+	}
 	/*
 	** Now mark the groups as to left/right
 	**   If there was no way to split it with at least 'edge' in each
@@ -137,14 +138,14 @@ void usersplit(int n,    double *y[],     FLOAT *x,     int nclass,
 	*/
 	if (best >0) {
 	    for (i=0; i<m ; i++) {
-		k = dscratch[i];     /* the next group of interest */
+		k = (int)dscratch[i];     /* the next group of interest */
 		if (i < where) csplit[k-1] = LEFT;
 		else           csplit[k-1] = RIGHT;
-		}
 	    }
 	}
-    *improve =  best;
     }
+    *improve =  best;
+}
 
 /*
 **  We don't do in-C cross validation for user splits, so there
@@ -152,12 +153,7 @@ void usersplit(int n,    double *y[],     FLOAT *x,     int nclass,
 **  (Because of the structure of the calls, it's faster to make
 **    use of xpred.rpart for user-written split routines).
 */
-double usersplit_pred(double *y, double *yhat) {
-    /* y=y; pointless */
+double usersplit_pred(double *y, double *yhat)
+{
     return(0.0);
-    }
-
-
-
-
-
+}

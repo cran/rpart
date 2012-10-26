@@ -12,7 +12,7 @@ post(tree, \dots)
 
 \method{post}{rpart}(tree, title., 
      filename = paste(deparse(substitute(tree)), ".ps", sep = ""), 
-     digits = getOption("digits") - 3, pretty = TRUE,
+     digits = getOption("digits") -2, pretty = TRUE,
      use.n = TRUE, horizontal = TRUE, \dots)
 }
 \arguments{

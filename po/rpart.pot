@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rpart 3.1-55\n"
+"Project-Id-Version: rpart 4.0-0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-03 11:42+0100\n"
+"POT-Creation-Date: 2012-10-05 09:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,51 +17,51 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gini.c:57 gini.c:59 gini.c:66
+#: gini.c:55 gini.c:57 gini.c:64
 msgid "Out of memory"
 msgstr ""
 
-#: poisson.c:40
+#: poisson.c:39
 msgid "Invalid time point"
 msgstr ""
 
-#: poisson.c:44
+#: poisson.c:43
 msgid "Invalid event count"
 msgstr ""
 
-#: rpart_callback.c:46
+#: rpart_callback.c:47
 msgid "'yback' not found"
 msgstr ""
 
-#: rpart_callback.c:49
+#: rpart_callback.c:50
 msgid "'wback' not found"
 msgstr ""
 
-#: rpart_callback.c:52
+#: rpart_callback.c:53
 msgid "'xback' not found"
 msgstr ""
 
-#: rpart_callback.c:55
+#: rpart_callback.c:56
 msgid "'nback' not found"
 msgstr ""
 
-#: rpart_callback.c:101
+#: rpart_callback.c:102
 msgid "return value not a vector"
 msgstr ""
 
-#: rpart_callback.c:104
+#: rpart_callback.c:105
 msgid "returned value is the wrong length"
 msgstr ""
 
-#: rpart_callback.c:139
+#: rpart_callback.c:140
 msgid "the expression expr1 did not return a vector!"
 msgstr ""
 
-#: rpart_callback.c:147
+#: rpart_callback.c:148
 #, c-format
 msgid "the expression expr1 returned a list of %d elements, %d required"
 msgstr ""
 
-#: s_xpred.c:37
-msgid "invalid value for 'method'"
+#: s_xpred.c:45
+msgid "Invalid value for 'method'"
 msgstr ""

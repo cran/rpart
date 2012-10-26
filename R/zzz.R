@@ -50,3 +50,5 @@ descendants <- function(nodes, include = TRUE)
     }
     return(desc)
 }
+
+rpart_env <- new.env()

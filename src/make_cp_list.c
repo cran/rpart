@@ -20,29 +20,28 @@
 ** allocates and links in the rest of the cp-list.  The make_cp_table
 ** routine then fills in the rest of the variables in the list.
 **
-**  node *me;         pointer to my node structure  
-**  double parent;    complexity of my parent node 
+**  node *me;         pointer to my node structure
+**  double parent;    complexity of my parent node
 **
 **   When it comes time to cross-validate, we fill in xrisk and xstd
 */
 #include <math.h>
 #include "rpart.h"
 #include "node.h"
-#include "rpartS.h"
 #include "rpartproto.h"
 
 void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
-    {
+{
     double me_cp;
-    struct cptable *cplist, *cptemp = NULL;
+    struct cptable *cplist, *cptemp=NULL;
 
     if (me->complexity > parent) me->complexity = parent;
     me_cp = me->complexity;
     if (me_cp < rp.alpha) me_cp = rp.alpha;    /*table should go no lower */
     if (me->leftson != 0) {
-	 make_cp_list(me->leftson, me_cp, cptable_head);
-	 make_cp_list(me->rightson,me_cp, cptable_head);
-	 }
+	make_cp_list(me->leftson, me_cp, cptable_head);
+	make_cp_list(me->rightson,me_cp, cptable_head);
+    }
 
     if (me_cp < parent) {  /*if not, then it can't be unique */
 	for (cplist= cptable_head; cplist !=0; cplist= cplist->forward) {
@@ -51,7 +50,7 @@ void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
 
 	    if (me_cp > cplist->cp) break;
 	    cptemp = cplist;
-	    }
+	}
 
 	/* insert new stuff after cptemp */
 	cplist = (struct cptable *) CALLOC(1, sizeof(struct cptable));
@@ -61,9 +60,9 @@ void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
 	cplist->back = cptemp;
 	cplist->forward = cptemp->forward;
 	if (cptemp->forward!=0) (cptemp->forward)->back = cplist;
-	  else  cptable_tail = cplist;
+	else  cptable_tail = cplist;
 	cptemp->forward = cplist;
 	rp.num_unique_cp++;
 	return;
-	}
     }
+}

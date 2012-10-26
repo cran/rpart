@@ -9,19 +9,21 @@ text.rpart <-
              bg = par("bg"), ...)
 {
     if(!inherits(x, "rpart")) stop("Not a legitimate \"rpart\" object")
-    if(!is.null(x$frame$splits)) x <- rpconvert(x)#Backwards compatability
-    if (nrow(x$frame) <= 1L)
-        stop("fit is not a tree, just a root")
+    if(!is.null(x$frame$splits)) x <- rpconvert(x) #Backwards compatability
+    if (nrow(x$frame) <= 1L) stop("fit is not a tree, just a root")
 
     frame <- x$frame
     if(!missing(label)) warning("argument 'label' is no longer used")
-    cxy <- par("cxy")                   #character width and height
-    if(!is.null(srt <- list(...)$srt) && srt == 90)
-        cxy <- rev(cxy)
+    col <- names(frame)
+    method <- x$method
+    ylevels <- attr(x,'ylevels')
+    if(!is.null(ylevels <- attr(x, "ylevels"))) col <- c(col, ylevels)
+    cxy <- par("cxy")                   # character width and height
+    if(!is.null(srt <- list(...)$srt) && srt == 90) cxy <- rev(cxy)
     xy <- rpartco(x)
 
     node <- as.numeric(row.names(x$frame))
-    is.left <- (node%%2 ==0)            #left hand sons
+    is.left <- (node%%2 ==0)            # left hand sons
     node.left <- node[is.left]
     parent <- match(node.left/2, node)
 
@@ -51,7 +53,6 @@ text.rpart <-
 
     leaves <- if(all) rep(TRUE, nrow(frame)) else frame$var == "<leaf>"
 
-    ylevels <- attr(x,'ylevels')
     stat <- if (is.null(frame$yval2))
         x$functions$text(yval=frame$yval[leaves],
                          dev=frame$dev[leaves],

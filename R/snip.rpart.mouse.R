@@ -1,17 +1,22 @@
 ##
 ##  Interactively snip off part of a tree
 ##
-
-snip.rpart.mouse <- function(tree,
-		      parms=paste(".rpart.parms", dev.cur(), sep = "."))
+snip.rpart.mouse <- function(tree, parms)
 {
-    xy <- rpartco(tree)
+    if (missing(parms)) {
+        pn <- paste0("device", dev.cur())
+        if (!exists(pn, envir = rpart_env, inherits = FALSE))
+            stop("no information available on parameters from previous call to plot()")
+        parms <- get(pn, envir = rpart_env, inherits = FALSE)
+    }
+
+
+    xy <- rpartco(tree, parms)
     toss <- NULL
     ff <- tree$frame
-    if (exists(parms, envir=.GlobalEnv)) {
-        parms <- get(parms, envir=.GlobalEnv)
+    if (length(parms$branch))
 	branch <- parms$branch
-    } else branch <- 1
+    else branch <- 1
 
     node <- as.numeric(row.names(tree$frame))
     draw <- rpart.branch(xy$x,xy$y, node, branch)

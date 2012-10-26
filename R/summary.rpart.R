@@ -35,7 +35,7 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
     is.leaf <- (ff$var=='<leaf>')
     index <- cumsum(c(1, ff$ncompete + ff$nsurrogate + 1*(!is.leaf)))
 
-    if(!all(is.leaf)) {  #skip these lines for a "no splits" tree
+    if( !all(is.leaf)) {      #skip these lines for a "no splits" tree
         sname <- dimnames(x$splits)[[1L]]
         cuts <- vector(mode='character', length=nrow(x$splits))
         temp <- x$splits[ ,2L]
@@ -96,7 +96,7 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
 		j <- seq(1L +index[i] + ff$ncompete[i],
                          length.out = ff$nsurrogate[i])
 		agree <- x$splits[j,3L]
-		if (all(nchar(cuts[j], "w") < 25))
+		if (all(nchar(cuts[j],"w") < 25))
                     temp <- format(cuts[j], justify="left")
 		else  temp <- cuts[j]
 		if (ncol(x$splits)==5L) {

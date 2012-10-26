@@ -1,4 +1,5 @@
 /*
+**  SCCS @(#)rpart_callback.c	1.4 08/13/01
 ** callback routines for "user" splitting functions in rpart
 */
 #include <R.h>
@@ -56,7 +57,7 @@ SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr,
     ndata = INTEGER(stemp);
 
     return(R_NilValue);
-    }
+}
 
 /*
 ** This is called by the usersplit init function
@@ -89,7 +90,7 @@ void rpart_callback1(int n, double *y[], double *wt, double *z) {
 	}
     ndata[0] = n;
 
-    /* 
+    /*
     **  Evaluate the saved expression in the parent frame
     **   The result should be a vector of numerics containing the
     **   "deviance" followed by the "mean"
@@ -110,7 +111,7 @@ void rpart_callback1(int n, double *y[], double *wt, double *z) {
 ** This part is called by the rpart "split" function
 **   It is expected to return an n-1 length vector of "goodness of split"
 */
-void rpart_callback2(int n, int ncat, double *y[], double *wt, 
+void rpart_callback2(int n, int ncat, double *y[], double *wt,
 		     FLOAT *x, double *good) {
     int i, j, k;
     SEXP goodness;
@@ -131,7 +132,7 @@ void rpart_callback2(int n, int ncat, double *y[], double *wt,
     if (ncat >0) {
 	ndata[0] = -n;  /*the negative serves as a marker for rpart.s */
 	}
-    else ndata[0] =n;  
+    else ndata[0] =n;
 
     /* no need to protect as no memory allocation (or error) below */
     goodness = eval(expr1, rho);
@@ -142,7 +143,7 @@ void rpart_callback2(int n, int ncat, double *y[], double *wt,
     /* yes, the lengths have already been checked in the C code  ---
        call this extra documenation then */
     if (ncat==0) {
-	if (j != 2*(n-1)) 
+	if (j != 2*(n-1))
 	    error(
 		_("the expression expr1 returned a list of %d elements, %d required"),
 		j, 2*(n-1));
@@ -151,7 +152,7 @@ void rpart_callback2(int n, int ncat, double *y[], double *wt,
 	for (i=0; i<j; i++) good[i] = dptr[i];
 	}
     else {
-	/* 
+	/*
 	** If not all categories were present in X, then the return list
 	**   will have 2(#categories present) -1 elements
 	** The first element of "good" contains the number of groups found
@@ -162,7 +163,7 @@ void rpart_callback2(int n, int ncat, double *y[], double *wt,
 	}
 
 
-    /* There is a memory growth here (yes?) -- should release the goodness 
+    /* There is a memory growth here (yes?) -- should release the goodness
     **  object right now.  There will be LOTS of them, and they won't
     **  go away until the parent routine is done. But there is no
     **  public macro to do it.

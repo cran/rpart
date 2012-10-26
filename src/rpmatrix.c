@@ -5,11 +5,14 @@
 #include "node.h"
 #include "rpartproto.h"
 
-void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount, 
-	      Sint *catcount,   Sint *numcat,      double **dsplit,
-	      Sint **isplit,    Sint **csplit,     double **dnode, 
-	      Sint **inode,     int id)
-    {
+/* These four preserve from call to call */
+static int ncnt, scnt, ccnt;
+static double cp_scale;
+
+void rpmatrix(struct node *me, int *numcat,      double **dsplit,
+	      int **isplit,    int **csplit,     double **dnode,
+	      int **inode,     int id)
+{
     /*
     ** dsplit  0: improvement
     **         1: split point if continuous; index into csplit if not
@@ -33,15 +36,14 @@ void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount,
 
     int i,j, k;
     struct split *spl;
-    static int scnt, ncnt, ccnt;
-    static double cp_scale;
 
-    if (id==1) {
+    if (id==1) { /* this is the top node */
 	cp_scale = 1/ me->risk;
-	}
-    scnt = *splitcount;
-    ncnt = *nodecount;
-    ccnt = *catcount;
+	scnt =0;
+	ncnt =0;
+	ccnt =0;
+    }
+
     dnode[0][ncnt] = me->risk;
     dnode[1][ncnt] = me->complexity * cp_scale;
     dnode[2][ncnt] = me->sum_wt;
@@ -54,8 +56,8 @@ void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount,
 	inode[2][ncnt] = 0;
 	inode[3][ncnt] = 0;
 	inode[5][ncnt] = me->num_obs;
-	*nodecount = ncnt+1;
-	}
+	ncnt++;
+    }
     else {
 	inode[1][ncnt] = scnt +1;    /*S has 1 based, not 0 based subscripts */
 
@@ -67,17 +69,17 @@ void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount,
 	    if (numcat[j] ==0) {
 		dsplit[1][scnt] = spl->spoint;
 		isplit[2][scnt] = spl->csplit[0];
-		}
+	    }
 	    else {
 		dsplit[1][scnt] = ccnt+1;
 		isplit[2][scnt] = numcat[j];
 		for (k=0; k<numcat[j]; k++) csplit[k][ccnt] = spl->csplit[k];
 		ccnt++;
-		}
+	    }
 	    isplit[0][scnt] = j +1;      /* use "1" based subscripts */
 	    isplit[1][scnt] = spl->count;
 	    scnt++;
-	    }
+	}
 	inode[2][ncnt] = i;
 
 	i=0;
@@ -89,29 +91,26 @@ void rpmatrix(struct node *me,  Sint *nodecount,   Sint *splitcount,
 	    if (numcat[j] ==0) {
 		dsplit[1][scnt] = spl->spoint;
 		isplit[2][scnt] = spl->csplit[0];
-		}
+	    }
 	    else {
 		dsplit[1][scnt] = ccnt+1;
 		isplit[2][scnt] = numcat[j];
 		for (k=0; k<numcat[j]; k++) csplit[k][ccnt] = spl->csplit[k];
 		ccnt++;
-		}
+	    }
 	    isplit[0][scnt] = j +1;
 	    isplit[1][scnt] = spl->count;
 	    scnt++;
-	    }
+	}
 	inode[3][ncnt] = i;
 	inode[5][ncnt] = me->num_obs -
-			   ((me->leftson)->num_obs + (me->rightson)->num_obs);
+	    ((me->leftson)->num_obs + (me->rightson)->num_obs);
 
 	ncnt++;
-	*nodecount = ncnt;
-	*splitcount= scnt;
-	*catcount  = ccnt;
 
-	rpmatrix(me->leftson, nodecount, splitcount, catcount, numcat,
-		    dsplit, isplit, csplit, dnode, inode, 2*id);
-	rpmatrix(me->rightson,nodecount, splitcount, catcount, numcat,
-		    dsplit, isplit, csplit, dnode, inode, 2*id +1);
-	}
+	rpmatrix(me->leftson, numcat,
+		 dsplit, isplit, csplit, dnode, inode, 2*id);
+	rpmatrix(me->rightson, numcat,
+		 dsplit, isplit, csplit, dnode, inode, 2*id +1);
     }
+}

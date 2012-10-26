@@ -1,4 +1,4 @@
-## Contributed by B.D. Ripley 1997/07/17
+## Contributed by B.D. Ripley 97/07/17
 ##
 plotcp <- function(x, minline = TRUE, lty = 3, col = 1,
 		   upper = c("size", "splits", "none"), ...)

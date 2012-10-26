@@ -9,26 +9,25 @@
 ** Graycode_init2 is called once for each orderable variable,
 **   the second argument is a vector that will be used to rank the variables
 */
-#include "rpartS.h"
 #include "rpart.h"
 #include "rpartproto.h"
 static int *gray;
 static int maxc, gsave;
 
 void graycode_init0( int maxcat)
-    {
+{
     gray = (int *) ALLOC(maxcat, sizeof(int));
-    }
+}
 
 void graycode_init1(int numcat, int *count)
-    {
+{
     int i;
 
     maxc = numcat;
     for (i=0; i<maxc; i++) {
-	    if (count[i] !=0) gray[i] =1;
-	    else              gray[i] =0;
-	    }
+	if (count[i] !=0) gray[i] =1;
+	else              gray[i] =0;
+    }
     gsave = -2;
 }
 
@@ -39,7 +38,7 @@ void graycode_init2(int numcat, int *count, double *val)
     double temp;
     maxc = numcat;
 
-    /* 
+    /*
     **   sort categories with no members first
     **   then order by val
     */
@@ -50,21 +49,21 @@ void graycode_init2(int numcat, int *count, double *val)
 	    for (j=i-1; j>=k; j--) {
 		gray[j+1] = gray[j];
 		val[j+1] = val[j];
-	        }
-	    gray[k++] =i;
 	    }
+	    gray[k++] =i;
+	}
 	else {
 	    temp = val[i];
 	    for (j=i-1; j>=k && val[j]>temp; j--) {
 		gray[j+1] = gray[j];
 		val[j+1] = val[j];
-	        }
+	    }
 	    val[j+1] = temp;
 	    gray[j+1] =i;
-	    }
-        }
-    gsave = k-1;
+	}
     }
+    gsave = k-1;
+}
 
 /*
 ** Everyone starts in the right hand group
@@ -72,16 +71,15 @@ void graycode_init2(int numcat, int *count, double *val)
 **  change allegiance.
 ** A value of maxc means that we're done.
 */
-int graycode(void) {
+int graycode(void)
+{
     int i;
 
     if (gsave > -2) {  /* ordered data */
 	gsave++;
 	if (gsave < maxc) return(gray[gsave]);
 	else return (maxc);
-	}
-
-    else {
+    } else {
 	/*
 	** Form next subgroup.  We do this using the classic Gray code.
 	**  The initial subset has everyone in the right group.  Each
@@ -94,9 +92,9 @@ int graycode(void) {
 	    if (gray[i] ==1 ) {
 		gray[i] =2;
 		return(i);
-		}
-	    else if (gray[i]==2) gray[i] =1;
 	    }
-	return(maxc);  /* signal "done" */
+	    else if (gray[i]==2) gray[i] =1;
 	}
+	return(maxc);  /* signal "done" */
     }
+}
