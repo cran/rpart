@@ -1,7 +1,7 @@
 Package: rpart
 Priority: recommended
-Version: 4.0-1
-Date: 2012-10-26
+Version: 4.0-2
+Date: 2012-11-11
 Authors@R: c(person("Terry", "Therneau", role = "aut", email =
         "therneau@mayo.edu"), person("Beth", "Atkinson", role = "aut",
         email = "atkinson@mayo.edu"), person("Brian", "Ripley", role =
@@ -16,9 +16,9 @@ LazyData: yes
 ByteCompile: yes
 Note: Maintainers are not available to give advice on using a package
         they did not author.
-Packaged: 2012-10-26 08:19:24 UTC; ripley
+Packaged: 2012-11-11 13:37:44 UTC; ripley
 Author: Terry Therneau [aut], Beth Atkinson [aut], Brian Ripley [aut,
         trl, cre] (author of R port)
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Repository: CRAN
-Date/Publication: 2012-10-26 08:20:54
+Date/Publication: 2012-11-11 14:12:50

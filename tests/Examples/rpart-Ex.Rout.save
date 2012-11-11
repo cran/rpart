@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2012-10-03 r60866) -- "Unsuffered Consequences"
+R Under development (unstable) (2012-11-08 r61094) -- "Unsuffered Consequences"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: x86_64-apple-darwin11.4.2/x86_64 (64-bit)
@@ -79,6 +79,30 @@ Node number 10: 15 observations
 Node number 11: 8 observations
   mean=25.625, MSE=4.984375 
 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("car90")
+> ### * car90
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: car90
+> ### Title: Automobile Data from Consumer Reports 1990
+> ### Aliases: car90
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(car90)
+> plot(car90$Price/1000, car90$Weight,
++      xlab  ="Price (thousands)", ylab = "Weight (lbs)")
+> mlowess <- function(x, y, ...) {
++     keep <- !(is.na(x) | is.na(y))
++     lowess(x[keep], y[keep], ...)
++ }
+> with(car90, lines(mlowess(Price/1000, Weight, f = 0.5)))
 > 
 > 
 > 
@@ -672,16 +696,16 @@ n= 60
 > 
 > ### ** Examples
 > 
-> fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
-> fit2 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
-+               parms=list(prior=c(.65,.35), split='information'))
-> fit3 <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis,
-+               control=rpart.control(cp=.05))
-> par(mfrow=c(1,2), xpd=NA) # otherwise on some devices the text is clipped
+> fit <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
+> fit2 <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis,
++               parms = list(prior = c(.65,.35), split = 'information'))
+> fit3 <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis,
++               control = rpart.control(cp = .05))
+> par(mfrow = c(1,2), xpd = NA) # otherwise on some devices the text is clipped
 > plot(fit)
-> text(fit, use.n=TRUE)
+> text(fit, use.n = TRUE)
 > plot(fit2)
-> text(fit2, use.n=TRUE)
+> text(fit2, use.n = TRUE)
 > 
 > 
 > 
@@ -936,7 +960,7 @@ n= 60
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.601 0.043 0.651 0 0 
+Time elapsed:  0.614 0.027 0.648 0 0 
 > grDevices::dev.off()
 null device 
           1 

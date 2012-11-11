@@ -25,9 +25,13 @@
 #include "node.h"
 #include "rpartproto.h"
 
-#define DEBUG 0
+#ifndef DEBUG
+# define DEBUG 0
+#endif
+#if DEBUG > 1
 static int debug = 0;   /*if it is odd, print out every tree */
 			/*if >= 2, print out every risk value we see */
+#endif
 
 void xval(int n_xval, struct cptable *cptable_head, int *x_grp,
 	  int maxcat,  char **error, double * parms, int *savesort)

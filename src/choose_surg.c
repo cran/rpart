@@ -16,7 +16,7 @@ void choose_surg(int n1, int n2, int *y,         double *x,     int *order,
 		 double tleft,double tright,     double *adj)
 {
     int i,j, k;
-    int agree;
+    double agree;
     int lcount, rcount;
     int ll, lr, rr, rl;
     double llwt, lrwt, rrwt, rlwt;   /* sum of weights for each */
@@ -64,8 +64,8 @@ void choose_surg(int n1, int n2, int *y,         double *x,     int *order,
 
 	lr = rr =0;
 	lrwt =0; rrwt=0;
-	if (llwt > rlwt) agree = (int)llwt;
-	else             agree = (int)rlwt;
+	if (llwt > rlwt) agree = llwt;
+	else             agree = rlwt;
 
 	majority   = agree;             /*worst possible agreement */
 	total_wt  = llwt + rlwt;
@@ -80,12 +80,12 @@ void choose_surg(int n1, int n2, int *y,         double *x,     int *order,
 		if ((lr+rr)>=2  &&  x[j] != lastx) {
 		    /* new x found, evaluate the split */
 		    if ((llwt +rrwt) > agree) {
-			agree = (int)(llwt + rrwt);
+			agree = llwt + rrwt;
 			csplit[0] = RIGHT;       /* < goes to the right */
 			*split = (x[j] + lastx)/2;
 		    }
 		    else if ((lrwt +rlwt) > agree) {
-			agree = (int)(lrwt + rlwt);
+			agree = lrwt + rlwt;
 			csplit[0] = LEFT;
 			*split = (x[j] + lastx)/2;
 		    }

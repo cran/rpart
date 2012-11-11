@@ -22,7 +22,7 @@ plot.rpart <- function(x, uniform = FALSE, branch = 1, compress = FALSE,
     temp2 <- range(yy) + diff(range(yy))*c(-margin, margin)
     plot(temp1, temp2, type='n', axes=FALSE, xlab='', ylab='', ...)
     ## Save information per device, once a new device is opened.
-    assign(paste0("device", dev.cur()), parms, envir = rpart_env)
+    assign(paste("device", dev.cur(), sep = ""), parms, envir = rpart_env)
 
     # Draw a series of horseshoes or V's, left son, up, down to right son
     #   NA's in the vector cause lines() to "lift the pen"

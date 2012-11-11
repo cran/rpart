@@ -310,6 +310,7 @@ SEXP rpart(SEXP ncat2,   SEXP method2,  SEXP opt2,
     else ccsplit = NULL;
 
     rpmatrix(tree, rp.numcat, ddsplit, iisplit, ccsplit, ddnode, iinode, 1);
+// Freeing seems to cause crashes in MergeGUI and SPOT
 //    free_tree(tree, 0);  /* let the memory go */
 
     /*
