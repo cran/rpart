@@ -51,10 +51,10 @@ snip.rpart(x, toss)
 \examples{
 ## dataset not in R
 \dontrun{
-z.survey <- rpart(market.survey) #grow the rpart object
-plot(z.survey) #plot the tree
-z.survey2 <- snip.rpart(z.survey,toss=2) #trim subtree at node 2
-plot(z.survey2) #plot new tree
+z.survey <- rpart(market.survey) # grow the rpart object
+plot(z.survey) # plot the tree
+z.survey2 <- snip.rpart(z.survey, toss = 2) # trim subtree at node 2
+plot(z.survey2) # plot new tree
 
 # can also interactively select the node using the mouse in the
 # graphics window

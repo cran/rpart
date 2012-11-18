@@ -33,18 +33,18 @@
 void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
 {
     double me_cp;
-    struct cptable *cplist, *cptemp=NULL;
+    struct cptable *cplist, *cptemp = NULL;
 
     if (me->complexity > parent) me->complexity = parent;
     me_cp = me->complexity;
-    if (me_cp < rp.alpha) me_cp = rp.alpha;    /*table should go no lower */
+    if (me_cp < rp.alpha) me_cp = rp.alpha;    /* table should go no lower */
     if (me->leftson != 0) {
 	make_cp_list(me->leftson, me_cp, cptable_head);
-	make_cp_list(me->rightson,me_cp, cptable_head);
+	make_cp_list(me->rightson, me_cp, cptable_head);
     }
 
     if (me_cp < parent) {  /*if not, then it can't be unique */
-	for (cplist= cptable_head; cplist !=0; cplist= cplist->forward) {
+	for (cplist = cptable_head; cplist != 0; cplist = cplist->forward) {
 	    /* am I tied? */
 	    if (me_cp == cplist->cp) return;  /* exact ties */
 
@@ -53,13 +53,15 @@ void make_cp_list(struct node *me, double parent, struct cptable *cptable_head)
 	}
 
 	/* insert new stuff after cptemp */
-	cplist = (struct cptable *) CALLOC(1, sizeof(struct cptable));
+	/* was CALLOC and not cleaned up */
+	cplist = (struct cptable *) ALLOC(1, sizeof(struct cptable));
+	memset(cplist, 0, sizeof(struct cptable)); /* zeros risk and nsplit */
 	cplist->cp = me_cp;
-	cplist->xrisk = 0;
-	cplist->xstd  =0;
+	cplist->xrisk =  0;
+	cplist->xstd  = 0;
 	cplist->back = cptemp;
 	cplist->forward = cptemp->forward;
-	if (cptemp->forward!=0) (cptemp->forward)->back = cplist;
+	if (cptemp->forward != 0) (cptemp->forward)->back = cplist;
 	else  cptable_tail = cplist;
 	cptemp->forward = cplist;
 	rp.num_unique_cp++;

@@ -15,10 +15,10 @@ rpart.exp(y, offset, parms, wt)}
   \item{parms}{parameters controlling the fit.
     This is a list with components \code{shrink} and \code{method}.
     The first is the prior for the coefficient of variation of the
-    predictions.  The second is either 'deviance'
-    or 'sqrt' and is the measure used for cross-validation.
+    predictions.  The second is either \code{"deviance"}
+    or \code{"sqrt"} and is the measure used for cross-validation.
     If values are missing the defaults are used, which are
-    'deviance' for the method, and a shrinkage of 1.0 for the
+    \code{"deviance"} for the method, and a shrinkage of 1.0 for the
     deviance method and 0 for the square root.}
   \item{wt}{case weights, if present}
 }

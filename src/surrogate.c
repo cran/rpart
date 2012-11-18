@@ -87,7 +87,7 @@ void surrogate(struct node *me, int n1, int n2)
     /*
     ** Now walk through the variables
     */
-    me->surrogate =0;
+me->surrogate = (struct split *) 0;
     for (i=0; i<rp.nvar; i++) {
 	if (var == i) continue;
 	ncat = rp.numcat[i];

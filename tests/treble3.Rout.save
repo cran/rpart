@@ -1,8 +1,8 @@
 
-R version 2.15.0 (2012-03-30)
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -62,6 +62,10 @@ rpart(formula = Country ~ Reliability + Price + Mileage + Type,
 2 0.02941176      1 0.7647059 0.8088235 0.04583685
 3 0.02205882      3 0.7058824 0.9117647 0.04583685
 4 0.01000000      5 0.6617647 0.9558824 0.04563477
+
+Variable importance
+Reliability       Price        Type 
+         49          30          21 
 
 Node number 1: 117 observations,    complexity param=0.2352941
   predicted class=USA        expected loss=0.5811966  P(node) =1
@@ -159,4 +163,4 @@ Node number 13: 20 observations
 > 
 > proc.time()
    user  system elapsed 
-  0.258   0.052   0.366 
+  0.188   0.012   0.196 

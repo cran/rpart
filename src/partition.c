@@ -56,9 +56,15 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk,
     if (me->num_obs < rp.min_split  ||  tempcp <= rp.alpha  ||
 	nodenum > rp.maxnode) {
 	me->complexity =  rp.alpha;
-	me->leftson = (struct node *)0;
-	me->rightson= (struct node *)0;
 	*sumrisk = me->risk;
+        /* 
+        ** make sure the split doesn't have random pointers to somewhere
+        ** i.e., don't trust that whoever allocated memory set it to zero
+        */
+        me->leftson = (struct node *)0;
+        me->rightson= (struct node *)0;
+        me->primary = (struct split *)0;
+        me->surrogate=(struct split *)0;
 	return(0);
     }
 
@@ -73,12 +79,16 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk,
 	me->complexity = rp.alpha;
 	me->leftson = (struct node *)0;
 	me->rightson= (struct node *)0;
+	me->primary = (struct split *)0;
+	me->surrogate=(struct split *)0;
 	*sumrisk = me->risk;
 	return(0);
     }
-
+#ifdef DEBUG
+    print_tree(me, 2);
+#endif
     if (rp.maxsur>0) (void)surrogate(me, n1, n2);
-    else  me->surrogate =0;
+    else  me->surrogate = (struct split *) 0;
     nodesplit(me, nodenum, n1, n2, &nleft, &nright);
 
     /*
@@ -148,10 +158,7 @@ int partition(int nodenum, struct node *splitnode, double *sumrisk,
 	/*
 	** All was in vain!  This node doesn't split after all.
 	*/
-	free_tree(me->leftson, 1);
-	free_tree(me->rightson,1);
-	me->leftson = (struct node *)0;
-	me->rightson= (struct node *)0;
+	free_tree(me, 0);
 	*sumrisk = me->risk;
 	for (i=n1; i<n2; i++) {
 	    j = rp.sorts[0][i];

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rpart 3.1-53\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
-"POT-Creation-Date: 2012-10-05 09:17\n"
+"POT-Creation-Date: 2012-11-16 12:32\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
 "Language-Team: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
@@ -95,6 +95,9 @@ msgstr ""
 # stop("Trees cannot handle interaction terms")
 msgid "Trees cannot handle interaction terms"
 msgstr "Drzewa nie mogą obsłużyć członów oddziaływania"
+
+msgid "negative weights not allowed"
+msgstr ""
 
 # rpart/R/rpart.s: 56
 # stop("Invalid method")
@@ -394,6 +397,12 @@ msgstr "dostarczone węzły %s nie są w tym drzewie"
 #                 paste(good[leaves], collapse = ",")), domain = NA)
 msgid "supplied nodes %s are leaves"
 msgstr "dostarczone węzły %s są liśćmi"
+
+# rpart/R/printcp.s: 5
+# stop ("'x' must be an 'rpart' object")
+#, fuzzy
+#~ msgid "'fit' must be an \"rpart\" object"
+#~ msgstr "'x' musi być obiektem \"rpart\""
 
 # rpart/R/path.rpart.s: 6
 # stop("Not legitimate tree")

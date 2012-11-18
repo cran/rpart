@@ -33,7 +33,7 @@ A new \code{rpart} object that is trimmed to the value \code{cp}.
 }
 \examples{
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
-zp <- prune(z.auto, cp=0.1)
+zp <- prune(z.auto, cp = 0.1)
 plot(zp) #plot smaller rpart object
 }
 \keyword{tree}

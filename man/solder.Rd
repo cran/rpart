@@ -57,11 +57,11 @@ a numeric vector giving the number of visible solder skips.
 \source{
    John M. Chambers and Trevor J. Hastie eds. (1992)
   \emph{Statistical Models in S}, Wadsworth and Brooks/Cole,
-  Pacific Grove, CA 1992.
+  Pacific Grove, CA.
 }
 \examples{
 fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
-       data=solder, method='anova')
+            data = solder, method = "anova")
 summary(residuals(fit))
 plot(predict(fit),residuals(fit))
 }

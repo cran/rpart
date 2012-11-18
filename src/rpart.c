@@ -184,7 +184,7 @@ SEXP rpart(SEXP ncat2,   SEXP method2,  SEXP opt2,
     /*
     ** And now the last of my scratch space
     */
-    if (maxcat >0) {
+    if (maxcat > 0) {
 	rp.csplit = (int *) ALLOC(3*maxcat, sizeof(int));
 	rp.lwt    = (double *) ALLOC(2*maxcat, sizeof(double));
 	rp.left = rp.csplit + maxcat;
@@ -199,16 +199,17 @@ SEXP rpart(SEXP ncat2,   SEXP method2,  SEXP opt2,
     error = "unknown error";
     PROTECT(which3 = allocVector(INTSXP, n));
     rp.which = INTEGER(which3);
-    temp =0;
-    for (i=0; i<n; i++) {
+    temp = 0;
+    for (i = 0; i < n; i++) {
 	rp.which[i] =1;
 	temp += wt[i];
     }
     i = (*rp_init)(n, rp.ydata, maxcat, &error, parms, &rp.num_resp, 1, wt);
-    if (i>0) Rf_error(error);
+    if (i > 0) Rf_error(error);
 
     nodesize = sizeof(struct node) + (rp.num_resp-2)*sizeof(double);
     tree = (struct node *) ALLOC(1, nodesize);
+    memset(tree, 0, sizeof(struct node));
     tree->num_obs = n;
     tree->sum_wt  = temp;
 
@@ -224,9 +225,9 @@ SEXP rpart(SEXP ncat2,   SEXP method2,  SEXP opt2,
     cptable->cp = tree->complexity;
     cptable->risk = tree->risk;
     cptable->nsplit = 0;
-    cptable->forward =0;
-    cptable->xrisk =0;
-    cptable->xstd =0;
+    cptable->forward = 0;
+    cptable->xrisk = 0;
+    cptable->xstd = 0;
     rp.num_unique_cp =1;
 
     if (tree->rightson) {
@@ -297,36 +298,35 @@ SEXP rpart(SEXP ncat2,   SEXP method2,  SEXP opt2,
 	iisplit[i]= iptr; iptr += splitcount;
     }
 
-    if (catcount >0) {
+    if (catcount > 0) {
 	PROTECT(csplit3 = allocMatrix(INTSXP, catcount, maxcat));
 	ccsplit = (int**) ALLOC(maxcat, sizeof(int *));
 	iptr = INTEGER(csplit3);
 	for (i=0; i<maxcat; i++) {
 	    ccsplit[i] = iptr;
 	    iptr += catcount;
-	    for (j=0; j<catcount; j++) ccsplit[i][j] =0;  /* zero it out */
+	    for (j=0; j<catcount; j++) ccsplit[i][j] = 0;  /* zero it out */
 	}
     }
     else ccsplit = NULL;
 
     rpmatrix(tree, rp.numcat, ddsplit, iisplit, ccsplit, ddnode, iinode, 1);
-// Freeing seems to cause crashes in MergeGUI and SPOT
-//    free_tree(tree, 0);  /* let the memory go */
+    free_tree(tree, 0);  /* let the memory go */
 
     /*
     ** Fix up the which array
     **  Nodes are sometimes trimmed during the
     **  tree building, and "which" is not updated in that case
     */
-    for (i=0; i<n; i++) {
+    for (i = 0; i < n; i++) {
 	k = rp.which[i];
 	do {
-	    for (j=0; j<nodecount; j++)
+	    for (j = 0; j < nodecount; j++)
 		if (iinode[0][j] == k) {
 		    rp.which[i] = j+1;
 		    break;
 		}
-	    k /=2;
+	    k /= 2;
 	}  while (j >= nodecount);
     }
 

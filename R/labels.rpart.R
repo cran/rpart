@@ -13,8 +13,8 @@
 ##               TRUE   -> minlength =4
 ##   ... = other args for abbreviate()
 ##
-labels.rpart <- function(object, digits=4, minlength=1L, pretty,
-                         collapse=TRUE, ...)
+labels.rpart <- function(object, digits = 4, minlength = 1L, pretty,
+                         collapse = TRUE, ...)
 {
     if (missing(minlength) && !missing(pretty)) {
 	if (is.null(pretty)) minlength <- 1L
@@ -40,15 +40,15 @@ labels.rpart <- function(object, digits=4, minlength=1L, pretty,
     ## Now to work: first create labels for the left and right splits,
     ##  but not for leaves of course
     ##
-    lsplit <- rsplit <- vector(mode='character', length= length(irow))
+    lsplit <- rsplit <- vector(mode = 'character', length =  length(irow))
 
     if (any(ncat < 2L)) {               # any continuous vars ?
-	jrow <- irow[ncat <2L]
-	cutpoint <- formatg(object$splits[jrow,4L], digits)
-	temp1 <- (ifelse(ncat<0, "< ", ">="))[ncat <2L]
-	temp2 <- (ifelse(ncat<0, ">=", "< "))[ncat <2L]
-	lsplit[ncat<2L] <- paste(temp1, cutpoint, sep='')
-	rsplit[ncat<2L] <- paste(temp2, cutpoint, sep='')
+	jrow <- irow[ncat < 2L]
+	cutpoint <- formatg(object$splits[jrow, 4L], digits)
+	temp1 <- (ifelse(ncat < 0, "< ", ">="))[ncat < 2L]
+	temp2 <- (ifelse(ncat < 0, ">=", "< "))[ncat < 2L]
+	lsplit[ncat<2L] <- paste(temp1, cutpoint, sep = '')
+	rsplit[ncat<2L] <- paste(temp2, cutpoint, sep = '')
     }
 
     if (any(ncat > 1L)) {               # any categorical variables ?
@@ -63,8 +63,8 @@ labels.rpart <- function(object, digits=4, minlength=1L, pretty,
 	cindex <- (match(vnames, names(xlevels)))[ncat >1L]
 
 	## Now, abbreviate the levels
-	if (minlength ==1L) {
-	    if (any(ncat>52L))
+	if (minlength == 1L) {
+	    if (any(ncat > 52L))
 		warning("more than 52 levels in a predicting factor, truncated for printout")
 	    xlevels <- lapply(xlevels,
                               function(z) {
@@ -73,37 +73,37 @@ labels.rpart <- function(object, digits=4, minlength=1L, pretty,
                                   c(letters, LETTERS)[k]
                               })
         }
-	else if (minlength >1L)
+	else if (minlength > 1L)
 	    xlevels <- lapply(xlevels, abbreviate, minlength, ...)
 
 	## Now tuck in the labels
 	## I'll let some other clever person vectorize this
-	for (i in 1L:(length(jrow))) {
+	for (i in seq_along(jrow)) {
 	    j <- jrow[i]
 	    splits <- object$csplit[crow[i],]
-	    ## splits will contain 1=left, 2=right, 3= neither
-	    ltemp <- (1L:length(splits))[splits== 1L]
-	    rtemp <- (1L:length(splits))[splits== 3L]
-	    if (minlength==1L) {
-		lsplit[j] <- paste((xlevels[[cindex[i]]])[ltemp], collapse='')
-		rsplit[j] <- paste((xlevels[[cindex[i]]])[rtemp], collapse='')
-            }
-	    else {
-		lsplit[j] <-paste((xlevels[[cindex[i]]])[ltemp], collapse=',')
-		rsplit[j] <-paste((xlevels[[cindex[i]]])[rtemp], collapse=',')
+	    ## splits will contain 1=left, 3=right, 2= neither
+            ## FIXME: use logical directly
+	    ltemp <- seq_along(splits)[splits == 1L]
+	    rtemp <- seq_along(splits)[splits == 3L]
+	    if (minlength == 1L) {
+		lsplit[j] <- paste((xlevels[[cindex[i]]])[ltemp], collapse = '')
+		rsplit[j] <- paste((xlevels[[cindex[i]]])[rtemp], collapse = '')
+            } else {
+		lsplit[j] <-paste((xlevels[[cindex[i]]])[ltemp], collapse = ',')
+		rsplit[j] <-paste((xlevels[[cindex[i]]])[rtemp], collapse = ',')
             }
         }
     }
 
-    if (!collapse) {             #called by no routines that I know of
+    if (!collapse) {  # called by no routines that I know of
 	ltemp <- rtemp <- rep("<leaf>", n)
 	ltemp[whichrow] <- lsplit
 	rtemp[whichrow] <- rsplit
 	return(cbind(ltemp, rtemp))
     }
 
-    lsplit <- paste(ifelse(ncat<2L, "", "="), lsplit, sep='')
-    rsplit <- paste(ifelse(ncat<2L, "", "="), rsplit, sep='')
+    lsplit <- paste(ifelse(ncat < 2L, "", "="), lsplit, sep = '')
+    rsplit <- paste(ifelse(ncat < 2L, "", "="), rsplit, sep = '')
 
     ##
     ## Now match them up to node numbers
@@ -115,9 +115,9 @@ labels.rpart <- function(object, digits=4, minlength=1L, pretty,
     parent <- match(node %/% 2, node[whichrow])
     odd <- (as.logical(node %%2))
 
-    labels <- vector('character', length=n)
-    labels[odd] <- paste(varname[parent[odd]], rsplit[parent[odd]], sep="")
-    labels[!odd]<- paste(varname[parent[!odd]],lsplit[parent[!odd]], sep="")
+    labels <- vector('character', length = n)
+    labels[odd] <- paste(varname[parent[odd]], rsplit[parent[odd]], sep = "")
+    labels[!odd]<- paste(varname[parent[!odd]], lsplit[parent[!odd]], sep = "")
     labels[1L] <- "root"
     labels
 }

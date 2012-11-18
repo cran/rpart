@@ -1,51 +1,29 @@
-##
-## This differs from tree.matrix in xlevels -- we don't keep NULLS in
-##   the list for all of the non-categoricals
+## Rewritten 11/2012; the prior version of the code failed with the
+##   formula y ~ . - zed;  zed got included in the result
+## Rather than be more sophisticated in how I understand the terms
+##  structure (because there might be yet another special case we've not
+##  thought of) use model.matrix on modified data.
 ##
 rpart.matrix <- function(frame)
 {
-    if(!inherits(frame, "data.frame")) return(as.matrix(frame))
-    frame$"(weights)" <- NULL
-    terms <- attr(frame, "terms")
-    if(is.null(terms)) predictors <- names(frame)
-    else {
-	a <- attributes(terms)
-	predictors <- as.character(a$variables)[-1L]
-        ## and this might include backquotes
-        predictors <- sub("^`(.*)`$", "\\1", predictors)
-	removals <- NULL
-	if((TT <- a$response) > 0L) {
-	    removals <- TT
-	    frame[[predictors[TT]]] <- NULL
-        }
-	if(!is.null(TT <- a$offset)) {
-	    removals <- c(removals, TT)
-	    frame[[predictors[TT]]] <- NULL
-        }
-	if(!is.null(removals)) predictors <- predictors[ - removals]
-        labels <- a$term.labels
-	if(abs(length(labels)-length(predictors))>0L)
-            predictors <- predictors[match(labels,predictors)]
-    }
+    ## First line is just a failsafe: this should always be called with
+    ##   a model frame.
+    if(!inherits(frame, "data.frame") ||
+       is.null(attr(frame, "terms")))  return(as.matrix(frame))
 
-    factors <- sapply(frame, function(x) !is.null(levels(x)))
-    characters <- sapply(frame, is.character)
-    if(any(factors | characters)) {
-	## change characters to factors
-	for (preds in predictors[characters])
-            frame[[preds]] <- as.factor(frame[[preds]])
-        factors <- factors | characters
-        column.levels <- lapply(frame[factors], levels)
-
-	## Now make them numeric
-	for (preds in predictors[factors])
-            frame[[preds]] <- as.numeric(frame[[preds]])
-	x <- as.matrix(frame)
-	attr(x, "column.levels") <- column.levels
+    ## turn other classes into numerics.
+    ## We replace columns in frame rather than making a new object, since
+    ## model.matrix wants a model.frame object as it's argument.
+    for (i in 1:ncol(frame)) {
+        if (is.character(frame[[i]])) frame[[i]] <- as.numeric(factor(frame[[i]]))
+        else if (!is.numeric(frame[[i]])) frame[[i]] <- as.numeric(frame[[i]])
     }
-    else x <- as.matrix(frame[predictors])
-    class(x) <- "rpart.matrix"
-    x
+    ## Toss the intercept term when done (column 1)
+    X <- model.matrix(attr(frame, "terms"), frame)[, -1L, drop = FALSE]
+    ## model.matrix labels columns with backticks, and rpart.matrix
+    ## did not.
+    colnames(X) <- sub("^`(.*)`", "\\1", colnames(X))
+    class(X) <- c("rpart.matrix", class(X)) # ipred package expects this class
+    X
 }
-
 

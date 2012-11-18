@@ -32,7 +32,7 @@ void bsplit(struct node *me, int n1, int n2)
     /*
     ** test out the variables 1 at at time
     */
-    me->primary =0;
+    me->primary = (struct split *)0;
     for (i=0; i<rp.nvar; i++) {
 	index = rp.sorts[i];
 	nc = rp.numcat[i];
@@ -40,7 +40,7 @@ void bsplit(struct node *me, int n1, int n2)
 	k =0;
 	for (j=n1; j<n2; j++) {
 	    kk = index[j];
-	    if (kk >=0) {  /* x data not missing */
+	    if (kk >= 0 && rp.wt[kk] > 0) {  /* x data not missing  and wt >0*/
 		xtemp[k] = rp.xdata[i][kk];
 		ytemp[k] = rp.ydata[kk];
 		wtemp[k] = rp.wt[kk];
@@ -56,7 +56,7 @@ void bsplit(struct node *me, int n1, int n2)
 
 	/*
 	** Originally, this just said "if (improve >0)", but rounding
-	**  error will sometimes create a zero that's not 0.  Yet we
+	**  error will sometimes create a non zero that should be 0.  Yet we
 	**  want to retain invariance to the scale of "improve".
 	*/
 	if (improve > rp.iscale) rp.iscale = improve;  /*largest seen so far*/

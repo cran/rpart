@@ -21,6 +21,7 @@ fit1b$frame$wt   <- fit1b$frame$wt/3
 fit1b$frame$dev  <- fit1b$frame$dev/3
 fit1b$frame$yval2[,2:3] <- fit1b$frame$yval2[,2:3]/3
 fit1b$splits[,3] <- fit1b$splits[,3]/3
+fit1b$variable.importance <- fit1b$variable.importance/3
 all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 
 # Now for a set of non-equal weights

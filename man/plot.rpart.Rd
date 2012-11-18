@@ -7,8 +7,8 @@ Plot an Rpart Object
 Plots an rpart object on the current graphics device.
 }
 \usage{
-\method{plot}{rpart}(x, uniform=FALSE, branch=1, compress=FALSE, nspace,
-     margin=0, minbranch=.3, \dots)
+\method{plot}{rpart}(x, uniform = FALSE, branch = 1, compress = FALSE, nspace,
+     margin = 0, minbranch = 0.3, \dots)
 }
 \arguments{
 \item{x}{
@@ -78,7 +78,8 @@ The y-coordinate of the top node of the tree will always be 1.
 }
 \examples{
 fit <- rpart(Price ~ Mileage + Type + Country, cu.summary)
-plot(fit, compress=TRUE)
-text(fit, use.n=TRUE)
+par(xpd = TRUE)
+plot(fit, compress = TRUE)
+text(fit, use.n = TRUE)
 }
 \keyword{tree}

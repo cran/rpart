@@ -152,14 +152,17 @@ void s_xpred(int *sn,	   int *nvarx,    int *ncat,    int *method,
     ** I need the risk of the full tree, to scale alpha
     */
     xtree = (struct node *) ALLOC(1, nodesize);
+    memset(xtree, 0, sizeof(struct node));
     (*rp_eval)(n, rp.ydata, xtree->response_est, &(xtree->risk), rp.wt);
     rp.alpha = rp.complexity * (xtree)->risk;
+
+    free_tree(xtree, 0);
 
     /*
     ** do the validations
     */
-    total_wt =0;
-    for (i=0; i<rp.n; i++) total_wt += rp.wt[i];
+    total_wt = 0;
+    for (i = 0; i < rp.n; i++) total_wt += rp.wt[i];
     old_wt = total_wt;
 
     k = 0; /* -Wall */
@@ -226,11 +229,11 @@ void s_xpred(int *sn,	   int *nvarx,    int *ncat,    int *method,
 	/*
 	** run the extra data down the new tree
 	*/
-	for (i=k; i<rp.n; i++) {
+	for (i = k; i < rp.n; i++) {
 	    j = rp.sorts[0][i];
 	    rundown2(xtree, j, cp, (predict+ j* (*ncp) * nresp), nresp);
 	}
 
-	free_tree(xtree, 1);
+	free_tree(xtree, 1);  // Calloc-ed inside loop
     }
 }

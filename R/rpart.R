@@ -26,6 +26,7 @@ rpart <- function(formula, data, weights, subset,
 
     Y <- model.response(m)
     wt <- model.weights(m)
+    if (any(wt < 0)) stop("negative weights not allowed")
     if(length(wt) == 0L) wt <- rep(1.0, nrow(m))
     offset <- model.offset(m)
     X <- rpart.matrix(m)
@@ -61,6 +62,10 @@ rpart <- function(formula, data, weights, subset,
 	method <- c("anova", "poisson", "class", "exp")[method.int]
 	if (method.int == 4L) method.int <- 2L
 
+        # If this function is being retrieved from the rpart library, then
+        #   preferentially "get" the init function from there.  But don't
+        #   lock in the rpart library otherwise, so that we can still do
+        #   standalone debugging.
 	if (missing(parms))
             init <- (get(paste("rpart", method, sep='.')))(Y, offset, ,wt)
 	else
@@ -73,7 +78,7 @@ rpart <- function(formula, data, weights, subset,
 
     Y <- init$y
 
-    xlevels <- attr(X, "column.levels")
+    xlevels <- .getXlevels(Terms, m)
     cats <- rep(0L, ncol(X))
     if(!is.null(xlevels)) {
 	cats[match(names(xlevels), dimnames(X)[[2L]])] <-
@@ -175,18 +180,20 @@ rpart <- function(formula, data, weights, subset,
     dimnames(rpfit$cptable) <- list(temp, 1:numcp)
 
     tname <- c("<leaf>", dimnames(X)[[2]])
-    splits<- matrix(c(rpfit$isplit[, 2:3], rpfit$dsplit), ncol = 5L,
-                    dimnames=list(tname[rpfit$isplit[, 1L] + 1L],
-                    c("count", "ncat", "improve", "index", "adj")))
-    index <- rpfit$inode[,2]  #points to the first split for each node
+    splits <- matrix(c(rpfit$isplit[, 2:3], rpfit$dsplit), ncol = 5L,
+                     dimnames = list(tname[rpfit$isplit[, 1L] + 1L],
+                     c("count", "ncat", "improve", "index", "adj")))
+    index <- rpfit$inode[, 2L]  #points to the first split for each node
 
-    ## Now, make ordered categories look like categories again (a printout
-    ##  choice)
+    ## Now, make ordered factors look like factors again
+    ## (a printout choice)
     nadd <- sum(isord[rpfit$isplit[, 1L]])
-    if (nadd > 0L) {
-	newc <- matrix(1L, nadd, max(cats))
+    if (nadd > 0L) { # number of splits at an ordered factor.
+	newc <- matrix(0L, nadd, max(cats))
 	cvar <- rpfit$isplit[, 1L]
 	indx <- isord[cvar]             # vector of TRUE/FALSE
+        ## splits for 0 counts are not actually computed.
+        splits[indx & (splits[, 1L] == 0), 4L] <- 1.5
 	cdir <- splits[indx, 2L]        # which direction splits went
 	ccut <- floor(splits[indx, 4L]) # cut point
 	splits[indx, 2L] <- cats[cvar[indx]] # Now, # of categories instead
@@ -199,10 +206,12 @@ rpart <- function(formula, data, weights, subset,
         }
 	catmat <- if (ncat == 0L) newc
         else {
-            ## newc have more cols than existing categorical splits
+            ## newc may have more cols than existing categorical splits
+            ## the documentation says that levels which do no exist are '2'
+            ## and we add 2 later.
             cs <- rpfit$csplit
             ncs <- ncol(cs); ncc <- ncol(newc)
-            if (ncs < ncc) cs <- cbind(cs, matrix(1L, nrow(cs), ncc - ncs))
+            if (ncs < ncc) cs <- cbind(cs, matrix(0L, nrow(cs), ncc - ncs))
             rbind(cs, newc)
         }
 	ncat <- ncat + nadd
@@ -221,7 +230,7 @@ rpart <- function(formula, data, weights, subset,
 			    nsurrogate = 0L)
     } else {
 	temp <- ifelse(index == 0, 1, index)
-	svar <- ifelse(index == 0, 0, rpfit$isplit[temp,1L]) #var number
+	svar <- ifelse(index == 0, 0, rpfit$isplit[temp,1L]) # var number
 	frame <- data.frame(row.names=rpfit$inode[,1],
 			    var =  factor(svar, 0:ncol(X), tname),
 			    n =   rpfit$inode[, 5L],
@@ -284,6 +293,8 @@ rpart <- function(formula, data, weights, subset,
              numresp = init$numresp)
     }
     if (ncat > 0L) ans$csplit <- catmat + 2L
+    if (nsplit > 0L) ans$variable.importance <- importance(ans)
+
     if (model) {
 	ans$model <- m
 	if (missing(y)) y <- FALSE

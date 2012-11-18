@@ -24,12 +24,19 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
     else cat("  n=", n[1L], "\n\n")
 
     print(x$cptable, digits=digits)
+    if (!is.null(x$variable.importance)) {
+        temp <- round(100* x$variable.importance/sum(x$variable.importance))
+        if (any(temp > 0)) {
+            cat("\nVariable importance\n")
+            print(temp[temp > 0])
+        }
+    }
     ff <- x$frame
     ylevel <- attr(x,'ylevels')
     id <- as.integer(row.names(ff))
     parent.id <- ifelse(id==1,1, floor(id/2))
     parent.cp <- ff$complexity[match(parent.id, id)]
-    rows <- (1L:length(id))[parent.cp > cp]
+    rows <- seq_along(id)[parent.cp > cp]
     if (length(rows)>0L) rows <- rows[order(id[rows])]
     else rows <- 1L
     is.leaf <- (ff$var=='<leaf>')
@@ -39,11 +46,11 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
         sname <- dimnames(x$splits)[[1L]]
         cuts <- vector(mode='character', length=nrow(x$splits))
         temp <- x$splits[ ,2L]
-        for (i in 1L:length(cuts)) {
+        for (i in seq_along(cuts)) {
             if (temp[i] == -1L)
                 cuts[i] <- paste("<",
                                  format(signif(x$splits[i,4L], digits=digits)))
-            else if (temp[i] ==1L)
+            else if (temp[i] == 1L)
                 cuts[i] <- paste("<",
                                  format(signif(x$splits[i,4L], digits=digits)))
             else cuts[i]<- paste("splits as ",
@@ -51,8 +58,8 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
                                        collapse='', sep=''), collapse='')
         }
 
-        if(any(temp<2)) cuts[temp<2 ] <- format(cuts[temp<2],justify="left")
-        cuts <- paste(cuts, ifelse(temp >=2, ",",
+        if(any(temp < 2L)) cuts[temp < 2L ] <- format(cuts[temp < 2L],justify="left")
+        cuts <- paste(cuts, ifelse(temp >= 2L, ",",
                                    ifelse(temp==1, " to the right,", " to the left, ")),
                       sep = '')
     }
@@ -64,7 +71,7 @@ summary.rpart <- function(object, cp=0, digits=getOption("digits"), file,  ...)
         tprint <- x$functions$summary(ff$yval2[rows,,drop=FALSE], ff$dev[rows],
                                       ff$wt[rows], ylevel, digits)
 
-    for (ii in 1L:length(rows)) {
+    for (ii in seq_along(rows)) {
 	i <- rows[ii]
 	nn <- ff$n[i]
 	cat("\nNode number ", id[i], ": ", nn, " observations", sep='')

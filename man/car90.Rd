@@ -19,8 +19,8 @@
       of a 5 ft. 9 in. front seat passenger, in inches, as measured by CU}
     \item{Frt.Leg.Room}{maximum front leg room, in inches, as measured by CU}
     \item{Frt.Shld}{front shoulder room, in inches, as measured by CU}
-    \item{Gear.Ratio}{the overall gear ratio, high gear, for manual transmisson}
-    \item{Gear2}{the overall gear ratio, high gear, for automatic transmisson}
+    \item{Gear.Ratio}{the overall gear ratio, high gear, for manual transmission}
+    \item{Gear2}{the overall gear ratio, high gear, for automatic transmission}
     \item{HP}{net horsepower}
     \item{HP.revs}{the red line---the maximum safe engine speed in rpm}
     \item{Height}{height of car, in inches, as supplied by manufacturer}
@@ -62,11 +62,15 @@
   This is derived (with permission) from the data set \code{car.all} in
   S-PLUS, but with some further clean up of variable names and definitions.
 }
+\seealso{
+  \code{\link{car.test.frame}},
+  \code{\link{cu.summary}}
+}
 
 \examples{
 data(car90)
 plot(car90$Price/1000, car90$Weight,
-     xlab  ="Price (thousands)", ylab = "Weight (lbs)")
+     xlab = "Price (thousands)", ylab = "Weight (lbs)")
 mlowess <- function(x, y, ...) {
     keep <- !(is.na(x) | is.na(y))
     lowess(x[keep], y[keep], ...)

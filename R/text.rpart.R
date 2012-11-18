@@ -6,7 +6,7 @@ text.rpart <-
     function(x, splits = TRUE, label, FUN = text, all = FALSE,
              pretty = NULL, digits = getOption("digits") - 3,
              use.n = FALSE, fancy = FALSE, fwidth = 0.8, fheight = 0.8,
-             bg = par("bg"), ...)
+             bg = par("bg"), minlength = 1L,  ...)
 {
     if(!inherits(x, "rpart")) stop("Not a legitimate \"rpart\" object")
     if(!is.null(x$frame$splits)) x <- rpconvert(x) #Backwards compatability
@@ -31,7 +31,8 @@ text.rpart <-
     if(splits) {
         left.child <- match(2 * node, node)
         right.child <- match(node * 2 + 1, node)
-        rows <- labels(x, pretty = pretty)
+        rows <- if (!missing(pretty) && missing(minlength))
+            labels(x, pretty = pretty) else labels(x, minlength = minlength)
 
         if(fancy) {
             ## put split labels on branches instead of nodes

@@ -1,8 +1,8 @@
 
-R version 2.15.0 (2012-03-30)
+R Under development (unstable) (2012-11-14 r61121) -- "Unsuffered Consequences"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: x86_64-apple-darwin11.4.2/x86_64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -88,6 +88,10 @@ rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade +
 7 0.008132      7    0.6679 0.9920 0.08795
 8 0.006412      8    0.6597 0.9853 0.08800
 9 0.000000      9    0.6533 1.0077 0.08952
+
+Variable importance
+  grade      g2 gleason  ploidy     age     eet 
+     26      26      22      15      10       1 
 
 Node number 1: 146 observations,    complexity param=0.1284
   events=54,  estimated rate=0.05849 , mean deviance=1.325 
@@ -269,6 +273,10 @@ rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade +
 7 0.01151      7    0.7400 0.9947 0.09121
 8 0.01000      8    0.7285 1.0090 0.09135
 
+Variable importance
+  grade gleason      g2  ploidy     age     eet 
+     27      25      22      15      10       1 
+
 Node number 1: 146 observations,    complexity param=0.1295
   events=54,  estimated rate=1 , mean deviance=1.316 
   left son=2 (61 obs) right son=3 (85 obs)
@@ -431,6 +439,10 @@ rpart(formula = income ~ population + region + illiteracy + life +
 7 0.01940      6    0.2389 0.8196 0.2641
 8 0.01394      7    0.2195 0.8196 0.2641
 9 0.01000      8    0.2055 0.8117 0.2640
+
+Variable importance
+   hs.grad       life illiteracy     murder     region population      frost 
+        28         22         13         12         12          9          5 
 
 Node number 1: 50 observations,    complexity param=0.4283
   mean=4436, MSE=3.7e+05 
@@ -644,6 +656,10 @@ rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason +
 5 0.01530      7    0.4714 0.8671 0.08515
 6 0.01000      9    0.4408 0.8639 0.08599
 
+Variable importance
+     g2   grade gleason  ploidy     age     eet 
+     28      26      20      18       6       2 
+
 Node number 1: 146 observations,    complexity param=0.3986
   predicted class=0  expected loss=0.5  P(node) =1
     class counts:    92    54
@@ -846,6 +862,10 @@ rpart(formula = Reliability ~ Price + Country + Mileage + Type,
 4 0.03390      3    0.5593 0.6780 0.07800
 5 0.01000      4    0.5254 0.6780 0.07800
 
+Variable importance
+Country    Type   Price 
+     66      22      12 
+
 Node number 1: 85 observations,    complexity param=0.3051
   predicted class=average      expected loss=0.6941  P(node) =1
     class counts:    18    12    26     8    21
@@ -923,4 +943,4 @@ Node number 23: 8 observations
 > 
 > proc.time()
    user  system elapsed 
-  0.523   0.181   3.694 
+  0.481   0.039   0.505 

@@ -57,9 +57,12 @@ the net horsepower of the vehicle.
 
   John M. Chambers and Trevor J. Hastie eds. (1992)
   \emph{Statistical Models in S}, Wadsworth and Brooks/Cole,
-  Pacific Grove, CA 1992, pp. 46--47.
+  Pacific Grove, CA, pp. 46--47.
 }
-\seealso{\code{\link{cu.summary}}}
+\seealso{
+  \code{\link{car90}},
+  \code{\link{cu.summary}}
+}
 \examples{
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 summary(z.auto)

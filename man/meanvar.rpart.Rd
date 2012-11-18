@@ -12,7 +12,7 @@ the node number.
 \usage{
 meanvar(tree, \dots)
 
-\method{meanvar}{rpart}(tree, xlab="ave(y)", ylab="ave(deviance)", \dots)
+\method{meanvar}{rpart}(tree, xlab = "ave(y)", ylab = "ave(deviance)", \dots)
 }
 \arguments{
 \item{tree}{
@@ -51,6 +51,6 @@ a plot is put on the current graphics device.
 }
 \examples{
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
-meanvar(z.auto, log='xy')
+meanvar(z.auto, log = 'xy')
 }
 \keyword{tree}

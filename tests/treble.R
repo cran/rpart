@@ -21,7 +21,9 @@ fit1b$frame$wt   <- fit1b$frame$wt/3
 fit1b$frame$dev  <- fit1b$frame$dev/3
 fit1b$frame$yval2[,2] <- fit1b$frame$yval2[,2]/3
 fit1b$splits[,3] <- fit1b$splits[,3]/3
-all.equal(fit1[-3], fit1b[-3])   #all but the "call"
+zz <- match(c("call", "variable.importance"), names(fit1))
+all.equal(fit1[-zz], fit1b[-zz])   #all but the "call" and importance
+all.equal(fit1b$variable.importance/fit1$variable.importance, rep(3,4), check.att=FALSE)
 
 #
 # Compare a pair of multiply weighted fits

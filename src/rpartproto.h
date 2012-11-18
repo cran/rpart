@@ -36,7 +36,7 @@ void nodesplit(struct node *me, int nodenum, int n1, int n2,
 int partition(int nodenum, struct node *splitnode, double *sumrisk,
 	      int n1,      int n2);
 
-int print_tree(struct node *me, int id, int depth, int print, int maxdepth);
+int print_tree(struct node *me, int maxdepth);
 
 void pyears2r(int   *sn,       int   *sny,    int   *sdoevent, 
 	      double *sy,      double *wt,    int   *sodim,    int   *ofac, 

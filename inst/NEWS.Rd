@@ -1,12 +1,34 @@
 \name{NEWS}
 \title{NEWS file for the rpart package}
-%    \item New function \code{importance()}.
+
+\section{Changes in version 4.0-3}{
+  \itemize{
+    \item A fit of class \samp{"rpart"} now contains a component for
+    variable \sQuote{importance}, which is reported by the
+    \code{summary()} method.
+
+    \item The \code{text()} method gains a \code{minlength} argument,
+    like the \code{labels()} method.  This adds finer control: the
+    default remains \code{pretty = NULL}, \code{minlength = 1L}.
+
+    \item The handling of fits with zero and fractional weights has been
+    corrected: the results may be slightly different (or even
+    substantially different when the proportion of zero weights is
+    large).
+
+    \item Some memory leaks have been plugged.
+
+    \item There is a second vignette, \file{longintro.Rnw}, a version of
+    the original Mayo Tecnical Report on \code{rpart}.
+  }
+}
+
 \section{Changes in version 4.0-2}{
   \itemize{
     \item Added dataset \code{car90}, a corrected version of the
     S-PLUS dataset \code{car.all} (used with permission).
 
-    \item This version does not use \code{paste0{}} and so works again
+    \item This version does not use \code{paste0{}} and so works
     with \R 2.14.x.
   }
 }

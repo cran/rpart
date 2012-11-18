@@ -8,7 +8,7 @@
   cross validation, for a set of complexity parameter values.
 }
 \usage{
-xpred.rpart(fit, xval=10, cp, return.all=FALSE)
+xpred.rpart(fit, xval = 10, cp, return.all = FALSE)
 }
 \arguments{
 \item{fit}{

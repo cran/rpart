@@ -1,8 +1,8 @@
 
-R version 2.15.0 (2012-03-30)
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -39,6 +39,7 @@ Type 'q()' to quit R.
 > fit1b$frame$dev  <- fit1b$frame$dev/3
 > fit1b$frame$yval2[,2:3] <- fit1b$frame$yval2[,2:3]/3
 > fit1b$splits[,3] <- fit1b$splits[,3]/3
+> fit1b$variable.importance <- fit1b$variable.importance/3
 > all.equal(fit1[-3], fit1b[-3])   #all but the "call"
 [1] TRUE
 > 
@@ -80,4 +81,4 @@ Type 'q()' to quit R.
 > 
 > proc.time()
    user  system elapsed 
-  0.260   0.068   0.358 
+  0.200   0.032   0.218 

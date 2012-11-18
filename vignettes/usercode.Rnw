@@ -26,46 +26,45 @@
 <<echo=FALSE>>=
 options(continue="  ", width=60)
 options(SweaveHooks=list(fig=function() par(mar=c(5.1, 4.1, .3, 1.1))))
-@ 
+@
 \section{Splitting functions}
 The rpart code was written in a modular fashion with the idea that the C
-code would be extendeded to include more splitting functions.
-As a consequence all of the splitting functions are coordinated through a 
+code would be extended to include more splitting functions.
+As a consequence all of the splitting functions are coordinated through a
 single structure in the file \texttt{func\_table.h}, shown below:
 \begin{verbatim}
 static struct {
-        int  (*init_split)();
-        void (*choose_split)();
-        void (*eval)();
-        double (*error)();
-          } func_table [] =
-                 {{anovainit,   anova,   anovass,    anovapred},
-                  {poissoninit, poisson, poissondev, poissonpred},
-                  {giniinit, gini, ginidev, ginipred},
-                  {usersplit_init, usersplit, usersplit_eval,
-                     usersplit_pred}
-                 };
+    int  (*init_split)();
+    void (*choose_split)();
+    void (*eval)();
+    double (*error)();
+} func_table [] = {
+    {anovainit,   anova,   anovass,    anovapred},
+    {poissoninit, poisson, poissondev, poissonpred},
+    {giniinit, gini, ginidev, ginipred},
+    {usersplit_init, usersplit, usersplit_eval, usersplit_pred}
+};
 
 #define NUM_METHODS 4  /*size of the above structure */
 \end{verbatim}
 Adding a new splitting method requires the definition of four functions which
-initialize, choose a split, compute the predicted value or values for a node, 
+initialize, choose a split, compute the predicted value or values for a node,
 and
-compute a prediction error for a new observation assigned to the node.  
+compute a prediction error for a new observation assigned to the node.
 The last of these is used only in cross-validation.
 
-To add new splitting rules to the main routine 
+To add new splitting rules to the main routine
 four new C functions need to be defined, the
-\texttt{func\_table.h} file expanded, the R function \texttt{rpart} updated to 
+\texttt{func\_table.h} file expanded, the R function \texttt{rpart} updated to
 recognize the new
-option (it calls the C routine with the row number of func\_table), 
-and finally an initialization function written.  
+option (it calls the C routine with the row number of func\_table),
+and finally an initialization function written.
 See the \texttt{rpart.class}, \texttt{rpart.anova}, and \texttt{rpart.exp}
 functions for examples of the latter.
-The lion's share of the code, which deals with all the necessary bookkeeping, 
+The lion's share of the code, which deals with all the necessary bookkeeping,
 remains unchanged.
 
-An easier route is to add a user defined splittin rules as a set of R functions.
+An easier route is to add a user defined splitting rules as a set of R functions.
 The resulting code will be considerably slower than the built-in functions;
 nevertheless this allows an easy way to extend \texttt{rpart}, and to
 test out new
@@ -78,43 +77,43 @@ of a model.)
 
 \section{Anova function}
 As the first illustration we show how to add anova splitting as a user-written
-addition.  
+addition.
 This method is also one of those built into the C code, so we can also
 check the correctness of the results.
 
 \subsection{Initialization function}
-<<>>= 
+<<>>=
 itemp <- function(y, offset, parms, wt) {
-    if (is.matrix(y) && ncol(y) > 1) 
+    if (is.matrix(y) && ncol(y) > 1)
        stop("Matrix response not allowed")
-    if (!missing(parms) && length(parms) >0) 
+    if (!missing(parms) && length(parms) > 0)
         warning("parameter argument ignored")
-    if (length(offset)) y <- y-offset
+    if (length(offset)) y <- y - offset
     sfun <- function(yval, dev, wt, ylevel, digits ) {
 		  paste("  mean=", format(signif(yval, digits)),
 			", MSE=" , format(signif(dev/wt, digits)),
-			sep='')
+			sep = '')
     }
     environment(sfun) <- .GlobalEnv
-    list(y=c(y), parms=NULL, numresp=1, numy=1, summary=sfun)
+    list(y = c(y), parms = NULL, numresp = 1, numy = 1, summary = sfun)
 }
 @
 
 On input the function will be called with
 \begin{description}
-  \item[y] the response value as found in the formula.  
-    Note that rpart will normally 
+  \item[y] the response value as found in the formula.
+    Note that rpart will normally
     have removed any observations with a missing response.
   \item[offset] the offset term, if any, found on the right hand side of the formula
-  \item[parms] the vector or list (if any) supplied by the user as a 
+  \item[parms] the vector or list (if any) supplied by the user as a
     \texttt{parms} argument to the call.
   \item[wt] the weight vector from the call, if any
   \end{description}
 
 The last two arguments are optional.
-The initialization function needs to perform any data checks, 
+The initialization function needs to perform any data checks,
 deal with the offset
-vector if present, and return a list containing 
+vector if present, and return a list containing
 \begin{description}
   \item[y] the value of the response, possibly updated
   \item[numy] the number of columns of y
@@ -122,13 +121,13 @@ vector if present, and return a list containing
   \item[summary] optional: a function which will produce a 1--3 line summary for the
     node, to be used by \texttt{summary.rpart}.
   \item[print] optional: a function which will produce a one line summary for
-    the \texttt{print} function.  
+    the \texttt{print} function.
   \item[text] optional: a function which will produce a short label for the node,
     used by the \texttt{plot} function.
   \end{description}
 
 The parameters vector can contain whatever might be appropriate for
-the method, e.g. the variance of a prior distribution.  
+the method, e.g. the variance of a prior distribution.
 The vector of parameters passed forward need not be he same as the set
 passed into the routine.
 In anova splitting there are no extra parameters.
@@ -158,13 +157,12 @@ temp <- 4
 fun1 <- function(x) {
     q <- 15
     z <- 10
-    fun2 <- function(y)
-        y +z + temp
+    fun2 <- function(y) y + z + temp
     fun2(x^2)
 }
 fun1(5)
-@ 
-The definition of fun2 essentially contains a copy of \texttt{z} (and 
+@
+The definition of fun2 essentially contains a copy of \texttt{z} (and
 \texttt{q} as well) to ensure that this works.
 The exception to this is objects at the top level such as
 \texttt{temp} above; the user is responsible
@@ -180,26 +178,26 @@ opinion) and so needs none of these.
 Setting the environment of the function to \texttt{.GlobalEnv} in essence
 tells R to treat the function as though it had been defined at top level,
 i.e., the input prompt, and thus not attach these extraneous copies.
-I first became aware of this issue when using a huge data set, and found that 
+I first became aware of this issue when using a huge data set, and found that
 the saved output of the fit took up an inordinate amount of disk space due
-to data copies attatched to the summary function.
+to data copies attached to the summary function.
 
 Do not take this as a critique of R environments in general.
 The rules governing them need to be responsive to a large ensemble of
 conditions; in this particular case the results are not ideal but in the main
 they are the best compromise possible.
-        
+
 \subsection{Evaluation function}
-The evaluation function is called once per node.  
+The evaluation function is called once per node.
 It needs to produce a deviance for the node along with a vector to be
 used as a label for the node.
 <<>>=
 etemp <- function(y, wt, parms) {
     wmean <- sum(y*wt)/sum(wt)
     rss <- sum(wt*(y-wmean)^2)
-    list(label= wmean, deviance=rss)
-    }
-@ 
+    list(label = wmean, deviance = rss)
+}
+@
 
 As an example of a longer label, the gini splitting method for
 categorical outcomes returns both the chosen group and the full vector
@@ -221,9 +219,9 @@ The input arguments are
   \item[wt] vector of weights
   \item[x] vector of x values
   \item[parms] vector of user parameters, passed forward
-  \item[continuous] if TRUE the x variabe should be treated as continuous
+  \item[continuous] if TRUE the x variable should be treated as continuous
   \end{description}
-    
+
 The data will have been subset to include only the non-missing subset
 of x and y at the node, and if x is continuous all values will be in the
 sorted order of the x variable.
@@ -237,7 +235,7 @@ length $n-1$, where $n$ is the length of x:
     \item[direction]  A vector of the same length with values of -1
       and +1, where -1 suggests that values with y $<$ cutpoint be
       sent to the left side of the tree, and a value of +1 that values
-      with y $<$ cutpoint be sent to the right.  
+      with y $<$ cutpoint be sent to the right.
       This is not critical, but sending larger values of y to the
       right, as is done in the code below, seems to make the final tree
       easier to read.
@@ -249,7 +247,8 @@ constraint, and also for dealing with ties.  When x is continuous the
 split routine actually has no reason to look at x.
 
 <<>>=
-stemp <- function(y, wt, x, parms, continuous) {
+stemp <- function(y, wt, x, parms, continuous)
+{
     # Center y
     n <- length(y)
     y <- y- sum(y*wt)/sum(wt)
@@ -262,9 +261,8 @@ stemp <- function(y, wt, x, parms, continuous) {
         lmean <- temp/left.wt
         rmean <- -temp/right.wt
         goodness <- (left.wt*lmean^2 + right.wt*rmean^2)/sum(wt*y^2)
-        list(goodness= goodness, direction=sign(lmean))
-        }
-    else {
+        list(goodness = goodness, direction = sign(lmean))
+    } else {
         # Categorical X variable
         ux <- sort(unique(x))
         wtsum <- tapply(wt, x, sum)
@@ -282,15 +280,15 @@ stemp <- function(y, wt, x, parms, continuous) {
         rmean <- -temp/right.wt
         list(goodness= (left.wt*lmean^2 + right.wt*rmean^2)/sum(wt*y^2),
              direction = ux[ord])
-        }
     }
-@ 
+}
+@
 
 The code above does the computations for all the split points at once
  by making use of two tricks. The first is to center the y values
 at zero (so the grand mean is zero), and the second takes advantage of the
 many ways to write the ``effect'' sum of squares for a simple two
-group anova.  
+group anova.
 The key identity is
 \begin{equation}
   \sum (y_i - c)^2 = \sum (y_i - \overline y)^2 +  n(c - \overline y)^2
@@ -298,10 +296,10 @@ The key identity is
 If you have an old enough statistics book, this is used to show that
 for a 1-way anova the between groups sum of squares $SS_B$ is
 \begin{equation}
-  SS_B = n_l(\overline y_l - \overline y)^2 + 
+  SS_B = n_l(\overline y_l - \overline y)^2 +
   n_r(\overline y_r - \overline y)^2 \label{ssb}
 \end{equation}
-where $n_l$ is the number of observations in the left group, 
+where $n_l$ is the number of observations in the left group,
 $\overline y_l$ the
 mean of $y$ in the left group, $\overline y$ the overall mean,
 and $n_r$ $\overline y_r$ the corresponding terms for the right hand group.
@@ -314,10 +312,10 @@ the reader.
 If the predictor variable x is categorical with $k$ classes then there are
 potentially $2^{k-1} -1$ different ways to split the node.
 However, for most splitting rules the optimal rule can be found by first
-ordering the groups by their average y value and then using the 
+ordering the groups by their average y value and then using the
 usual splitting rule on this ordered variable.
-For user mode rules this is assumed to be the case.  
-The variable x is supplied as integer values 1, 2, \ldots, k.  
+For user mode rules this is assumed to be the case.
+The variable x is supplied as integer values 1, 2, \ldots, k.
 On return the direction vector should have $k$ values giving the ordering
 of the groups, and the goodness vector $k-1$ values giving the utility of
 the splits.
@@ -330,26 +328,26 @@ the built-in anova splitting method.
 library(rpart)
 mystate <- data.frame(state.x77, region=state.region)
 names(mystate) <- casefold(names(mystate)) #remove mixed case
-ulist <- list(eval=etemp, split=stemp, init=itemp)
+ulist <- list(eval = etemp, split = stemp, init = itemp)
 fit1 <- rpart(murder ~ population + illiteracy + income + life.exp +
-               hs.grad + frost + region, data=mystate,
-              method=ulist, minsplit=10)
+              hs.grad + frost + region, data = mystate,
+              method = ulist, minsplit = 10)
 fit2 <- rpart(murder ~ population + illiteracy + income + life.exp +
-               hs.grad + frost + region, data=mystate,
-              method='anova', minsplit=10, xval=0)
+              hs.grad + frost + region, data = mystate,
+              method = 'anova', minsplit = 10, xval = 0)
 all.equal(fit1$frame, fit2$frame)
 all.equal(fit1$splits, fit2$splits)
 all.equal(fit1$csplit, fit2$csplit)
 all.equal(fit1$where, fit2$where)
 all.equal(fit1$cptable, fit2$cptable)
-@ 
+@
 The all.equal test can't be done on fit1 vs fit2 as a whole since their
 \texttt{call} component will differ.
 
 \section{Cross validation}
 To do cross-validation on user written rules one needs to use the
 \texttt{xpred.rpart} routine.
-This routine returns the predicted value(s) for each observation, 
+This routine returns the predicted value(s) for each observation,
 predicted from a fit that did not include that observation.
 The result is a matrix with one row per subject and one column for
 each complexity parameter value.
@@ -358,18 +356,18 @@ for the anova model above.
 In order to get the same groupings we fix the xval group membership
 in advance.
 <<>>=
-xgroup <- rep(1:10, length=nrow(mystate))
+xgroup <- rep(1:10, length = nrow(mystate))
 xfit <- xpred.rpart(fit1, xgroup)
 xerror <- colMeans((xfit - mystate$murder)^2)
 
 fit2b <-  rpart(murder ~ population + illiteracy + income + life.exp +
-               hs.grad + frost + region, data=mystate,
-              method='anova', minsplit=10, xval=xgroup)
+                hs.grad + frost + region, data = mystate,
+                method = 'anova', minsplit = 10, xval = xgroup)
 topnode.error <- (fit2b$frame$dev/fit2b$frame$wt)[1]
 
 xerror.relative <- xerror/topnode.error
-all.equal(xerror.relative, fit2b$cptable[,4], check.attributes=FALSE)
-@ 
+all.equal(xerror.relative, fit2b$cptable[, 4], check.attributes = FALSE)
+@
 
 
 
@@ -385,30 +383,30 @@ all.equal(xerror.relative, fit2b$cptable[,4], check.attributes=FALSE)
 <<fig1, echo=FALSE, fig=TRUE, include=FALSE>>=
 tdata <- mystate[order(mystate$illiteracy), ]
 n <- nrow(tdata)
-temp <- stemp(tdata$income, wt=rep(1, n), tdata$illiteracy, 
-              parms=NULL, continuous=TRUE)
+temp <- stemp(tdata$income, wt = rep(1, n), tdata$illiteracy,
+              parms = NULL, continuous = TRUE)
 xx <- (tdata$illiteracy[-1] + tdata$illiteracy[-n])/2
-plot(xx, temp$goodness, xlab="Illiteracy cutpoint",
-     ylab="Goodness of split")
-lines(smooth.spline(xx, temp$goodness, df=4), lwd=2, lty=2)
-@ 
+plot(xx, temp$goodness, xlab = "Illiteracy cutpoint",
+     ylab = "Goodness of split")
+lines(smooth.spline(xx, temp$goodness, df = 4), lwd = 2, lty = 2)
+@
 
 \subsection{Smoothed anova}
-For any particular covariate consider a plot of 
+For any particular covariate consider a plot of
 x= split point vs y= goodness of split;
 figure \ref{fig:state} shows an example for the state data
 set, along with a smoothed curve.
 The plot points are very erratic.
 At one time we entertained the idea that a more stable split
 point would be found by finding the maximum value for a
-smoothed version of the plot.  
+smoothed version of the plot.
 Exactly how to smooth is of course a major issue in such an
-endeavor.  
+endeavor.
 
 Modification of the anova splitting routine to test this
 is quite easy --- simply add a few lines to the stemp routine:
 \begin{verbatim}
- ...    
+ ...
     	goodness= (left.wt*lmean^2 + right.wt*rmean^2)/sum(wt*y^2)
 	rx <- rank(x[-1])  #use only the ranks of x, to preserve invariance
 	fit <- smooth.spline(rx, goodness, df=4)
@@ -420,7 +418,7 @@ is quite easy --- simply add a few lines to the stemp routine:
 
 \section{Alternating logistic regression}
 Chen \cite{Chen07} used a mixed logistic regression model to
-fit clinical and genetic marker data. 
+fit clinical and genetic marker data.
 \begin{equation}
   E(y) = \frac{e^{\eta_1 + \eta_2}}{1+e^{\eta_1 + \eta_2}}
   \end{equation}
@@ -438,25 +436,27 @@ In order to make the offset visible to the splitting function
 we create a 2 column ``response'' consisting of the original
 y vector in the first column and the offset in the second.
 <<>>=
-loginit <- function(y, offset, parms, wt) {
+loginit <- function(y, offset, parms, wt)
+{
     if (is.null(offset)) offset <- 0
-    if (any(y!=0 & y!=1)) stop ('response must be 0/1')
-    
+    if (any(y != 0 & y != 1)) stop ('response must be 0/1')
+
     sfun <- function(yval, dev, wt, ylevel, digits ) {
 		  paste("events=",  round(yval[,1]),
 			", coef= ", format(signif(yval[,2], digits)),
 			", deviance=" , format(signif(dev, digits)),
-			sep='')}
+			sep = '')}
     environment(sfun) <- .GlobalEnv
-    list(y=cbind(y, offset), parms=0, numresp=2, numy=2,
-	      summary= sfun)
+    list(y = cbind(y, offset), parms = 0, numresp = 2, numy = 2,
+         summary = sfun)
     }
 
-logeval <- function(y, wt, parms) {
-    tfit <- glm(y[,1] ~ offset(y[,2]), binomial, weight=wt)
-    list(label= c(sum(y[,1]), tfit$coef), deviance=tfit$deviance)
-    }
-@ 
+logeval <- function(y, wt, parms)
+{
+    tfit <- glm(y[,1] ~ offset(y[,2]), binomial, weight = wt)
+    list(label= c(sum(y[,1]), tfit$coef), deviance = tfit$deviance)
+}
+@
 The evaluation function returns the number of positive responses
 along with the fitted coefficient.
 
@@ -464,7 +464,8 @@ The splitting function attempts every possible logistic regression.
 A much faster version could almost certainly be written based on
 a score test, however.
 <<>>=
-logsplit <- function(y, wt, x, parms, continuous) {
+logsplit <- function(y, wt, x, parms, continuous)
+{
     if (continuous) {
 	# continuous x variable: do all the logistic regressions
 	n <- nrow(y)
@@ -474,36 +475,35 @@ logsplit <- function(y, wt, x, parms, continuous) {
 	for (i in 1:(n-1)) {
 	    temp[i] <- 1
             if (x[i] != x[i+1]) {
-                tfit <- glm(y[,1] ~ temp + offset(y[,2]), binomial, weight=wt)
+                tfit <- glm(y[,1] ~ temp + offset(y[,2]), binomial, weight = wt)
                 goodness[i] <- tfit$null.deviance - tfit$deviance
                 direction[i] <- sign(tfit$coef[2])
-                }
-	    }
-	}
-    else {
+            }
+        }
+    } else {
 	# Categorical X variable
 	# First, find out what order to put the categories in, which
 	#  will be the order of the coefficients in this model
-	tfit <- glm(y[,1] ~ factor(x) + offset(y[,2]) -1, binomial, weight=wt)
+	tfit <- glm(y[,1] ~ factor(x) + offset(y[,2]) - 1, binomial, weight = wt)
 	ngrp <- length(tfit$coef)
-	direction <- rank(rank(tfit$coef) + runif(ngrp, 0, .1)) #break ties
+	direction <- rank(rank(tfit$coef) + runif(ngrp, 0, 0.1)) #break ties
         # breaking ties -- if 2 groups have exactly the same p-hat, it
         #  does not matter which order I consider them in.  And the calling
         #  routine wants an ordering vector.
         #
 	xx <- direction[match(x, sort(unique(x)))] #relabel from small to large
-	goodness <- double(length(direction) -1)
+	goodness <- double(length(direction) - 1)
 	for (i in 1:length(goodness)) {
-	    tfit <- glm(y[,1] ~ I(xx>i) + offset(y[,2]), binomial, weight=wt)
+	    tfit <- glm(y[,1] ~ I(xx > i) + offset(y[,2]), binomial, weight = wt)
 	    goodness[i] <- tfit$null.deviance - tfit$deviance
-	    }
-	}
-    list(goodness=goodness, direction=direction)
+        }
     }
-@ 
+    list(goodness=goodness, direction=direction)
+}
+@
 \begin{thebibliography}{9}
 \bibitem{Chen07} Chen J, Yu K, Hsing A and Therneau TM.
-  \emph{A partially linear tree-based regression model for assessing complex 
+  \emph{A partially linear tree-based regression model for assessing complex
         joint gene-gene and gene-environment effects},
 Genet Epidemiol, 2007(3), 238-51.
 \end{thebibliography}

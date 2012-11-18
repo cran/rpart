@@ -8,7 +8,7 @@
   path from the root to the selected nodes.
 }
 \usage{
-path.rpart(tree, nodes, pretty=0, print.it=TRUE)
+path.rpart(tree, nodes, pretty = 0, print.it = TRUE)
 }
 \arguments{
 \item{tree}{
@@ -62,8 +62,8 @@ path.rpart(tree, nodes, pretty=0, print.it=TRUE)
   \code{\link{rpart}}
 }
 \examples{
-fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
+fit <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
 print(fit)
-path.rpart(fit, node=c(11, 22))
+path.rpart(fit, node = c(11, 22))
 }
 \keyword{tree}

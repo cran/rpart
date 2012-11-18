@@ -13,5 +13,8 @@ prune.rpart <- function(tree, cp, ...)
     newx$cptable <- tree$cptable[keep,,drop=FALSE]
     newx$cptable[max(keep),1L] <- cp
 
+    # Reset the variable importance
+    newx$variable.importance <- importance(newx)
+
     newx
 }

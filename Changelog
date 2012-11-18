@@ -1,14 +1,39 @@
-2012 Nov 11	4.0-2	Add car90 from TMT.
+2012 Nov 18	4.0-3	Add 'importance' to rpart object and to summary():
+	                from TMT.
+
+	                'minlength' arg for tree() method.
+
+	                Improved handling of weights with zero fit,
+	                including bugfix for ordered factors.
+
+	                free_tree was commented out in rpart.c, and
+	                could crash as the structure was not zeroed.  As a
+	                precaution, pointers which are freed are NULLed.
+
+	                s_xpred.c did not free the first instance of a tree.
+
+	                make_cp_list used calloc but did not free.
+
+	                Spell-check help pages and vignettes.
+
+			Several examples needed par(xpd = TRUE) at
+			default plotting sizes.
+
+2012 Nov 11	4.0-2	Add car90 dataset from TMT.
+
 	                'agree' in choose_surg.c needs to be double
 	                for fractional weights.
-	                Commenting out free.tree in rpart.c was TMT's error.
+
 	                Not use paste0() so R 2.14.x works.
 
 2012 Oct 26	4.0-1	Merge in updates from TMT: see inst/NEWS.Rd 
 	                and Changelog.TMT.
+
 	                Use .Call for all C code.
+
 	                Use an environment in the package for 'parms' from
 	                plot.rpart().
+
 	                Force byte-compilation for consistency.
 
 2012 Oct 03	3.1-55	Force use of registered symbols in R >= 2.16.0

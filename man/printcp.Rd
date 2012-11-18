@@ -7,7 +7,7 @@
   Displays the \code{cp} table for fitted \code{rpart} object.
 }
 \usage{
-printcp(x, digits=getOption("digits") - 2)
+printcp(x, digits = getOption("digits") - 2)
 }
 \arguments{
 \item{x}{

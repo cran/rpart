@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rpart 4.0-0\n"
-"POT-Creation-Date: 2012-10-05 09:17\n"
+"Project-Id-Version: rpart 4.0-3\n"
+"POT-Creation-Date: 2012-11-16 12:32\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,6 +50,9 @@ msgid "a 'formula' argument is required"
 msgstr ""
 
 msgid "Trees cannot handle interaction terms"
+msgstr ""
+
+msgid "negative weights not allowed"
 msgstr ""
 
 msgid "Invalid method"

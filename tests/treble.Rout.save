@@ -1,8 +1,8 @@
 
-R version 2.15.0 (2012-03-30)
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -41,7 +41,10 @@ Loading required package: splines
 > fit1b$frame$dev  <- fit1b$frame$dev/3
 > fit1b$frame$yval2[,2] <- fit1b$frame$yval2[,2]/3
 > fit1b$splits[,3] <- fit1b$splits[,3]/3
-> all.equal(fit1[-3], fit1b[-3])   #all but the "call"
+> zz <- match(c("call", "variable.importance"), names(fit1))
+> all.equal(fit1[-zz], fit1b[-zz])   #all but the "call" and importance
+[1] TRUE
+> all.equal(fit1b$variable.importance/fit1$variable.importance, rep(3,4), check.att=FALSE)
 [1] TRUE
 > 
 > #
@@ -95,4 +98,4 @@ Loading required package: splines
 > 
 > proc.time()
    user  system elapsed 
-  0.340   0.082   0.471 
+  0.252   0.028   0.262 

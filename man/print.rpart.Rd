@@ -8,7 +8,7 @@ This function prints an \code{rpart} object.  It is a method for the generic
 function \code{print} of class \code{rpart}. 
 }
 \usage{
-\method{print}{rpart}(x, minlength=0, spaces=2, cp, digits= getOption("digits"), \dots)
+\method{print}{rpart}(x, minlength = 0, spaces = 2, cp, digits = getOption("digits"), \dots)
 }
 \arguments{
 \item{x}{

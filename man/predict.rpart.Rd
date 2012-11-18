@@ -47,16 +47,16 @@
   the deepest possible node and \code{frame$yval} at the node is the
   prediction.
 
-  If \code{type="vector"}:\cr
+  If \code{type = "vector"}:\cr
   vector of predicted responses.
   For regression trees this is the mean response at the node, for Poisson
   trees it is the estimated response rate, and for classification trees
   it is the predicted class (as a number).
   
-  If \code{type="prob"}:\cr
+  If \code{type = "prob"}:\cr
   (for a classification tree) a matrix of class probabilities.
 
-  If \code{type="matrix"}:\cr
+  If \code{type = "matrix"}:\cr
   a matrix of the full responses (\code{frame$yval2} if this exists,
   otherwise \code{frame$yval}).
   For regression trees, this is the mean response, for Poisson trees it
@@ -65,7 +65,7 @@
   predicted class, the class counts at that node in the fitted tree, and
   the class probabilities.
 
-  If \code{type="class"}:\cr
+  If \code{type = "class"}:\cr
   (for a classification tree) a factor of classifications based on the
   responses.
 }
@@ -82,15 +82,15 @@
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 predict(z.auto)
 
-fit <- rpart(Kyphosis ~ Age + Number + Start, data=kyphosis)
-predict(fit, type="prob")   # class probabilities (default)
-predict(fit, type="vector") # level numbers
-predict(fit, type="class")  # factor
-predict(fit, type="matrix") # level number, class frequencies, probabilities
+fit <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
+predict(fit, type = "prob")   # class probabilities (default)
+predict(fit, type = "vector") # level numbers
+predict(fit, type = "class")  # factor
+predict(fit, type = "matrix") # level number, class frequencies, probabilities
 
 sub <- c(sample(1:50, 25), sample(51:100, 25), sample(101:150, 25))
-fit <- rpart(Species ~ ., data=iris, subset=sub)
+fit <- rpart(Species ~ ., data = iris, subset = sub)
 fit
-table(predict(fit, iris[-sub,], type="class"), iris[-sub, "Species"])
+table(predict(fit, iris[-sub,], type = "class"), iris[-sub, "Species"])
 }
 \keyword{tree}
