@@ -1,7 +1,7 @@
 \name{rpart.control}
 \alias{rpart.control}
 \title{
-  Control for Rpart Models
+  Control for Rpart Fits
 }
 \description{
 Various parameters that control aspects of the \code{rpart} fit. 

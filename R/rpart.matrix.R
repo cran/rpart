@@ -8,7 +8,7 @@ rpart.matrix <- function(frame)
 {
     ## First line is just a failsafe: this should always be called with
     ##   a model frame.
-    if(!inherits(frame, "data.frame") ||
+    if (!inherits(frame, "data.frame") ||
        is.null(attr(frame, "terms")))  return(as.matrix(frame))
 
     ## turn other classes into numerics.
@@ -20,8 +20,7 @@ rpart.matrix <- function(frame)
     }
     ## Toss the intercept term when done (column 1)
     X <- model.matrix(attr(frame, "terms"), frame)[, -1L, drop = FALSE]
-    ## model.matrix labels columns with backticks, and rpart.matrix
-    ## did not.
+    ## model.matrix labels columns with backticks, and rpart.matrix did not.
     colnames(X) <- sub("^`(.*)`", "\\1", colnames(X))
     class(X) <- c("rpart.matrix", class(X)) # ipred package expects this class
     X

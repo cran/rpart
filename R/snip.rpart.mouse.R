@@ -4,7 +4,7 @@
 snip.rpart.mouse <- function(tree, parms)
 {
     if (missing(parms)) {
-        pn <- paste("device", dev.cur(), sep = "")
+        pn <- paste0("device", dev.cur())
         if (!exists(pn, envir = rpart_env, inherits = FALSE))
             stop("no information available on parameters from previous call to plot()")
         parms <- get(pn, envir = rpart_env, inherits = FALSE)
@@ -16,14 +16,14 @@ snip.rpart.mouse <- function(tree, parms)
     ff <- tree$frame
     if (length(parms$branch))
 	branch <- parms$branch
-    else branch <- 1
+    else branch <- 1L
 
-    node <- as.numeric(row.names(tree$frame))
-    draw <- rpart.branch(xy$x,xy$y, node, branch)
+    node <- as.integer(row.names(tree$frame))
+    draw <- rpart.branch(xy$x, xy$y, node, branch)
 
-    lastchoice <- 0
-    while (length(choose <- identify(xy, n=1, plot=FALSE)) >0 ) {
-	if (ff$var[choose] == '<leaf>') {
+    lastchoice <- 0L
+    while (length(choose <- identify(xy, n = 1L, plot = FALSE))) {
+	if (ff$var[choose] == "<leaf>") {
             cat("Terminal node -- try again\n")
             next
         }
@@ -34,24 +34,23 @@ snip.rpart.mouse <- function(tree, parms)
 	    cat("    response=", format(ff$yval[choose]))
 	    if (is.null(ff$yval2)) cat ("\n")
 	    else if (is.matrix(ff$yval2))
-                cat(" (", format(ff$yval2[choose,]), ")\n")
+                cat(" (", format(ff$yval2[choose, ]), ")\n")
 	    else  cat(" (", format(ff$yval2[choose]), ")\n")
 	    cat("    Error (dev) = ", format(ff$dev[choose]), "\n")
 	    lastchoice <- choose
-        }
-	else {
+        } else {
 	    ## second click-- erase all of the descendants
 	    ##   (stolen from snip.tree)
-	    id  <- node[choose]
+	    id <- node[choose]
 	    id2 <- node
-	    while (any(id2>1)) {
-		id2 <- floor(id2/2)
-		temp  <- (match(id2, id, nomatch=0) >0)
+	    while (any(id2 > 1L)) {
+		id2 <- id2 %/% 2L
+		temp <- match(id2, id, 0L) > 0L
   	        id <- c(id, node[temp])
-		id2[temp] <- 0
+		id2[temp] <- 0L
             }
-	    temp <- match(id, node[ff$var != '<leaf>'], nomatch=0)
-	    lines(c(draw$x[,temp]), c(draw$y[,temp]), col=0L)
+	    temp <- match(id, node[ff$var != "<leaf>"], 0L)
+	    lines(c(draw$x[, temp]), c(draw$y[, temp]), col = 0L)
 	    toss <- c(toss, node[choose])
         }
     }

@@ -12,7 +12,7 @@ xpred.rpart(fit, xval = 10, cp, return.all = FALSE)
 }
 \arguments{
 \item{fit}{
-a \code{rpart} object. 
+  a object of class \code{"rpart"}. 
 }
 \item{xval}{
   number of cross-validation groups.  This may also be an explicit list of

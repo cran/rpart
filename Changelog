@@ -1,3 +1,20 @@
+2012 Nov 29	4.1-0	Remove rpconvert() (converted rpart2 trees).
+	
+			Clean up a lot of the R code.
+	
+			C code reformatted with GNU indent and
+			-i4 -nut -ncdb -d1 -br -ce -il0 -npcs -brs
+			then use whitespace-cleanup in Emacs.
+
+			Call R_CheckUserInterrupts at each phase of
+			cross-validation.
+
+			Ensure that surrogates really are better than the
+			default split (adj > 1e-10), and that at least 2
+			cases of non-zero weight go each way.
+
+			Removed unused file src/s_xpred.c.
+
 2012 Nov 18	4.0-3	Add 'importance' to rpart object and to summary():
 	                from TMT.
 

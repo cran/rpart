@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rpart 3.1-53\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
-"POT-Creation-Date: 2012-11-16 12:32\n"
+"POT-Creation-Date: 2012-11-22 09:24\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
 "Language-Team: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
@@ -20,13 +20,6 @@ msgstr ""
 # stop("'x' must be a numeric vector")
 msgid "'x' must be a numeric vector"
 msgstr "'x' musi być wektorem liczbowym"
-
-# rpart/R/labels.rpart.s: 68
-# warning("more than 52 levels in a predicting factor, truncated for printout")
-msgid "more than 52 levels in a predicting factor, truncated for printout"
-msgstr ""
-"więcej niż 52 poziomów w czynniku przewidującym, przycięto na potrzeby "
-"wyświetlenia"
 
 # rpart/R/meanvar.rpart.s: 7
 # stop("Not legitimate 'rpart' object")
@@ -136,6 +129,9 @@ msgstr "Wektor kosztów musi być dodatni"
 # stop("Initialization routine is missing the 'summary' function")
 msgid "Initialization routine is missing the 'summary' function"
 msgstr "Brak procedury inicjalizacji w funkcji 'summary'"
+
+msgid "no information available on parameters from previous call to plot()"
+msgstr ""
 
 # rpart/R/rpart.class.s: 3
 # stop("No offset allowed in classification models")
@@ -347,19 +343,8 @@ msgstr "Funkcja użytkownika 'split' zwróciła niepoprawną dobroć"
 msgid "User 'split' function returned invalid direction"
 msgstr "Funkcja użytkownika 'split' zwróciła niepoprawny kierunek"
 
-msgid "no information available on parameters from previous call to plot()"
+msgid "may not be applicable for this method"
 msgstr ""
-
-# rpart/R/rpconvert.s: 8
-# stop("x does not appear to be an 'rpart' object")
-#, fuzzy
-msgid "x does not appear to be an \"rpart\" object"
-msgstr "'x' nie wygląda na obiekt 'rpart'"
-
-# rpart/R/rpconvert.s: 12
-# warning("'x' not converted")
-msgid "'x' not converted"
-msgstr "'x' nie został przekształcony"
 
 # rpart/R/plot.rpart.s: 4
 # stop("Not an 'rpart' object")
@@ -397,6 +382,24 @@ msgstr "dostarczone węzły %s nie są w tym drzewie"
 #                 paste(good[leaves], collapse = ",")), domain = NA)
 msgid "supplied nodes %s are leaves"
 msgstr "dostarczone węzły %s są liśćmi"
+
+# rpart/R/labels.rpart.s: 68
+# warning("more than 52 levels in a predicting factor, truncated for printout")
+#~ msgid "more than 52 levels in a predicting factor, truncated for printout"
+#~ msgstr ""
+#~ "więcej niż 52 poziomów w czynniku przewidującym, przycięto na potrzeby "
+#~ "wyświetlenia"
+
+# rpart/R/rpconvert.s: 8
+# stop("x does not appear to be an 'rpart' object")
+#, fuzzy
+#~ msgid "x does not appear to be an \"rpart\" object"
+#~ msgstr "'x' nie wygląda na obiekt 'rpart'"
+
+# rpart/R/rpconvert.s: 12
+# warning("'x' not converted")
+#~ msgid "'x' not converted"
+#~ msgstr "'x' nie został przekształcony"
 
 # rpart/R/printcp.s: 5
 # stop ("'x' must be an 'rpart' object")

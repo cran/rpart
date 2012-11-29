@@ -11,7 +11,7 @@
 }
 \arguments{
 \item{object}{
-  fitted model object of class \code{rpart}.  This is assumed to be the result
+  fitted model object of class \code{"rpart"}.  This is assumed to be the result
   of some function that produces an object with the same named
   components as that returned by the \code{rpart} function.
 }

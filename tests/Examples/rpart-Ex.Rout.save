@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2012-11-17 r61127) -- "Unsuffered Consequences"
+R Under development (unstable) (2012-11-27 r61172) -- "Unsuffered Consequences"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: x86_64-apple-darwin11.4.2/x86_64 (64-bit)
@@ -791,11 +791,11 @@ n= 60
 > ### ** Examples
 > 
 > fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
-+             data = solder, method = "anova")
++              data = solder, method = "anova")
 > summary(residuals(fit))
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 -13.8000  -1.0360  -0.6833   0.0000   0.9639  16.2000 
-> plot(predict(fit),residuals(fit))
+> plot(predict(fit), residuals(fit))
 > 
 > 
 > 
@@ -830,9 +830,9 @@ node), split, n, deviance, yval
    3) grade>=2.5 85 122.441500 1.6148600  
      6) age>=56.5 75 103.062900 1.4255040  
       12) gleason< 7.5 50  66.119800 1.1407320  
-        24) g2< 13.475 25  28.838320 0.8797563 *
-        25) g2>=13.475 25  35.995160 1.3922380  
-          50) g2>=17.915 14  18.852420 0.8681747 *
+        24) g2< 13.475 24  27.197170 0.8007306 *
+        25) g2>=13.475 26  36.790960 1.4570210  
+          50) g2>=17.915 15  20.332740 0.9789825 *
           51) g2< 17.915 11  13.459010 2.1714480 *
       13) gleason>=7.5 25  33.487250 2.0307290  
         26) g2>=15.29 10  11.588480 1.2156230 *
@@ -1064,7 +1064,7 @@ n= 60
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.646 0.029 0.683 0 0 
+Time elapsed:  0.634 0.03 0.672 0 0 
 > grDevices::dev.off()
 null device 
           1 

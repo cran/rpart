@@ -9,15 +9,15 @@
   A data frame with 146 observations on the following 8 variables.
   \describe{
     \item{\code{pgtime}}{Time to progression or last follow-up (years)}
-    \item{\code{pgstat}}{1=progression observed, 0=censored}
+    \item{\code{pgstat}}{1 = progression observed, 0 = censored}
     \item{\code{age}}{age in years}
-    \item{\code{eet}}{early endocrine therapy, 1=no, 2=yes}
+    \item{\code{eet}}{early endocrine therapy, 1 = no, 2 = yes}
     \item{\code{g2}}{percent of cells in G2 phase, as found by flow cytometry}
     \item{\code{grade}}{grade of the tumor, Farrow system}
     \item{\code{gleason}}{grade of the tumor, Gleason system}
     \item{\code{ploidy}}{the ploidy status of the tumor, from flow
-      cytometry. Values are \code{diploid}, \code{tetraploid},
-      and \code{aneuploid}}
+      cytometry. Values are \samp{diploid}, \samp{tetraploid},
+      and \samp{aneuploid}}
   }
 }
 \details{

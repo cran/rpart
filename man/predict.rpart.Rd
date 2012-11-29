@@ -13,7 +13,7 @@
 }
 \arguments{
   \item{object}{
-    fitted model object of class \code{rpart}.  This is assumed to be
+    fitted model object of class \code{"rpart"}.  This is assumed to be
     the result of some function that produces an object with the same named 
     components as that returned by the \code{rpart} function. 
   }
@@ -71,7 +71,7 @@
 }
 \details{
   This function is a method for the generic function predict for class
-  \code{rpart}. It can be invoked by calling \code{predict} for an object
+  \code{"rpart"}. It can be invoked by calling \code{predict} for an object
   of the appropriate class, or directly by calling \code{predict.rpart}
   regardless of the class of the object.
 }

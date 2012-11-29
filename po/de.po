@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R-2.15.2 / rpart 3.1-55\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-05 09:17+0100\n"
+"POT-Creation-Date: 2012-11-29 14:21+0000\n"
 "PO-Revision-Date: 2012-10-10 22:21+0200\n"
 "Last-Translator: Chris Leick <c.leick@vollbio.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -17,19 +17,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: gini.c:55 gini.c:57 gini.c:64
-msgid "Out of memory"
-msgstr "Platz im Hauptspeicher reicht nicht aus"
-
-#: poisson.c:39
+#: poisson.c:34
 msgid "Invalid time point"
 msgstr "ungültiger Zeitpunkt"
 
-#: poisson.c:43
+#: poisson.c:38
 msgid "Invalid event count"
 msgstr "ungültige Ereignisanzahl"
 
-#: rpart_callback.c:47
+#: poisson.c:68
+msgid "Invalid error rule"
+msgstr ""
+
+#: rpart.c:91 xpred.c:89
+#, fuzzy
+msgid "Invalid value for 'method'"
+msgstr "ungültiger Wert für 'method'"
+
+#: rpart.c:193
+msgid "unknown error"
+msgstr ""
+
+#: rpart_callback.c:46
 msgid "'yback' not found"
 msgstr "'yback' nicht gefunden"
 
@@ -37,34 +46,30 @@ msgstr "'yback' nicht gefunden"
 msgid "'wback' not found"
 msgstr "'wback' nicht gefunden"
 
-#: rpart_callback.c:53
+#: rpart_callback.c:54
 msgid "'xback' not found"
 msgstr "'xback' nicht gefunden"
 
-#: rpart_callback.c:56
+#: rpart_callback.c:58
 msgid "'nback' not found"
 msgstr "'nback' nicht gefunden"
 
-#: rpart_callback.c:102
+#: rpart_callback.c:104
 msgid "return value not a vector"
 msgstr "Rückgabewert ist kein Vektor"
 
-#: rpart_callback.c:105
+#: rpart_callback.c:106
 msgid "returned value is the wrong length"
 msgstr "Rückgabewert hat falsche Länge"
 
-#: rpart_callback.c:140
+#: rpart_callback.c:138
 msgid "the expression expr1 did not return a vector!"
 msgstr "Der Ausdruck expr1 gab keinen Vektor zurück!"
 
-#: rpart_callback.c:148
-#, c-format
-msgid "the expression expr1 returned a list of %d elements, %d required"
-msgstr ""
-"Der Ausdruck expr1 gab eine Liste von %d Elementen zurück, %d sind "
-"erforderlich."
+#~ msgid "Out of memory"
+#~ msgstr "Platz im Hauptspeicher reicht nicht aus"
 
-#: s_xpred.c:45
-#, fuzzy
-msgid "Invalid value for 'method'"
-msgstr "ungültiger Wert für 'method'"
+#~ msgid "the expression expr1 returned a list of %d elements, %d required"
+#~ msgstr ""
+#~ "Der Ausdruck expr1 gab eine Liste von %d Elementen zurück, %d sind "
+#~ "erforderlich."

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rpart 4.0-3\n"
-"POT-Creation-Date: 2012-11-16 12:32\n"
+"Project-Id-Version: rpart 4.1-0\n"
+"POT-Creation-Date: 2012-11-22 09:24\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,9 +11,6 @@ msgstr ""
 
 
 msgid "'x' must be a numeric vector"
-msgstr ""
-
-msgid "more than 52 levels in a predicting factor, truncated for printout"
 msgstr ""
 
 msgid "Not a legitimate \"rpart\" object"
@@ -71,6 +68,9 @@ msgid "Cost vector must be positive"
 msgstr ""
 
 msgid "Initialization routine is missing the 'summary' function"
+msgstr ""
+
+msgid "no information available on parameters from previous call to plot()"
 msgstr ""
 
 msgid "No offset allowed in classification models"
@@ -178,13 +178,7 @@ msgstr ""
 msgid "User 'split' function returned invalid direction"
 msgstr ""
 
-msgid "no information available on parameters from previous call to plot()"
-msgstr ""
-
-msgid "x does not appear to be an \"rpart\" object"
-msgstr ""
-
-msgid "'x' not converted"
+msgid "may not be applicable for this method"
 msgstr ""
 
 msgid "Not an \"rpart\" object"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R-2.15.2 / rpart 3.1-55\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
-"POT-Creation-Date: 2012-11-16 12:32\n"
+"POT-Creation-Date: 2012-11-22 09:24\n"
 "PO-Revision-Date: 2012-10-10 22:21+0200\n"
 "Last-Translator: Chris Leick <c.leick@vollbio.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -19,9 +19,6 @@ msgstr ""
 
 msgid "'x' must be a numeric vector"
 msgstr "'x' muss ein numerischer Vektor sein"
-
-msgid "more than 52 levels in a predicting factor, truncated for printout"
-msgstr "mehr als 52 Stufen in einem Vorhersagefaktor, für Ausdruck reduziert"
 
 msgid "Not a legitimate \"rpart\" object"
 msgstr "kein rechtmäßiges \"rpart\"-Objekt"
@@ -80,6 +77,9 @@ msgstr "Kostenvektor muss positiv sein"
 
 msgid "Initialization routine is missing the 'summary' function"
 msgstr "Der Initialisierungsroutine fehlt die Funktion 'summary'."
+
+msgid "no information available on parameters from previous call to plot()"
+msgstr ""
 
 msgid "No offset allowed in classification models"
 msgstr "kein Versatz in Klassifizierungsmodellen erlaubt"
@@ -198,14 +198,8 @@ msgstr "Benutzerfunktion 'split' gab ungültige Integrität zurück."
 msgid "User 'split' function returned invalid direction"
 msgstr "Benutzerfunktion 'split' gab ungültige Richtung zurück."
 
-msgid "no information available on parameters from previous call to plot()"
+msgid "may not be applicable for this method"
 msgstr ""
-
-msgid "x does not appear to be an \"rpart\" object"
-msgstr "x scheint kein \"rpart\"-Objekt zu sein."
-
-msgid "'x' not converted"
-msgstr "'x' nicht konvertiert"
 
 msgid "Not an \"rpart\" object"
 msgstr "kein \"rpart\"-Objekt"
@@ -224,6 +218,16 @@ msgstr "mitgelieferte Knoten %s sind nicht in diesem Baum."
 
 msgid "supplied nodes %s are leaves"
 msgstr "mitgelieferte Knoten %s sind Blätter"
+
+#~ msgid "more than 52 levels in a predicting factor, truncated for printout"
+#~ msgstr ""
+#~ "mehr als 52 Stufen in einem Vorhersagefaktor, für Ausdruck reduziert"
+
+#~ msgid "x does not appear to be an \"rpart\" object"
+#~ msgstr "x scheint kein \"rpart\"-Objekt zu sein."
+
+#~ msgid "'x' not converted"
+#~ msgstr "'x' nicht konvertiert"
 
 #, fuzzy
 #~ msgid "'fit' must be an \"rpart\" object"

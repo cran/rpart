@@ -11,7 +11,7 @@
 }
 \arguments{
 \item{object}{
-  fitted model object of class \code{rpart}.  This is assumed to be the
+  fitted model object of class \code{"rpart"}.  This is assumed to be the
   result of some function that produces an object with the same named
   components as that returned by the \code{rpart} function.
 }
@@ -23,16 +23,16 @@
 }
 \item{minlength}{
   the minimum length for abbreviation of character or factor variables.
-  If 0 no abbreviation is done; if 1 then single English letters are
+  If \code{0} no abbreviation is done; if \code{1} single English letters are
   used, first lower case than upper case (with a maximum of 52
-  levels). If the value is greater than 1, the \code{\link{abbreviate}}
-  function is used.
+  levels). If the value is greater than \code{}, the \code{\link{abbreviate}}
+  function is used, passed the \code{minlength} argument.
 }
 \item{pretty}{
   an argument included for compatibility with the \pkg{tree} package:
-  \code{pretty = 0} implies \code{minlength = 0},
-  \code{pretty = NULL} implies \code{minlength = 1}, and
-  \code{pretty = TRUE} implies \code{minlength = 4}.
+  \code{pretty = 0} implies \code{minlength = 0L},
+  \code{pretty = NULL} implies \code{minlength = 1L}, and
+  \code{pretty = TRUE} implies \code{minlength = 4L}.
 }
 \item{collapse}{
   logical. The returned set of labels is always of the same length as

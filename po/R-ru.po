@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 2.7.0\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
-"POT-Creation-Date: 2012-11-16 12:32\n"
+"POT-Creation-Date: 2012-11-22 09:24\n"
 "PO-Revision-Date: 2008-04-06 23:54-0500\n"
 "Last-Translator: Alexey Shipunov <dactylorhiza at gmail>\n"
 "Language-Team: Russian\n"
@@ -23,9 +23,6 @@ msgstr ""
 
 msgid "'x' must be a numeric vector"
 msgstr "'x' должен быть числовым вектором"
-
-msgid "more than 52 levels in a predicting factor, truncated for printout"
-msgstr "больше 52 уровней предсказующего фактора, обрезано для печати"
 
 msgid "Not a legitimate \"rpart\" object"
 msgstr "Неправильный \"rpart\" объект"
@@ -84,6 +81,9 @@ msgstr "Cost-вектор должен быть положительным"
 
 msgid "Initialization routine is missing the 'summary' function"
 msgstr "Подпрограмма инициализации для функции 'summary' пропущена"
+
+msgid "no information available on parameters from previous call to plot()"
+msgstr ""
 
 msgid "No offset allowed in classification models"
 msgstr "Смещение в моделях классификации не разрешено"
@@ -199,14 +199,8 @@ msgstr ""
 msgid "User 'split' function returned invalid direction"
 msgstr "Пользовательская функция 'split' вернула неправильное направление"
 
-msgid "no information available on parameters from previous call to plot()"
+msgid "may not be applicable for this method"
 msgstr ""
-
-msgid "x does not appear to be an \"rpart\" object"
-msgstr "похоже, что x -- не \"rpart\"-объект"
-
-msgid "'x' not converted"
-msgstr "'x' не преобразован"
 
 msgid "Not an \"rpart\" object"
 msgstr "Не объект \"rpart\""
@@ -227,6 +221,15 @@ msgstr "указанные узлы %s не в этом дереве"
 
 msgid "supplied nodes %s are leaves"
 msgstr "указанные узлы %s листья"
+
+#~ msgid "more than 52 levels in a predicting factor, truncated for printout"
+#~ msgstr "больше 52 уровней предсказующего фактора, обрезано для печати"
+
+#~ msgid "x does not appear to be an \"rpart\" object"
+#~ msgstr "похоже, что x -- не \"rpart\"-объект"
+
+#~ msgid "'x' not converted"
+#~ msgstr "'x' не преобразован"
 
 #, fuzzy
 #~ msgid "'fit' must be an \"rpart\" object"

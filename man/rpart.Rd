@@ -32,16 +32,17 @@ rpart(formula, data, weights, subset, na.action = na.rpart, method,
   \item{method}{one of \code{"anova"}, \code{"poisson"}, \code{"class"}
     or \code{"exp"}.  If \code{method} is missing then the routine tries
     to make an intelligent guess.
-    If \code{y} is a survival object, then \code{method="exp"} is assumed,
-    if \code{y} has 2 columns then \code{method="poisson"} is assumed,
-    if \code{y} is a factor then \code{method="class"} is assumed,
-    otherwise \code{method="anova"} is assumed.
+    If \code{y} is a survival object, then \code{method = "exp"} is assumed,
+    if \code{y} has 2 columns then \code{method = "poisson"} is assumed,
+    if \code{y} is a factor then \code{method = "class"} is assumed,
+    otherwise \code{method = "anova"} is assumed.
     It is wisest to specify the method directly, especially as more
     criteria may added to the function in future.
 
     Alternatively, \code{method} can be a list of functions named
     \code{init}, \code{split} and \code{eval}.  Examples are given in
-    the file \file{tests/usersplits.R} in the sources.}
+    the file \file{tests/usersplits.R} in the sources, and in the
+    vignettes \sQuote{User Written Split Functions}.}
   
   \item{model}{if logical: keep a copy of the model frame in the result?
     If the input value for \code{model} is a model frame (likely from an

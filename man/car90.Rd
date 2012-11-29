@@ -35,8 +35,9 @@
     \item{Rear.Seating}{rear fore-and-aft seating room, in inches,
       as measured by CU}
     \item{RearShld}{rear shoulder room, in inches, as measured by CU}
-    \item{Reliability}{an ordered factor; Much worse < worse < average <
-      better < Much better; contains NAs}
+    \item{Reliability}{an ordered factor with levels \samp{Much worse} <
+      \samp{worse} < \samp{average} < \samp{better} < \samp{Much
+	better}: contains \code{NA}s.}
     \item{Rim}{factor giving the rim size}
     \item{Sratio.m}{Number of turns of the steering
       wheel required for a turn of 30 foot radius, manual steering}
@@ -45,13 +46,15 @@
     \item{Steering}{steering type offered: manual, power, or both}
     \item{Tank}{fuel refill capacity in gallons}
     \item{Tires}{factor giving tire size}
-     \item{Trans1}{manual transmission, values are "", man.4, man.5, and man.6}
-    \item{Trans2}{automatic transmission, values are "", auto.3, auto.4,
-      and auto.CVT.  No car is missing both the manual and automatic
-      transmission variables, but several had both as options}
+    \item{Trans1}{manual transmission, a factor with levels \samp{},
+      \samp{man.4}, \samp{man.5} and \samp{man.6}}
+    \item{Trans2}{automatic transmission, a factor with levels \samp{},
+      \samp{auto.3}, \samp{auto.4}, and \samp{auto.CVT}.  No car is
+      missing both the manual and automatic transmission variables, but
+      several had both as options} 
     \item{Turning}{the radius of the turning circle in feet}
     \item{Type}{a factor giving the general type of car.
-      The levels are: Small, Sporty, Compact, Medium, Large, Van}
+      The levels are: \samp{Small}, \samp{Sporty}, \samp{Compact}, \samp{Medium}, \samp{Large}, \samp{Van}}
     \item{Weight}{an order statistic giving the relative weights of the
       cars; 1 is the lightest and 111 is the heaviest}
     \item{Wheel.base}{length of wheelbase, in inches, as supplied by manufacturer}

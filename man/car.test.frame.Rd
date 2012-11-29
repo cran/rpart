@@ -18,14 +18,14 @@ a numeric vector giving the list price in US dollars of a standard model
 }
 \item{\code{Country}}{
 of origin, a factor with levels
-\code{France} 
-\code{Germany} 
-\code{Japan} 
-\code{Japan/USA} 
-\code{Korea} 
-\code{Mexico} 
-\code{Sweden} 
-\code{USA} 
+\samp{France}, 
+\samp{Germany}, 
+\samp{Japan} ,
+\samp{Japan/USA}, 
+\samp{Korea},
+\samp{Mexico},
+\samp{Sweden} and
+\samp{USA} 
 }
 \item{\code{Reliability}}{
 a numeric vector coded \code{1} to \code{5}.

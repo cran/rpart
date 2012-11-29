@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2012-11-14 r61121) -- "Unsuffered Consequences"
+R Under development (unstable) (2012-11-27 r61172) -- "Unsuffered Consequences"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: x86_64-apple-darwin11.4.2/x86_64 (64-bit)
@@ -91,7 +91,7 @@ rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade +
 
 Variable importance
   grade      g2 gleason  ploidy     age     eet 
-     26      26      22      15      10       1 
+     27      27      23      12      10       1 
 
 Node number 1: 146 observations,    complexity param=0.1284
   events=54,  estimated rate=0.05849 , mean deviance=1.325 
@@ -204,9 +204,8 @@ Node number 26: 41 observations,    complexity param=0.01805
       eet     < 1.5   to the left,  improve=0.09244, (0 missing)
       gleason < 6.5   to the right, improve=0.01761, (0 missing)
   Surrogate splits:
-      ploidy splits as  LRL,       agree=0.976, adj=0.944, (0 split)
-      eet    < 1.5   to the right, agree=0.634, adj=0.167, (0 split)
-      age    < 58.5  to the right, agree=0.585, adj=0.056, (0 split)
+      eet < 1.5   to the right, agree=0.634, adj=0.167, (0 split)
+      age < 58.5  to the right, agree=0.585, adj=0.056, (0 split)
 
 Node number 27: 16 observations
   events=12,  estimated rate=0.1644 , mean deviance=0.9493 
@@ -249,9 +248,9 @@ node), split, n, deviance, yval
    3) grade>=2.5 85 122.400 1.6150  
      6) age>=56.5 75 103.100 1.4260  
       12) gleason< 7.5 50  66.120 1.1410  
-        24) g2< 13.47 25  28.840 0.8798 *
-        25) g2>=13.47 25  36.000 1.3920  
-          50) g2>=17.91 14  18.850 0.8682 *
+        24) g2< 13.47 24  27.200 0.8007 *
+        25) g2>=13.47 26  36.790 1.4570  
+          50) g2>=17.91 15  20.330 0.9790 *
           51) g2< 17.91 11  13.460 2.1710 *
       13) gleason>=7.5 25  33.490 2.0310  
         26) g2>=15.29 10  11.590 1.2160 *
@@ -268,14 +267,14 @@ rpart(formula = Surv(pgtime, pgstat) ~ age + eet + g2 + grade +
 2 0.04206      1    0.8705 0.8919 0.07420
 3 0.02920      2    0.8285 0.9239 0.08004
 4 0.01799      3    0.7993 0.9293 0.08292
-5 0.01541      4    0.7813 0.9841 0.09164
-6 0.01294      5    0.7659 0.9982 0.09111
-7 0.01151      7    0.7400 0.9947 0.09121
-8 0.01000      8    0.7285 1.0090 0.09135
+5 0.01541      4    0.7813 0.9866 0.09214
+6 0.01335      5    0.7659 1.0007 0.09161
+7 0.01151      7    0.7392 0.9983 0.09065
+8 0.01000      8    0.7277 1.0130 0.09176
 
 Variable importance
   grade gleason      g2  ploidy     age     eet 
-     27      25      22      15      10       1 
+     27      25      22      13      11       2 
 
 Node number 1: 146 observations,    complexity param=0.1295
   events=54,  estimated rate=1 , mean deviance=1.316 
@@ -347,9 +346,9 @@ Node number 10: 20 observations
 Node number 11: 8 observations
   events=4,  estimated rate=1.307 , mean deviance=1.387 
 
-Node number 12: 50 observations,    complexity param=0.01294
+Node number 12: 50 observations,    complexity param=0.01335
   events=21,  estimated rate=1.141 , mean deviance=1.322 
-  left son=24 (25 obs) right son=25 (25 obs)
+  left son=24 (24 obs) right son=25 (26 obs)
   Primary splits:
       g2      < 13.48 to the left,  improve=1.87000, (3 missing)
       ploidy  splits as  LRR,       improve=1.45100, (0 missing)
@@ -357,8 +356,7 @@ Node number 12: 50 observations,    complexity param=0.01294
       gleason < 6.5   to the left,  improve=0.02209, (0 missing)
       eet     < 1.5   to the right, improve=0.01274, (0 missing)
   Surrogate splits:
-      ploidy  splits as  LRL,       agree=0.979, adj=0.957, (3 split)
-      age     < 66.5  to the right, agree=0.596, adj=0.174, (0 split)
+      age     < 66.5  to the right, agree=0.596, adj=0.174, (3 split)
       eet     < 1.5   to the right, agree=0.553, adj=0.087, (0 split)
       gleason < 6.5   to the left,  agree=0.553, adj=0.087, (0 split)
 
@@ -376,19 +374,19 @@ Node number 13: 25 observations,    complexity param=0.01541
       age     < 57.5  to the left,  agree=0.591, adj=0.1, (0 split)
       eet     < 1.5   to the left,  agree=0.591, adj=0.1, (0 split)
 
-Node number 24: 25 observations
-  events=8,  estimated rate=0.8798 , mean deviance=1.154 
+Node number 24: 24 observations
+  events=7,  estimated rate=0.8007 , mean deviance=1.133 
 
-Node number 25: 25 observations,    complexity param=0.01294
-  events=13,  estimated rate=1.392 , mean deviance=1.44 
-  left son=50 (14 obs) right son=51 (11 obs)
+Node number 25: 26 observations,    complexity param=0.01335
+  events=14,  estimated rate=1.457 , mean deviance=1.415 
+  left son=50 (15 obs) right son=51 (11 obs)
   Primary splits:
-      g2      < 17.92 to the right, improve=3.170000, (1 missing)
-      eet     < 1.5   to the right, improve=1.166000, (0 missing)
-      age     < 64.5  to the left,  improve=0.634900, (0 missing)
-      gleason < 6.5   to the right, improve=0.003526, (0 missing)
+      g2      < 17.92 to the right, improve=3.170000, (2 missing)
+      age     < 64.5  to the left,  improve=0.971200, (0 missing)
+      eet     < 1.5   to the right, improve=0.961700, (0 missing)
+      gleason < 6.5   to the left,  improve=0.005796, (0 missing)
   Surrogate splits:
-      age     < 65.5  to the left,  agree=0.708, adj=0.364, (1 split)
+      age     < 65.5  to the left,  agree=0.708, adj=0.364, (2 split)
       eet     < 1.5   to the right, agree=0.667, adj=0.273, (0 split)
       gleason < 6.5   to the right, agree=0.625, adj=0.182, (0 split)
 
@@ -398,8 +396,8 @@ Node number 26: 10 observations
 Node number 27: 15 observations
   events=11,  estimated rate=2.705 , mean deviance=1.263 
 
-Node number 50: 14 observations
-  events=5,  estimated rate=0.8682 , mean deviance=1.347 
+Node number 50: 15 observations
+  events=6,  estimated rate=0.979 , mean deviance=1.356 
 
 Node number 51: 11 observations
   events=8,  estimated rate=2.171 , mean deviance=1.224 
@@ -652,8 +650,8 @@ rpart(formula = factor(pgstat) ~ age + eet + g2 + grade + gleason +
 1 0.39855      0    1.0000 1.2081 0.09381
 2 0.02335      1    0.6014 0.6679 0.07684
 3 0.02275      3    0.5548 0.8378 0.08445
-4 0.01892      5    0.5093 0.8671 0.08515
-5 0.01530      7    0.4714 0.8671 0.08515
+4 0.01892      5    0.5093 0.8857 0.08585
+5 0.01530      7    0.4714 0.8857 0.08585
 6 0.01000      9    0.4408 0.8639 0.08599
 
 Variable importance
@@ -943,4 +941,4 @@ Node number 23: 8 observations
 > 
 > proc.time()
    user  system elapsed 
-  0.481   0.039   0.505 
+  0.480   0.039   0.504 

@@ -1,12 +1,12 @@
 meanvar.rpart <- function(tree, xlab = "ave(y)", ylab = "ave(deviance)", ...)
 
 {
-    if(!inherits(tree, "rpart"))
+    if (!inherits(tree, "rpart"))
         stop("Not a legitimate \"rpart\" object")
-    if(!tree$method=='anova')
+    if (!tree$method == "anova")
         stop("Plot not useful for classification or poisson trees")
     frame <- tree$frame
-    frame <- frame[frame$var == "<leaf>",  ]
+    frame <- frame[frame$var == "<leaf>", ]
     x <- frame$yval
     y <- frame$dev/frame$n
     label <- row.names(frame)
@@ -15,4 +15,4 @@ meanvar.rpart <- function(tree, xlab = "ave(y)", ylab = "ave(deviance)", ...)
     invisible(list(x = x, y = y, label = label))
 }
 
-meanvar <- function(tree,...) UseMethod('meanvar')
+meanvar <- function(tree, ...) UseMethod("meanvar")

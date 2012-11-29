@@ -12,7 +12,7 @@ Plots an rpart object on the current graphics device.
 }
 \arguments{
 \item{x}{
-  a fitted object of class \code{rpart}, containing a classification,
+  a fitted object of class \code{"rpart"}, containing a classification,
   regression, or rate tree.
 }
 \item{uniform}{

@@ -1,78 +1,62 @@
 /*
-** prototypes for all of the rpart functions
-**   This helps the ansi compiler do tight checking.
-**
-*/
-struct node *branch(struct node *tree, int obs);
+ * prototypes for all of the rpart functions
+ *   This helps the ansi compiler do tight checking.
+ *
+ */
+#include "node.h"
 
-void bsplit(struct node *me, int n1, int n2);
+pNode branch(pNode tree, int obs);
 
-void choose_surg(int n1, int n2, int *y,            double *x,     int *order, 
-		 int ncat,       double *agreement, double *split, int *csplit,
-		 double ltot,    double rtot,       double *adj);
+void bsplit(pNode me, int n1, int n2);
 
-void fix_cp(struct node *me, double parent_cp);
+void choose_surg(int n1, int n2, int *y, double *x, int *order,
+		 int ncat, double *agreement, double *split, int *csplit,
+		 double ltot, double rtot, double *adj);
 
-void free_tree(struct node *node,  int freenode);
+void fix_cp(pNode me, double parent_cp);
 
-void graycode_init0( int maxcat);
-void graycode_init1( int numcat, int *count);
-void graycode_init2( int numcat, int *count, double *val);
-int  graycode(void);
+void free_tree(pNode node, int freenode);
 
-struct split *insert_split(struct split **listhead, int ncat, 
-			   double improve,          int max);
+void graycode_init0(int maxcat);
+void graycode_init1(int numcat, int *count);
+void graycode_init2(int numcat, int *count, double *val);
+int graycode(void);
 
-void make_cp_list(struct node *me, double parent, 
-		  struct cptable *cptable_head);
+pSplit insert_split(pSplit *listhead, int ncat, double improve, int max);
 
-struct cptable *make_cp_table(struct node *me, double parent, int nsplit);
+void make_cp_list(pNode me, double parent, CpTable cptable_head);
+
+CpTable make_cp_table(pNode me, double parent, int nsplit);
 
 void mysort(int start, int stop, double *x, int *cvec);
 
-void nodesplit(struct node *me, int nodenum, int n1, int n2, 
-	       int *nleft, int *nright);
+void nodesplit(pNode me, int nodenum, int n1, int n2, int *nleft, int *nright);
 
-int partition(int nodenum, struct node *splitnode, double *sumrisk,
-	      int n1,      int n2);
+int partition(int nodenum, pNode splitnode, double *sumrisk, int n1, int n2);
 
-int print_tree(struct node *me, int maxdepth);
+int print_tree(pNode me, int maxdepth);
 
-void pyears2r(int   *sn,       int   *sny,    int   *sdoevent, 
-	      double *sy,      double *wt,    int   *sodim,    int   *ofac, 
-	      int   *odims,    double *socut, double *sodata,
-	      double *pyears,  double *pn,    double *pcount, 
-	      double *offtable);
-
-SEXP rpart(SEXP ncat2,   SEXP method2,  SEXP opt2,
-           SEXP parms2,  SEXP ymat2,    SEXP xmat2,
-	   SEXP xvals2,  SEXP xgrp2,  	SEXP wt2,     
-	   SEXP ny2,     SEXP cost2);
+SEXP rpart(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP ymat2,
+	   SEXP xmat2, SEXP xvals2, SEXP xgrp2, SEXP wt2, SEXP ny2, SEXP cost2);
 
 void rpart_callback0(int *nr);
 void rpart_callback1(int n, double *y[], double *wt, double *z);
-void rpart_callback2 (int n, int ncat, double *y[], double *wt, 
+void rpart_callback2(int n, int ncat, double *y[], double *wt,
 		     double *x, double *good);
-void rpcountup(struct node *me, int *nnode, int *nsplit, int *ncat);
+void rpcountup(pNode me, int *nnode, int *nsplit, int *ncat);
 
-void rpmatrix(struct node *me, int *numcat,      double **dsplit,
-	      int **isplit,    int **csplit,     double **dnode, 
-	      int **inode,     int id);
+void rpmatrix(pNode me, int *numcat, double **dsplit, int **isplit,
+	      int **csplit, double **dnode, int **inode, int id);
 
-void rundown(struct node *tree,  int obs,       double *cp, 
-	     double *xpred,      double *xtemp);
+void rundown(pNode tree, int obs, double *cp, double *xpred, double *xtemp);
 
-void rundown2(struct node *tree, int obs, double *cp, double *xpred,
-	      int nresp);
+void rundown2(pNode tree, int obs, double *cp, double *xpred, int nresp);
 
-void surrogate(struct node *me, int n1, int n2);
+void surrogate(pNode me, int n1, int n2);
 
-SEXP xpred(SEXP ncat2,   SEXP method2,  SEXP opt2,
-           SEXP parms2,  SEXP xvals2,   SEXP xgrp2,
-	   SEXP ymat2,   SEXP xmat2,    SEXP wt2,
-	   SEXP ny2,     SEXP cost2,    SEXP all2,
-           SEXP cp2,     SEXP toprisk2, SEXP nresp2);
+SEXP xpred(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP xvals2,
+	   SEXP xgrp2, SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2,
+	   SEXP cost2, SEXP all2, SEXP cp2, SEXP toprisk2, SEXP nresp2);
 
-void xval(int n_xval,  struct cptable *cptable_head,  int *x_grp, 
-	  int maxcat,  char **error,                  double * parms,
-	  int *savesort);
+void xval(int n_xval, CpTable cptable_head, int *x_grp, int maxcat,
+	  char **error, double *parms, int *savesort);
