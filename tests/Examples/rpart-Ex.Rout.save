@@ -1,8 +1,8 @@
 
-R Under development (unstable) (2012-11-27 r61172) -- "Unsuffered Consequences"
-Copyright (C) 2012 The R Foundation for Statistical Computing
+R version 3.0.0 alpha (2013-03-18 r62313) -- "Unsuffered Consequences"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: x86_64-apple-darwin11.4.2/x86_64 (64-bit)
+Platform: x86_64-apple-darwin12.3.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -23,7 +23,7 @@ Type 'q()' to quit R.
 > options(warn = 1)
 > library('rpart')
 > 
-> assign(".oldSearch", search(), pos = 'CheckExEnv')
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > cleanEx()
 > nameEx("car.test.frame")
 > ### * car.test.frame
@@ -93,7 +93,7 @@ Node number 11: 8 observations
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: car90
-> ### Title: Automobile Data from Consumer Reports 1990
+> ### Title: Automobile Data from 'Consumer Reports' 1990
 > ### Aliases: car90
 > ### Keywords: datasets
 > 
@@ -1063,8 +1063,8 @@ n= 60
 > 
 > ### * <FOOTER>
 > ###
-> cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.634 0.03 0.672 0 0 
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.674 0.029 0.712 0 0 
 > grDevices::dev.off()
 null device 
           1 

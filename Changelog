@@ -1,3 +1,5 @@
+2013 Mar 20	4.1-1	Add ko translations, update reference output for 3.0.0.
+
 2012 Nov 29	4.1-0	Remove rpconvert() (converted rpart2 trees).
 	
 			Clean up a lot of the R code.

@@ -1,10 +1,10 @@
 \name{car90}
 \alias{car90}
 \docType{data}
-\title{Automobile Data from Consumer Reports 1990}
+\title{Automobile Data from 'Consumer Reports' 1990}
 \description{
   Data on 111 cars, taken from pages 235--255, 281--285 and 287--288 of the
-  April 1990 Consumer Reports Magazine.
+  April 1990 \emph{Consumer Reports} Magazine.
 }
 \usage{data(car90)}
 \format{  
@@ -67,7 +67,7 @@
 }
 \seealso{
   \code{\link{car.test.frame}},
-  \code{\link{cu.summary}}
+  \code{\link{cu.summary}} for extracts from other versions of the dataset.
 }
 
 \examples{
