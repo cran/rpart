@@ -51,5 +51,3 @@ descendants <- function(nodes, include = TRUE)
 }
 
 rpart_env <- new.env()
-
-if(getRversion() < "2.15.0") paste0 <- function(...) paste(..., sep = "")

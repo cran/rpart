@@ -31,8 +31,8 @@
 
   Extra response information which may be present is in \code{yval2},
   which contains the number of events at the node (poisson tree), or a
-  matrix containing the fitted class, the class counts for each node and
-  the class probabilities (classification trees).
+  matrix containing the fitted class, the class counts for each node,
+  the class probabilities and the \sQuote{node probability} (classification trees).
 }
 \item{where}{
   an integer vector of the same length as the number of observations in the

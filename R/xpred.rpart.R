@@ -21,7 +21,7 @@ xpred.rpart <- function(fit, xval = 10L, cp, return.all = FALSE)
 	    m <- fit$call[match(c("", "formula", "data", "weights", "subset",
                                   "na.action"), names(fit$call), 0L)]
 	    if (is.null(m$na.action)) m$na.action <- na.rpart
-	    m[[1]] <- as.name("model.frame")
+	    m[[1]] <- quote(stats::model.frame)
 	    m <- eval.parent(m)
         }
 	if (is.null(X)) X <- rpart.matrix(m)

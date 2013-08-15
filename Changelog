@@ -1,3 +1,9 @@
+2013 Aug 15	4.1-2	Replace calls to as.name().
+	                Remove unused and un-exported rpartpl().
+	                Correct plot.rpart.Rd as to where things are stored.
+	                Increase version dependence to >= 2.15.0,
+	                remove conditional paste0 from this package.
+
 2013 Mar 20	4.1-1	Add ko translations, update reference output for 3.0.0.
 
 2012 Nov 29	4.1-0	Remove rpconvert() (converted rpart2 trees).
@@ -55,7 +61,7 @@
 
 	                Force byte-compilation for consistency.
 
-2012 Oct 03	3.1-55	Force use of registered symbols in R >= 2.16.0
+2012 Oct 03	3.1-55	Force use of registered symbols in R >= 3.0.0
 	                Update Polish translations.
 	                Work on message formats.
 	                text(fancy = TRUE) gains a 'bg' argument.

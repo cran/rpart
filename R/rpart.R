@@ -15,7 +15,7 @@ rpart <-
         if (indx[1] == 0L) stop("a 'formula' argument is required")
         temp <- Call[c(1L, indx)]      # only keep the arguments we wanted
         temp$na.action <- na.action    # This one has a default
-        temp[[1L]] <- as.name("model.frame") # change the function called
+        temp[[1L]] <- quote(stats::model.frame) # change the function called
         m <- eval.parent(temp)
     }
 

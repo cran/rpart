@@ -4,6 +4,7 @@ export(meanvar, na.rpart, path.rpart, plotcp, post, printcp, prune,
        prune.rpart, rpart, rpart.control, rsq.rpart, snip.rpart, xpred.rpart)
 export(rpart.exp)  # needed for one of the tests
 
+importFrom(grDevices, dev.cur, dev.off)
 importFrom(graphics, plot, text)
 importFrom(stats, model.frame, predict, residuals)
 
