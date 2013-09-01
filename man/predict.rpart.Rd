@@ -56,14 +56,14 @@
   If \code{type = "prob"}:\cr
   (for a classification tree) a matrix of class probabilities.
 
-  If \code{type = "matrix"}:\cr
-  a matrix of the full responses (\code{frame$yval2} if this exists,
-  otherwise \code{frame$yval}).
-  For regression trees, this is the mean response, for Poisson trees it
-  is the response rate and the number of events at that node in the fitted
-  tree, and for classification trees it is the concatenation of the
-  predicted class, the class counts at that node in the fitted tree, and
-  the class probabilities.
+  If \code{type = "matrix"}:\cr a matrix of the full responses
+  (\code{frame$yval2} if this exists, otherwise \code{frame$yval}).  For
+  regression trees, this is the mean response, for Poisson trees it is
+  the response rate and the number of events at that node in the fitted
+  tree, and for classification trees it is the concatenation of at least
+  the predicted class, the class counts at that node in the fitted tree,
+  and the class probabilities (some versions of \pkg{rpart} may contain
+  further columns).
 
   If \code{type = "class"}:\cr
   (for a classification tree) a factor of classifications based on the

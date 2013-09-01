@@ -1,3 +1,5 @@
+2013 Sep 01	4.1-3	Document TMT change to predict() output.
+
 2013 Aug 15	4.1-2	Replace calls to as.name().
 	                Remove unused and un-exported rpartpl().
 	                Correct plot.rpart.Rd as to where things are stored.
