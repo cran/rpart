@@ -2,6 +2,10 @@
 #define RPART_NODE_H
 /*
 ** definition of a node in the tree
+*
+** The actual size of these structures when allocated in insert_split.c
+** depends on the split.
+** csplit[0] gets used even for continuous splits.
 */
 typedef struct split {
     double improve;
@@ -10,10 +14,10 @@ typedef struct split {
     struct split *nextsplit;
     int var_num;
     int count;
-    int csplit[2];              /* the actual length will be longer for a
-				   categorical predictor with > 2 levels */
+    int csplit[20];            /* the actual length depends on splitting rule */
 } Split, *pSplit;
 
+/* The real 'nodesize' is set in rpart.c */
 typedef struct node {
     double risk;                /* risk for the node */
     double complexity;          /* complexity at which it will collapse */
@@ -23,7 +27,7 @@ typedef struct node {
     struct node *leftson;
     int num_obs;
     int lastsurrogate;
-    double response_est[2];     /* actual length depends on splitting rule */
+    double response_est[20];   /* actual length depends on splitting rule */
 } Node, *pNode;
 
 

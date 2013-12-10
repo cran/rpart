@@ -15,13 +15,15 @@ insert_split(pSplit *listhead, int ncat, double improve, int max)
     int nlist;
     pSplit s1, s2, s3 = NULL, s4;
 
-    if (ncat == 0)
-	ncat = 1;               /* ensure "ncat - 1" below never gives a
-				 * negative */
+// csplit[0] gets used even for continuous splits.
+    if (ncat == 0) ncat = 1; 
+    int splitsize = sizeof(Split) + (ncat - 20) * sizeof(int);
+
+    // The Split structure is sized for 2 categpries.
     if (*listhead == 0) {
        /* first call to a new list */
-	s3 = (pSplit) CALLOC(1, sizeof(Split) + (ncat - 1) * sizeof(int));
-	s3->nextsplit = 0;
+	s3 = (pSplit) CALLOC(1, splitsize);
+	s3->nextsplit = NULL;
 	*listhead = s3;
 	return s3;
     }
@@ -32,8 +34,8 @@ insert_split(pSplit *listhead, int ncat, double improve, int max)
 	    return NULL;
 	if (ncat > 1) {
 	    Free(s3);
-	    s3 = (pSplit) CALLOC(1, sizeof(Split) + (ncat - 1) * sizeof(int));
-	    s3->nextsplit = 0;
+	    s3 = (pSplit) CALLOC(1, splitsize);
+	    s3->nextsplit = NULL;
 	    *listhead = s3;
 	}
 	return s3;
@@ -60,16 +62,16 @@ insert_split(pSplit *listhead, int ncat, double improve, int max)
 	   // FIXME: use Realloc
 	    Free(s4);           /* get new memory -- this chunk may be too
 				 * small */
-	    s4 = (pSplit) CALLOC(1, sizeof(Split) + (ncat - 2) * sizeof(int));
+	    s4 = (pSplit) CALLOC(1, splitsize);
 	}
 	if (s1 == s3)
-	    s4->nextsplit = 0;
+	    s4->nextsplit = NULL;
 	else {
-	    s3->nextsplit = 0;
+	    s3->nextsplit = NULL;
 	    s4->nextsplit = s2;
 	}
     } else {
-	s4 = (pSplit) CALLOC(1, sizeof(Split) + (ncat - 2) * sizeof(int));
+	s4 = (pSplit) CALLOC(1, splitsize);
 	s4->nextsplit = s2;
     }
     if (s2 == *listhead)

@@ -202,7 +202,7 @@ rpart(SEXP ncat2, SEXP method2, SEXP opt2,
     if (i > 0)
 	error(errmsg);
 
-    nodesize = sizeof(Node) + (rp.num_resp - 2) * sizeof(double);
+    nodesize = sizeof(Node) + (rp.num_resp - 20) * sizeof(double);
     tree = (pNode) ALLOC(1, nodesize);
     memset(tree, 0, nodesize);
     tree->num_obs = n;
