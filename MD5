@@ -1,6 +1,6 @@
-8239382625c770afdaa50c4a3bf685c6 *ChangeLog
+b1a64261ed5e7ca8ed0c280b48a171c8 *ChangeLog
 c3a78d906ce7e11764be494ca072ab85 *Changelog.TMT
-950b67dde909a2939efeed8a553b2176 *DESCRIPTION
+0c8ee847a77dc2a223e8a3f43070d094 *DESCRIPTION
 73cac1c067f00591afe1f6c05364934a *NAMESPACE
 63fbade7d5b393e3107669ae0b1bd8b0 *PORTING
 cb1fe3dc41870fdc62bcaf87a40664b7 *R/formatg.R
@@ -49,10 +49,10 @@ c074ec48b3561a633f13dfd4bfbcccd6 *data/car90.rda
 d90ecb38c94a2b9d6b84772daee39def *inst/NEWS.Rd
 826935d99a3cb923990d55b0e9454f18 *inst/doc/longintro.R
 d59df045075a1735e6d1bf2510b6a90a *inst/doc/longintro.Rnw
-cd57f50f28d5de6c226b3e7c3381e807 *inst/doc/longintro.pdf
+22bd96f247aa675f1abc6df165efe80a *inst/doc/longintro.pdf
 e5598bd99b989df58f9fc60e19de4cd3 *inst/doc/usercode.R
 cc52160d413d59a2967d5d201adf9319 *inst/doc/usercode.Rnw
-57aafba37e3bc1826a6c742641dd2036 *inst/doc/usercode.pdf
+d5c2e6f4948b547f340ced4893f60e1a *inst/doc/usercode.pdf
 2497850af8f9ea1fa46563c82948f40a *inst/po/de/LC_MESSAGES/R-rpart.mo
 1b19982c4f9311d321fc00700459d9c6 *inst/po/de/LC_MESSAGES/rpart.mo
 d8bc881816e296570147df78c9787e58 *inst/po/en@quot/LC_MESSAGES/R-rpart.mo
@@ -154,8 +154,8 @@ a5278a5c64ed05ace4871a17c28e413d *tests/priors.R
 7a54f9209ad5702d35262aa0fb8835fc *tests/rescale.Rout.save
 4bb9fa886719dfc62362936faf1af9da *tests/testall.R
 e6fef2a9a68f68f0d7d4916546630ed0 *tests/testall.Rout.save
-138ebabfa4cb6b309ea01f2b0814c379 *tests/treble.R
-92d078ec38d3e096c66db59b335eb52c *tests/treble.Rout.save
+a15df59a775f9e2411c1cd2c97ed96b8 *tests/treble.R
+a1ca865ec2cf17b1be7ece514f67ba7a *tests/treble.Rout.save
 7e7d41cc7aa412965d65583b2cfa9fe7 *tests/treble2.R
 f6265624fe5e21d0ae9341bafd1c6d15 *tests/treble2.Rout.save
 600436b8f655fc991c1bf0e93d1f6448 *tests/treble3.R

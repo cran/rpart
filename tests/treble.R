@@ -23,7 +23,8 @@ fit1b$frame$yval2[,2] <- fit1b$frame$yval2[,2]/3
 fit1b$splits[,3] <- fit1b$splits[,3]/3
 zz <- match(c("call", "variable.importance"), names(fit1))
 all.equal(fit1[-zz], fit1b[-zz])   #all but the "call" and importance
-all.equal(fit1b$variable.importance/fit1$variable.importance, rep(3,4), check.att=FALSE)
+all.equal(fit1b$variable.importance/fit1$variable.importance, rep(3,4),
+          check.attributes = FALSE)
 
 #
 # Compare a pair of multiply weighted fits
@@ -38,7 +39,7 @@ all.equal(fit1b$variable.importance/fit1$variable.importance, rep(3,4), check.at
 # Create a reproducable psuedo random order using the logisic attractor
 pseudo <- double(nrow(stagec))
 pseudo[1] <- pi/4
-for (i in 2:nrow(stagec)) pseudo[i] <- 4*pseudo[i-1]*(1 - pseudo[i-1])    
+for (i in 2:nrow(stagec)) pseudo[i] <- 4*pseudo[i-1]*(1 - pseudo[i-1])
 
 wts <- rep(1:5, length=nrow(stagec))
 temp <- rep(1:nrow(stagec), wts)             #row replicates

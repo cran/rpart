@@ -1,4 +1,7 @@
-2013 Dec 10	4.1-4	Change pre-definedstructure sizes to avoid 
+2014 Jan 25	4.1-5	Avoid abbreviation in tests/treble.R
+			More comprehensive Description: field.
+
+2013 Dec 10	4.1-4	Change pre-defined structure sizes to avoid 
 	                false positives from
 			Undefined Behaviour Sanitizer.
 	
