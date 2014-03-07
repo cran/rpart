@@ -11,7 +11,8 @@ model.frame.rpart <- function(formula, ...)
         }
         return(m)
     }
-    while(deparse(oc[[1L]]) != "rpart") oc <- eval(oc[[2L]])$call
+    while(!deparse(oc[[1L]]) %in%  c("rpart", "rpart::rpart", "rpart:::rpart"))
+        oc <- eval(oc[[2L]])$call
     oc$subset <- names(formula$where)
     oc$method <- formula$method
     eval(oc)
