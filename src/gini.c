@@ -215,7 +215,7 @@ gini(int n, double *y[], double *x, int numcat,
 	right[j] -= wt[i];
 	left[j] += wt[i];
 
-	if (x[i + 1] != x[i] && (ltot >= edge)) {
+	if (ltot >= edge && x[i + 1] != x[i]) {
 	    temp = 0;
 	    lmean = 0;
 	    rmean = 0;

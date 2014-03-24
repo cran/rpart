@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rpart 3.1-24\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-20 07:25+0000\n"
-"PO-Revision-Date: 2005-12-07 02:43+0100\n"
+"PO-Revision-Date: 2014-03-18 11:12+0100\n"
 "Last-Translator: Philippe Grosjean <phgrosjean@sciviews.org>\n"
 "Language-Team: French <R-core@r-project.org>\n"
 "Language: fr\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.6.4\n"
 
 #: poisson.c:34
 msgid "Invalid time point"
@@ -27,16 +28,15 @@ msgstr "Dénombrement d'événements incorrect"
 
 #: poisson.c:68
 msgid "Invalid error rule"
-msgstr ""
+msgstr "Règle d'erreur incorrecte"
 
 #: rpart.c:91 xpred.c:89
-#, fuzzy
 msgid "Invalid value for 'method'"
 msgstr "valeur incorrecte pour 'method'"
 
 #: rpart.c:193
 msgid "unknown error"
-msgstr ""
+msgstr "erreur indéterminée"
 
 #: rpart_callback.c:46
 msgid "'yback' not found"

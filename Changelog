@@ -1,10 +1,14 @@
-2014 Mar 07	4.1-6	model.frame method could fail when the recorded
+2014 Mar 24	4.1-7	Update French and German translations.
+	                Fix array-overrun in gini.c (detected by valgrind
+	                checks for adabag).
+
+2014 Mar 07	4.1-6	model.frame() method could fail when the recorded
 			call was rpart::rpart().
 
 2014 Jan 25	4.1-5	Avoid abbreviation in tests/treble.R
 			More comprehensive Description: field.
 
-2013 Dec 10	4.1-4	Change pre-defined structure sizes to avoid 
+2013 Dec 10	4.1-4	Change pre-defined structure sizes to mitigate 
 	                false positives from
 			Undefined Behaviour Sanitizer.
 	

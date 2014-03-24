@@ -1,15 +1,15 @@
 # Translation of rpart (de.po) to German
-# Copyright (C) 2005-2012 The R Foundation
+# Copyright (C) 2005-2014 The R Foundation
 # This file is distributed under the same license as the rpart package.
 # Chris Leick <c.leick@vollbio.de>, 2009-2012.
-#
+# Detlef Steuer <steuer@hsu-hh.de>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: R-2.15.2 / rpart 3.1-55\n"
+"Project-Id-Version: R 3.1.0 / rpart 4.1-6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-20 07:25+0000\n"
-"PO-Revision-Date: 2012-10-10 22:21+0200\n"
-"Last-Translator: Chris Leick <c.leick@vollbio.de>\n"
+"PO-Revision-Date: 2014-03-16 17:30+0100\n"
+"Last-Translator: Detlef Steuer <steuer@hsu-hh.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -27,16 +27,15 @@ msgstr "ungültige Ereignisanzahl"
 
 #: poisson.c:68
 msgid "Invalid error rule"
-msgstr ""
+msgstr "Ungültige Fehlerregel"
 
 #: rpart.c:91 xpred.c:89
-#, fuzzy
 msgid "Invalid value for 'method'"
-msgstr "ungültiger Wert für 'method'"
+msgstr "Ungültiger Wert für 'method'"
 
 #: rpart.c:193
 msgid "unknown error"
-msgstr ""
+msgstr "unbekannter Fehler"
 
 #: rpart_callback.c:46
 msgid "'yback' not found"

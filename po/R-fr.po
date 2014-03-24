@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rpart 3.1-24\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
 "POT-Creation-Date: 2012-11-22 09:24\n"
-"PO-Revision-Date: 2012-10-03 14:18+0100\n"
+"PO-Revision-Date: 2014-03-18 11:16+0100\n"
 "Last-Translator: Philippe Grosjean <phgrosjean@sciviews.org>\n"
 "Language-Team: French <R-core@r-project.org>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 1.6.4\n"
 
 msgid "'x' must be a numeric vector"
 msgstr "'x' doit être un vecteur numérique"
@@ -38,7 +38,7 @@ msgid "Tree has variables not found in new data"
 msgstr "L'arbre a des variables introuvables dans le nouveau jeu de données"
 
 msgid "type 'class' is only appropriate for classification"
-msgstr ""
+msgstr "type 'class' n'est approprié que pour une classification"
 
 msgid "Invalid prediction for \"rpart\" object"
 msgstr "Prédiction incorrecte pour un objet \"rpart\""
@@ -51,15 +51,17 @@ msgstr "Type de résidus inconnus"
 
 msgid "Not legitimate \"rpart\" tree and endpoint not a 2 level-factor"
 msgstr ""
+"Arbre \"rpart\" inapproprié et feuille de l'arbre différente d'un facteur à "
+"2 niveaux"
 
 msgid "a 'formula' argument is required"
-msgstr ""
+msgstr "un argument 'formula' est nécessaire"
 
 msgid "Trees cannot handle interaction terms"
 msgstr "Les arbres ne peuvent prendre en compte les termes d'interaction"
 
 msgid "negative weights not allowed"
-msgstr ""
+msgstr "les pondérations négatives ne sont pas autorisées"
 
 msgid "Invalid method"
 msgstr "Methode incorrecte"
@@ -81,6 +83,8 @@ msgstr "La routine d'initialisation ne trouve pas la fonction 'summary'"
 
 msgid "no information available on parameters from previous call to plot()"
 msgstr ""
+"aucune information disponible pour les paramètres depuis un appel antérieur "
+"à plot()"
 
 msgid "No offset allowed in classification models"
 msgstr "Aucun décalage n'est autorisé pour les modèles de classification"
@@ -201,7 +205,7 @@ msgid "User 'split' function returned invalid direction"
 msgstr "La fonction 'split' personnalisée a renvoyé une direction incorrecte"
 
 msgid "may not be applicable for this method"
-msgstr ""
+msgstr "n'est probablement pas d'application pour cette méthode"
 
 msgid "Not an \"rpart\" object"
 msgstr "Ceci n'est pas un objet \"rpart\""
@@ -209,9 +213,8 @@ msgstr "Ceci n'est pas un objet \"rpart\""
 msgid "Nodes %s are not in this tree"
 msgstr "Les noeuds %s ne sont pas dans l'arbre"
 
-#, fuzzy
 msgid "argument 'label' is no longer used"
-msgstr "l'argument 'label' est actuellement inutilisé"
+msgstr "l'argument 'label' n'est plus utilisé"
 
 msgid "Invalid fit object"
 msgstr "Objet 'fit' incorrect"

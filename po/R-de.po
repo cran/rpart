@@ -1,15 +1,15 @@
 # Translation of R-rpart.pot to German
-# Copyright (C) 2007-2009 The R Foundation
+# Copyright (C) 2007-2014 The R Foundation
 # This file is distributed under the same license as the rpart package.
 # Chris Leick <c.leick@vollbio.de>, 2009.
-#
+# Detlef Steuer <steuer@hsu-hh.de>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: R-2.15.2 / rpart 3.1-55\n"
+"Project-Id-Version: R 3.1.0 / rpart 4.1-6\n"
 "Report-Msgid-Bugs-To: bugs@r-project.org\n"
 "POT-Creation-Date: 2012-11-22 09:24\n"
-"PO-Revision-Date: 2012-10-10 22:21+0200\n"
-"Last-Translator: Chris Leick <c.leick@vollbio.de>\n"
+"PO-Revision-Date: 2014-03-16 17:27+0100\n"
+"Last-Translator: Detlef Steuer <steuer@hsu-hh.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgid "Tree has variables not found in new data"
 msgstr "Baum hat Variablen, die in neuen Daten nicht gefunden wurden"
 
 msgid "type 'class' is only appropriate for classification"
-msgstr ""
+msgstr "Typ 'class' ist für Klssifikation nicht angemessen"
 
 msgid "Invalid prediction for \"rpart\" object"
 msgstr "ungültige Vorhersage für \"rpart\"-Objekt"
@@ -49,16 +49,16 @@ msgid "Invalid type of residual"
 msgstr "Es ist nichts über diesen Residuen-Typ bekannt."
 
 msgid "Not legitimate \"rpart\" tree and endpoint not a 2 level-factor"
-msgstr ""
+msgstr "Kein regulärer \"rpart\"-Baum und ein Endpunkt kein zeistufiger Faktor"
 
 msgid "a 'formula' argument is required"
-msgstr ""
+msgstr "ein 'formula' Argument ist nötig"
 
 msgid "Trees cannot handle interaction terms"
 msgstr "Bäume können keine Interaktions-Terme handhaben"
 
 msgid "negative weights not allowed"
-msgstr ""
+msgstr "negative Gewichte nicht zulässig"
 
 msgid "Invalid method"
 msgstr "ungültige Methode"
@@ -80,6 +80,8 @@ msgstr "Der Initialisierungsroutine fehlt die Funktion 'summary'."
 
 msgid "no information available on parameters from previous call to plot()"
 msgstr ""
+"keine Information über die Parameter der vorherigen Aufrufs von plot()\n"
+"verfügbar"
 
 msgid "No offset allowed in classification models"
 msgstr "kein Versatz in Klassifizierungsmodellen erlaubt"
@@ -199,7 +201,7 @@ msgid "User 'split' function returned invalid direction"
 msgstr "Benutzerfunktion 'split' gab ungültige Richtung zurück."
 
 msgid "may not be applicable for this method"
-msgstr ""
+msgstr "evtl. nicht anwendbar für diese Methode"
 
 msgid "Not an \"rpart\" object"
 msgstr "kein \"rpart\"-Objekt"
