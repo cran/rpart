@@ -61,7 +61,7 @@ xpred.rpart <- function(fit, xval = 10L, cp, return.all = FALSE)
 	cp <- sqrt(cp * c(10, cp[-length(cp)]))
 	cp[1L] <- (1 + fit$cptable[1L, 1L])/2
     }
-    ncp <- length(cp)
+#    ncp <- length(cp)
 
     if (length(xval) == 1L) {
 	## make random groups

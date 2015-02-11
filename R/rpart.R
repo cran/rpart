@@ -51,8 +51,8 @@ rpart <-
         keep <- rpartcallback(mlist, nobs, init)
 
 	method.int <- 4L             # the fourth entry in func_table.h
-	numresp <- init$numresp
-	numy <- init$numy
+#	numresp <- init$numresp
+#	numy <- init$numy
 	parms <- init$parms
     } else {
 	method.int <- pmatch(method, c("anova", "poisson", "class", "exp"))
@@ -164,7 +164,7 @@ rpart <-
     nsplit <- nrow(rpfit$isplit) # total number of splits, primary and surrogate
     ## total number of categorical splits
     ncat <- if (!is.null(rpfit$csplit)) nrow(rpfit$csplit) else 0L
-    nodes <- nrow(rpfit$inode)
+#    nodes <- nrow(rpfit$inode)
     if (nsplit == 0L) xval <- 0L # No xvals were done if no splits were found
 
     numcp <- ncol(rpfit$cptable)

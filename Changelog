@@ -1,4 +1,7 @@
-2014 Mar ??	4.1-?	Update Polish translations.
+2015 Feb 11	4.1-9	Update Korean translations.
+			Remove some unused assignments.
+
+2014 Mar 28	4.1-8	Update Polish translations.
 
 2014 Mar 24	4.1-7	Update French and German translations.
 	                Fix array-overrun in gini.c (detected by valgrind
@@ -11,8 +14,7 @@
 			More comprehensive Description: field.
 
 2013 Dec 10	4.1-4	Change pre-defined structure sizes to mitigate 
-	                false positives from
-			Undefined Behaviour Sanitizer.
+	                false positives from Undefined Behaviour Sanitizer.
 	
 2013 Sep 01	4.1-3	Document TMT change to predict() output.
 
