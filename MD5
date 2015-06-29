@@ -1,7 +1,7 @@
-cde21b76c9aaf75cdffaf9fc88355d84 *ChangeLog
+d954b5ad7b07ebb7bb936a9b2ed09c6d *ChangeLog
 c3a78d906ce7e11764be494ca072ab85 *Changelog.TMT
-2e98c81cb51656349f7b128b4d1d2c58 *DESCRIPTION
-73cac1c067f00591afe1f6c05364934a *NAMESPACE
+8cc5e3a2204072e6accdc7a3b4642816 *DESCRIPTION
+f84962269fb69b6bb09cb1428768818c *NAMESPACE
 63fbade7d5b393e3107669ae0b1bd8b0 *PORTING
 cb1fe3dc41870fdc62bcaf87a40664b7 *R/formatg.R
 aa5afc20386b8705ba44f575f902efef *R/importance.R
@@ -39,7 +39,7 @@ cb988b91ccbdcb625f6caad2207274a3 *R/snip.rpart.mouse.R
 57b709058f94a6984ed176f73619fc04 *R/text.rpart.R
 db89582c7e6162dc47cf510ac287e2fa *R/xpred.rpart.R
 d18273250bc74ffbab5434ce61ace179 *R/zzz.R
-122c9dd9a2b178357e62c609c1e5db2d *build/vignette.rds
+1fcdfbfe12307b01a3e43bdedaeae727 *build/vignette.rds
 df645fee4bd6e992addee08c8be8207d *data/car.test.frame.csv.gz
 c074ec48b3561a633f13dfd4bfbcccd6 *data/car90.rda
 7a3c271c4f6c1f77d49c2ba30d47dc4d *data/cu.summary.rda
@@ -49,10 +49,10 @@ c074ec48b3561a633f13dfd4bfbcccd6 *data/car90.rda
 d90ecb38c94a2b9d6b84772daee39def *inst/NEWS.Rd
 826935d99a3cb923990d55b0e9454f18 *inst/doc/longintro.R
 d59df045075a1735e6d1bf2510b6a90a *inst/doc/longintro.Rnw
-a1eb20895c05db75489b73aa29c73c32 *inst/doc/longintro.pdf
+d18b9d4ae7ba6e9701f297d7f1ee9d22 *inst/doc/longintro.pdf
 e5598bd99b989df58f9fc60e19de4cd3 *inst/doc/usercode.R
 cc52160d413d59a2967d5d201adf9319 *inst/doc/usercode.Rnw
-da87bba22c3c8bb44ac76177ddaadafc *inst/doc/usercode.pdf
+9299022d9443d93b4a22f76f66f378fc *inst/doc/usercode.pdf
 2f7babeff23b6cceb61ce037fe6de63e *inst/po/de/LC_MESSAGES/R-rpart.mo
 7ad78d2a8ada0d3125f4ad790e589f68 *inst/po/de/LC_MESSAGES/rpart.mo
 76669c80c3833b7577f89f97ddbbcf41 *inst/po/en@quot/LC_MESSAGES/R-rpart.mo
@@ -140,7 +140,7 @@ ebe14c7bdaa4cac963665002778f029e *src/rundown2.c
 24988d42395cb00107a90fdd190763ba *src/usersplit.c
 70423182008e49143ecb0e011f119ad5 *src/xpred.c
 67005b5abc64ec7fdad66b3b2a467e4e *src/xval.c
-28c164bce4e90718958fd3d208b9d865 *tests/Examples/rpart-Ex.Rout.save
+e625bdca0d7aed0718636dab39840643 *tests/Examples/rpart-Ex.Rout.save
 34b3b4e1f6cf35314967af2d1768fb29 *tests/backticks.R
 79bde249393d198d00dfc887afdce3e0 *tests/backticks.Rout.save
 65776c068119383dc66f9b9f2e263ae7 *tests/cost.R
