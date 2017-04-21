@@ -3,6 +3,9 @@
  *
  * Start with things that depend on R.h
  */
+
+#include <stddef.h>
+#include <string.h> // for memcpy
 #include <R.h>
 #include <Rinternals.h>
 

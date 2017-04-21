@@ -1,6 +1,6 @@
-d954b5ad7b07ebb7bb936a9b2ed09c6d *ChangeLog
+88ebeff71081efec2e63ed7a7eda505d *ChangeLog
 c3a78d906ce7e11764be494ca072ab85 *Changelog.TMT
-8cc5e3a2204072e6accdc7a3b4642816 *DESCRIPTION
+f6cd1ac8734248fb89728999c87f8f8e *DESCRIPTION
 f84962269fb69b6bb09cb1428768818c *NAMESPACE
 63fbade7d5b393e3107669ae0b1bd8b0 *PORTING
 cb1fe3dc41870fdc62bcaf87a40664b7 *R/formatg.R
@@ -39,7 +39,7 @@ cb988b91ccbdcb625f6caad2207274a3 *R/snip.rpart.mouse.R
 57b709058f94a6984ed176f73619fc04 *R/text.rpart.R
 db89582c7e6162dc47cf510ac287e2fa *R/xpred.rpart.R
 d18273250bc74ffbab5434ce61ace179 *R/zzz.R
-1fcdfbfe12307b01a3e43bdedaeae727 *build/vignette.rds
+7045bdec2ef4f9821f9800c67a1c6d4a *build/vignette.rds
 df645fee4bd6e992addee08c8be8207d *data/car.test.frame.csv.gz
 c074ec48b3561a633f13dfd4bfbcccd6 *data/car90.rda
 7a3c271c4f6c1f77d49c2ba30d47dc4d *data/cu.summary.rda
@@ -49,10 +49,10 @@ c074ec48b3561a633f13dfd4bfbcccd6 *data/car90.rda
 d90ecb38c94a2b9d6b84772daee39def *inst/NEWS.Rd
 826935d99a3cb923990d55b0e9454f18 *inst/doc/longintro.R
 d59df045075a1735e6d1bf2510b6a90a *inst/doc/longintro.Rnw
-d18b9d4ae7ba6e9701f297d7f1ee9d22 *inst/doc/longintro.pdf
+1ab8c4b78b81dedafba74869c5ddca8e *inst/doc/longintro.pdf
 e5598bd99b989df58f9fc60e19de4cd3 *inst/doc/usercode.R
 cc52160d413d59a2967d5d201adf9319 *inst/doc/usercode.Rnw
-9299022d9443d93b4a22f76f66f378fc *inst/doc/usercode.pdf
+7fd45e47f67482c2958f164ee06b42a8 *inst/doc/usercode.pdf
 2f7babeff23b6cceb61ce037fe6de63e *inst/po/de/LC_MESSAGES/R-rpart.mo
 7ad78d2a8ada0d3125f4ad790e589f68 *inst/po/de/LC_MESSAGES/rpart.mo
 76669c80c3833b7577f89f97ddbbcf41 *inst/po/en@quot/LC_MESSAGES/R-rpart.mo
@@ -82,7 +82,7 @@ f18aa6cabd259556c5849a6ff67f8420 *man/post.rpart.Rd
 36beb0ff8cf3f9295e8f7b62096efbf8 *man/prune.rpart.Rd
 3ab3477f5fcc0c909c8c61c1d6a18817 *man/residuals.rpart.Rd
 aad143edec2ff5dd9a7e6853e327ba56 *man/rpart-internal.Rd
-63e8fe3620b5b54f387964be3459ae46 *man/rpart.Rd
+c440ea4fe650789d118b0123d07faf0e *man/rpart.Rd
 f43a133f1a39160b4eac19347e846cc2 *man/rpart.control.Rd
 0fb09e7fc9624c7561f8639f30ae19b1 *man/rpart.exp.Rd
 84ce535caa40aa22ac6a842bffaf7028 *man/rpart.object.Rd
@@ -127,8 +127,8 @@ a1093dffd9366d54d6403f78756ac0e4 *src/nodesplit.c
 805196a63b95dd6a155eb9b62c383a0b *src/pred_rpart.c
 d67bccd74fa7b603178319e607648308 *src/print_tree.c
 04b7515cbd9f311c264bd5317ed89d5f *src/rpart.c
-22006cae9edd3aa64f528c807daca1e9 *src/rpart.h
-a816b6ab3be0be6c69d354dc3fc077d0 *src/rpart_callback.c
+644f70da2a0714535fef60160a750dd3 *src/rpart.h
+69c36c185204526090b3bf7b0132155b *src/rpart_callback.c
 48dd53f020032090aad0979620e8f266 *src/rpartexp.c
 6b8b81a6b63e008f2ae84b5341a5bce2 *src/rpartexp2.c
 c8a62250026b296e657200774b279e7a *src/rpartproto.h
@@ -140,7 +140,7 @@ ebe14c7bdaa4cac963665002778f029e *src/rundown2.c
 24988d42395cb00107a90fdd190763ba *src/usersplit.c
 70423182008e49143ecb0e011f119ad5 *src/xpred.c
 67005b5abc64ec7fdad66b3b2a467e4e *src/xval.c
-e625bdca0d7aed0718636dab39840643 *tests/Examples/rpart-Ex.Rout.save
+20596b624d8cf8ff3dac3c223d46b1e0 *tests/Examples/rpart-Ex.Rout.save
 34b3b4e1f6cf35314967af2d1768fb29 *tests/backticks.R
 79bde249393d198d00dfc887afdce3e0 *tests/backticks.Rout.save
 65776c068119383dc66f9b9f2e263ae7 *tests/cost.R

@@ -1,6 +1,8 @@
 /*
  * callback routines for "user" splitting functions in rpart
  */
+
+#include <stddef.h>
 #include <R.h>
 #include <Rinternals.h>
 /* don't include rpart.h: it conflicts */

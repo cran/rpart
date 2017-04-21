@@ -1,7 +1,7 @@
 
-R version 3.1.2 Patched (2015-02-23 r67886) -- "Pumpkin Helmet"
-Copyright (C) 2015 The R Foundation for Statistical Computing
-Platform: x86_64-unknown-linux-gnu (64-bit)
+R Under development (unstable) (2017-03-10 r72326) -- "Unsuffered Consequences"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -685,7 +685,7 @@ n= 60
 +              data = solder, method = "anova")
 > summary(residuals(fit))
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--13.8000  -1.0360  -0.6833   0.0000   0.9639  16.2000 
+-13.8000  -1.0361  -0.6833   0.0000   0.9639  16.2000 
 > plot(predict(fit),residuals(fit))
 > 
 > 
@@ -793,7 +793,7 @@ n= 60
 +              data = solder, method = "anova")
 > summary(residuals(fit))
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--13.8000  -1.0360  -0.6833   0.0000   0.9639  16.2000 
+-13.8000  -1.0361  -0.6833   0.0000   0.9639  16.2000 
 > plot(predict(fit), residuals(fit))
 > 
 > 
@@ -1063,7 +1063,7 @@ n= 60
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.284 0.011 0.295 0 0 
+Time elapsed:  2.25 0.09 2.516 0 0 
 > grDevices::dev.off()
 null device 
           1 
