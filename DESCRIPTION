@@ -1,14 +1,14 @@
 Package: rpart
 Priority: recommended
-Version: 4.1-11
-Date: 2017-03-12
+Version: 4.1-12
+Date: 2018-01-08
 Authors@R: c(person("Terry", "Therneau", role = "aut",
-	             email = "therneau@mayo.edu"),
+	            email = "therneau@mayo.edu"),
              person("Beth", "Atkinson", role = "aut",	
-	             email = "atkinson@mayo.edu"),
-             person("Brian", "Ripley", role = c("aut", "trl", "cre"),
+	            email = "atkinson@mayo.edu"),
+             person("Brian", "Ripley", role = c("trl", "cre"),
                     email = "ripley@stats.ox.ac.uk",
-		    comment = "author of initial R port"))
+		    comment = "producer of the initial R port"))
 Description: Recursive partitioning for classification, 
   regression and survival trees.  An implementation of most of the 
   functionality of the 1984 book by Breiman, Friedman, Olshen and Stone.
@@ -21,10 +21,10 @@ ByteCompile: yes
 Note: Maintainers are not available to give advice on using a package
         they did not author.
 NeedsCompilation: yes
-Packaged: 2017-03-12 21:36:08 UTC; ripley
+Packaged: 2018-01-10 10:15:56 UTC; ripley
 Author: Terry Therneau [aut],
   Beth Atkinson [aut],
-  Brian Ripley [aut, trl, cre] (author of initial R port)
+  Brian Ripley [trl, cre] (producer of the initial R port)
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Repository: CRAN
-Date/Publication: 2017-04-21 13:33:37 UTC
+Date/Publication: 2018-01-12 09:58:15 UTC
