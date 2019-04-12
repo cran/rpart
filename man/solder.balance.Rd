@@ -1,10 +1,14 @@
-\name{solder}
+\name{solder.balance}
+\alias{solder.balance}
 \alias{solder}
 \title{Soldering of Components on Printed-Circuit Boards}
 \description{
-  The \code{solder} data frame has 720 rows and 6 columns, representing
+  The \code{solder.balance} data frame has 720 rows and 6 columns, representing
   a balanced subset of a designed experiment varying 5 factors on the
   soldering of components on printed-circuit boards.
+
+  The \code{solder} data frame is the full version of the data with 900
+  rows.  It is located in both the rpart and the survival packages.
 }
 \usage{
 solder
@@ -46,7 +50,7 @@ a numeric vector giving the number of visible solder skips.
 }
 \examples{
 fit <- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
-             data = solder, method = "anova")
+             data = solder.balance, method = "anova")
 summary(residuals(fit))
 plot(predict(fit), residuals(fit))
 }
