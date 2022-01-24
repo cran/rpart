@@ -81,9 +81,11 @@ rpart <-
 
     xlevels <- .getXlevels(Terms, m)
     cats <- rep(0L, ncol(X))
-    if (!is.null(xlevels))
+    if (!is.null(xlevels)) {
+        xlevels <- xlevels[names(xlevels) %in% colnames(X)]
 	cats[match(names(xlevels), colnames(X))] <-
             unlist(lapply(xlevels, length))
+    }
 
     ## We want to pass any ... args to rpart.control, but not pass things
     ##  like "dats = mydata" where someone just made a typo.  The use of ...
@@ -107,7 +109,7 @@ rpart <-
 	xval <- 0L
     } else if (length(xval) == 1L) {
         ## make random groups
-        xgroups <- sample(rep(1L:xval, length = nobs), nobs, replace = FALSE)
+        xgroups <- sample(rep(1L:xval, length.out = nobs), nobs, replace = FALSE)
     } else if (length(xval) == nobs) {
 	xgroups <- xval
 	xval <- length(unique(xgroups))
