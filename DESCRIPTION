@@ -1,7 +1,7 @@
 Package: rpart
 Priority: recommended
-Version: 4.1.19
-Date: 2022-10-21
+Version: 4.1.21
+Date: 2023-10-09
 Authors@R: c(person("Terry", "Therneau", role = "aut",
 	            email = "therneau@mayo.edu"),
              person("Beth", "Atkinson", role = c("aut", "cre"),
@@ -28,5 +28,5 @@ Repository: CRAN
 URL: https://github.com/bethatkinson/rpart,
         https://cran.r-project.org/package=rpart
 BugReports: https://github.com/bethatkinson/rpart/issues
-Packaged: 2022-10-21 17:17:04 UTC; atkinson
-Date/Publication: 2022-10-21 18:42:41 UTC
+Packaged: 2023-10-09 21:16:22 UTC; atkinson
+Date/Publication: 2023-10-09 22:40:02 UTC
