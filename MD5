@@ -1,5 +1,5 @@
-3c751d6050be04294cc409d496a95af6 *ChangeLog
-efa2c239524c352c2d8d0d501c684dc5 *DESCRIPTION
+c045f563c476c6473d5073b2890b1715 *ChangeLog
+fe6442abf81570463e82a339670d5176 *DESCRIPTION
 f84962269fb69b6bb09cb1428768818c *NAMESPACE
 cb1fe3dc41870fdc62bcaf87a40664b7 *R/formatg.R
 aa5afc20386b8705ba44f575f902efef *R/importance.R
@@ -48,10 +48,10 @@ c074ec48b3561a633f13dfd4bfbcccd6 *data/car90.rda
 e36d1159fbb665095329150471eff2fe *inst/NEWS.Rd
 040ffcb1e83613f96a62749f9d59fb72 *inst/doc/longintro.R
 dc89d00042336a816c0646604ce46677 *inst/doc/longintro.Rnw
-cabb999ec7d4b769ac8e6fc181a871f0 *inst/doc/longintro.pdf
+9301c0c47bd8582a09d01ac3d210350c *inst/doc/longintro.pdf
 e5598bd99b989df58f9fc60e19de4cd3 *inst/doc/usercode.R
 c9d0d6f092f577e8177c97d4014dc815 *inst/doc/usercode.Rnw
-53a0c7a6993f520fbb859e1ccddce5e2 *inst/doc/usercode.pdf
+29e9076d660a6866f1fd798a2d4222b5 *inst/doc/usercode.pdf
 2f7babeff23b6cceb61ce037fe6de63e *inst/po/de/LC_MESSAGES/R-rpart.mo
 7ad78d2a8ada0d3125f4ad790e589f68 *inst/po/de/LC_MESSAGES/rpart.mo
 76669c80c3833b7577f89f97ddbbcf41 *inst/po/en@quot/LC_MESSAGES/R-rpart.mo
@@ -126,7 +126,7 @@ a1093dffd9366d54d6403f78756ac0e4 *src/nodesplit.c
 0f55c381edc60307627823ea1a1991dd *src/poisson.c
 805196a63b95dd6a155eb9b62c383a0b *src/pred_rpart.c
 d67bccd74fa7b603178319e607648308 *src/print_tree.c
-04b7515cbd9f311c264bd5317ed89d5f *src/rpart.c
+1e75a17e80aaa5c3ec7c994f52d0f8ea *src/rpart.c
 74e1ce951cd97146401b88d8375cb4c1 *src/rpart.h
 69c36c185204526090b3bf7b0132155b *src/rpart_callback.c
 48dd53f020032090aad0979620e8f266 *src/rpartexp.c
