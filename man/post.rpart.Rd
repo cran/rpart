@@ -12,12 +12,12 @@ post(tree, \dots)
 
 \method{post}{rpart}(tree, title., 
      filename = paste(deparse(substitute(tree)), ".ps", sep = ""), 
-     digits = getOption("digits") - 3, pretty = TRUE,
+     digits = getOption("digits") - 2, pretty = TRUE,
      use.n = TRUE, horizontal = TRUE, \dots)
 }
 \arguments{
 \item{tree}{
-fitted model object of class \code{rpart}.  This is assumed to be the result 
+fitted model object of class \code{"rpart"}.  This is assumed to be the result 
 of some function that produces an object with the same named 
 components as that returned by the \code{rpart} function. 
 }
@@ -41,9 +41,10 @@ elements of letters to represent the different factor levels.  The
 default (\code{TRUE}) indicates the maximum possible abbreviation. 
 }
 \item{use.n}{
-Logical.  If \code{TRUE} (default), adds to label 
-(\#events level1/ \#events level2/etc. for method \code{class}, \code{n} for 
-method \code{anova}, and \#events/n for methods \code{poisson} and \code{exp}).
+Logical.  If \code{TRUE} (default), adds to the label 
+\verb{#events level1/ #events level2/} etc. for method \code{class},
+\verb{n} for 
+method \code{anova}, and \verb{#events/n} for methods \code{poisson} and \code{exp}).
 }
 \item{horizontal}{
 Logical.  If \code{TRUE} (default), plot is horizontal. If \code{FALSE}, plot 
@@ -69,12 +70,13 @@ options.
 \code{\link{plot.rpart}},  \code{\link{rpart}},  \code{\link{text.rpart}},  \code{\link{abbreviate}}   
 }
 \examples{
+\dontrun{
 z.auto <- rpart(Mileage ~ Weight, car.test.frame)
 post(z.auto, file = "")   # display tree on active device
    # now construct postscript version on file "pretty.ps"
    # with no title
 post(z.auto, file = "pretty.ps", title = " ")
 z.hp <- rpart(Mileage ~ Weight + HP, car.test.frame)
-post(z.hp)
+post(z.hp)}
 }
 \keyword{tree}

@@ -6,62 +6,68 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rpart 3.1-24\n"
-"Report-Msgid-Bugs-To: bugs@R-project.org\n"
-"POT-Creation-Date: 2005-12-08 20:40+0000\n"
-"PO-Revision-Date: 2005-12-07 02:43+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-20 07:25+0000\n"
+"PO-Revision-Date: 2021-04-12 19:04+0200\n"
 "Last-Translator: Philippe Grosjean <phgrosjean@sciviews.org>\n"
 "Language-Team: French <R-core@r-project.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: gini.c:57 gini.c:59 gini.c:66
-msgid "Out of memory"
-msgstr "MÈmoire saturÈe"
-
-#: poisson.c:41
+#: poisson.c:34
 msgid "Invalid time point"
 msgstr "Point temporel incorrect"
 
-#: poisson.c:45
+#: poisson.c:38
 msgid "Invalid event count"
-msgstr "DÈnombrement d'ÈvÈnements incorrect"
+msgstr "D√©nombrement d'√©v√©nements incorrect"
 
-#: rpart_callback.c:47
+#: poisson.c:68
+msgid "Invalid error rule"
+msgstr "R√®gle d'erreur incorrecte"
+
+#: rpart.c:91 xpred.c:89
+msgid "Invalid value for 'method'"
+msgstr "Valeur incorrecte pour 'method'"
+
+#: rpart.c:193
+msgid "unknown error"
+msgstr "erreur ind√©termin√©e"
+
+#: rpart_callback.c:46
 msgid "'yback' not found"
-msgstr "'yback' non trouvÈ"
+msgstr "'yback' non trouv√©"
 
 #: rpart_callback.c:50
 msgid "'wback' not found"
-msgstr "'wback' non trouvÈ"
+msgstr "'wback' non trouv√©"
 
-#: rpart_callback.c:53
+#: rpart_callback.c:54
 msgid "'xback' not found"
-msgstr "'xback' non trouvÈ"
+msgstr "'xback' non trouv√©"
 
-#: rpart_callback.c:56
+#: rpart_callback.c:58
 msgid "'nback' not found"
-msgstr "'nback' non trouvÈ"
+msgstr "'nback' non trouv√©"
 
-#: rpart_callback.c:102
+#: rpart_callback.c:104
 msgid "return value not a vector"
-msgstr "la valeur renvoyÈe n'est pas un vecteur"
+msgstr "la valeur renvoy√©e n'est pas un vecteur"
 
-#: rpart_callback.c:105
+#: rpart_callback.c:106
 msgid "returned value is the wrong length"
-msgstr "la valeur renvoyÈe n'a pas la bonne longueur"
+msgstr "la valeur renvoy√©e n'a pas la bonne longueur"
 
-#: rpart_callback.c:140
+#: rpart_callback.c:138
 msgid "the expression expr1 did not return a vector!"
-msgstr "l'expression 'expr1' n'a pas renvoyÈ un vecteur!"
+msgstr "l'expression 'expr1' n'a pas renvoy√© un vecteur!"
 
-#: rpart_callback.c:148
-#, c-format
-msgid "the expression expr1 returned a list of %d elements, %d required"
-msgstr ""
-"l'expression 'expr1' a renvoyÈ une liste de %d ÈlÈments, %d sont requis"
+#~ msgid "Out of memory"
+#~ msgstr "M√©moire satur√©e"
 
-#: s_xpred.c:38
-msgid "invalid value for 'method'"
-msgstr "valeur incorrecte pour 'method'"
+#~ msgid "the expression expr1 returned a list of %d elements, %d required"
+#~ msgstr "l'expression 'expr1' a renvoy√© une liste de %d √©l√©ments, %d sont requis"

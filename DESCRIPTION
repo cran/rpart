@@ -1,20 +1,32 @@
 Package: rpart
 Priority: recommended
-Version: 3.1-49
-Date: 2011-03-06
-DateNote: March 2002 version of rpart
-Author: Terry M Therneau and Beth Atkinson <atkinson@mayo.edu>. R port
-        by Brian Ripley.
-Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
-Description: Recursive partitioning and regression trees
-Title: Recursive Partitioning
-Depends: R (>= 2.13.0), graphics, stats, grDevices
+Version: 4.1.24
+Date: 2025-01-06
+Authors@R: c(person("Terry", "Therneau", role = "aut",
+	            email = "therneau@mayo.edu"),
+             person("Beth", "Atkinson", role = c("aut", "cre"),
+	            email = "atkinson@mayo.edu"),
+             person("Brian", "Ripley", role = "trl",
+                    email = "ripley@stats.ox.ac.uk",
+		    comment = "producer of the initial R port, maintainer 1999-2017"))
+Description: Recursive partitioning for classification, 
+  regression and survival trees.  An implementation of most of the 
+  functionality of the 1984 book by Breiman, Friedman, Olshen and Stone.
+Title: Recursive Partitioning and Regression Trees
+Depends: R (>= 2.15.0), graphics, stats, grDevices
 Suggests: survival
-License: GPL-2 | file LICENCE
-LazyLoad: yes
+License: GPL-2 | GPL-3
 LazyData: yes
-URL:
-        http://mayoresearch.mayo.edu/mayo/research/biostat/splusfunctions.cfm
-Packaged: 2011-03-06 09:02:52 UTC; ripley
+ByteCompile: yes
+NeedsCompilation: yes
+Author: Terry Therneau [aut],
+  Beth Atkinson [aut, cre],
+  Brian Ripley [trl] (producer of the initial R port, maintainer
+    1999-2017)
+Maintainer: Beth Atkinson <atkinson@mayo.edu>
 Repository: CRAN
-Date/Publication: 2011-03-06 18:38:18
+URL: https://github.com/bethatkinson/rpart,
+        https://cran.r-project.org/package=rpart
+BugReports: https://github.com/bethatkinson/rpart/issues
+Packaged: 2025-01-06 13:26:22 UTC; ripley
+Date/Publication: 2025-01-07 07:30:14 UTC
