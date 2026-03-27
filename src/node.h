@@ -28,7 +28,7 @@ typedef struct node {
     struct node *leftson;
     int num_obs;
     int lastsurrogate;
-    double response_est[100];   /* actual length depends on splitting rule */
+    double response_est[20];   /* actual length depends on splitting rule */
 } Node, *pNode;
 
 

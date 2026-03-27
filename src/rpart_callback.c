@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <R.h>
 #include <Rinternals.h>
+#include <Rversion.h>
 /* don't include rpart.h: it conflicts */
 
 #ifdef ENABLE_NLS
@@ -14,6 +15,17 @@
 #define _(String) (String)
 #endif
 
+/* compatibility shim for R < 4.5.0 */
+#if R_VERSION < R_Version(4, 5, 0)
+static SEXP compat_getVar(SEXP sym, SEXP rho, Rboolean inherits)
+{
+  SEXP val = inherits ? findVar(sym, rho) : findVarInFrame(rho, sym);
+  if (val == R_UnboundValue)
+    error(_("variable '%s' not found"), CHAR(PRINTNAME(sym)));
+  return val;
+}
+#define R_getVar(sym, rho, inherits) compat_getVar(sym, rho, inherits)
+#endif
 
 static int ysave;               /* number of columns of y  */
 static int rsave;               /* the length of the returned "mean" from the
@@ -35,29 +47,25 @@ static int *ndata;              /* pointer to the data portion of nback */
 SEXP
 init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x)
 {
-    SEXP stemp;
 
+      SEXP stemp;
+      
     rho = rhox;
     ysave = asInteger(ny);
     rsave = asInteger(nr);
     expr1 = expr1x;
     expr2 = expr2x;
 
-    stemp = findVarInFrame(rho, install("yback"));
-    if (!stemp)
-	error(_("'yback' not found"));
+    stemp = R_getVar(install("yback"), rho, FALSE);
     ydata = REAL(stemp);
-    stemp = findVarInFrame(rho, install("wback"));
-    if (!stemp)
-	error(_("'wback' not found"));
+    
+    stemp = R_getVar(install("wback"), rho, FALSE);
     wdata = REAL(stemp);
-    stemp = findVarInFrame(rho, install("xback"));
-    if (!stemp)
-	error(_("'xback' not found"));
+    
+    stemp = R_getVar(install("xback"), rho, FALSE);
     xdata = REAL(stemp);
-    stemp = findVarInFrame(rho, install("nback"));
-    if (!stemp)
-	error(_("'nback' not found"));
+    
+    stemp = R_getVar(install("nback"), rho, FALSE);
     ndata = INTEGER(stemp);
 
     return R_NilValue;
